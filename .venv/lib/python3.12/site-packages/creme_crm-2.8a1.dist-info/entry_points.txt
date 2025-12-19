@@ -1,0 +1,2 @@
+[console_scripts]
+creme = creme.manage:execute
