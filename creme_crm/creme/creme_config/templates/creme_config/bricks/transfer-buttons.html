@@ -1,0 +1,36 @@
+{% extends 'creme_core/bricks/base/base.html' %}
+{% load i18n creme_bricks creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}
+{{block.super}} creme_config_export-buttons-brick{% if not user.is_staff %} is-empty{% endif %}
+{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=verbose_name icon='config' %}
+{% endblock %}
+
+{% block brick_before_content %}
+    <div class="help">
+        {% translate 'Export the configuration (as a JSON file) & import it in another instance of Creme. The following data are concerned:' %}
+        <ul>
+            <li>{% translate 'Roles.' %}</li>
+            <li>{% translate 'Blocks locations for detail-views, home & default «My page».' %}</li>
+            <li>{% translate 'Buttons configuration.' %}</li>
+            <li>{% translate 'Search configuration.' %}</li>
+            <li>{% translate 'Property & Relationship types.' %}</li>
+            <li>{% translate 'Custom fields.' %}</li>
+            <li>{% translate 'Notification channels.' %}</li>
+            <li>{% translate 'Views of list (NB: views related to a user are kept, but ignored at import if the user-name does not exist).' %}</li>
+            <li>{% translate 'Filters (NB: filters related to a user are kept, but ignored at import if the user-name does not exist).' %}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block brick_content %}
+    <a href="{% url 'creme_config__transfer_export' %}" {# class="bar-button" #} >
+        {% widget_icon name='download' size='brick-action' label=_('Export') %}
+        {% translate 'Export the configuration' %}
+    </a>
+    {% brick_action id='add' url='creme_config__transfer_import'|url label=_('Import a configuration') display='both' %}
+{% endblock %}

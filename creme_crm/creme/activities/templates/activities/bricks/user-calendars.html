@@ -1,0 +1,45 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks %}
+{% load url print_field from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} activities-user-calendars-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Calendar') plural=_('{count} Calendars') empty=_('Calendars') icon='calendar' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='activities__create_calendar'|url label=_('New calendar') %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='name' status='primary nowrap' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='is_default' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='is_public' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='color' %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+    {% for calendar in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>
+            <div class="colored-square" style="background-color:#{{calendar.color}};"></div>
+            <span>{{calendar.name}}</span>
+        </td>
+        <td>{% print_field object=calendar field='is_default' %}</td>
+        <td>{% print_field object=calendar field='is_public' %}</td>
+        <td>{% print_field object=calendar field='color' %}</td>
+        <td {% brick_table_data_status action %}>{% url 'activities__edit_calendar' calendar.id as edit_url %}
+            {% brick_table_action id='edit' url=edit_url label=_('Edit this calendar') %}
+        </td>
+        <td {% brick_table_data_status action %}>{% url 'activities__delete_calendar' calendar.id as delete_url %}
+            {% brick_table_action id='edit' url=delete_url label=_('Delete this calendar') icon='delete' enabled=calendar.is_custom %}
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No calendar for the moment' %}
+{% endblock %}

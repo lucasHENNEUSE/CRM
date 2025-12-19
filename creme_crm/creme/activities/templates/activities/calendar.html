@@ -1,0 +1,124 @@
+{% extends BASE_HTML %}
+{% load i18n tz activities_tags %}
+{% load jsondata from creme_core_tags %}
+
+{% get_current_timezone as TIME_ZONE %}
+
+{% block page_title %}{% translate 'Calendars' %} - {% endblock %}
+
+{% block head %}
+    {{block.super}}
+    {% block calendar_setup_script %}
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            var settings = JSON.parse(_.readJSONScriptText('#calendar-settings-data'));
+            var extra = settings.extra_data || {};
+
+            if (Array.isArray(extra) || _.isString(extra) || _.isNumber(extra)) {
+                console.warn('Ignore the extra_data field that must be a plain object :', extra);
+                extra = {};
+            }
+
+            creme.userActivityCalendar($('.calendar-main'), {
+                owner: "{{user_username}}",
+                sourceSelectUrl: '{% url "activities__select_calendars" %}',
+                eventUpdateUrl: '{% url "activities__set_activity_dates" %}',
+                eventCreateUrl: '{% url "activities__create_activity_popup" %}',
+                eventFetchUrl: '{% url "activities__calendars_activities" %}',
+                keepState: Boolean(settings.allow_keep_state),
+                defaultView: settings.view || 'month',
+                timezoneOffset: settings.utc_offset,
+                allowEventMove: Boolean(settings.allow_event_move),
+                fullCalendarOptions: Object.assign(extra, {
+                    slotDuration: settings.slot_duration,
+                    slotMinTime: settings.view_day_start,
+                    slotMaxTime: settings.view_day_end,
+                    businessHours: {
+                        daysOfWeek: settings.week_days,
+                        startTime: settings.day_start,
+                        endTime: settings.day_end
+                    },
+                    firstDay: settings.week_start
+                })
+            });
+        });
+    </script>
+    {% endblock %}
+    {% block calendar_setup_data %}
+        {% jsondata calendar_settings id='calendar-settings-data' %}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class='calendar-main'>
+        <div class='calendar-side'>
+            <div class='calendar-menu'>
+                {% if floating_activities %}
+                <div class="ui-creme-widget ui-creme-toggle widget-auto menu-group" widget="ui-creme-toggle" title="{% translate 'You can drag and drop these activities in the calendar' %}">
+                    <h4 class='menu-group-title' data-toggle="#floating-events">
+                        <span class="menu-group-label">{% translate 'Floating activities' %}</span>
+                    </h4>
+                    <div class="floating-activities toggle-collapsable menu-sublist" id="floating-events">
+                      {% if enable_floating_activities_search %}
+                        <div class='floating-event-filter' id="floating-events"><input type='search' placeholder="{% translate 'FILTER FLOATING ACTIVITIES' %}" /></div>
+                      {% endif %}
+                      {% for floating_activity in floating_activities %}
+                        <div class='floating-event'
+                            data-id="{{floating_activity.id}}"
+                            {% if floating_activity.busy %}data-busy="1"{% endif %}
+                            data-calendar="{{floating_activity.calendar.id}}"
+                            data-type="{{floating_activity.type.name}}"
+                            data-popup_url="{% url 'activities__view_activity_popup' floating_activity.id %}"
+                            data-color="#{{floating_activity.calendar.color}}">
+                            <div class="colored-square" style="background-color:#{{floating_activity.calendar.color}};"></div>
+                            <span class="floating-event-label">{{floating_activity.title}}</span>
+                        </div>
+                      {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="ui-creme-widget ui-creme-toggle widget-auto menu-group" widget="ui-creme-toggle">
+                    <h4 class='menu-group-title' data-toggle=".my-calendars">
+                    <span class="menu-group-label">{% translate 'My calendars' %}</span>
+                    </h4>
+                    <div class="my-calendars menu-sublist toggle-collapsable">
+                      {% for calendar in my_calendars %}
+                        <div class="calendar-menu-item">
+                            <input type="checkbox" value="{{calendar.id}}" id="id_calendar_{{calendar.id}}" style="color:#{{calendar.color}};" name="calendar_id"{% if calendar.id in my_selected_calendar_ids %} checked{% endif %}/>
+                            <label for="id_calendar_{{calendar.id}}">{{calendar}}</label>
+                        </div>
+                      {% empty%}
+                        {% translate 'No calendar' %}
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="ui-creme-widget ui-creme-toggle widget-auto menu-group" widget="ui-creme-toggle">
+                    <h4 class='menu-group-title{% if not others_selected_calendar_ids %} toggle-collapsed{% endif %}' data-toggle="#other-calendars">
+                        <span class="menu-group-label">{% translate 'Collaborators calendars' %}</span>
+                    </h4>
+                    <div class="other-calendars menu-sublist toggle-collapsable{% if not others_selected_calendar_ids %} toggle-collapsed{% endif %}" id="other-calendars">
+                      {% if others_calendars and enable_calendars_search %}
+                        <div class='calendar-menu-filter' id="other-calendars"><input type='search' placeholder="{% translate 'FILTER CALENDARS OR COLLABORATORS' %}" /></div>
+                      {% endif %}
+                      {% for user, calendars in others_calendars %}
+                        {% with user_key=user|activities_user_key %}
+                        <div class="calendar-menu-usergroup" data-user="{{user_key}}">
+                            <h5 class="calendar-menu-usergroup-label">{{user}}</h5>
+                            {% for calendar in calendars %}
+                            <div class="calendar-menu-item" data-user="{{user_key}}" data-calendar="{{calendar.id}}">
+                                <input type="checkbox" value="{{calendar.id}}" id="id_calendar_{{calendar.id}}" style="color:#{{calendar.color}};" name="calendar_id"{% if calendar.id in others_selected_calendar_ids %} checked{% endif %}/>
+                                <label for="id_calendar_{{calendar.id}}">{{calendar}}</label>
+                            </div>
+                            {% endfor %}
+                        </div> <!-- /.calendar_user_group -->
+                        {% endwith %}
+                      {% empty%}
+                        <span class="calendar-menu-empty">{% translate 'No calendar' %}</span>
+                      {% endfor %}
+                    </div>
+                </div>
+            </div> <!-- /.calendar-menu -->
+        </div>
+        <div class='calendar with-menu'></div>
+    </div> <!-- /.calendar-container -->
+{% endblock %}

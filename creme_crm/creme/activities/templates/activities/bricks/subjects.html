@@ -1,0 +1,36 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load and_op url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} activities-subjects-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Subject') plural=_('{count} Subjects') empty=verbose_name %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='link' url='activities__add_subjects'|url:object.id label=_('Add entities') enabled=user|has_perm_to_link:object %}
+{% endblock %}
+
+{% block brick_table_head %}{% endblock %}
+
+{% block brick_table_rows %}
+ {% with activity_unlink_perm=user|has_perm_to_unlink:object rm_subject_url='activities__remove_subject'|url %}
+  {% for relation in page.object_list %}
+   {% with subject=relation.real_object %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink subject user %}</td>
+        <td {% brick_table_data_status action %}>
+          {% with subject_unlink_perm=user|has_perm_to_unlink:subject %}
+            {% brick_table_action id='delete' url=rm_subject_url __id=relation.pk label=_('Unlink this subject') icon='unlink' enabled=activity_unlink_perm|and_op:subject_unlink_perm %}
+          {% endwith %}
+        </td>
+    </tr>
+   {% endwith %}
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No subject for the moment' %}
+{% endblock %}

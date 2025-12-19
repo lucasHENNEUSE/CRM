@@ -1,0 +1,66 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} sms-sendings-brick{% endblock %}
+
+{% comment %} FIX
+<script type="text/javascript">
+    sms_sendings = {
+        _reload: function() {
+            creme.blocks.reload('{{update_url}}?base_url={{base_url}}');
+        },
+        sync: function(pk) {
+            creme.ajax.json.post('/sms/campaign/sending/' + pk + '/messages/sync/', {}, sms_sendings._reload, sms_sendings._reload);
+        }
+    };
+</script>
+{% endcomment %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Sending') plural=_('{count} Sendings') empty=verbose_name icon='sms' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='sms__create_sending'|url:object.id label=_('New sending') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='date' title=_('Sending date') status='primary' %}
+    {% brick_table_column title=_('Number of SMS') %}
+    {% brick_table_column title=_('Status') %}
+    {% brick_table_column title=_('Details') %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% translate 'Details' as details_label %}{% translate 'Synchronize' as sync_label %}{% translate "Can't synchronize" as nosync_label %}
+ {% with edit_perm=user|has_perm_to_change:object delete_sending_url='sms__delete_sending'|url:object.id %}
+  {% for sending in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %} data-type='date'>{{sending.date}}</td>
+        <td>{{sending.messages.count}}</td>
+        <td>{{sending.formatstatus}}</td>
+        <td {# {% brick_table_data_status action %} #}>
+            {% brick_table_action id='view' url='sms__view_sending'|url:sending.id label=_('Details') %}{# __title=sending #}
+        </td>
+        <td {% brick_table_data_status action %}>
+{% comment %} FIX
+            {% if edit_perm %}
+                <a onclick="sms_sendings.sync({{sending.pk}});">
+                    <img src="{% creme_media_url 'images/refresh_22.png' %}" border="0" title="{{sync_label}}" alt="{{sync_label}}" />
+                </a>
+            {% else %}
+                <img class="forbidden" src="{% creme_media_url 'images/refresh_22.png' %}" border="0" title="{{nosync_label}}" alt="{{nosync_label}}" />
+            {% endif %}
+{% endcomment %}
+            {% brick_table_action id='delete' url=delete_sending_url __id=sending.id label=_('Delete this sending') enabled=edit_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No sending for the moment' %}
+{% endblock %}

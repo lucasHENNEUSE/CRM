@@ -1,0 +1,14 @@
+{% extends 'creme_config/portals/base.html' %}
+{% load i18n creme_widgets %}
+
+{% block page_title %}{% translate 'Configuration of search' %} - {% endblock %}
+
+{% block title %}
+    {{block.super}}{% translate 'Search in Creme' %}
+{% endblock %}
+
+{% block portal_help %}
+{% blocktranslate asvar help_msg %}Create search settings in order to make the global search (see right side of the main menu) faster.
+Notice: limit the number of fields per type for better performance and better results visibility.{% endblocktranslate %}
+    {% widget_help_sign message=help_msg %}
+{% endblock %}

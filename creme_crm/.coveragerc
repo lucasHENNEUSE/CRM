@@ -1,0 +1,14 @@
+[run]
+branch = True
+parallel = True
+concurrency=multiprocessing
+data_file=artifacts/coverage
+
+[report]
+show_missing = True
+skip_covered = True
+omit = */migrations/*
+
+[html]
+directory=artifacts/coverage_html
+title = Coverage report

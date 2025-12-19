@@ -1,0 +1,14 @@
+{% extends 'creme_core/history/html/base.html' %}
+{% load i18n %}
+
+{% block extra_classes %} history-line-collapsable history-line-collapsed{% endblock %}
+
+{% block content %}
+    <div class="history-line-main">
+        <div class="toggle-icon-container toggle-icon-expand" title="{% translate 'Expand' %}"><div class="toggle-icon"></div></div>
+        <div class="toggle-icon-container toggle-icon-collapse" title="{% translate 'Close' %}"><div class="toggle-icon"></div></div>
+
+        <span class="history-line-title">{% blocktranslate with auxiliary_ctype=auxiliary_ctype|default_if_none:'??' %}“{{auxiliary_ctype}}“ edited: {{auxiliary_value}}{% endblocktranslate %}</span>
+    </div>
+    <ul class="history-line-details">{% for modif in modifications %}<li>{{modif}}</li>{% endfor %}</ul>
+{% endblock %}

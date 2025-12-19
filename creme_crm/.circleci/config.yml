@@ -1,0 +1,606 @@
+version: 2.1
+
+parameters:
+  source_path:
+    type: string
+    default: '~/creme_crm'
+  instance_directory:
+    type: string
+    default: 'creme_project'
+  pycache_prefix:
+    type: string
+    default: 'creme-crm-cache-v1'
+
+commands:
+  wait-database:
+    description: Wait for the database
+    parameters:
+      port:
+        type: integer
+    steps:
+      - run: dockerize -wait tcp://localhost:<< parameters.port >> -timeout 1m
+
+  checkout-creme:
+    description: Retrieve the Creme's source
+    steps:
+      - checkout:
+          path: << pipeline.parameters.source_path >>
+
+  install-creme-system-packages:
+    description: Install creme dependencies
+    steps:
+      - run: sudo apt update
+      # Weasyprint => pango & libharfbuzz
+      - run: sudo apt install -y python3-dev pkg-config libcairo-dev libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0 latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-extra texlive-lang-french
+
+  install-py-dev-env:
+    steps:
+      - run: which python
+      - run: python --version
+      - run: python --version > /tmp/python_version
+      - run: cat /tmp/python_version
+
+      - run: cd << pipeline.parameters.source_path >> && python -c "import creme; print(creme.get_version())" > /tmp/creme_version
+      - run: cat /tmp/creme_version
+
+      - restore_cache:
+          keys:
+            - << pipeline.parameters.pycache_prefix >>-{{ checksum "/tmp/python_version" }}-{{ checksum "/tmp/creme_version" }}-{{ checksum "<< pipeline.parameters.source_path >>/setup.cfg" }}
+
+      - run: python -m venv ~/venv
+      # Require setuptools v46.4.0 at least
+      - run: ~/venv/bin/pip install -U pip setuptools
+      - run: echo "source ~/venv/bin/activate" >> $BASH_ENV
+      - run: pip install -U -e << pipeline.parameters.source_path >>[dev,mysql,pgsql,billing_weasyprint]
+      - run: pip freeze
+      - run: pip list --outdated
+
+      - save_cache:
+          key: << pipeline.parameters.pycache_prefix >>-{{ checksum "/tmp/python_version" }}-{{ checksum "/tmp/creme_version" }}-{{ checksum "<< pipeline.parameters.source_path >>/setup.cfg" }}
+          paths: "~/venv"
+
+  install-node-env:
+    steps:
+      - restore_cache:
+          key: node-dependencies-{{ checksum "<< pipeline.parameters.source_path >>/package-lock.json" }}
+
+      - run: cp << pipeline.parameters.source_path >>/package*.json << pipeline.parameters.instance_directory >>
+      - run:
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: node --version
+      - run:
+          name: Installing NodeJS
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: npm install && npm run eslint-install
+          environment:
+            ESLINT_CREME_PLUGINS: "<< pipeline.parameters.source_path >>/creme/static/utils/eslint/"
+      - run:
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: npm list
+
+      - save_cache:
+          key: node-dependencies-{{ checksum "<< pipeline.parameters.source_path >>/package-lock.json" }}
+          paths:
+            - << pipeline.parameters.instance_directory >>/node_modules
+
+  create-creme-project:
+    description: Create Creme project
+    steps:
+      - run: mkdir << pipeline.parameters.instance_directory >>
+      - run: touch << pipeline.parameters.instance_directory >>/__init__.py
+      - run: mkdir << pipeline.parameters.instance_directory >>/media
+      - run: mkdir << pipeline.parameters.instance_directory >>/media/static
+      # Not really useful because unit tests override with a sub-folder in /tmp/
+      - run: mkdir << pipeline.parameters.instance_directory >>/media/upload
+      - run: cp << pipeline.parameters.source_path >>/.circleci/circleci_settings.py << pipeline.parameters.instance_directory >>/settings.py
+
+  setup-creme-statics:
+    description: Setup Creme static resources
+    steps:
+      - run: creme generatemedia --settings=<< pipeline.parameters.instance_directory >>.settings
+
+  setup-creme-unit-tests:
+    description: Setup Creme database
+    parameters:
+      local_settings:
+        type: string
+        default: 'sqlite3_settings'
+    steps:
+      - run: cp << pipeline.parameters.source_path >>/.circleci/<< parameters.local_settings >>.py << pipeline.parameters.instance_directory >>/local_settings.py
+      - run: creme migrate --settings=<< pipeline.parameters.instance_directory >>.settings
+      - run: creme creme_populate --settings=<< pipeline.parameters.instance_directory >>.settings
+      - run: creme generatemedia --settings=<< pipeline.parameters.instance_directory >>.settings
+
+  run-creme-unit-tests:
+    description: Run Creme unit tests
+    steps:
+      - run:
+          name: "Run Creme unit tests"
+          command: |
+            creme test --settings=<< pipeline.parameters.instance_directory >>.settings --noinput --parallel=8 --keepdb --list-skipped creme
+
+  run-creme-coverage:
+    description: Run Creme unit tests with coverage
+    steps:
+      - run:
+          name: "Run Creme unit tests with coverage"
+          command: |
+            COVERAGE_PROCESS_START=<< pipeline.parameters.source_path >>/.coveragerc;
+            coverage run --source << pipeline.parameters.source_path >>/creme/ --rcfile << pipeline.parameters.source_path >>/.coveragerc \
+            << pipeline.parameters.source_path >>/creme/manage.py test --settings=<< pipeline.parameters.instance_directory >>.settings --noinput --parallel=8 --keepdb creme
+      - run: coverage combine --rcfile << pipeline.parameters.source_path >>/.coveragerc
+      - run: coverage html --rcfile << pipeline.parameters.source_path >>/.coveragerc
+      - store_artifacts:
+          # NB: see .coveragerc file
+          path: artifacts/coverage_html
+
+  setup-locale:
+    description: "Locale: Setup"
+    parameters:
+      language:
+        type: string
+      encoding:
+        type: string
+    steps:
+      - run:
+          name: "Locale: locale-gen"
+          command: |
+            echo "<< parameters.language >>.<< parameters.encoding >> << parameters.encoding >>" | sudo tee -a /etc/locale.gen
+            sudo locale-gen
+      - run:
+          name: "Locale: Setup Environment Variables"
+          command: |
+            echo "export LANG=<< parameters.language >>.<< parameters.encoding >>" >> $BASH_ENV
+            echo "export LANGUAGE=<< parameters.language >>" >> $BASH_ENV
+            echo "export LC_ALL=<< parameters.language >>.<< parameters.encoding >>" >> $BASH_ENV
+
+orbs:
+# See https://circleci.com/developer/orbs/orb/circleci/browser-tools
+  browser-tools: circleci/browser-tools@2.3.2
+
+jobs:
+  python310-lint-isort:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout-creme
+      - install-creme-system-packages
+      - install-py-dev-env
+      - run: make -C << pipeline.parameters.source_path >> isort-check
+
+
+  python310-lint-flake8:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout-creme
+      - install-creme-system-packages
+      - install-py-dev-env
+      - run: flake8 << pipeline.parameters.source_path >>/creme/ --config << pipeline.parameters.source_path >>/setup.cfg
+
+
+  python310-tests-mysql:
+    docker:
+      - image: cimg/python:3.10
+      - image: cimg/mysql:8.0
+        environment:
+          MYSQL_ROOT_PASSWORD: creme
+          MYSQL_DATABASE: cremecrm
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: fr_FR
+          encoding: UTF-8
+      - wait-database:
+          port: 3306
+      - install-creme-system-packages
+      - run: sudo apt install -y mariadb-client
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests:
+          local_settings: 'mysql_settings'
+      - run-creme-unit-tests
+
+
+  python310-tests-pgsql:
+    docker:
+      - image: cimg/python:3.10
+      - image: cimg/postgres:14.17
+        environment:
+          POSTGRES_USER: creme
+          POSTGRES_PASSWORD: creme
+          POSTGRES_DB: cremecrm
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: en_US
+          encoding: UTF-8
+      - wait-database:
+          port: 5432
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests:
+          local_settings: 'pgsql_settings'
+      - run-creme-unit-tests
+
+
+#  python38-tests-sqlite3:
+#    docker:
+#      - image: cimg/python:3.8
+#    resource_class: large
+#    steps:
+#      - checkout-creme
+#      - setup-locale:
+#          language: fr_FR
+#          encoding: UTF-8
+#      - install-creme-system-packages
+#      - install-py-dev-env
+#      - create-creme-project
+#      - setup-creme-unit-tests
+#      - run-creme-unit-tests
+
+  python310-tests-sqlite3:
+    docker:
+      - image: cimg/python:3.10
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: fr_FR
+          encoding: UTF-8
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests
+      - run-creme-unit-tests
+
+  run-coverage:
+    docker:
+#      - image: cimg/python:3.8
+      - image: cimg/python:3.10
+#      - image: cimg/postgres:12.10
+      - image: cimg/postgres:14.17
+        environment:
+          POSTGRES_USER: creme
+          POSTGRES_PASSWORD: creme
+          POSTGRES_DB: cremecrm
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: en_US
+          encoding: UTF-8
+      - wait-database:
+          port: 5432
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests:
+          local_settings: 'pgsql_settings'
+      - run-creme-coverage
+
+
+#  python39-tests-sqlite3:
+#    docker:
+#      - image: cimg/python:3.9
+#    resource_class: large
+#    steps:
+#      - checkout-creme
+#      - setup-locale:
+#          language: fr_FR
+#          encoding: UTF-8
+#      - install-creme-system-packages
+#      - install-py-dev-env
+#      - create-creme-project
+#      - setup-creme-unit-tests
+#      - run-creme-unit-tests
+
+
+#  python311-tests-sqlite3:
+#    docker:
+#      - image: cimg/python:3.11
+#    resource_class: large
+#    steps:
+#      - checkout-creme
+#      - setup-locale:
+#          language: fr_FR
+#          encoding: UTF-8
+#      - install-creme-system-packages
+#      - install-py-dev-env
+#      - create-creme-project
+#      - setup-creme-unit-tests
+#      - run-creme-unit-tests
+  python311-tests-mariadb:
+    docker:
+      - image: cimg/python:3.11
+      - image: cimg/mariadb:10.5
+        environment:
+          MYSQL_ROOT_PASSWORD: creme
+          MYSQL_DATABASE: cremecrm
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: fr_FR
+          encoding: UTF-8
+      - wait-database:
+          port: 3306
+      - install-creme-system-packages
+      - run: sudo apt install -y mariadb-client
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests:
+          local_settings: 'mysql_settings'
+      - run-creme-unit-tests
+
+  python312-tests-sqlite3:
+    docker:
+      - image: cimg/python:3.12
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: fr_FR
+          encoding: UTF-8
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests
+      - run-creme-unit-tests
+
+  python313-tests-sqlite3:
+    docker:
+      - image: cimg/python:3.13
+    resource_class: large
+    steps:
+      - checkout-creme
+      - setup-locale:
+          language: fr_FR
+          encoding: UTF-8
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-unit-tests
+      - run-creme-unit-tests
+
+  javascript-lint:
+    docker:
+     - image: cimg/python:3.10-node
+    steps:
+      - checkout-creme
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-statics
+      - install-node-env
+      - run: cp << pipeline.parameters.source_path >>/.eslint* << pipeline.parameters.instance_directory >>
+      - run:
+          name: Javascript linting
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: |
+              find << pipeline.parameters.source_path >>/creme -iname *.js | xargs --no-run-if-empty \
+                  node_modules/.bin/eslint \
+                  --no-eslintrc \
+                  --config .eslintrc \
+                  --ignore-path .eslintignore \
+                  --format stylish
+      - run:
+          name: Template javascript linting
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: |
+              find << pipeline.parameters.source_path >>/creme -iname *.html | xargs --no-run-if-empty \
+                  node_modules/.bin/eslint \
+                  --no-eslintrc \
+                  --config .eslintrc \
+                  --ignore-path .eslintignore \
+                  --plugin template \
+                  --rule 'template/no-template-branch: 2' \
+                  --global '____' \
+                  --format stylish
+
+
+  javascript-tests:
+    docker:
+     - image: cimg/python:3.10-browsers
+    steps:
+#      - browser-tools/install-browser-tools
+      - browser-tools/install_browser_tools
+      - checkout-creme
+      - install-creme-system-packages
+      - install-py-dev-env
+      - create-creme-project
+      - setup-creme-statics
+      - install-node-env
+      - run:
+          name: Karma Tests
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: node_modules/.bin/karma start << pipeline.parameters.source_path >>/.circleci/.karma.conf.js
+          environment:
+              KARMA_DJANGOSTATICS: ../project/<< pipeline.parameters.instance_directory >>/media/static
+              KARMA_COVERAGEOUTPUT: artifacts/karma_coverage
+      - run:
+          name: Karma Tests (Fr)
+          working_directory: << pipeline.parameters.instance_directory >>
+          command: node_modules/.bin/karma start << pipeline.parameters.source_path >>/.circleci/.karma.conf.js
+          environment:
+              KARMA_DJANGOSTATICS: ../project/<< pipeline.parameters.instance_directory >>/media/static
+              KARMA_COVERAGEOUTPUT: artifacts/karma_coverage
+              KARMA_DJANGOLANG: fr
+      - store_artifacts:
+          path: artifacts/karma_coverage
+
+
+  docker-build-creme-demo:
+    machine:
+      image: ubuntu-2204:current
+      docker_layer_caching: true
+    environment:
+      DOCKER_BUILDKIT: 1
+      IMAGE_NAME: cremecrm/cremecrm-demo
+    steps:
+      - checkout
+      - run: docker build --target creme-demo --tag $IMAGE_NAME:$CIRCLE_BUILD_NUM .
+      - run: docker run --detach --name creme_demo --publish 8001:80 --volume creme_data:/srv/creme/data --env CREME_LANGUAGE_CODE=en $IMAGE_NAME:$CIRCLE_BUILD_NUM
+      - run: wget -c --retry-connrefused --waitretry 1 --tries 60 -O /dev/null http://127.0.0.1:8001
+      - run:
+          command: docker logs creme_demo
+          when: always
+      - run:
+          command: docker rm --force --volumes creme_demo
+          when: always
+
+
+  docker-push-creme-demo:
+    machine:
+      image: ubuntu-2204:current
+      docker_layer_caching: true
+    environment:
+      DOCKER_BUILDKIT: 1
+      IMAGE_NAME: cremecrm/cremecrm-demo
+    steps:
+      - checkout
+      - run: docker build --target creme-demo --tag $IMAGE_NAME:$CIRCLE_TAG .
+      # See environment variables:
+      # - DOCKERHUB_ACCESS_TOKEN
+      # - DOCKERHUB_USERNAME
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_ACCESS_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:$CIRCLE_TAG
+
+
+  creme-package:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout-creme
+      - run: pip install -U pip setuptools wheel
+      # We need an up-to-date pip version to install twine
+#      - run: pip install -U twine
+      # FIX: we also need an up-to-date version of packaging
+      #      see issue https://github.com/pypa/twine/issues/1216
+      #      (genglert, 2 September 2025: it seems the issue has been fixed in
+      #       trunk -- April 2025 -- but currently the last version was release on January 2025)
+      - run: pip install --upgrade twine packaging
+      # See environment variables:
+      # - TWINE_REPOSITORY_URL
+      # - TWINE_USERNAME
+      # - TWINE_PASSWORD
+      - run: |
+          cd << pipeline.parameters.source_path >> && \
+          python setup.py sdist bdist_wheel && \
+          twine check dist/* --strict && \
+          twine upload -u "${TWINE_USERNAME-}" dist/* --skip-existing --non-interactive --disable-progress-bar
+
+
+workflows:
+  version: 2
+
+  coverage:
+    triggers:
+      - schedule:
+          # First day of the month at midnight
+          cron: "0 0 1 * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - run-coverage
+
+  build:
+    jobs:
+      - javascript-lint:
+          filters:
+            tags:
+              only: /.*/
+      - javascript-tests:
+          filters:
+            tags:
+              only: /.*/
+          requires:
+            - javascript-lint
+      - python310-lint-isort:
+          filters:
+            tags:
+              only: /.*/
+      - python310-lint-flake8:
+          filters:
+            tags:
+              only: /.*/
+      - python310-tests-mysql:
+          filters:
+            tags:
+              only: /.*/
+          requires:
+            - python310-lint-isort
+            - python310-lint-flake8
+      - python310-tests-pgsql:
+          filters:
+            tags:
+              only: /.*/
+          requires:
+            - python310-lint-isort
+            - python310-lint-flake8
+#      - python38-tests-sqlite3:
+#          filters:
+#            tags:
+#              only: /.*/
+#          requires:
+#            - python38-lint-isort
+#            - python38-lint-flake8
+#      - python39-tests-sqlite3:
+#          requires:
+#            - python38-lint-isort
+#            - python38-lint-flake8
+      - python310-tests-sqlite3:
+          filters:
+            tags:
+              only: /.*/
+          requires:
+            - python310-lint-isort
+            - python310-lint-flake8
+#      - python311-tests-sqlite3:
+      - python311-tests-mariadb:
+          requires:
+            - python310-lint-isort
+            - python310-lint-flake8
+      - python312-tests-sqlite3:
+          requires:
+            - python310-lint-isort
+            - python310-lint-flake8
+      - python313-tests-sqlite3:
+          requires:
+            - python310-lint-isort
+            - python310-lint-flake8
+      - docker-build-creme-demo:
+          filters:
+            tags:
+              only: /.*/
+      - docker-push-creme-demo:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - docker-build-creme-demo
+            - javascript-tests
+            - python310-tests-sqlite3
+            - python310-tests-mysql
+            - python310-tests-pgsql
+      - creme-package:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - javascript-tests
+            - python310-tests-sqlite3
+            - python310-tests-mysql
+            - python310-tests-pgsql

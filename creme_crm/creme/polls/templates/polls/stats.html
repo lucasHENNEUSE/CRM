@@ -1,0 +1,8 @@
+{% extends BASE_HTML %}
+{% load i18n %}
+
+{% block page_title %}{% translate 'Poll statistics' %} - {% endblock %}
+
+{% block content %}
+    {% include 'polls/bricks/preply-stats.html' %}
+{% endblock %}

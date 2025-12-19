@@ -1,0 +1,1 @@
+DEFAULT_HFILTER_RGENERATOR = 'recurrents-hf'

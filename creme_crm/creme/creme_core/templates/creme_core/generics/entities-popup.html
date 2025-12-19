@@ -1,0 +1,8 @@
+{% extends 'creme_core/popup-base.html' %}
+{% load creme_ctype %}
+
+{% block ipopup_extra_class %}is-listview-popup {% with ctype=model|ctype_for_instance %}listview-popup-{{ctype.app_label}}-{{ctype.model}}{% endwith %}{% endblock %}
+
+{% block content %}
+    {% include content_template %}
+{% endblock %}

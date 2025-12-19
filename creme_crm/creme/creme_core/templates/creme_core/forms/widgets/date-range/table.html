@@ -1,0 +1,7 @@
+<table class="{{widget.class}}" widget="{{widget.widget_type}}">
+  <tbody>
+    <tr>
+      {% for widget in widget.subwidgets %}<td class="daterange-field">{% include widget.template_name %}</td>{% endfor %}
+    </tr>
+  </tbody>
+</table>

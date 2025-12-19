@@ -1,0 +1,1220 @@
+# FR LOCALISATION OF 'PERSONS' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Persons 2.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-03 17:08+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Accounts and Contacts"
+msgstr "Comptes et Contacts"
+
+msgid "Directory"
+msgstr "Annuaire"
+
+msgid "Customers"
+msgstr "Clients"
+
+msgid "Prospects"
+msgstr "Prospects"
+
+msgid "Suspects"
+msgstr "Suspects"
+
+msgid "User organisation"
+msgstr "Société de l'utilisateur"
+
+msgid "Position in the organisation"
+msgstr "Statut dans la société"
+
+msgid "Related Contact"
+msgstr "Contact associé"
+
+msgid "Not contacted since 15 days"
+msgstr "Pas contacté depuis 15j"
+
+msgid "Never contacted"
+msgstr "Jamais contacté"
+
+msgid "Card header block"
+msgstr "Bloc «carte de visite»"
+
+msgid "Organisation managers"
+msgstr "Responsables d'une société"
+
+msgid ""
+"Displays the list of the managers of an Organisation.\n"
+"The managers of an Organisation are Contacts which are linked to this "
+"Organisation by relationships «manages».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche la liste des responsables d'une Société.\n"
+"Les responsables d'une Société sont les Contacts qui sont reliés à  cette "
+"Société par des relations «est un des responsables de».\n"
+"App : Comptes et Contacts"
+
+msgid "Create a manager"
+msgstr "Créer un responsable"
+
+msgid "Organisation employees"
+msgstr "Salariés d'une société"
+
+msgid ""
+"Displays the list of the employees of an Organisation.\n"
+"The managers of an Organisation are Contacts which are linked to this "
+"Organisation by relationships «is an employee of».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche la liste des salariés d'une Société.\n"
+"Les salariés d'une Société sont les Contacts qui sont reliés à  cette "
+"Société par des relations «est un des responsables de».\n"
+"App : Comptes et Contacts"
+
+msgid "Create an employee"
+msgstr "Créer un salarié"
+
+msgid "Addresses (detailed)"
+msgstr "Adresses (détaillées)"
+
+msgid ""
+"Displays the billing & shipping addresses (if the related fields are not "
+"hidden).\n"
+"In this version of the block, all the visible fields of the addresses are "
+"shown.\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche les adresses de facturation & de livraison (si les champs "
+"correspondants ne sont pas cachés).\n"
+"Dans cette version du bloc, tous les champs visibles des adresses sont "
+"montrés.\n"
+"App : Comptes et Contacts"
+
+msgid "Addresses (pretty)"
+msgstr "Adresses (jolies)"
+
+msgid ""
+"Displays the billing & shipping addresses (if the related fields are not "
+"hidden).\n"
+"In this version of the block, the addresses are shown in a pretty way (some "
+"fields can be ignored).\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche les adresses de facturation & de livraison (si les champs "
+"correspondants ne sont pas cachés).\n"
+"Dans cette version du bloc, les adresses sont affichées de manière jolie "
+"(certains champs peuvent être ignorés).\n"
+"App : Comptes et Contacts"
+
+msgid "Other addresses (detailed)"
+msgstr "Adresses supplémentaires (détaillées)"
+
+msgid ""
+"Displays the additional addresses (i.e. not billing & shipping ones).\n"
+"In this version of the block, all the visible fields of the addresses are "
+"shown.\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche les adresses supplémentaires (c-à-d : pas celles de facturation & de "
+"livraison).\n"
+"Dans cette version du bloc, tous les champs visibles des adresses sont "
+"montrés.\n"
+"App : Comptes et Contacts"
+
+msgid "Other addresses (pretty)"
+msgstr "Adresses supplémentaires (jolies)"
+
+msgid ""
+"Displays the additional addresses (i.e. not billing & shipping ones).\n"
+"In this version of the block, the addresses are shown in a pretty way (some "
+"fields can be ignored).\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche les adresses supplémentaires (c-à-d : pas celles de facturation & de "
+"livraison).\n"
+"Dans cette version du bloc, les adresses sont affichées de manière jolie "
+"(certains champs peuvent être ignorés).\n"
+"App : Comptes et Contacts"
+
+msgid "Neglected organisations"
+msgstr "Sociétés délaissées"
+
+#, python-brace-format
+msgid ""
+"Displays customers/prospects organisations (for the Organisations managed by "
+"{software}) which have no Activity in the future. Expected Activities are "
+"related to:\n"
+"- The Organisations with a relationship «is subject of the activity» or "
+"«related to the activity»\n"
+"- The managers & employees with a relationship «participates in the "
+"activity» (plus the above ones)\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Affiche les sociétés clientes/prospects (pour les Sociétés gérées par "
+"{software}) qui n'ont pas d'Activité dans le futur. Les Activités attendues "
+"sont reliées à :\n"
+"- Les Sociétés avec une relation «est sujet de l'activité» ou «relié à "
+"l'activité»\n"
+"- Les responsables & salariés avec une relation «participe à "
+"l'activité» (plus celles au dessus).\n"
+"App : Comptes et Contacts"
+
+msgid "Transform into a customer"
+msgstr "Transformer en client"
+
+msgid ""
+"This button links the current entity to an Organisation managed by Creme, "
+"using the relationship type «is a customer of».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton relie la fiche courante à une Société gérée par Creme, en "
+"utilisant le type de relation «est client de»\n"
+"App : Comptes et Contacts"
+
+msgid "Transform into a prospect"
+msgstr "Transformer en prospect"
+
+msgid ""
+"This button links the current entity to an Organisation managed by Creme, "
+"using the relationship type «is a prospect of».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton relie la fiche courante à une Société gérée par Creme, en "
+"utilisant le type de relation «est prospect de».\n"
+"App : Comptes et Contacts"
+
+msgid "Transform into a suspect"
+msgstr "Transformer en suspect"
+
+msgid ""
+"This button links the current entity to an Organisation managed by Creme, "
+"using the relationship type «is a suspect of».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton relie la fiche courante à une Société gérée par Creme, en "
+"utilisant le type de relation «est suspect de».\n"
+"App : Comptes et Contacts"
+
+msgid "Transform into an inactive customer"
+msgstr "Transformer en client inactif"
+
+msgid ""
+"This button links the current entity to an Organisation managed by Creme, "
+"using the relationship type «is an inactive customer of».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton relie la fiche courante à une Société gérée par Creme, en "
+"utilisant le type de relation «est un client inactif de».\n"
+"App : Comptes et Contacts"
+
+msgid "Transform into a supplier"
+msgstr "Transformer en fournisseur"
+
+msgid ""
+"This button links the current entity to an Organisation managed by Creme, "
+"using the relationship type «is a supplier of».\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton relie la fiche courante à une Société gérée par Creme, en "
+"utilisant le type de relation «est un fournisseur de».\n"
+"App : Comptes et Contacts"
+
+msgid "Create a linked contact"
+msgstr "Créer un contact lié"
+
+msgid ""
+"This button displays the creation form for contacts. The current "
+"organisation is pre-selected to be linked to the created contact.\n"
+"It is useful to create employees for example (it can be done through the "
+"employees block too).\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton affiche le formulaire de création des contacts. La société "
+"courante est pré-sélectionnée pour être liée au contact créé.\n"
+"C'est utile pour créer des salariés par exemple (cela peut aussi être fait "
+"depuis le bloc des salariés).\n"
+"App : Comptes et Contacts"
+
+msgid "Transform into a user"
+msgstr "Transformer en utilisateur"
+
+msgid ""
+"This button allows to create a user corresponding to the current Contact. A "
+"Contact is automatically created when you create a user; with this button "
+"you can create the user linked to an existing Contact (you don't have to "
+"merge the existing Contact with the one created by the user creation form).\n"
+"Only superusers can use this button.\n"
+"App: Accounts and Contacts"
+msgstr ""
+"Ce bouton permet de créer un utilisateur correspondant au Contact courant. "
+"Un Contact est automatiquement créé quand vous créez un utilisateur ; avec "
+"ce bouton vous pouvez créer l'utilisateur lié à un Contact existant (vous "
+"n'avez pas à fusionner le Contact existant avec celui crée par le formulaire "
+"de création d'utilisateur).\n"
+"Seul les super-utilisateurs peuvent utiliser ce bouton.\n"
+"App : Comptes et Contacts"
+
+msgid "a managed organisation cannot be cloned"
+msgstr "une société gérée ne peut pas être clonée"
+
+msgid "Contact details"
+msgstr "Coordonnées du contact"
+
+msgid "Creation form for contact"
+msgstr "Formulaire de création de contact"
+
+msgid "Edition form for contact"
+msgstr "Formulaire de modification de contact"
+
+msgid "Creation form for organisation"
+msgstr "Formulaire de création de société"
+
+msgid "Edition form for organisation"
+msgstr "Formulaire de modification de société"
+
+msgid "A user is associated with this contact."
+msgstr "Un utilisateur est relié à ce contact."
+
+msgid "The last managed organisation cannot be deleted."
+msgstr "La dernière société gérée ne peut pas être supprimée."
+
+msgid "Billing address"
+msgstr "Adresse de facturation"
+
+msgid "Shipping address"
+msgstr "Adresse de livraison"
+
+msgid "Addresses"
+msgstr "Adresses"
+
+#, python-brace-format
+msgid "{address_field}: {error}"
+msgstr "{address_field} : {error}"
+
+# Already in creme_config
+msgid "Password"
+msgstr ""
+
+# Already in creme_config
+msgid "Confirm password"
+msgstr ""
+
+# Already in creme_config
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+msgid "The first name of the Contact will be updated."
+msgstr "Le prénom du contact sera mis à jour."
+
+msgid ""
+"BEWARE: the email of the Contact is already used by a user & will be updated."
+msgstr ""
+"ATTENTION: l'adresse e-mail du contact est déjà utilisée par un utilisateur "
+"& sera mise à jour."
+
+msgid "The email of the Contact will be updated if you change it."
+msgstr "L'adresse e-mail du contact sera mise à jour si vous la changer."
+
+msgid "The email of the Contact will be updated."
+msgstr "L'adresse e-mail du contact sera mise à jour."
+
+msgid "Can not merge 2 Contacts which represent some users."
+msgstr "Impossible de fusionner 2 Contacts représentant des utilisateurs."
+
+msgid "Set as managed"
+msgstr "Marquer comme géré"
+
+msgid "Organisation"
+msgstr "Société"
+
+msgid "If no organisation is found, a new one will be created."
+msgstr "Si aucune société ne porte ce nom, une fiche société sera aussi créée."
+
+msgid "You are not allowed to create an Organisation."
+msgstr "Vous n'avez pas la permission de créer une Société."
+
+msgid "No linkable Organisation found."
+msgstr "Aucune Société reliable n'a été trouvée."
+
+msgid "Several Organisations with this name have been found."
+msgstr "Plusieurs Sociétés avec ce nom ont été trouvées."
+
+msgid "You are not allowed to link with a Contact"
+msgstr "Vous n'avez pas la permission de relier avec un Contact"
+
+msgid "You are not allowed to link with an Organisation"
+msgstr "Vous n'avez pas la permission de relier avec une Société"
+
+msgid "Enter the name of an existing Organisation."
+msgstr "Entrez le nom d'une société existante"
+
+msgid "*User's contact*"
+msgstr "*Contact de l'utilisateur*"
+
+msgid "My customers / prospects / suspects"
+msgstr "Mes clients / prospects / suspects"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "PO box"
+msgstr "Boîte postale"
+
+msgid "Zip code"
+msgstr "Code postal"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Department"
+msgstr "Département"
+
+msgid "State"
+msgstr "État"
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Create an address"
+msgstr "Créer une adresse"
+
+msgid "Save the address"
+msgstr "Enregistrer l'adresse"
+
+msgid "Civility"
+msgstr "Civilité"
+
+msgid "Last name"
+msgstr "Nom"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "Videoconference"
+msgstr "Visioconférence"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Mobile"
+msgstr "Mobile"
+
+msgid "Fax"
+msgstr "Fax"
+
+msgid "Email address"
+msgstr "Adresse e-mail"
+
+msgid "Web Site"
+msgstr "Site Web"
+
+msgid "Position"
+msgstr "Fonction"
+
+msgid "Detailed position"
+msgstr "Fonction détaillée"
+
+msgid "Line of business"
+msgstr "Secteur d'activités"
+
+msgid "Spoken language(s)"
+msgstr "Langue(s) parlée(s)"
+
+msgid "Related user"
+msgstr "Utilisateur associé"
+
+msgctxt "persons-is_user"
+msgid "None"
+msgstr "Aucun"
+
+msgid "Birthday"
+msgstr "Anniversaire"
+
+msgid "Photograph"
+msgstr "Photo du contact"
+
+msgid "Create a contact"
+msgstr "Créer un contact"
+
+msgid "Save the contact"
+msgstr "Enregistrer le contact"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+#, python-brace-format
+msgid "{civility} {first_name} {last_name}"
+msgstr "{civility} {first_name} {last_name}"
+
+#, python-brace-format
+msgid "{first_name} {last_name}"
+msgstr "{first_name} {last_name}"
+
+msgid "This Contact is related to a user and must have a first name."
+msgstr "Ce Contact est lié à un utilisateur et doit avoir un prénom."
+
+msgid "This Contact is related to a user and must have an email address."
+msgstr "Ce Contact est lié à un utilisateur et doit avoir une adresse e-mail."
+
+msgid ""
+"This Contact is related to a user and an active user already uses this email "
+"address."
+msgstr ""
+"Ce Contact est lié à un utilisateur et un utilisateur activé utilise déjà "
+"cette adresse e-mail."
+
+msgid "N/A"
+msgstr "NC"
+
+msgid "complete@Me.com"
+msgstr "completez@Moi.fr"
+
+#, python-brace-format
+msgid "Managed by {software}"
+msgstr "Gérée par {software}"
+
+msgid "Sector"
+msgstr "Secteur"
+
+msgid "Legal form"
+msgstr "Forme juridique"
+
+msgid "Staff size"
+msgstr "Effectif"
+
+msgid "Capital"
+msgstr "Capital"
+
+msgid "Annual revenue"
+msgstr "Revenu annuel"
+
+msgctxt "persons-organisation"
+msgid "Code"
+msgstr "Code"
+
+msgid "Useful to distinguish your managed organisations"
+msgstr "Utile pour différencier les sociétés gérées"
+
+msgid "SIREN"
+msgstr "SIREN"
+
+msgid "NAF code"
+msgstr "Code NAF"
+
+msgid "SIRET"
+msgstr "SIRET"
+
+msgid "RCS/RM"
+msgstr "RCS/RM"
+
+msgid "EORI number"
+msgstr "Numéro EORI"
+
+msgid ""
+"Economic Operators Registration and Identification number. Required for "
+"customs clearance in the EU."
+msgstr ""
+"Le numéro EORI (Economic Operators Registration and Identification) est un "
+"numéro d'identification unique en matière douanière en UE."
+
+msgid "VAT number"
+msgstr "Numéro TVA"
+
+msgid "Subject to VAT"
+msgstr "Assujetti à la TVA"
+
+msgid "Date of creation of the organisation"
+msgstr "Date de création de la société"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Create an organisation"
+msgstr "Créer une société"
+
+msgid "Save the organisation"
+msgstr "Enregistrer la société"
+
+msgid "Organisations"
+msgstr "Sociétés"
+
+msgctxt "persons-civility"
+msgid "Title"
+msgstr "Intitulé"
+
+msgid "Shortcut"
+msgstr "Raccourci"
+
+msgid "Create a civility"
+msgstr "Créer une civilité"
+
+msgid "Civilities"
+msgstr "Civilités"
+
+msgctxt "persons-position"
+msgid "Title"
+msgstr "Intitulé"
+
+msgctxt "persons-position"
+msgid "Create a position"
+msgstr "Créer une fonction"
+
+msgid "People position"
+msgstr "Fonction de personne"
+
+msgid "People positions"
+msgstr "Fonctions des personnes"
+
+msgctxt "persons-sector"
+msgid "Title"
+msgstr "Intitulé"
+
+msgctxt "persons-sector"
+msgid "Create a sector"
+msgstr "Créer un secteur"
+
+msgid "Lines of business"
+msgstr "Secteurs d'activités"
+
+msgctxt "persons-legalform"
+msgid "Title"
+msgstr "Intitulé"
+
+msgid "Create a legal form"
+msgstr "Créer une forme juridique"
+
+msgid "Legal forms"
+msgstr "Formes juridiques"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "Create a staff size"
+msgstr "Créer un effectif de société"
+
+msgid "Organisation staff size"
+msgstr "Effectif de société"
+
+msgid "Organisation staff sizes"
+msgstr "Effectifs de société"
+
+msgid "is an employee of"
+msgstr "est salarié de"
+
+msgid "employs"
+msgstr "emploie"
+
+msgid "is a customer of"
+msgstr "est client de"
+
+msgid "is a supplier of"
+msgstr "est un fournisseur de"
+
+msgid "manages"
+msgstr "est un des responsables de"
+
+msgid "managed by"
+msgstr "a pour responsable"
+
+msgid "is a prospect of"
+msgstr "est prospect de"
+
+msgid "has as prospect"
+msgstr "a pour prospect"
+
+msgid "is a suspect of"
+msgstr "est suspect de"
+
+msgid "has as suspect"
+msgstr "a pour suspect"
+
+msgid "is a partner of"
+msgstr "est partenaire de"
+
+msgid "has as partner"
+msgstr "a pour partenaire"
+
+msgid "is an inactive customer of"
+msgstr "est un client inactif de"
+
+msgid "has as inactive customer"
+msgstr "a pour client inactif"
+
+msgid "has as subsidiary"
+msgstr "a pour filiale"
+
+msgid "is a subsidiary of"
+msgstr "est une filiale de"
+
+msgid "is a competitor of"
+msgstr "est un concurrent de"
+
+msgid "has as competitor"
+msgstr "a pour concurrent"
+
+msgid "Contact view"
+msgstr "Vue de Contact"
+
+msgid "Organisation view"
+msgstr "Vue de Société"
+
+msgid "Prospect/Suspect view"
+msgstr "Vue Prospect/Suspect"
+
+msgid "Organisation logo"
+msgstr "Logo de société"
+
+msgid "Contact photograph"
+msgstr "Photo de contact"
+
+msgid "Madam"
+msgstr "Madame"
+
+msgid "Mrs."
+msgstr "Mme"
+
+msgid "Miss"
+msgstr "Mademoiselle"
+
+msgid "Ms."
+msgstr "Mlle"
+
+msgid "Mister"
+msgstr "Monsieur"
+
+msgid "Mr."
+msgstr "M"
+
+msgid "CEO"
+msgstr "PDG"
+
+msgid "Secretary"
+msgstr "Secrétaire"
+
+msgid "Technician"
+msgstr "Technicien"
+
+msgid "Food Industry"
+msgstr "Agroalimentaire"
+
+msgid "Industry"
+msgstr "Industrie"
+
+msgid "Software"
+msgstr "Logiciel"
+
+msgid "Telecom"
+msgstr "Télécom"
+
+msgid "Restoration"
+msgstr "Restauration"
+
+msgid "ReplaceByYourSociety"
+msgstr "RemplacezParVotreSociété"
+
+msgid "Me"
+msgstr "Moi"
+
+msgid "Managed by creme"
+msgstr "Gérée par creme"
+
+msgid "+ Creation"
+msgstr ""
+
+msgid "Contact information"
+msgstr "Informations sur le contact"
+
+msgid "Contact complementary information"
+msgstr "Informations complémentaires sur le contact"
+
+msgid "Organisation information"
+msgstr "Informations sur la société"
+
+msgid "Organisation details"
+msgstr "Coordonnées de la société"
+
+msgid "Organisation complementary information"
+msgstr "Informations complémentaires sur la société"
+
+msgid "Belongs to the Contact/User"
+msgstr "Appartient au Contact/Utilisateur"
+
+# Already in app 'reports'
+msgid "No value is needed."
+msgstr ""
+
+msgid ""
+"The volatile link «Belongs to the Contact/User» is only compatible with "
+"Contacts; you should fix your blocks' configuration."
+msgstr ""
+"Le lien volatile «Appartient au Contact/Utilisateur» est seulement "
+"compatible avec les Contacts ; vous devriez corriger votre configuration."
+
+#, python-brace-format
+msgid "For {name}: {related_count}"
+msgstr "Pour {name} : {related_count}"
+
+msgid "Create a billing address"
+msgstr "Créer une adresse de facturation"
+
+msgid "Create a shipping address"
+msgstr "Créer une adresse de livraison"
+
+msgid "No address for the moment"
+msgstr "Aucune adresse pour le moment"
+
+msgid "Link to contacts"
+msgstr "Lier à des contacts"
+
+# Already in creme_core
+#, python-format
+msgid ""
+"Beware: the relationship type «%(predicate)s» is disabled. You should re-"
+"enable it if it's still useful, or remove this block"
+msgstr ""
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Edit this contact"
+msgstr "Modifier ce contact"
+
+msgid "Unlink this contact"
+msgstr "Délier ce contact"
+
+msgid "No related contact for the moment"
+msgstr "Aucun contact lié pour le moment"
+
+#, python-brace-format
+msgid "{count} Other address"
+msgstr "{count} Adresse supplémentaire"
+
+#, python-brace-format
+msgid "{count} Others addresses"
+msgstr "{count} Adresses supplémentaires"
+
+msgid "Other Addresses"
+msgstr "Adresses supplémentaires"
+
+msgid "No other address set for the moment"
+msgstr "Aucune adresse supplémentaire enregistrée pour le moment"
+
+msgid "Customer"
+msgstr "Client"
+
+msgid "Supplier"
+msgstr "Fournisseur"
+
+#, python-format
+msgid "Manages %(count)s organisation"
+msgid_plural "Manages %(count)s organisations"
+msgstr[0] "Responsable de %(count)s société"
+msgstr[1] "Responsable de %(count)s sociétés"
+
+#, python-format
+msgid "employed by %(count)s organisation"
+msgid_plural "employed by %(count)s organisations"
+msgstr[0] "salarié de %(count)s société"
+msgstr[1] "salarié de %(count)s sociétés"
+
+#, python-format
+msgid "Employed by %(count)s organisation"
+msgid_plural "Employed by %(count)s organisations"
+msgstr[0] "Salarié de %(count)s société"
+msgstr[1] "Salarié de %(count)s sociétés"
+
+msgid "Manager"
+msgstr "Responsable"
+
+msgid "Employee"
+msgstr "Salarié"
+
+msgctxt "persons-contact"
+msgid "Details"
+msgstr "Détails"
+
+#, python-brace-format
+msgid "{count} Employee"
+msgstr "{count} Salarié"
+
+#, python-brace-format
+msgid "{count} Employees"
+msgstr "{count} Salariés"
+
+msgid "Employees"
+msgstr "Salariés"
+
+msgid "No employee for the moment"
+msgstr "Aucun salarié enregistré pour le moment"
+
+msgid "Last action"
+msgstr "Dernière action"
+
+msgid "at"
+msgstr "à"
+
+msgid "by"
+msgstr "par"
+
+msgid "Commercial actions"
+msgstr "Actions commerciales"
+
+#, python-format
+msgid "%(count)s Commercial action"
+msgid_plural "%(count)s Commercial actions"
+msgstr[0] "%(count)s Action commerciale"
+msgstr[1] "%(count)s Actions commerciales"
+
+msgid "See details"
+msgstr "Voir les détails"
+
+msgid "Next action"
+msgstr "Prochaine action"
+
+msgid "Opportunities"
+msgstr "Opportunités"
+
+#, python-format
+msgid "%(count)s Opportunity"
+msgid_plural "%(count)s Opportunities"
+msgstr[0] "%(count)s Opportunité"
+msgstr[1] "%(count)s Opportunités"
+
+msgid "Creme user"
+msgstr "Utilisateur Creme associé"
+
+#, python-brace-format
+msgid "{count} Managed organisation"
+msgstr "{count} Société gérée"
+
+#, python-brace-format
+msgid "{count} Managed organisations"
+msgstr "{count} Sociétés gérées"
+
+msgid "Managed organisations"
+msgstr "Sociétés gérées"
+
+msgid "Manage new organisations"
+msgstr "Gérer de nouvelles sociétés"
+
+msgid ""
+"(e.g. managed organisations can generate numbers for their invoices, or emit "
+"opportunities)"
+msgstr ""
+"(ex: les sociétés gérées peuvent générer des numéros de factures, ou émettre "
+"des opportunités)"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Do not manage anymore"
+msgstr "Ne plus gérer"
+
+#, python-brace-format
+msgid "{count} Manager"
+msgstr "{count} Responsable"
+
+#, python-brace-format
+msgid "{count} Managers"
+msgstr "{count} Responsables"
+
+msgid "Managers"
+msgstr "Responsables"
+
+msgid "No manager for the moment"
+msgstr "Aucun responsable enregistré pour le moment"
+
+#, python-brace-format
+msgid "{count} Neglected organisation"
+msgstr "{count} Société délaissée"
+
+#, python-brace-format
+msgid "{count} Neglected organisations"
+msgstr "{count} Sociétés délaissées"
+
+msgid "No neglected organisation for the moment"
+msgstr "Aucune société délaissée pour le moment"
+
+#, python-format
+msgid "Managed by %(software)s"
+msgstr "Gérée par %(software)s"
+
+#, python-format
+msgid "%(count)s Manager"
+msgid_plural "%(count)s Managers"
+msgstr[0] "%(count)s Responsable"
+msgstr[1] "%(count)s Responsables"
+
+#, python-format
+msgid "%(count)s Employee"
+msgid_plural "%(count)s Employees"
+msgstr[0] "%(count)s Salarié"
+msgstr[1] "%(count)s Salariés"
+
+msgctxt "persons-organisation"
+msgid "Details"
+msgstr "Détails"
+
+msgid "Linked contact"
+msgstr "Contact lié"
+
+# Already in creme_core
+msgid "Relationship"
+msgstr ""
+
+#, python-format
+msgid "The relationship type «%(predicate)s» is disabled"
+msgstr "Le type de relation «%(predicate)s» est désactivé"
+
+msgid "Copy the address to left side"
+msgstr "Copier l'adresse à gauche"
+
+msgid "Copy the address to right side"
+msgstr "Copier l'adresse à droite"
+
+msgctxt "persons-breadcrumbs"
+msgid "List of"
+msgstr "Liste des"
+
+#, python-format
+msgid "%(count)s organisation"
+msgid_plural "%(count)s organisations"
+msgstr[0] "%(count)s société"
+msgstr[1] "%(count)s sociétés"
+
+msgid "and"
+msgstr "et"
+
+#, python-format
+msgid "%(count)s contact"
+msgid_plural "%(count)s contacts"
+msgstr[0] "%(count)s contact"
+msgstr[1] "%(count)s contacts"
+
+#, python-brace-format
+msgid "Adding address to «{entity}»"
+msgstr "Ajouter une adresse à «{entity}»"
+
+#, python-brace-format
+msgid "Adding billing address to «{entity}»"
+msgstr "Ajouter l'adresse de facturation pour «{entity}»"
+
+#, python-brace-format
+msgid "Adding shipping address to «{entity}»"
+msgstr "Ajouter l'adresse de livraison pour «{entity}»"
+
+#, python-brace-format
+msgid "Edit address for «{entity}»"
+msgstr "Modifier l'adresse pour «{entity}»"
+
+#, python-brace-format
+msgid "Edit billing address for «{entity}»"
+msgstr "Modifier l'adresse de facturation pour «{entity}»"
+
+#, python-brace-format
+msgid "Edit shipping address for «{entity}»"
+msgstr "Modifier l'adresse de livraison pour «{entity}»"
+
+#, python-brace-format
+msgid "Create a contact related to «{organisation}»"
+msgstr "Créer un contact lié à «{organisation}»"
+
+#, python-brace-format
+msgid "Status in «{organisation}»"
+msgstr "Statut dans «{organisation}»"
+
+# Already in creme_core
+#, python-format
+msgid ""
+"The entity «%(entity)s» has no property «%(property)s» which is required by "
+"the relationship «%(predicate)s»."
+msgstr ""
+
+# Already in creme_core
+#, python-format
+msgid ""
+"The entity «%(entity)s» has the property «%(property)s» which is forbidden "
+"by the relationship «%(predicate)s»."
+msgstr ""
+
+#. Translators: 'object' is a Contact
+#, python-brace-format
+msgid "Transform «{object}» into a user"
+msgstr "Transformer «{object}» en utilisateur"
+
+msgid "This Contact is already a user"
+msgstr "Ce Contact est déjà un utilisateur"
+
+msgid "customer"
+msgstr "client"
+
+msgid "customers"
+msgstr "clients"
+
+msgid "Is a customer"
+msgstr "Est un client"
+
+msgid "prospect"
+msgstr "prospect"
+
+msgid "prospects"
+msgstr "prospects"
+
+msgid "Is a prospect"
+msgstr "Est un prospect"
+
+msgid "suspect"
+msgstr "suspect"
+
+msgid "suspects"
+msgstr "suspects"
+
+msgid "Is a suspect"
+msgstr "Est un suspect"
+
+msgid "All the concerned types of relationship are disabled: {}"
+msgstr "Tous les types de relation concernés sont désactivés : {}"
+
+#. Translators: the format variable is a comma separated list of items
+#. within: 'suspect', 'prospect', 'customer'.
+msgctxt "persons-related_creation"
+msgid "Create a: {}"
+msgstr "Créer un : {}"
+
+msgid "Related managed organisation"
+msgstr "Société gérée liée"
+
+# Already translated in creme_core
+msgid "Relationships"
+msgstr ""
+
+#. Translators: "related" can be one on these messages:
+#. 'suspects', 'prospects', 'customers'.
+#, python-brace-format
+msgid "List of my {related}"
+msgstr "Liste de mes {related}"
+
+#. Translators: "related_items" is a comma separated list of items.
+#. "last_related" is one item only. Items can be:
+#. 'suspects', 'prospects', 'customers'.
+#, python-brace-format
+msgid "List of my {related_items} & {last_related}"
+msgstr "Liste de mes {related_items} & {last_related}"
+
+msgid "Add some managed organisations"
+msgstr "Ajouter des sociétés gérées"
+
+# Already in creme_core
+msgid "Save the modifications"
+msgstr ""
+
+msgid "You must have at least one managed organisation."
+msgstr "Vous devez avoir au moins une société gérée."
+
+#~ msgid "You are not allowed to link this entity"
+#~ msgstr "Vous n'avez pas la permission de relier cette fiche"
+
+#~ msgid "You are not a superuser"
+#~ msgstr "Vous n'êtes pas un super-utilisateur"
+
+#~ msgid "Create a related contact"
+#~ msgstr "Créer un contact lié"
+
+#~ msgid "Order"
+#~ msgstr "Ordre"
+
+#~ msgid "Concerned organisation"
+#~ msgstr "Société concernée"
+
+#~ msgid "No one"
+#~ msgstr "Aucune"
+
+#~ msgid "Portal of accounts and contacts"
+#~ msgstr "Portail des comptes et contacts"
+
+#~ msgid "All contacts"
+#~ msgstr "Lister les contacts"
+
+#~ msgid "All organisations"
+#~ msgstr "Lister les sociétés"
+
+#~ msgid "Accounts & contacts portal"
+#~ msgstr "Portail Comptes & contacts"
+
+#~ msgid "Number of contacts"
+#~ msgstr "Nombre de contact(s)"
+
+#~ msgid "Number of organisations"
+#~ msgstr "Nombre de société(s)"
+
+#~ msgid "Number of customers of %s"
+#~ msgstr "Nombre de client(s) de %s"
+
+#~ msgid "Can't add or link"
+#~ msgstr "Création ou liaison interdite"
+
+#~ msgid "Link to existing contacts"
+#~ msgstr "Lier des contacts existants"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Field"
+#~ msgstr "Champ"
+
+#~ msgid "Add a related contact"
+#~ msgstr "Ajouter un contact lié"
+
+#~ msgid "Image"
+#~ msgstr "Image"
+
+#~ msgid "Add a contact"
+#~ msgstr "Ajouter un contact"
+
+#~ msgid "Information"
+#~ msgstr "Informations"
+
+#~ msgid "Name of the organisation"
+#~ msgstr "Nom de la société"
+
+#~ msgid "Please enter the web site address"
+#~ msgstr "Veuillez entrez l'adresse du site web"
+
+#~ msgid "Assigned to"
+#~ msgstr "Assigné à"
+
+#~ msgid "Employed by"
+#~ msgstr "Est salarié chez"
+
+#~ msgid "Managed by"
+#~ msgstr "A pour responsable"
+
+#~ msgid "Other Information"
+#~ msgstr "Autres Informations"
+
+#~ msgid "This address doesn't exist or doesn't exist any more"
+#~ msgstr "Cette adresse n'existe pas ou plus"
+
+#~ msgid "Address information"
+#~ msgstr "Informations sur l'adresse"
+
+#~ msgid "Can't link"
+#~ msgstr "Liaison interdite"
+
+#~ msgid "New"
+#~ msgstr "Nouveau"

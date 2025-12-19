@@ -1,0 +1,38 @@
+{% load i18n %}{% load eq from creme_core_tags %}
+{% with id=widget.attrs.id name=widget.name sub_choices=widget.subfield_choices %}
+<table {# name="{{name}}" #}{% include 'django/forms/widgets/attrs.html' %} widget="ui-import-field" class="ui-creme-widget ui-import-field widget-auto">
+    <tbody>
+        <tr>
+            <td class="csv_column_select import-field-select">
+                {% include 'creme_core/forms/widgets/select.html' with widget=widget.column_select %}
+            </td>
+            {% if sub_choices %}
+            <td class="csv_subfields_select import-field-details">
+            {% with hide_select=sub_choices|length|eq:1 %} {# The 'select' tag is annoying if there is only one option #}
+                {% if not hide_select %}{% translate 'Search by:' %}{% endif %}
+
+                {% with sel=widget.searched_subfield %}
+                <select name="{{name}}_subfield"{% if hide_select %} hidden{% endif %}>
+                {% for ovalue, olabel in sub_choices %}
+                    <option value="{{ovalue}}"{% if ovalue == sel %} selected{% endif %}>{{olabel}}</option>
+                {% endfor %}
+                </select>
+                {% endwith %}
+
+                {% if widget.propose_creation %}&nbsp;
+                <label for="{{id}}_create">{% if hide_select %}{% translate 'Create if not found?' %}{% else %}{% translate 'Create if not found? (only with the field marked [CREATION])' %}{% endif %}
+                    <input type="checkbox" id="{{id}}_create" name="{{name}}_create"{% if widget.creation_checked %} checked{% endif %}>
+                </label>
+                {% endif %}
+            {% endwith %}
+            </td>
+            {% endif %}
+            <td>&nbsp;
+                <label for="{{id}}_defval">{% translate 'Default value' %}:
+                    {% include widget.default_value_widget.template_name with widget=widget.default_value_widget %}
+                </label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endwith %}

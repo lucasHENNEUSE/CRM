@@ -1,0 +1,14 @@
+{% extends 'creme_config/portals/base.html' %}
+{% load i18n creme_widgets %}
+
+{% block page_title %}{% translate 'Configuration of roles' %} - {% endblock %}
+
+{% block title %}
+    {{block.super}}{% translate 'Roles' %}
+{% endblock %}
+
+{% block portal_help %}
+{% blocktranslate asvar help_msg %}The users which are not super-users must have a role. It limits what the concerned users can see, edit, delete…
+If you have many users, it's a good practice to use roles.{% endblocktranslate %}
+    {% widget_help_sign message=help_msg %}
+{% endblock %}

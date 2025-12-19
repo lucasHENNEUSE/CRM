@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<div class="buttonmenu-edit-widget" id="{{widget.attrs.id}}">
+  <div class="widget-available buttons-list instance-buttons">
+    <div class="buttons-list-header">{% translate "Available buttons" %}</div>
+    <div class="widget-container"></div>
+  </div>
+  <div class="widget-selected buttons-list instance-buttons">
+    <div class="buttons-list-header">{% translate "Selected buttons" %}</div>
+    <div class="widget-container"></div>
+  </div>
+</div>
+
+{% with data_id=widget.attrs.id|add:'-choices' %}
+{{ widget.choices|json_script:data_id }}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        return new creme.ButtonMenuEditor($("#{{widget.attrs.id}}"), {
+            optionsId: '{{data_id|escapejs}}'
+        });
+    });
+</script>
+{% endwith %}

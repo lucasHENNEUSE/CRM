@@ -1,0 +1,10 @@
+{% extends BASE_HTML %}
+{% load creme_ctype %}
+
+{% block page_title %}{{list_title}} - {% endblock %}
+
+{% block content_extra_class %}content-list-view {% with ctype=model|ctype_for_instance %}content-list-view-{{ctype.app_label}}-{{ctype.model}}{% endwith %}{% endblock %}
+
+{% block content %}
+    {% include content_template %}
+{% endblock %}

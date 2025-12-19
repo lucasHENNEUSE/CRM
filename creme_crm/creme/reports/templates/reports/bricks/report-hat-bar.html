@@ -1,0 +1,15 @@
+{% extends 'creme_core/bricks/generic/hat-bar.html' %}
+{% load i18n creme_bricks creme_widgets  %}
+{% load url from creme_core_tags %}
+
+{% block buttons %}
+    <div class='bar-action'>
+        <a class="bar-button" href="{% url 'reports__export_report_preview' object.id %}">{% translate 'Preview' context 'reports-preview' as preview_label %}
+            {% widget_icon name='view' size='brick-hat-bar-button' label=preview_label %}
+        </a>
+    </div>
+    <div class='bar-action'>
+        {% brick_action id='reports-export' url='reports__export_report_filter'|url:object.id label=_('Download CSV') class='bar-button' icon_size='brick-hat-bar-button' icon='document_csv' display='icon' %}
+    </div>
+    {{block.super}}
+{% endblock %}

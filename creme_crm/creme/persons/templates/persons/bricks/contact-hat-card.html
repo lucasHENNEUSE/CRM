@@ -1,0 +1,148 @@
+{% extends 'creme_core/bricks/base/hat-card.html' %}
+{% load i18n creme_bricks creme_cells creme_listview creme_perms creme_widgets persons_tags %}
+{% load get_hidden_fields inner_edition_uri listify url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} persons-contact-card-brick{% endblock %}
+
+{% block card_intro_content %}
+    {% if intro_summary.template_name %}{% include intro_summary.template_name with summary=intro_summary %}{% endif %}
+{% endblock %}
+
+{% block card_title %}
+    {{object|persons_pretty_contact}}
+    {% if not object.is_deleted and not object.sandbox %}
+      {% cell_4_regularfield instance=object field="last_name" as lname_cell %}
+      {% cell_4_regularfield instance=object field="first_name" as fname_cell %}
+      {% cell_4_regularfield instance=object field="position" as pos_cell %}
+      {% cell_4_regularfield instance=object field="full_position" as fpos_cell %}
+      {% listify lname_cell fname_cell pos_cell fpos_cell as cells %}
+      {% inner_edition_uri instance=object cells=cells as edition_uri %}
+      {% brick_card_action id='edit' url=edition_uri enabled=user|has_perm_to_change:object %}
+    {% endif %}
+{% endblock %}
+
+{% block card_indicators %}
+  {# TODO: factorise with "organisation-hat-card.html" #}
+  {% if is_customer %}<div class='business-card-indicator'>{% translate 'Customer' %}</div>{% endif %}
+  {% if is_supplier %}<div class='business-card-indicator'>{% translate 'Supplier' %}</div>{% endif %}
+
+  {% with neg_label=neglected_indicator.label %}
+    {% if neg_label %}<div class='business-card-indicator business-card-warning-indicator'>{{neg_label}}</div>{% endif %}
+  {% endwith %}
+{% endblock %}
+
+{% block card_secondary %}
+  {% block contact_position %}
+    {% get_hidden_fields object as hidden_fields %}
+    {% if object.full_position and 'full_position' not in hidden_fields %}
+      <div class="card-position">{{object.full_position}}</div>
+    {% elif object.position and 'position' not in hidden_fields %}
+      <div class="card-position">{{object.position}}</div>
+    {% endif %}
+  {% endblock %}
+  {% block contact_jobs %}
+  {% with total_count=managed_count|add:employers_count %}
+    <div class="card-jobs{# TODO? {% if total_count > 3 and total_count < max_organisations %} card-jobs-wide{% endif %} #}">
+      {% if total_count >= max_organisations %}
+        <div class="card-job">{% url 'persons__list_organisations' as lv_url %}
+          {% if managed_count %}
+            <a href="{{lv_url}}?{% listview_q_argument relations__type=REL_OBJ_MANAGES relations__object_entity=object.id %}">
+                {% blocktranslate count count=managed_count %}Manages {{count}} organisation{% plural %}Manages {{count}} organisations{% endblocktranslate %}
+            </a>
+            {% if employers_count %},
+            <a href="{{lv_url}}?{% listview_q_argument relations__type=REL_OBJ_EMPLOYED_BY relations__object_entity=object.id %}">
+                {% blocktranslate count count=employers_count %}employed by {{count}} organisation{% plural %}employed by {{count}} organisations{% endblocktranslate %}
+            </a>
+            {% endif %}
+          {% elif employers_count %}
+            <a href="{{lv_url}}?{% listview_q_argument relations__type=REL_OBJ_EMPLOYED_BY relations__object_entity=object.id %}">
+                {% blocktranslate count count=employers_count %}Employed by {{count}} organisation{% plural %}Employed by {{count}} organisations{% endblocktranslate %}
+            </a>
+          {% endif %}
+        </div>
+      {% elif total_count %}
+        {% for orga in managed %}
+          <div class="card-job">
+              <span class="card-function">{% translate 'Manager' %}</span>, {% widget_entity_hyperlink orga user %}
+          </div>
+        {% endfor %}
+        {% for orga in employers %}
+          <div class="card-job">
+              <span class="card-function">{% translate 'Employee' %}</span>, {% widget_entity_hyperlink orga user %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endwith %}
+  {% endblock %}
+{% endblock %}
+
+{% block card_fields_title %}
+{% translate 'Details' context 'persons-contact' %}
+{% endblock %}
+
+{% block card_fields %}
+  {% get_hidden_fields object as hidden_fields %}
+  {% if 'phone' not in hidden_fields %}
+    <div class="card-info-field">
+        <span class='card-info-key'>{% translate 'Phone' %}</span>
+        <span class='card-info-value'>
+            {{object.phone|default:'—'}}
+            {% brick_card_action_for_field instance=object field='phone' user=user %}
+        </span>
+    </div>
+  {% endif %}
+  {% if 'mobile' not in hidden_fields %}
+    <div class="card-info-field">
+        <span class='card-info-key'>{% translate 'Mobile' %}</span>
+        <span class='card-info-value'>
+            {{object.mobile|default:'—'}}
+            {% brick_card_action_for_field instance=object field='mobile' user=user %}
+        </span>
+    </div>
+  {% endif %}
+  {% if 'email' not in hidden_fields %}
+    <div class="card-info-field">
+        <span class='card-info-key'>{% translate 'Email address' %}</span>
+        {% with email=object.email %}
+        {% if email %}
+        <span class='card-info-value' data-type='email'><a href='mailto:{{email}}'>{{email}}</a>
+        {% else %}
+        <span class='card-info-value'>—
+        {% endif %}
+        {% brick_card_action_for_field instance=object field='email' user=user %}
+        </span>
+        {% endwith %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% comment %} EXAMPLE of deletion button with a custom callback URL;
+should we reduce the number of lines to copy/paste?
+(the deletor could return the callback URL, but should it know that we clicked on it from the detail-view, and not another view?)
+
+{% block delete_button %}
+ {% load get_deletion_info from creme_core_tags %}
+ {% get_deletion_info entity=object user=user as deletion %}
+ {% if deletion.enabled %}
+  <div class='card-action'>
+    {% if deletion.error %}
+      {% brick_card_button action='creme_core-detailview-delete' label=deletion.label help_text=deletion.error url='#' icon='delete' enabled=False %}
+    {% else %}
+      {% brick_card_button action='creme_core-detailview-delete' label=deletion.label url=deletion.url __callback_url='creme_core__home'|url icon='delete' confirm=deletion.confirmation enabled=True %}
+    {% endif %}
+  </div>
+ {% endif %}
+{% endblock %}
+
+{% endcomment %}
+
+{% block card_summary %}
+  {% for summary_ctxt in summaries %}
+    {% if summary_ctxt.template_name %}{% include summary_ctxt.template_name with summary=summary_ctxt %}{% endif %}
+  {% endfor %}
+{% endblock %}
+
+{% block card_history %}
+{% include 'persons/bricks/frags/contact-card-history.html' %}
+{% endblock %}

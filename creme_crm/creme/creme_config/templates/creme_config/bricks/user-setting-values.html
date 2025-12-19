@@ -1,0 +1,39 @@
+{% extends 'creme_core/bricks/base/list.html' %}
+{% load i18n creme_bricks %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-user-settings-brick{% if not values_per_app %} is-empty{% endif %}{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Setting value') plural=_('{count} Setting values') empty=verbose_name icon='config' count=count %}
+{% endblock %}
+
+{% block brick_content %}
+  {% for app_label, app_vname, app_sv_info in values_per_app %}
+    <div class="brick-list-item setting-values-config-item setting-values-config-item-{{app_label}}">
+        <div class="setting-values-config-app-name">{{app_vname}}</div>
+        <div class="setting-values-config-values brick-table">
+            <table class="brick-table-content">
+                <thead>
+                    <tr>
+                        {% brick_table_column title=_('Description') %}
+                        {% brick_table_column title=_('Value') %}
+                        {% brick_table_column title=_('Action') status='action' %}
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for sv_info in app_sv_info %}
+                    <tr>
+                        <td>{{sv_info.description}}</td>
+                        <td>{% if sv_info.not_set %}<em>{% translate 'N/A' %}</em>{% else %}{{sv_info.value}}{% endif %}</td>
+                        <td {% brick_table_data_status action %}>
+                            {% brick_table_action id='edit' url='creme_config__edit_user_setting'|url:sv_info.key_id label=_('Edit this value') %}
+                        </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+  {% endfor %}
+{% endblock %}

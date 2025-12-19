@@ -1,0 +1,103 @@
+{% extends "creme_core/tests/testbase.html" %}
+
+{% block test_title %}Creme ListView Widget{% endblock %}
+
+{% block test_header %}
+    <style>
+        .listview-test .title {
+            width: 10em;
+        }
+        
+        .listview-test span {
+            display: inline-block;
+        }
+
+        .listview-test .ui-icon-close {
+            vertical-align: middle;
+            margin-left: -20px;
+        }
+        
+        .listview-test .ui-icon-close:hover {
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript">
+    (function() {
+        var openFilterSelection = function(ctId, qFilter, multiple, listeners) {
+            var url = "{% url 'creme_core__listview_popup' %}";
+
+            var action = new creme.lv_widget.ListViewDialogAction({
+                                                 url: url,
+                                                 selectionMode: multiple ? 'multiple' : 'single',
+                                                 data: {
+                                                     ct_id: ctId,
+                                                     q_filter: qFilter
+                                                 }
+                                             });
+
+            return action.one(listeners).start();
+        };
+
+        var openFilterView = function(ctId, qFilter) {
+            var url = "{% url 'creme_core__listview_popup' %}";
+
+            var action = new creme.lv_widget.ListViewDialogAction({
+                                                 url: url,
+                                                 selectionMode: 'none',
+                                                 data: {
+                                                     ct_id: ctId,
+                                                     q_filter: qFilter
+                                                 }
+                                             });
+            action.start();
+        };
+
+        $(document).ready(function() {
+            $('.listview-open.select').on('click', function() {
+                var multiple = $(this).is('[multiple]');
+                var ctype = $(this).attr('ctype');
+                var target = $(this).attr('target') || '';
+                var filter = $(this).attr('filter') || '';
+
+                openFilterSelection(ctype, filter, multiple, {
+                    done: function(event, data) {
+                        $('#' + target).val(data.join(','));
+                    }
+                });
+            });
+
+            $('.listview-open.view').on('click', function() {
+                var ctype = $(this).attr('ctype');
+                // var target = $(this).attr('target') || '';
+                var filter = $(this).attr('filter') || '';
+
+                openFilterView(ctype, filter);
+            });
+
+            $('.listview-test .ui-icon-close').on('click', function() {
+                $('#' + $(this).attr('target')).val('');
+            });
+        });
+    }());
+    </script>
+{% endblock %}
+{% block test_content %}
+    <ul>
+        <li class="listview-test">
+            <span class="title">Contacts&nbsp;</span>
+            <a class="listview-open select" ctype="{{TEST_CONTENTTYPES.contact}}" target="contacts">single</a>&nbsp;|
+            <a class="listview-open select" ctype="{{TEST_CONTENTTYPES.contact}}" target="contacts" multiple>multiple&nbsp;|</a>
+            <a class="listview-open view"   ctype="{{TEST_CONTENTTYPES.contact}}" target="contacts">view&nbsp;</a>
+            <input id="contacts" type="text" disabled><span class="ui-icon ui-icon-close" target="contacts"></span>
+        </li>
+        <li class="listview-test">
+            <span class="title">Contacts (filtered)&nbsp;</span>
+            {% with qfilter='{&quot;op&quot;: &quot;EQ&quot;, &quot;val&quot;: [[&quot;first_name&quot;, &quot;Fulbert&quot;]]}'  %}
+            <a class="listview-open select" ctype="{{TEST_CONTENTTYPES.contact}}" target="contacts-filtered" filter="{{qfilter}}">single</a>&nbsp;|
+            <a class="listview-open select" ctype="{{TEST_CONTENTTYPES.contact}}" target="contacts-filtered" filter="{{qfilter}}" multiple>multiple&nbsp;|</a>
+            <a class="listview-open view"   ctype="{{TEST_CONTENTTYPES.contact}}" target="contacts-filtered" filter="{{qfilter}}">view&nbsp;</a>
+            <input id="contacts-filtered" type="text" disabled><span class="ui-icon ui-icon-close" target="contacts-filtered"></span>
+            {% endwith %}
+        </li>
+    </ul>
+{% endblock %}

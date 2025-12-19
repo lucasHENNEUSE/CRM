@@ -1,0 +1,17 @@
+{% load i18n creme_widgets %}{% load format_string_brace_named from creme_core_tags %}
+{% with length=items|length %}
+{% if length < threshold %}
+    {% for item in items %}{% widget_join %}<span class="enumerator-item">{{item}}</span>{% end_widget_join %}{% empty %}<span class="enumerator-empty">{{empty_label}}</span>{% endfor %}
+{% else %}
+    <a data-action="popover">
+        {% if summary is None %}
+            {% blocktranslate with count=length %}{{count}} items{% endblocktranslate %}
+        {% else %}
+            {% format_string_brace_named summary count=length %}
+        {% endif %}
+        <details>
+            <ul>{% for item in items %}<li>{{item}}</li>{% endfor %}</ul>
+        </details>
+    </a>
+{% endif %}
+{% endwith %}

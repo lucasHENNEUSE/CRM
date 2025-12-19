@@ -1,0 +1,204 @@
+{% load i18n creme_cells creme_ctype creme_listview creme_query creme_widgets %}
+{% load get_by_index get_entity_html_attrs get_value not_op from creme_core_tags %}
+
+{% with cells=header_filters.selected.filtered_cells %}
+{# TODO: replace it by a div after complete refactor of button/link bindings #}
+<form class="ui-creme-widget widget-auto ui-creme-listview" widget="ui-creme-listview" selection-mode="{{selection_mode}}"
+      {% if reload_url %}reload-url="{{reload_url}}"{% endif %}>
+{% listview_header_colspan cells=cells is_readonly=is_popup_view is_single_select=o2m as colspan %}
+<div class="list-header-container{% if not is_popup_view %} sticky-container sticky-container-standalone{% endif %}">
+    <div class="list-header sticks-horizontally">
+        <div class="list-title-container">
+            <span class="list-title">
+              {% block lv_title %}
+                <span class="list-main-title">{{list_title}}</span>
+                {% if list_sub_title %}<span class="list-sub-title-separator">—</span><span class="list-sub-title">{{list_sub_title}}</span>{% endif %}
+                {% if paginator.count > 0 %}
+                <span class="list-title-stats">
+                  {% if page_obj.start_index %}{# TODO: per paginator-class stats templatetag ?? #}
+                    <span class="typography-parenthesis">(</span>{{page_obj.start_index}}&nbsp;–&nbsp;{{page_obj.end_index}} / {{paginator.count}}<span class="typography-parenthesis">)</span>
+                  {% else %}
+                    <span class="typography-parenthesis">(</span>{{paginator.count}}<span class="typography-parenthesis">)</span>
+                  {% endif %}
+                </span>
+                {% endif %}
+              {% endblock %}
+            </span>
+            <div class="list-controls">
+              {% block lv_controls %}
+                <div class="list-control-group list-filters">
+                    {% listview_entity_filters model=model user=user efilters=entity_filters show_buttons=is_popup_view|not_op %}
+                </div>
+                <div class="list-control-group list-views">
+                    {% listview_header_filters model=model user=user hfilters=header_filters show_buttons=is_popup_view|not_op %}
+                </div>
+              {% endblock %}
+            </div>
+        </div>
+        <div class="list-header-buttons clearfix">
+          {% block lv_header_buttons %}
+            {% if not is_popup_view %}{% listview_buttons model=model buttons=buttons %}{% endif %}
+            <a class="with-icon do-search button-right" data-action="submit-lv-state">
+                {% translate 'Search' context 'creme_core-verb' as label %}
+                {{label}}
+                {% widget_icon name='search' label=label size='listview-button' %}
+            </a>
+            <a class="clear-search button-right{% if not search_form.search_q %} is-disabled{% endif %}" data-action="reset-lv-search">
+                {% translate 'Clear search' %}
+            </a>
+          {% endblock %}
+        </div>
+    </div>
+</div>
+
+<table class="listview {% if is_popup_view %}listview-popup{% else %}listview-standalone{% endif %} listview-selection-{{selection_mode}}" cellpadding="0" cellspacing="0" data-total-count="{{paginator.count}}">
+    <thead>
+        <tr class="lv-state-form">
+            <th>
+              {% block lv_hidden_buttons %}
+                <input class="lv-state-field" value="{{list_view_state.sort_cell_key|default:''}}" type="hidden" name="sort_key" />
+                <input class="lv-state-field" value="{{list_view_state.sort_order}}"        type="hidden" name="sort_order" />
+                <input class="lv-state-field" value=""                                      type="hidden" name="selected_rows" />
+                <input class="lv-state-field" value="{{selection_mode}}"                    type="hidden" name="selection" />
+                <input class="lv-state-field" value="{{extra_q.requested|query_serialize}}" type="hidden" name="q_filter" />
+                {% with ctype=model|ctype_for_instance %}
+                <input class="lv-state-field" value="{{ctype.id}}"                          type="hidden" name="ct_id" />
+                {% endwith %}
+              {% endblock %}
+            </th>
+        </tr>
+        <tr class="lv-columns-header">
+          {% block lv_columns_headers %}
+            {% if is_selection_multiple %}<th class="choices"><input name="select_all" value="all" type="checkbox" title="{% translate 'Select all' %}"/></th>{% endif %}
+            {% for cell in cells %}
+             {% if cell.is_hidden %}
+              <th class="lv-column-hidden" style="display:none;"></th>
+             {% elif cell.type_id == 'actions' %}
+              <th class="actions">{% listview_header_actions cell=cell user=user %}</th>
+             {% else %}{# NB: TMP - this header currently adds the css class cell.listview_css_class until semantic information is provided in the template context #}
+              {# TODO: should this header also add the cell.header_listview_css_class ? #}
+              <th data-column-key="{{cell.key}}" class="lv-column{% if cell.key == list_view_state.sort_cell_key %} sorted{% if list_view_state.sort_order == 'DESC' %} reverse{% endif %}{% endif %}{% if cell|cell_is_sortable:cell_sorter_registry %} sortable{% endif %} cl_lv{% if cell.is_hidden %} lv-cell-hidden{% endif %} {{cell.listview_css_class}}"
+                  colspan="{{cell|listview_column_colspan:is_popup_view}}">
+                  <button type="button" {% if cell|cell_is_sortable:cell_sorter_registry %}title="{% blocktranslate with col_title=cell.title %}Sort by {{col_title}}{% endblocktranslate %}"{% else %}disabled="true"{% endif %}>
+                      <div>
+                          <span class="lv-sort-toggle-flag ui-icon {% if list_view_state.sort_order == 'DESC' %}ui-icon-triangle-1-s{% else %}ui-icon-triangle-1-n{% endif %}">&nbsp;</span>
+                          <span class="lv-sort-toggle-title">{{cell.title}}</span>
+                          <span class="lv-sort-toggle-flag ui-icon {% if list_view_state.sort_order == 'DESC' %}ui-icon-triangle-1-s{% else %}ui-icon-triangle-1-n{% endif %}">&nbsp;</span>
+                      </div>
+                  </button>
+              </th>
+             {% endif %}
+            {% endfor %}
+          {% endblock %}
+        </tr>
+        <tr class="lv-search-header">
+          {% block lv_search_header %}
+            {% if is_selection_multiple %}<th class="choices">&nbsp;</th>{% endif %}
+            {% for cell in cells %}
+             {% if cell.is_hidden %}
+              <th class="lv-column-hidden" style="display:none;"></th>
+             {% elif cell.type_id == 'actions' %}
+              <th class="actions" colspan="{{cell|listview_column_colspan:is_popup_view}}">
+                  <span class='lv-search-title'>{% translate 'Quick search' %}</span>
+              </th>
+             {% else %}
+              <th class="lv-column {{cell.header_listview_css_class}} {{cell.listview_css_class}}{% if search_form.cleaned_data|get_by_index:cell.key %} search{% endif %}{% if cell.key == list_view_state.sort_cell_key %} sorted{% endif %}"
+                  colspan="{{cell|listview_column_colspan:is_popup_view}}">
+                  {{search_form|get_by_index:cell.key}}
+              </th>
+             {% endif %}
+            {% endfor %}
+          {% endblock %}
+        </tr>
+    </thead>
+    <tbody>
+     {% block lv_content_rows %}
+      {% if aggregations %}
+        <tr class="lv-row lv-row-aggregation odd">
+            {% if is_selection_multiple %}<td class="choices">&nbsp;</td>{% endif %}
+            {% for cell in cells %}
+              {% if cell.type_id == 'actions' %}
+               <td class="lv-actions actions"><span class="lv-aggregation-title">{% translate 'Statistics' %}</span></td>
+              {% else %}
+               <td class="lv-cell lv-cell-content lv-column cl_lv{% if cell.is_hidden %} lv-cell-hidden{% endif %} {{cell.listview_css_class}}" data-column-key="{{cell.key}}"{% if cell.is_hidden %} style="display:none;"{% endif %}>
+                 {% with agg_results=aggregations|get_value:cell.key %}
+                   {% if agg_results %}<ul class="aggregation-results">{% for agg_result in agg_results %}<li>{{agg_result.render}}</li>{% endfor %}</ul>{% endif %}
+                 {% endwith %}
+               </td>
+               {% if not is_popup_view %}
+                <td class="lv-cell lv-cell-action lv-column cl_lv"{% if cell.is_hidden %} style="display:none;"{% endif %}>&nbsp;</td>
+               {% endif %}
+              {% endif %}
+            {% endfor %}
+        </tr>
+      {% endif %}
+      {% for entity in page_obj.object_list %}
+        <tr class="lv-row{% if is_selection_enabled %} selectable{% endif %}{% cycle ' odd' '' %}" {% get_entity_html_attrs entity %}>
+            {% if is_selection_multiple %}<td class="choices"><input name="select_one" value="{{entity.pk}}" type="checkbox" /></td>{% endif %}
+            <td style="display:none;"><input type="hidden" name="entity_id" value="{{entity.pk}}" /></td>
+            {% for cell in cells %}
+             {% block lv_content_cell %}
+              {% if cell.type_id == 'actions' %}
+               <td class="lv-actions actions">{% listview_entity_actions cell=cell instance=entity user=user %}</td>
+              {% else %}
+               <td class="lv-cell lv-cell-content{% if cell.key == list_view_state.sort_cell_key %} sorted{% endif %} lv-column cl_lv{% if cell.is_hidden %} lv-cell-hidden{% endif %} {{cell.listview_css_class}}" name="{{cell.key}}" {% if cell.is_hidden %}style="display:none;"{% endif %}>
+                   {% cell_render cell=cell instance=entity user=user tag=view_tag as cell_content %}
+                   {% with data_type=cell.data_type %}
+                   <div class="lv-cell-value{% if cell.is_multiline %} lv-cell-multiline-value{% endif %}{% if not cell_content %} lv-cell-empty-value{% endif %}" {% if data_type %}data-type="{{data_type}}"{% endif %}>
+                       {{cell_content}}
+                   </div>
+                   {% endwith %}
+               </td>
+               {% if not is_popup_view %}
+                <td class="lv-cell lv-cell-action{% if cell.key == list_view_state.sort_cell_key %} sorted{% endif %} lv-column cl_lv{% if cell.is_hidden %} lv-cell-hidden{% endif %}" {% if cell.is_hidden %}style="display:none;"{% endif %}>
+                   {% listview_td_action_for_cell cell=cell instance=entity user=user %}
+                </td>
+               {% endif %}
+              {% endif %}
+             {% endblock %}
+            {% endfor %}
+        </tr>
+      {% empty %}
+        <tr>
+            <td colspan="{{colspan}}">{% translate 'No entity exists / matches your search' %}</td>
+        </tr>
+      {% endfor %}
+     {% endblock %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="{{colspan}}">
+                <div class='list-footer-container sticks-horizontally'>
+                  {% block lv_footer %}
+                    <div class='list-footer-stats'>
+                    {% with start_index=page_obj.start_index %}
+                      {% if start_index %}{# TODO: per paginator-class footer-stats templatetag ?? (see similar question in title section #}
+                        {% blocktranslate with end_index=page_obj.end_index entities_count=paginator.count %}Recordings {{start_index}} - {{end_index}} on {{entities_count}}{% endblocktranslate %}
+                      {% else %}
+                        {% blocktranslate count entities_count=paginator.count %}{{entities_count}} recording{% plural %}{{entities_count}} recordings{% endblocktranslate %}
+                      {% endif %}
+                    {% endwith %}
+                    </div>
+
+                    {% if paginator.num_pages > 1 %}{% listview_pager page_obj %}{% else %}<div class='listview-pagination'></div>{% endif %}
+
+                    <div class='list-footer-page-selector'>
+                        <label>{% translate 'Nb / Page:' %}
+                            <div class="select-wrapper">
+                                <select name="rows" class="lv-state-field list-pagesize-selector">
+                                  {% with rows=paginator.per_page %}
+                                    {% for size_option in page_sizes %}<option value="{{size_option}}"{% if rows == size_option %} selected{% endif %}>{{size_option}}</option>{% endfor %}
+                                  {% endwith %}
+                                </select>
+                                <div class="select-arrow"></div>
+                            </div>
+                        </label>
+                    </div>
+                  {% endblock %}
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</form>
+{% endwith %}

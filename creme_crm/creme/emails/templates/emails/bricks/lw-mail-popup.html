@@ -1,0 +1,39 @@
+{% extends 'creme_core/bricks/base/tiles.html' %}
+{% load i18n creme_bricks creme_cells %}
+
+{% block brick_extra_class %}{{block.super}} brick-detailview-popup emails-lw-email-brick{% endblock %}
+
+{% block brick_header %}
+    {% with campaign=object.sending.campaign %}
+    {# NB: 'view' credentials checked in the view function #}
+    <a class="complete-detailview" href="{{campaign.get_absolute_url}}">{% blocktranslate %}Full detailview of the campaign «{{campaign}}»{% endblocktranslate %}</a>
+    {% endwith %}
+{% endblock %}
+
+{% block brick_content %}
+{% with sending=object.sending %}
+    {% cell_4_regularfield instance=object  field='reads'        as reads_cell   %}{% brick_tile_for_cell reads_cell   object  user %}
+    {% cell_4_regularfield instance=object  field='status'       as status_cell  %}{% brick_tile_for_cell status_cell  object  user %}
+    {% cell_4_regularfield instance=object  field='sender'       as sender_cell  %}{% brick_tile_for_cell sender_cell  object  user %}
+    {% cell_4_regularfield instance=object  field='recipient'    as recip_cell   %}{% brick_tile_for_cell recip_cell   object  user %}
+    {% cell_4_regularfield instance=sending field='subject'      as subject_cell %}{% brick_tile_for_cell subject_cell sending user %}
+    {% cell_4_regularfield instance=object  field='sending_date' as sdate_cell   %}{% brick_tile_for_cell sdate_cell   object  user %}
+
+    {% cell_4_regularfield instance=sending field='attachments' as attachments_cell %}{% brick_tile_for_cell attachments_cell sending user %}
+
+    {% if sending.body_html %}
+    <div class="brick-tile brick-tile-multiline-value" data-type="html" data-key="regular_field-body_html">
+        <span class="brick-tile-name">{% cell_4_regularfield instance=sending field='body_html' %}</span>
+        <span class="brick-tile-value">
+            <iframe src="{% url 'emails__lw_mail_body' object.id %}" frameborder="0" width="100%"></iframe>
+        </span>
+    </div>
+    {% else %}
+    {% cell_4_regularfield instance=sending field='body_html' as body_cell %}
+    {% brick_tile label=body_cell.title value=object.rendered_body|force_escape|linebreaksbr multiline=True %}
+    {% endif %}
+
+    {% cell_4_regularfield instance=sending field='signature' as sign_cell    %}{% brick_tile_for_cell sign_cell    sending user %}
+    {% cell_4_regularfield instance=object  field='sending'   as sending_cell %}{% brick_tile_for_cell sending_cell object  user %}
+{% endwith %}
+{% endblock %}

@@ -1,0 +1,245 @@
+# FR LOCALISATION OF 'CRUDITY' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Creme-Crudity 2.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-14 17:18+0200\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "External data management"
+msgstr "Gestion des données externes"
+
+msgid "External data"
+msgstr "Données externes"
+
+msgid "Imported from external data."
+msgstr "Importé depuis des données externes."
+
+#, python-brace-format
+msgid "Creation of {entity}"
+msgstr "Création de {entity}"
+
+msgid "Error: you are not allowed to view this block: {}"
+msgstr "Erreur : vous n'avez pas la permission de voir ce bloc : {}"
+
+msgid "Waiting actions"
+msgstr "Actions en attente"
+
+msgid "History"
+msgstr "Historique"
+
+#, python-brace-format
+msgid "Synchronize externals data sent to {software}"
+msgstr "Synchroniser les données externes envoyées à {software}"
+
+msgid ""
+"The configured default user is invalid. Edit the job's configuration to fix "
+"it."
+msgstr ""
+"L'utilisateur par défaut configuré est invalide. Modifiez la configuration "
+"pour la réparer."
+
+#, python-brace-format
+msgid "There is {count} change"
+msgid_plural "There are {count} changes"
+msgstr[0] "Il y a {count} changement"
+msgstr[1] "Il y a {count} changements"
+
+msgid "Default owner user"
+msgstr "Utilisateur propriétaire par défaut"
+
+msgid ""
+"E.g. user owning emails/folder/documents created during the emails "
+"synchronization."
+msgstr ""
+"Ex: l'utilisateur possédant les e-mails/dossier/documents créés pendant la "
+"synchronisation des e-mails"
+
+msgid "Email - Raw"
+msgstr "E-mail - Simple"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "File - INI"
+msgstr "Fichier - INI"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Source"
+msgstr "Source"
+
+msgid "Type of resource"
+msgstr "Type de ressource"
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Waiting action"
+msgstr "Action en attente"
+
+msgid "You are not allowed to validate/delete the waiting action <{}>"
+msgstr ""
+"Vous n'avez pas la permission à valider/effacer cette action en attente <{}>"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Entity"
+msgstr "Fiche"
+
+msgid "Creation date"
+msgstr "Date de création"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Tools"
+msgstr ""
+
+msgid "Are waiting actions are by user?"
+msgstr "Est-ce que les actions en attente sont par utilisateur ?"
+
+#, python-format
+msgid "Download email template for «%(model)s»"
+msgstr "Télécharger un modèle d'e-mail pour «%(model)s»"
+
+#, python-format
+msgid "File .ini template for «%(model)s»"
+msgstr "Modèle de fichier .ini pour «%(model)s»"
+
+#, python-format
+msgid "%(count)s History item - %(model)s"
+msgid_plural "%(count)s History items - %(model)s"
+msgstr[0] "%(count)s entrée d'historique - %(model)s"
+msgstr[1] "%(count)s entrées d'historique - %(model)s"
+
+#, python-format
+msgid "History items - %(model)s"
+msgstr "Entrées d'historique - %(model)s"
+
+msgid "Created"
+msgstr "Créé"
+
+#, python-format
+msgid "No history for «%(ctype)s»"
+msgstr "Aucun historique pour «%(ctype)s»"
+
+#, python-format
+msgid "%%s Action selected"
+msgstr "%%s Action sélectionnée"
+
+#, python-format
+msgid "%%s Actions selected"
+msgstr "%%s Actions sélectionnées"
+
+#, python-format
+msgid "%(count)s Waiting action - %(model)s - %(source)s"
+msgid_plural "%(count)s Waiting actions - %(model)s - %(source)s"
+msgstr[0] "%(count)s action en attente - %(model)s - %(source)s"
+msgstr[1] "%(count)s actions en attente - %(model)s - %(source)s"
+
+#, python-format
+msgid "Waiting actions - %(model)s - %(source)s"
+msgstr "Actions en attente - %(model)s - %(source)s"
+
+msgid "Validate"
+msgstr "Valider"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Select all"
+msgstr "Tout sélectionner"
+
+msgid "Data"
+msgstr "Données"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Select this line"
+msgstr "Sélectionner cette ligne"
+
+#, python-format
+msgid "No waiting action for «%(ctype)s» from «%(backend)s»"
+msgstr "Aucune action en attente pour «%(ctype)s» venant de «%(backend)s»"
+
+msgid "History of automated creations"
+msgstr "Historique des créations automatisées"
+
+msgid "Refresh"
+msgstr "Recharger"
+
+msgid ""
+"No external data source is configured. Please contact your administrator "
+"(settings.CRUDITY_BACKENDS)."
+msgstr ""
+"Aucune source de données externes n'est configurée. Veuillez contacter votre "
+"administrateur (settings.CRUDITY_BACKENDS)."
+
+# Already in creme_core
+msgid "Operation successfully completed"
+msgstr ""
+
+#~ msgid "Invalid email"
+#~ msgstr "E-mail invalide"
+
+#~ msgid "Email waiting actions"
+#~ msgstr "Actions en attente pour les e-mails"
+
+#~ msgid "Download"
+#~ msgstr "Télécharger"
+
+#~ msgid "Email template for «%(verbose_name)s»"
+#~ msgstr "Modèle d'e-mail pour «%(verbose_name)s»"
+
+#~ msgid "Ressource's type"
+#~ msgstr "Type de ressource"
+
+#~ msgid "View entity's file"
+#~ msgstr "Voir la fiche de la fiche"
+
+#~ msgid "View '%(history_entity)s' details"
+#~ msgstr "Voir les détails de '%(history_entity)s'"
+
+#~ msgid "View"
+#~ msgstr "Voir"
+
+#~ msgid "No waiting action for %(ct_name)s"
+#~ msgstr "Aucune action en attente pour %(ct_name)s"
+
+#~ msgid "Validate the selection"
+#~ msgstr "Valider la sélection"
+
+#~ msgid "Delete the selection"
+#~ msgstr "Supprimer la sélection"
+
+#~ msgid "Read"
+#~ msgstr "Lire"
+
+#~ msgid "Update"
+#~ msgstr "Mettre à jour"
+
+#~ msgid "Backend's name"
+#~ msgstr "Nom du backend"
+
+#~ msgid "Portal"
+#~ msgstr "Portail"

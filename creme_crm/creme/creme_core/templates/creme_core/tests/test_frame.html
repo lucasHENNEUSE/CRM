@@ -1,0 +1,552 @@
+{% extends "creme_core/tests/testbase.html" %}
+{% load media %}
+
+{% block test_title %}Creme Frame Widget{% endblock %}
+
+{% block test_header %}
+    <style type="text/css">
+        ul div.ui-creme-frame[widget="ui-creme-frame"] {
+            width:640px;
+            min-height: 200px;
+            border: 1px solid gray;
+        }
+
+        #dynamic-frame table {
+            width:640px;
+            min-height: 200px;
+        }
+        
+        #popup > div {
+            padding: 5px 0px 5px 5px;
+        }
+
+        #popup input[type="checkbox"] {
+            vertical-align: middle;
+        }
+
+        form.popup-form {
+            min-width: 25em;
+            clear:both;
+        }
+
+        .popup-form-field label {
+            font-weight: bold;
+            min-width: 10em;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .popup-form-field input, form.popup-form textarea {
+            min-width: 10em;
+            text-align: left;
+        }
+
+        .popup-form-field select {
+            min-width: 10em;
+        }
+    </style>
+
+    <script type="text/javascript">
+    var LOREM_IPSUM = (
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In interdum leo ut mi eleifend rutrum. " +
+        "Morbi aliquam augue vel elit molestie sagittis. Aenean suscipit, purus lacinia hendrerit accumsan, " +
+        "risus erat placerat tortor, non rhoncus tellus orci sed libero. Maecenas erat ligula, scelerisque " +
+        "id interdum in, semper eu metus. Integer eget eros nec nisi pellentesque congue. Sed quis lacinia " +
+        "magna. Etiam eget nulla sit amet ligula fringilla ornare. In euismod adipiscing lacus, nec congue" +
+        "elit vulputate vel. Phasellus et velit lacus, id ultricies odio. Fusce imperdiet vehicula justo, " +
+        "nec gravida velit bibendum porta."
+    ).split(" ");
+
+    var MOCK_BLOCK_LIST = "{% filter escapejs %}{% include 'creme_core/tests/bricks/dummy-list-frame.html' %}{% endfilter %}";
+
+    function randomText(words) {
+        var half = words.length / 2;
+        var start = Math.random() * (half - 1);
+        var end = (1 + Math.random()) * half;
+
+        words = words.slice(start, end);
+        words[0] = words[0].capitalize();
+
+        return words.join(" ");
+    }
+
+    function randomParagraphs(words, paragraphs) {
+        paragraphs = paragraphs || 1;
+        var text = "";
+
+        for (var index = 0; index < paragraphs; ++index) {
+            text += "<p>" + randomText(words, paragraphs - 1) + "</p>";
+        }
+
+        return text;
+    }
+
+    function openConfirm(dialog, confirm) {
+        if (confirm) {
+            new creme.dialog.ConfirmDialog(gettext('Are you sure?'), {
+                defaultButtonLabels: {'ok': gettext('Confirm')},
+                id: 'confirm-dialog'
+            }).onOk(function() {
+                dialog.open();
+            }).open();
+        } else {
+            dialog.open();
+        }
+    }
+
+    $(document).ready(function() {
+        var mockbackend = new creme.ajax.MockAjaxBackend({
+            sync: false,
+            delay: 500,
+            debug: true
+        });
+
+        mockbackend.GET = {'mock/notfound':         mockbackend.response(404, 'HTTP - Not Found'),
+                           'mock/forbidden':        mockbackend.response(403, 'HTTP - Forbidden'),
+                           'mock/error':            mockbackend.response(500, 'HTTP - Internal Error'),
+                           'mock/form':             mockbackend.response(200, $('#mock-form').text().format('mock/form')),
+                           'mock/wizard/A':         mockbackend.response(200, $('#mock-wizard-A').text()),
+                           'mock/wizard/B':         mockbackend.response(200, $('#mock-wizard-B').text()),
+                           'mock/wizard/C':         mockbackend.response(200, $('#mock-wizard-C').text())
+                          };
+
+        for (var index = 1; index <= 12; ++index) {
+            mockbackend.GET['mock/content/' + index] = function() {
+                return mockbackend.response(200, '<center><h2>Page %d</h2></center><div>%s</div>'.format(index, randomText(LOREM_IPSUM)));
+            };
+        }
+
+        var mockPOST = function(name, redirect) {
+            return function(url, form) {
+                form = form || {};
+
+                var response = (form.response || ['200'])[0];
+                var value = (form.value || [''])[0];
+
+                if (response === '200' && (Object.isEmpty(value) || !name)) {
+                    return mockbackend.GET[redirect || url];
+                }
+
+                return mockbackend.response(parseInt(response), value);
+            };
+        };
+
+        mockbackend.POST = {
+            'mock/form': mockPOST('name'),
+            'mock/wizard/A': mockPOST('', 'mock/wizard/B'),
+            'mock/wizard/B': mockPOST('', 'mock/wizard/C'),
+            'mock/wizard/C': mockPOST('value')
+        };
+
+        function parseSize(value) {
+            if (value.endsWith('%')) {
+                return value;
+            }
+
+            var res = parseInt(value);
+            return isNaN(res) ? null : res;
+        }
+
+        $('.ui-creme-frame').each(function() {
+            $(this).creme().create({backend: mockbackend});
+        });
+
+        $('#static-frame .fill-frame').on('click', function() {
+            $('#static-frame > .ui-creme-frame.widget-ready').creme().widget().fill('<center><h2>%s</h2></center><div>%s</div>'.format('Static Page', randomText(LOREM_IPSUM)));
+        });
+
+        $('#static-frame .reset-frame').on('click', function() {
+            $('#static-frame > .ui-creme-frame.widget-ready').creme().widget().reset();
+        });
+
+        $('#dynamic-frame .reload-frame').on('click', function() {
+            $('#dynamic-frame .ui-creme-frame.widget-ready').each(function() {
+                $(this).creme().widget().reload();
+            });
+        });
+
+        $('#dynamic-frame .redirect-frame').on('change', function() {
+            var url = $(this).val() || '';
+            $('#dynamic-frame .ui-creme-frame.widget-ready').each(function() {
+                $(this).creme().widget().reload('mock/' + url);
+            });
+        });
+
+        $('#dynamic-frame .reset-frame').on('click', function() {
+            $('#dynamic-frame .ui-creme-frame.widget-ready').each(function() {
+                $(this).creme().widget().reset();
+            });
+        });
+
+        $('#dynamic-frame table').resizable();
+
+        $('#popup .popup-html').on('click', function() {
+            var count = parseInt($('#popup .popup-html-paragraph').val());
+            var content = '<center><h2>%s</h2></center><div>%s</div>'.format('Static Popup', randomParagraphs(LOREM_IPSUM, count));
+            var minWidth = parseSize($('#popup .popup-minwidth').val());
+            var minHeight = parseSize($('#popup .popup-minheight').val());
+            var stackCount = parseInt($('#popup .popup-html-stackcount').val());
+
+            var scroll = $('#popup input.popup-scroll-background').is(':checked') ? 'background' : 'frame';
+            var closeOnEscape = $('#popup input.popup-closeonescape').is(':checked');
+            var scrollbackOnClose = $('#popup input.popup-scrollbackonclose').is(':checked');
+            var defaultButtonLabels = {'close': '%d paragraph(s)'.format(count)};
+
+            if (stackCount === 1) {
+                var dialog = creme.dialogs.html(content, {
+                    minHeight: minHeight,
+                    minWidth: minWidth,
+                    maxHeight: 480,
+                    title: 'Static',
+                    scroll: scroll,
+                    scrollbackOnClose: scrollbackOnClose,
+                    closeOnEscape: closeOnEscape,
+                    defaultButtonLabels: defaultButtonLabels,
+                    id: 'static-popup',
+                    propagateEvent: true
+                });
+
+                openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+            } else {
+                var dialogs = [];
+
+                for (var index = 0; index < stackCount; ++index) {
+                    var dialogContent = '<center><h2>%s</h2></center><div>%s</div>'.format('Stacked', randomParagraphs(LOREM_IPSUM, count));
+                    dialogs.push(creme.dialogs.html(dialogContent, {
+                        minHeight: minHeight,
+                        minWidth: minWidth,
+                        maxHeight: 480,
+                        title: 'Stacked popup #%d'.format(index + 1),
+                        scroll: scroll,
+                        scrollbackOnClose: scrollbackOnClose,
+                        closeOnEscape: closeOnEscape,
+                        defaultButtonLabels: defaultButtonLabels,
+                        id: 'stacked-popup-%d'.format(index + 1),
+                        propagateEvent: true
+                    }));
+                }
+
+                dialogs.forEach(function(d, index) {
+                    d.open();
+                });
+            }
+        });
+
+        $('#popup .popup-block').on('click', function() {
+            var dialog = creme.dialogs.html(MOCK_BLOCK_LIST, {
+                width: '80%',
+                title: 'Static',
+                scroll: $('#popup input.popup-scroll-background').is(':checked') ? 'background' : 'frame',
+                closeOnEscape: $('#popup input.popup-closeonescape').is(':checked'),
+                scrollbackOnClose: $('#popup input.popup-scrollbackonclose').is(':checked'),
+                id: 'blocklist-popup',
+                propagateEvent: true
+            });
+
+            dialog.on('frame-activated', function() {
+                var content = this.content();
+
+                $('.block-refresh', content).on('click', function() {
+                    dialog.fill(MOCK_BLOCK_LIST);
+                });
+            });
+
+            openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+        });
+
+        $('#popup .popup-form button').on('click', function() {
+            // var confirm = $('#popup input.popup-confirm').val();
+            var url = $(this).attr('data-url') || 'mock/form';
+            var reloadOnSuccess = $('#popup .popup-form [name="formreload"]').is(':checked');
+            var redirectOnSuccess = $('#popup .popup-form [name="formredirect"]').is(':checked');
+            var redirectOnSuccessUrl = $('#popup .popup-form [name="formredirecturl"]').val();
+
+            var dialog = creme.dialogs.form(url, {
+                                           backend: mockbackend,
+                                           title: 'Form',
+                                           compatible: false,
+                                           minWidth: parseSize($('#popup .popup-minwidth').val()),
+                                           minHeight: parseSize($('#popup .popup-minheight').val()),
+                                           closeOnEscape: $('#popup input.popup-closeonescape').is(':checked'),
+                                           scroll: $('#popup input.popup-scroll-background').is(':checked') ? 'background' : 'frame',
+                                           autoFocus: $('#popup .popup-form [name="autofocus"]').is(':checked'),
+                                           submitOnKey: $('#popup .popup-form [name="submitkey"]').is(':checked') ? 13 : false,
+                                           scrollbackOnClose: $('#popup input.popup-scrollbackonclose').is(':checked'),
+                                           reloadOnSuccess: reloadOnSuccess,
+                                           redirectOnSuccess: !Object.isEmpty(redirectOnSuccessUrl) ? redirectOnSuccessUrl : redirectOnSuccess,
+                                           propagateEvent: true,
+                                           id: 'form-popup'
+                                       })
+                                      .onFormSuccess(function(event, data) {
+                                           console.log('submitted >', data);
+                                       })
+                                      .onClose(function() {
+                                          console.log('canceled');
+                                       });
+
+            openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+        });
+
+        $('#popup .popup-fetch button').on('click', function() {
+            var url = 'mock/' + ($('#popup .popup-fetch .popup-url').val() || '');
+            var dialog = creme.dialogs.url(url, {
+                                           backend: mockbackend,
+                                           title: url,
+                                           closeOnEscape: $('#popup input.popup-closeonescape').is(':checked'),
+                                           scroll: $('#popup input.popup-scroll-background').is(':checked') ? 'background' : 'frame',
+                                           minWidth: parseSize($('#popup .popup-minwidth').val()),
+                                           minHeight: parseSize($('#popup .popup-minheight').val()),
+                                           scrollbackOnClose: $('#popup input.popup-scrollbackonclose').is(':checked')
+                                       });
+
+            openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+        });
+
+        $('#popup button.popup-error-url').on('click', function() {
+            var url = '/test_http_response?status=' + ($('#popup .popup-error-status').val() || '');
+            var dialog = creme.dialogs.url(url, {
+                title: url,
+                minWidth: parseSize($('#popup .popup-minwidth').val()),
+                minHeight: parseSize($('#popup .popup-minheight').val()),
+                closeOnEscape: $('#popup input.popup-closeonescape').is(':checked'),
+                scroll: $('#popup input.popup-scroll-background').is(':checked') ? 'background' : 'frame',
+                scrollbackOnClose: $('#popup input.popup-scrollbackonclose').is(':checked')
+            });
+
+            openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+        });
+
+        $('#popup button.popup-image').on('click', function() {
+            var url = '{% media_url "common/images/logos/hybird.png" %}';
+            var dialog = creme.dialogs.image(url, {
+                title: $('#popup  [name="image-title"]').is(':checked') ? url : false,
+                closeOnEscape: $('#popup input.popup-closeonescape').is(':checked'),
+                scrollbackOnClose: $('#popup input.popup-scrollbackonclose').is(':checked')
+            });
+
+            openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+        });
+
+        $('#popup button.popup-select').on('click', function() {
+            var choices = [{label: 'A', value: 1}, {label: 'B', value: 2}, {label: 'C', value: 3}];
+            var dialog = creme.dialogs.choice('Choose a value', {
+                choices: choices,
+                selected: 2,
+                closeOnEscape: $('#popup input.popup-closeonescape').is(':checked'),
+                scroll: $('#popup input.popup-scroll-background').is(':checked') ? 'background' : 'frame',
+                scrollbackOnClose: $('#popup input.popup-scrollbackonclose').is(':checked')
+            }).onOk(function(e, value) {
+                console.log('selected > ', value);
+            });
+
+            openConfirm(dialog, $('#popup input.popup-confirm').is(':checked'));
+        });
+});
+    </script>
+{% endblock %}
+{% block test_content %}
+    <script type="text/html" id="mock-form">
+        <form class="popup-form" action="%s">
+            <div class="popup-form-field">
+                <label for="value">Value</label>
+                <input type="number" name="value"/>
+            </div>
+            <div class="popup-form-field">
+                <label for="name">Name</label>
+                <input type="text" name="name" required/>
+            </div>
+            <div class="popup-form-field">
+                <label for="comment">Comment</label>
+                <textarea widget="ui-creme-editor" name="comment" class="ui-creme-editor ui-creme-widget widget-auto" basepath="tiny_mce"></textarea>
+            </div>
+            <div class="popup-form-field">
+                <label for="image">Image</label>
+                <input type="file"/>
+            </div>
+            <div class="popup-form-field">
+                <label for="response">Response</label>
+                <select name="response" widget="ui-creme-dselect" class="ui-creme-widget ui-creme-dselect widget-auto" autocomplete>
+                    <options>
+                        <option value="200">Ok</option>
+                        <option value="404">Not Found</option>
+                        <option value="500">Internal Error</option>
+                        <option value="403">Forbidden</option>
+                    </options>
+                </select>
+            </div> 
+        </form>
+    </script>
+    <script type="text/html" id="mock-wizard-A">
+        <div class="ui-creme-dialog-titlebar">Step A</div>
+        <form class="popup-form" action="mock/wizard/A">
+            <div class="popup-form-field">
+                <label for="name">Name</label>
+                <input type="text" name="name" required/>
+            </div>
+            <div class="popup-form-field">
+                <label for="response">Response</label>
+                <select name="response" widget="ui-creme-dselect" class="ui-creme-widget ui-creme-dselect widget-auto" autocomplete>
+                    <options>
+                        <option value="200">Ok</option>
+                        <option value="404">Not Found</option>
+                        <option value="500">Internal Error</option>
+                        <option value="403">Forbidden</option>
+                    </options>
+                </select>
+            </div>
+            <input type="submit" class="ui-creme-dialog-action" value="Next"/>
+        </form>
+    </script>
+    <script type="text/html" id="mock-wizard-B">
+        <div class="ui-creme-dialog-titlebar">
+            <a class="ui-creme-dialog-action" href="mock/wizard/A">Step A</a> − Step B
+        </div>
+        <form class="popup-form" action="mock/wizard/B">
+            <div class="popup-form-field">
+                <label for="value">Value</label>
+                <input type="number" name="value"/>
+            </div>
+            <div class="popup-form-field">
+                <label for="response">Response</label>
+                <select name="response" widget="ui-creme-dselect" class="ui-creme-widget ui-creme-dselect widget-auto" autocomplete>
+                    <options>
+                        <option value="200">Ok</option>
+                        <option value="404">Not Found</option>
+                        <option value="500">Internal Error</option>
+                        <option value="403">Forbidden</option>
+                    </options>
+                </select>
+            </div>
+            <a class="ui-creme-dialog-action" href="mock/wizard/A">Step A</button>
+            <input class="ui-creme-dialog-action" type="submit" value="Next"/>
+        </form>
+    </script>
+    <script type="text/html" id="mock-wizard-C">
+        <div class="ui-creme-dialog-titlebar">
+            <a class="ui-creme-dialog-action" href="mock/wizard/A">Step A</a> − 
+            <a class="ui-creme-dialog-action" href="mock/wizard/B">Step B</a> − Step C
+        </div>
+        <form class="popup-form" action="mock/wizard/C">
+            <div class="popup-form-field">
+                <label for="value">Value</label>
+                <input type="number" name="value"/>
+            </div>
+            <div class="popup-form-field">
+                <label for="response">Response</label>
+                <select name="response" widget="ui-creme-dselect" class="ui-creme-widget ui-creme-dselect widget-auto" autocomplete>
+                    <options>
+                        <option value="200">Ok</option>
+                        <option value="404">Not Found</option>
+                        <option value="500">Internal Error</option>
+                        <option value="403">Forbidden</option>
+                    </options>
+                </select>
+            </div>
+            <a class="ui-creme-dialog-action" href="mock/wizard/B">Step B</button>
+            <input class="ui-creme-dialog-action" type="submit" value="Finish"/>
+        </form>
+    </script>
+    <ul>
+        <li id="static-frame">
+            <h4>Static frame</h4>
+            <div>
+                <button class="fill-frame"  type="button">Fill</button>
+                <button class="reset-frame" type="button">Reset</button>
+            </div>
+            <div class="ui-creme-widget ui-creme-frame" widget="ui-creme-frame"></div>
+        </li>
+        <li id="popup">
+            <h4>Popup</h4>
+            <div>
+                Options:&nbsp;<label><input type="checkbox" value="1" class="popup-confirm"/>Confirm</label>
+                &nbsp;<label><input type="checkbox" value="1" class="popup-scroll-background"/>Scroll background</label>
+                &nbsp;<label><input type="checkbox" value="1" class="popup-closeonescape"/>Close on ESC</label>
+                &nbsp;<label><input type="checkbox" value="1" class="popup-scrollbackonclose"/>Scroll back on close</label>
+                &nbsp;|&nbsp;Minimum&nbsp;<select class="popup-minwidth">
+                    <option value="150">150</option>
+                    <option value="300">300</option>
+                    <option value="800">800</option>
+                    <option value="1024">1024</option>
+                </select>&nbsp;x&nbsp;<select class="popup-minheight">
+                    <option value="150">150</option>
+                    <option value="300">300</option>
+                    <option value="800">800</option>
+                    <option value="1024">1024</option>
+                </select>
+            </div>
+            <div>
+            </div>
+            <div>
+                <button type="button" class="popup-html">Static</button>
+                <select class="popup-html-paragraph">
+                    <options>
+                        <option value="1">1 paragraphe</option>
+                        <option value="2">2 paragraphes</option>
+                        <option value="5">5 paragraphes</option>
+                        <option value="10">10 paragraphes</option>
+                        <option value="15">15 paragraphes</option>
+                    </options>
+                </select>
+                <select class="popup-html-stackcount">
+                    <option value="1">1 stacked</option>
+                    <option value="2">2 stacked</option>
+                    <option value="5">5 stacked</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" class="popup-block">Static - Blocks</button>
+            </div>
+            <div>
+                <button type="button" class="popup-image">Static - Image</button>
+                <label><input type="checkbox" value="1" name="image-title" checked/>Use title</label>&nbsp;
+            </div>
+            <div>
+                <button type="button" class="popup-select">Static - Select</button>
+            </div>
+            <div class="popup-form">
+                <button type="button" data-url="mock/form">Form</button>
+                <button type="button" data-url="mock/wizard/A">Wizard</button>
+                <label><input type="checkbox" value="1" name="autofocus" checked/>Auto focus</label>&nbsp;
+                <label><input type="checkbox" value="1" name="submitkey" checked/>Submit on enter</label>
+                <label><input type="checkbox" value="1" name="formreload"/>Reload</label>
+                <label><input type="checkbox" value="1" name="formredirect"/>Redirect to</label>
+                <select name="formredirecturl">
+                    <option value="">response URL</option>
+                    <option value="/test_widget/checklistselect">test_widget/checklistselect</option>
+                </select>
+            </div>
+            <div class="popup-fetch">
+                <button>Dynamic</button>
+                Url:&nbsp;mock/<input type="text" class="popup-url" value="content/1"/>
+            </div>
+            <div>
+                <button type="button" class="popup-error-url">Error</button>
+                Url:&nbsp;test_http_response?status=<select class="popup-error-status">
+                    <option value="400">400</option>
+                    <option value="403">403</option>
+                    <option value="404">404</option>
+                    <option value="409">409</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+        </li>
+        <li id="dynamic-frame">
+            <h4>Dynamic frame</h4>
+            <div>
+                <button type="button" class="reload-frame">Reload</button>
+                <button type="button" class="reset-frame">Reset</button>
+                Url:&nbsp;mock/<input type="text" class="redirect-frame"/>
+            </div>
+            <div class="ui-creme-widget ui-creme-frame" widget="ui-creme-frame" url="mock/content/1"></div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="ui-creme-widget ui-creme-frame" widget="ui-creme-frame" url="mock/content/2"></td>
+                        <td class="ui-creme-widget ui-creme-frame" widget="ui-creme-frame" url="mock/content/3"></td>
+                        <td class="ui-creme-widget ui-creme-frame" widget="ui-creme-frame" url="mock/content/4"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
+{% endblock %}

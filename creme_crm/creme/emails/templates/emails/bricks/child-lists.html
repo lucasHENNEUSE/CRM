@@ -1,0 +1,35 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} emails-child-lists-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Child List') plural=_('{count} Child Lists') empty=_('Child Lists') icon='email' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='link' url='emails__add_child_mlists'|url:object.id label=_('Add a child list') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='name' title=_('Name of the list') status='primary' %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with edit_perm=user|has_perm_to_change:object rm_child_url='emails__remove_child_mlist'|url:object.id %}
+  {% for mailinglist in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink mailinglist user %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=rm_child_url __id=mailinglist.pk label=_('Remove this mailing list') icon='unlink' enabled=edit_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No child list for the moment' %}
+{% endblock %}

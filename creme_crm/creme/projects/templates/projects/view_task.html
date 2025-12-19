@@ -1,0 +1,11 @@
+{% extends 'creme_core/generics/view_entity.html' %}
+{% load i18n creme_widgets %}
+
+{% block global_buttons %}
+    <li>
+        <a class="menu_button menu-button-icon" href="{{object.linked_project.get_absolute_url}}">{% translate 'Back to the project' as back_label %}
+            {% widget_icon name='previous' size='global-button' label=back_label %}
+            {{back_label}}
+        </a>
+    </li>
+{% endblock %}

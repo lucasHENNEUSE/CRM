@@ -1,0 +1,512 @@
+# FR LOCALISATION OF 'SMS' APP
+# Copyright (C) 2024 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme SMS 2.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-14 18:08+0200\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "SMS"
+msgstr "SMS"
+
+msgid "Marketing"
+msgstr "Marketing"
+
+msgid "Messaging lists"
+msgstr "Listes de diffusion"
+
+msgid "Not linked recipients"
+msgstr "Destinataires manuels"
+
+msgid ""
+"Allows to add simple phone number to the current Messaging list. These "
+"numbers are not related to a Contact.\n"
+"Hint: if you want to send SMS to Contacts, you should use the other block to "
+"add recipients.\n"
+"App: SMS"
+msgstr ""
+"Permet d'ajouter des simples numéros de téléphone à la Liste de Diffusion. "
+"Ces numéros ne sont pas relatifs à des Contacts.\n"
+"Astuce : si vous voulez envoyer des SMS à des Contacts, vous devriez "
+"utiliser l'autre bloc pour ajouter des destinataires.\n"
+"App : SMS"
+
+msgid "Contact-recipients"
+msgstr "Contacts destinataires"
+
+msgid "Sent messages"
+msgstr "Messages envoyés"
+
+msgid "Sendings"
+msgstr "Envois"
+
+msgctxt "sms"
+msgid "Creation form for campaign"
+msgstr "Formulaire de création de campagne"
+
+msgctxt "sms"
+msgid "Edition form for campaign"
+msgstr "Formulaire de modification de campagne"
+
+msgctxt "emails"
+msgid "Creation form for template"
+msgstr "Formulaire de création de patron"
+
+msgctxt "emails"
+msgid "Edition form for template"
+msgstr "Formulaire de modification de patron"
+
+msgid "Creation form for messaging list"
+msgstr "Formulaire de création de liste de diffusion"
+
+msgid "Edition form for messaging list"
+msgstr "Formulaire de modification de liste de diffusion"
+
+msgid "Lists"
+msgstr "Listes"
+
+msgid "Message template"
+msgstr "Patron de message"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+msgid "Filters"
+msgstr "Filtres"
+
+# Already n creme_core
+msgctxt "creme_core-filter"
+msgid "All"
+msgstr ""
+
+msgid "Recipients"
+msgstr "Destinataires"
+
+msgid "One phone number per line"
+msgstr "Un numéro de téléphone par ligne"
+
+msgid ""
+"A text file where each line contains digits (which can be separated by space "
+"characters).\n"
+"Only digits are used and empty lines are ignored.\n"
+"Examples: '00 56 87 56 45' => '0056875645'; 'abc56def' => '56'"
+msgstr ""
+"Fournir un fichier texte dont chaque ligne contient des chiffres séparés ou "
+"non par des espaces.\n"
+"Seul les chiffres seront pris en compte et les lignes vides ignorées.\n"
+"Exemples: '00 56 87 56 45' => '0056875645'; 'abc56def' => '56'"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Credit"
+msgstr "Crédit"
+
+msgid "Group"
+msgstr "Groupe"
+
+msgid "SMS account"
+msgstr "Compte plateforme SMS"
+
+msgid "SMS accounts"
+msgstr "Comptes plateforme SMS"
+
+msgid "Name of the campaign"
+msgstr "Nom de la campagne"
+
+msgid "Related messaging lists"
+msgstr "Listes de diffusion associées"
+
+msgid "Create a SMS campaign"
+msgstr "Créer une campagne SMS"
+
+msgctxt "sms"
+msgid "Save the campaign"
+msgstr "Enregistrer la campagne"
+
+msgid "SMS campaign"
+msgstr "Campagne de SMS"
+
+msgid "SMS campaigns"
+msgstr "Campagnes de SMS"
+
+msgctxt "sms"
+msgid "Not sent"
+msgstr "Non envoyé"
+
+msgctxt "sms-plural"
+msgid "Not sent"
+msgstr "Non envoyés"
+
+msgctxt "sms"
+msgid "Waiting"
+msgstr "En attente"
+
+msgctxt "sms-plural"
+msgid "Waiting"
+msgstr "En attente"
+
+msgctxt "sms"
+msgid "Accepted"
+msgstr "Accepté"
+
+msgctxt "sms-plural"
+msgid "Accepted"
+msgstr "Acceptés"
+
+msgctxt "sms"
+msgid "Sent"
+msgstr "Envoyé"
+
+msgctxt "sms-plural"
+msgid "Sent"
+msgstr "Envoyés"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Errors"
+msgstr "Erreurs"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Related campaign"
+msgstr "Campagne associée"
+
+msgid "Generated message"
+msgstr "Message généré"
+
+msgctxt "sms"
+msgid "Create a sending"
+msgstr "Créer un envoi"
+
+msgctxt "sms"
+msgid "Save the sending"
+msgstr "Enregistrer l'envoi"
+
+msgid "Sending"
+msgstr "Envoi"
+
+#, python-brace-format
+msgctxt "sms"
+msgid "Sending of «{campaign}» on {date}"
+msgstr "Envoi de «{campaign}» du {date}"
+
+msgid "Number"
+msgstr "Numéro"
+
+msgid "State"
+msgstr "État"
+
+msgid "Full state"
+msgstr "État détaillé"
+
+msgctxt "sms"
+msgid "Message"
+msgstr "Message"
+
+msgctxt "sms"
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Unknown"
+msgstr "Inconnu"
+
+msgid "Create a messaging list"
+msgstr "Créer une liste de diffusion (SMS)"
+
+msgid "Save the messaging list"
+msgstr "Enregistrer la liste de diffusion"
+
+msgid "SMS messaging list"
+msgstr "Liste de diffusion SMS"
+
+msgid "SMS messaging lists"
+msgstr "Listes de diffusion SMS"
+
+msgid "Related messaging list"
+msgstr "Liste de diffusion associée"
+
+msgid "Add a recipient"
+msgstr "Ajouter un destinataire"
+
+msgid "Save the recipient"
+msgstr "Enregistrer le destinataire"
+
+msgid "Save the recipients"
+msgstr "Enregistrer les destinataires"
+
+msgid "Recipient"
+msgstr "Destinataire"
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgctxt "sms"
+msgid "Message body"
+msgstr "Corps du message"
+
+msgid ""
+"Message with a maximum of 160 characters.\n"
+"Beware, the header matters (+ 3 characters) and the following characters "
+"count double: {}"
+msgstr ""
+"Message de 160 caractères maximum.\n"
+"Attention, l'en-tête compte (+ 3 caractères) et les caractères suivant "
+"comptent double: {}"
+
+#, python-format
+msgid "Message is too long (%(length)s > %(max_length)s)"
+msgstr "Message trop long (%(length)s > %(max_length)s)"
+
+msgctxt "sms-template"
+msgid "Create a template"
+msgstr "Créer un patron"
+
+msgctxt "sms-template"
+msgid "Save the template"
+msgstr "Enregistrer le patron"
+
+msgid "SMS Message template"
+msgstr "Patron de message SMS"
+
+msgid "SMS Messages templates"
+msgstr "Patrons de message SMS"
+
+msgid "Messaging list view"
+msgstr "Vue de Liste de Diffusion"
+
+msgid "Campaign view"
+msgstr "Vue de Campagne"
+
+msgid "Message template view"
+msgstr "Vue de patron de message"
+
+#, python-brace-format
+msgid "{count} Contact-recipient"
+msgstr "{count} Contact destinataire"
+
+#, python-brace-format
+msgid "{count} Contact-recipients"
+msgstr "{count} Contacts destinataires"
+
+msgid "Add from a filter"
+msgstr "Ajouter à partir d'un filtre"
+
+msgid "Add contacts"
+msgstr "Ajouter des contacts"
+
+msgid "Action"
+msgstr ""
+
+msgid ""
+"The field «Mobile» of Contact is hidden; in order to use this block, you "
+"have to reactivate it (so please contact your administrator)."
+msgstr ""
+"Le champ «Mobile» de Contact est caché ; pour pouvoir utiliser ce bloc, vous "
+"devez le réactiver (donc veuillez contacter votre administrateur)."
+
+msgid "no number"
+msgstr "pas de numéro"
+
+msgid "Remove this contact"
+msgstr "Enlever ce contact"
+
+msgid "No contact recipient for the moment"
+msgstr "Aucun contact destinataire pour le moment"
+
+#, python-brace-format
+msgid "{count} Message"
+msgstr "{count} Message"
+
+#, python-brace-format
+msgid "{count} Messages"
+msgstr "{count} Messages"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Status message"
+msgstr "Message de statut"
+
+msgid "Delete this message"
+msgstr "Supprimer ce message"
+
+msgid "No message in this sending"
+msgstr "Aucun message dans cet envoi"
+
+#, python-brace-format
+msgid "{count} Related messaging list"
+msgstr "{count} Liste de diffusion associée"
+
+#, python-brace-format
+msgid "{count} Related messaging lists"
+msgstr "{count} Listes de diffusion associées"
+
+msgid "Add existing messaging lists"
+msgstr "Ajouter des listes de diffusion existantes"
+
+msgid "Remove this messaging list"
+msgstr "Enlever la liste de diffusion"
+
+msgid "No related messaging list for the moment"
+msgstr "Aucune liste de diffusion associée pour le moment"
+
+#, python-brace-format
+msgid "{count} Not linked recipient"
+msgstr "{count} Destinataire manuel"
+
+#, python-brace-format
+msgid "{count} Not linked recipients"
+msgstr "{count} Destinataires manuels"
+
+msgid "Add from a CSV file"
+msgstr "Ajouter à partir d'un fichier CSV"
+
+msgid "Add manually"
+msgstr "Ajouter à la main"
+
+msgctxt "sms"
+msgid "Delete this recipient"
+msgstr "Supprimer ce destinataire"
+
+msgid "No recipient for the moment"
+msgstr "Aucun destinataire pour le moment"
+
+#, python-brace-format
+msgid "{count} Sending"
+msgstr "{count} Envoi"
+
+#, python-brace-format
+msgid "{count} Sendings"
+msgstr "{count} Envois"
+
+msgid "New sending"
+msgstr "Nouvel envoi"
+
+msgid "Sending date"
+msgstr "Date d'envoi"
+
+msgid "Number of SMS"
+msgstr "Nombre de SMS"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Actions"
+msgstr ""
+
+msgid "Synchronize"
+msgstr "Synchroniser"
+
+msgid "Can't synchronize"
+msgstr "Synchronisation interdite"
+
+msgid "Delete this sending"
+msgstr "Supprimer cet envoi"
+
+msgid "No sending for the moment"
+msgstr "Aucun envoi pour le moment"
+
+#, python-brace-format
+msgid "New messaging lists for «{entity}»"
+msgstr "Nouvelles listes de diffusion pour «{entity}»"
+
+msgid "Link the messaging lists"
+msgstr "Lier les listes de diffusion"
+
+#, python-brace-format
+msgid "New contacts for «{entity}»"
+msgstr "Nouveaux contacts pour «{entity}»"
+
+msgid "Link the contacts"
+msgstr "Lier les contacts"
+
+#, python-brace-format
+msgid "New recipients for «{entity}»"
+msgstr "Nouveaux destinataires pour «{entity}»"
+
+#, python-brace-format
+msgid "New sending for «{entity}»"
+msgstr "Nouvel envoi pour «{entity}»"
+
+#~ msgid "Name of the messaging list"
+#~ msgstr "Nom de la liste de diffusion"
+
+#~ msgid "Body"
+#~ msgstr "Corps"
+
+#~ msgid "Following lists are already related to this campaign: %(lists)s"
+#~ msgstr ""
+#~ "La(es) liste(s) suivante(s) est déja présente dans la campagne: %(lists)s"
+
+#~ msgid "Portal of SMS"
+#~ msgstr "Portail des SMS"
+
+#~ msgid "All campaigns"
+#~ msgstr "Lister les campagnes"
+
+#~ msgid "All messaging lists"
+#~ msgstr "Lister les listes de diffusion"
+
+#~ msgid "All message templates"
+#~ msgstr "Lister les patrons de message"
+
+#~ msgid "SMS Campaigns portal"
+#~ msgstr "Portail Campagnes de SMS"
+
+#~ msgid "Number of campaigns"
+#~ msgstr "Nombre de campagne(s)"
+
+#~ msgid "Number of messaging lists"
+#~ msgstr "Nombre de liste(s) de diffusion"
+
+#~ msgid "Number of sendings"
+#~ msgstr "Nombre d'envoi(s)"
+
+#~ msgid "Unlink"
+#~ msgstr "Délier"
+
+#~ msgid "Send"
+#~ msgstr "Envoyer"
+
+#~ msgid "Can't send"
+#~ msgstr "Envoi interdit"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Messaging list"
+#~ msgstr "Liste de diffusion"
+
+#~ msgid "Name of the list"
+#~ msgstr "Nom de la liste"
+
+#~ msgid "Add a messaging list"
+#~ msgstr "Ajouter une liste de diffusion"
+
+#~ msgid "Add a message template"
+#~ msgstr "Ajouter un patron de message"
+
+#~ msgid "Add from existing contacts"
+#~ msgstr "Ajouter depuis des contacts existants"
+
+#~ msgid "Campaign"
+#~ msgstr "Campagne"
+
+#~ msgid "Add lists"
+#~ msgstr "Ajouter des listes"

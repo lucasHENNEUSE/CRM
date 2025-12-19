@@ -1,0 +1,75 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load and_op app_verbose_name print_field uca_sort url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-property-types-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Type of property') plural=_('{count} Types of property') empty=verbose_name icon='property' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='creme_config__create_ptype'|url label=_('New custom type of property') enabled=user|has_perm_to_admin:'creme_core' %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='text'           status='primary nowrap' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='subject_ctypes' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='description' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='app_label' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='is_copiable'    status='nowrap' %}
+    {% brick_table_column title=_('Statistics') %}
+    {% brick_table_column title=_('Actions') status='action' colspan=3 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with admin_perm=user|has_perm_to_admin:'creme_core' %}
+  {% for prop_type in page.object_list %}
+    <tr {% if not prop_type.enabled %}class="property-type-disabled"{% endif %} >
+        <td {% brick_table_data_status primary %} class="property-label">{% widget_hyperlink prop_type %}</td>
+        <td class="property-subjects">
+            {% widget_enumerator prop_type.subject_ctypes.all|uca_sort threshold=8 empty=_('No related type of resource') summary=_('{count} types of resource') %}
+        </td>
+        <td class="property-description">{% if prop_type.description %}{{prop_type.description|linebreaks}}{% else %}—{% endif %}</td>
+        <td class="property-app_label">{% if prop_type.app_label %}{{prop_type.app_label|app_verbose_name:HIDDEN_VALUE}}{% else %}—{% endif %}</td>
+        <td class="property-copiable">{% print_field object=prop_type field='is_copiable' %}</td>
+        <td class="property-count">
+            {% blocktranslate count count=prop_type.properties_count %}{{count}} entity with this property{% plural %}{{count}} entities with this property{% endblocktranslate %}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% if prop_type.enabled %}
+            {% brick_table_action id='update' url='creme_config__disable_ptype'|url:prop_type.id label=_('Disable') display='text' enabled=admin_perm %}
+          {% else %}
+            {% brick_table_action id='update' url='creme_config__enable_ptype'|url:prop_type.id  label=_('Enable')  display='text' enabled=admin_perm %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>{# TODO: factorise reasons with detail-view #}
+          {% if prop_type.enabled %}
+           {% if not admin_perm %}
+            {% brick_table_action id='edit' label=_('You are not allowed to edit this property type') enabled=False %}
+           {% elif not prop_type.is_custom %}
+            {% brick_table_action id='edit' label=_('This property type cannot be edited') enabled=False %}
+           {% else %}
+            {% brick_table_action id='edit' url='creme_config__edit_ptype'|url:prop_type.id label=_('Edit this property type') %}
+           {% endif %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% if not admin_perm %}
+            {% brick_table_action id='delete' label=_('You are not allowed to delete this property type') enabled=False %}
+          {% elif not prop_type.is_custom %}
+            {% brick_table_action id='delete' label=_('This property type cannot be deleted') enabled=False %}
+          {% elif prop_type.properties_count %}
+            {% brick_table_action id='delete' label=_('This property type cannot be deleted because it is used') enabled=False %}
+          {% else %}
+            {% brick_table_action id='delete' url=prop_type.get_delete_absolute_url label=_('Delete this property type') %}
+          {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No type of property for the moment' %}
+{% endblock %}

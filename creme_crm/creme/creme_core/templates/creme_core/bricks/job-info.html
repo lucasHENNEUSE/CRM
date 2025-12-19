@@ -1,0 +1,122 @@
+{% extends 'creme_core/bricks/base/table.html' %}
+{% load i18n creme_bricks %}{% load is_ajax url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_core-job-brick{% endblock %}
+
+{% block brick_script %}{# TODO: in .js ?? #}
+  {% if not request|is_ajax and not job.is_finished %}
+    <script type="text/javascript">
+        $('.brick[data-brick-id="{{brick_id}}"]').on('brick-ready', function(e, brick, options) {
+            var jobs = new creme.jobs.BrickJobsMonitor(brick, {
+                url: '{% url 'creme_core__jobs_info' %}'
+            });
+            jobs.on('finished', function() { creme.utils.reload(); });
+            jobs.fetch();
+        });
+    </script>
+  {% endif %}
+{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('Information on the job') %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if job.get_config_form_class %}
+    {% brick_header_action id='edit' url=job.get_edit_absolute_url label=_("Edit the job's configuration") %}
+  {% endif %}
+
+  {% if job.is_finished and job.user %}
+    {% brick_header_action id='update-redirect' url=job.get_delete_absolute_url type='delete' label=_('Delete the job') __back_url=list_url %}
+  {% endif %}
+
+  {% if not job.user %}
+   {% if job.enabled %}
+    {% brick_header_action id='update' url='creme_core__disable_job'|url:job.id label=_('Disable') icon='cancel' enabled=user.is_superuser %}
+   {% else %}
+    {% brick_header_action id='update' url='creme_core__enable_job'|url:job.id  label=_('Enable')  icon='ok'     enabled=user.is_superuser %}
+   {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_head %}{% endblock %}
+
+{% block brick_before_content %}
+    <div class="global-error hidden"></div>
+
+    {% if job.enabled and not job.user and user.is_superuser and job.status == JOB_WAIT %}
+    <div class="help-box">{% translate 'Disabling takes effect only after the current execution.' %}</div>
+    {% endif %}
+{% endblock %}
+
+{% block brick_table_rows %}
+{% comment %}
+    <tr>
+        <td>{% translate 'Type' %}</td>
+        <td>{{job.type}}</td>
+    </tr>
+{% endcomment %}
+    <tr>
+        <td>{% translate 'App' %}</td>
+        <td>{{job.type.app_config.verbose_name}}</td>
+    </tr>
+    {% if job.user %}
+    <tr>
+        <td>{% translate 'User' %}</td>
+        <td>{{job.user}}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>{% translate 'Description' %}</td>
+        <td>
+         {% with description=job.description %}{# TODO: factorise #}
+          {% if description|length > 1 %}
+            <ul>{% for elt in description %}<li>{{elt}}</li>{% endfor %}</ul>
+          {% else %}
+            {{description.0|default:'—'}}
+          {% endif %}
+         {% endwith %}
+        </td>
+    </tr>
+    {% if job.type.periodic != NOT_PERIODIC %}
+    <tr>
+        <td>{% translate 'Periodicity' %}</td>
+        <td data-type="list">
+            <ul>
+                <li>{% translate 'Reference run' %}: {{job.reference_run}}</li>
+                <li>{% translate 'Every' %}: {{job.real_periodicity}}</li>
+            </ul>
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>{% translate 'Last run' %}</td>
+        <td>{{job.last_run|default:_('Not run yet')}}</td>
+    </tr>
+    <tr>
+        <td>{% translate 'Status' %}</td>
+        <td data-job-id="{{job.id}}" data-job-status="{{job.status}}" data-job-ack-errors="{{job.ack_errors}}">
+            {{job.get_status_display}}
+            {% if not job.is_finished %}{{job.progress.render}}{% endif %}
+        </td>
+    </tr>
+    {% if job.status == JOB_OK %}
+    <tr>
+        <td>{% translate 'Statistics' %}</td>
+        <td>
+         {% with stats=job.stats %}{# TODO: factorise #}
+          {% if stats|length > 1 %}
+            <ul>{% for stat in stats %}<li>{{stat}}</li>{% endfor %}</ul>
+          {% else %}
+            {{stats.0|default:'—'}}
+          {% endif %}
+         {% endwith %}
+        </td>
+    </tr>
+    {% elif job.status == JOB_ERROR %}
+    <tr>
+        <td>{% translate 'Error' %}</td>
+        <td>{{job.error}}</td>
+    </tr>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'creme_core/bricks/base/base.html' %}
+{% load i18n commercial_tags %}
+
+{% block brick_extra_class %}{{block.super}} commercial-matrix-brick commercial-assets-charms-matrix-brick{% endblock %}
+
+{% block brick_content %}
+    <div class="commercial-matrix">
+        <table>
+            <tbody>
+                <tr>
+                    <th colspan="2"></th><th colspan="2" class="matrix-charms-title">{% translate "Charms" %}</th>
+                </tr>
+                <tr>
+                    <th colspan="2"></th><th class="matrix-charms">{% translate "Strong" %}</th><th class="matrix-charms">{% translate "Weak" %}</th>
+                </tr>
+                <tr>
+                    <th rowspan="2" class="matrix-assets-title">{% translate "Assets" %}</th><th class="matrix-assets">{% translate "Strong" %}</th>
+                    {% commercial_segments_for_category strategy orga 1 as segments %}
+                    <td class="strategy-cat" data-score="3" data-category="1">
+                        <ul>{% for segment in segments %}<li data-segment="{{segment.id}}" data-orga="{{orga.id}}">{{segment}}</li>{% endfor %}</ul>
+                    </td>
+                    {% commercial_segments_for_category strategy orga 2 as segments %}
+                    <td class="strategy-cat" data-score="2" data-category="2">
+                        <ul>{% for segment in segments %}<li data-segment="{{segment.id}}" data-orga="{{orga.id}}">{{segment}}</li>{% endfor %}</ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="matrix-assets">{% translate "Weak" %}</th>
+                    {% commercial_segments_for_category strategy orga 3 as segments %}
+                    <td class="strategy-cat" data-score="2" data-category="3">
+                        <ul>{% for segment in segments %}<li data-segment="{{segment.id}}" data-orga="{{orga.id}}">{{segment}}</li>{% endfor %}</ul>
+                    </td>
+                    {% commercial_segments_for_category strategy orga 4 as segments %}
+                    <td class="strategy-cat" data-score="1" data-category="4">
+                        <ul>{% for segment in segments %}<li data-segment="{{segment.id}}" data-orga="{{orga.id}}">{{segment}}</li>{% endfor %}</ul>
+                    </td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div class="matrix-legend">
+            <div class="strategy-cat" data-score="3">{% translate 'Priority segment' %}</div>
+            <div class="strategy-cat" data-score="2">{% translate 'Pool segment' %}</div>
+            <div class="strategy-cat" data-score="1">{% translate 'Abandoned segment' %}</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block brick_script %}
+<script type="text/javascript">
+$('.brick[data-brick-id="{{brick_id}}"]').on('brick-ready', function(e, brick) {
+    var element = $(this);
+    var url = '{% url 'commercial__set_segment_category' strategy.id %}';
+
+    $('.strategy-cat li', element).draggable({
+        containment: $('.commercial-matrix', element),
+        revert:      'invalid',
+        helper:      'clone',
+        cursor:      'move',
+
+        start: function (e, ui) {
+            var category = $(this).parents('td:first').attr('data-category');
+            $(this).addClass('is-dragging')
+                   .data('category', category);
+        },
+
+        stop: function (e, ui) {
+            $(this).removeClass('is-dragging');
+        }
+    });
+
+    $('.strategy-cat', element).droppable({
+        hoverClass: 'ui-state-hover',
+        drop: function (e, ui) {
+            var zone = $('ul', this);
+            var prev = parseInt(ui.draggable.data('category'));
+            var next = parseInt($(this).attr('data-category'));
+
+            if (prev !== next) {
+                var data = {
+                    category:        next,
+                    segment_desc_id: ui.draggable.attr('data-segment'),
+                    orga_id:         ui.draggable.attr('data-orga')
+                };
+
+                brick.action('update', url, {}, data)
+                     .on({
+                         done: function() { ui.draggable.appendTo(zone); },
+                         fail: function() { brick.refresh(); }
+                      })
+                     .start();
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

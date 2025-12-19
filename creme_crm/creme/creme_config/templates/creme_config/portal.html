@@ -1,0 +1,165 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+
+{% block page_title %}{% translate 'Configuration' %} - {% endblock %}
+
+{% block content_extra_class %}content-config-portal{% endblock %}
+
+{% block content %}
+    <div class="hat-bar-container">
+        <div class="hat-bar">
+            <div class="bar-icon">{% block logo %}{% widget_icon name='config' size='brick-hat-bar' label=_('Configuration') %}{% endblock %}</div>
+            <div class="bar-title">
+                <h1>{% block title %}{% translate 'Creme configuration portal' %}{% endblock %}</h1>
+            </div>
+        </div>
+    </div>
+
+    {% block portal_help %}{% endblock %}
+
+    {% block portal_bricks %}
+    <div class="brick brick-table creme_config-portal-general">
+        <div class="brick-header">
+            <div class="brick-title-container">
+                {% brick_header_title title=_('General') icon='config' %}
+            </div>
+        </div>
+        <div class="brick-content">
+            <table class="brick-table-content">
+                <tbody>
+                    <tr><td>
+                        <a href="{% url 'creme_config__world_settings' %}">{% translate 'Instance settings' %}</a>
+                        <span class="help-text">{% translate 'Some global settings, like menu icon' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__rtypes' %}">{% translate 'Relationship types settings' %}</a>
+                        <span class="help-text">{% translate 'See existing Relationship types, create customised ones' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__ptypes' %}">{% translate 'Property types settings' %}</a>
+                        <span class="help-text">{% translate 'See existing Property types, create new ones' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__fields' %}">{% translate 'Fields settings' %}</a>
+                        <span class="help-text">{% translate 'Hide or mark as required the existing fields of entities' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__custom_fields' %}">{% translate 'Custom fields settings' %}</a>
+                        <span class="help-text">{% translate 'Add new fields to entities' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__custom_entity_types' %}">{% translate 'Custom entity types settings' %}</a>
+                        <span class="help-text">{% translate 'Add new types of entity' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__custom_forms' %}">{% translate 'Custom forms settings' %}</a>
+                        <span class="help-text">{% translate 'Customise the forms (which fields, their order…) of entities' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__workflows' %}">{% translate 'Workflow rules settings' %}</a>
+                        <span class="help-text">{% translate 'Define automatic actions (adding properties, sending emails…)' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__bricks' %}">{% translate 'Blocks settings' %}</a>
+                        <span class="help-text">{% translate "Customise the blocks' locations on detailed views, homes & default «My page»" %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__menu' %}">{% translate 'Menu settings' %}</a>
+                        <span class="help-text">{% translate 'Customise the entries of the main menu' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__notification' %}">{% translate 'Notifications settings' %}</a>
+                        <span class="help-text">{% translate 'Customise the notification channels' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__buttons' %}">{% translate 'Button menu settings' %}</a>
+                        <span class="help-text">{% translate 'Customise the buttons of detailed views' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__search' %}">{% translate 'Search settings' %}</a>
+                        <span class="help-text">{% translate 'Set the fields which are inspected by the global search' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__history' %}">{% translate 'History settings' %}</a>
+                        <span class="help-text">{% translate 'Set the Relationship types used to generate related history lines' %}</span>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="brick brick-table creme_config-portal-credentials">
+        <div class="brick-header">
+            <div class="brick-title-container">
+                {% brick_header_title title=_('Credentials management') icon='config' %}
+            </div>
+        </div>
+        <div class="brick-content">
+            <table class="brick-table-content">
+                <tbody>
+                    <tr><td><a href="{% url 'creme_config__users' %}">{% translate 'Users settings' %}</a></td></tr>
+                    <tr><td><a href="{% url 'creme_config__roles' %}">{% translate 'Roles and credentials settings' %}</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="brick brick-table creme_config-portal-listviews">
+        <div class="brick-header">
+            <div class="brick-title-container">
+                {% brick_header_title title=_('List-views management') icon='config' %}
+            </div>
+        </div>
+        <div class="brick-content">
+            <table class="brick-table-content">
+                <tbody>
+                    <tr><td>
+                        <a href="{% url 'creme_config__efilters' %}">{% translate 'Filters settings' %}</a>
+                        <span class="help-text">{% translate 'Customise the filters which control the entities displayed in the list-views' %}</span>
+                    </td></tr>
+                    <tr><td>
+                        <a href="{% url 'creme_config__hfilters' %}">{% translate 'Views settings' %}</a>
+                        <span class="help-text">{% translate 'Customise the views which indicate the columns displayed in the list-views' %}</span>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{#    {% brick_declare bricks %} #}
+    {% brick_declare bricks.main %}
+{#    {% brick_display bricks %} #}
+    {% brick_display bricks.main %}
+
+    <div class="brick brick-table">
+        <div class="brick-header">
+            <div class="brick-title-container">
+                {% brick_header_title title=_('Applications portals') icon='config' %}
+            </div>
+        </div>
+        <div class="brick-content">
+            <table class="brick-table-content">
+              {% if app_configs %}
+                <tbody>
+                  {% for app_conf in app_configs %}
+                    <tr>
+                        <td>
+                          {% if user|has_perm_to_admin:app_conf.name %}
+                            <a href="{{app_conf.portal_url}}">{% blocktranslate with app_name=app_conf.verbose_name %}{{app_name}} configuration portal{% endblocktranslate %}</a>
+                          {% else %}
+                            <span class="forbidden">{% blocktranslate with app_name=app_conf.verbose_name %}{{app_name}} configuration portal{% endblocktranslate %}</span>
+                          {% endif %}
+                        </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              {% else %}
+                <thead>
+                    <tr><th>{% translate 'No application requires configuration' %}</th></tr>
+                </thead>
+              {% endif %}
+            </table>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% brick_end %}
+{% endblock %}

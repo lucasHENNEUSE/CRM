@@ -1,0 +1,24 @@
+{% extends 'creme_core/bricks/base/table.html' %}
+{% load i18n creme_bricks %}
+{% load format_amount from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} opportunities-total-brick{% endblock %}
+
+{% block brick_table_rows %}
+    <tr>
+        <td>
+            <h1 class="opportunities-total-exclusive opportunities-total-exclusive-label">{% translate 'Total (exclusive of tax)' %}</h1>
+        </td>
+        <td data-type="money">
+            <h1 class="opportunities-total-exclusive opportunities-total-exclusive-value">{{object.get_total|format_amount:object.currency}}</h1>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h1 class="opportunities-total-inclusive opportunities-total-inclusive-label">{% translate "Total (inclusive of tax)" %}</h1>
+        </td>
+        <td data-type="money">
+            <h1 class="opportunities-total-inclusive opportunities-total-inclusive-value">{{object.get_total_with_tax|format_amount:object.currency}}</h1>
+        </td>
+    </tr>
+{% endblock %}

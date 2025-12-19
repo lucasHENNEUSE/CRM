@@ -1,0 +1,53 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-custombricks-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Custom block') plural=_('{count} Custom blocks') empty=verbose_name icon='config' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='creme_config__create_custom_brick'|url label=_('New custom block') enabled=user|has_perm_to_admin:'creme_core' %}
+{% endblock %}
+
+{% block brick_before_content %}
+    <div class="help">
+        {% translate 'This kind of block can display information (fields, custom fields, relationships…) about the current entity. Once a type is created, it is available in the configuration of the corresponding detailed view.' %}
+    </div>
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Type')                         class='custombrick-config-type' %}
+    {% brick_table_column title=_('Name') status='primary nowrap' class='custombrick-config-label' %}
+    {% brick_table_column title=_('Fields')                       class='custombrick-config-fields' %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with admin_perm=user|has_perm_to_admin:'creme_core' delete_url='creme_config__delete_custom_brick'|url %}
+  {% for ctw in page.object_list %}
+   {% for config_item in ctw.items %}
+    <tr>
+        {% if forloop.first %}<td class="custombrick-config-type" rowspan="{{ctw.items|length}}">{{ctw.ctype}}</td>{% endif %}
+        <td {% brick_table_data_status primary %} class="custombrick-config-label">{{config_item.name}}</td>
+        <td class="custombrick-config-fields">
+            {% widget_enumerator config_item.cells threshold=8 summary=_('{count} fields') %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='creme_config__edit_custom_brick'|url:config_item.id label=_('Edit this type of block') enabled=admin_perm %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_url __id=config_item.id label=_('Delete this type of block') enabled=admin_perm %}
+        </td>
+    </tr>
+   {% endfor %}
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No custom block for the moment' %}
+{% endblock %}
+

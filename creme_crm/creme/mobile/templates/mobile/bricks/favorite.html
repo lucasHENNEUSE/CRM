@@ -1,0 +1,44 @@
+{% extends 'creme_core/bricks/base/paginated-list.html' %}
+{% load i18n creme_bricks %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} mobile-favorite-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% if is_contact %}
+        {% brick_header_title title=_('This contact is a favorite for {count} user') plural=_('This contact is a favorite for {count} users') empty=_('Favorite contacts') icon='phone' %}
+    {% elif is_orga %}
+        {% brick_header_title title=_('This organisation is a favorite for {count} user') plural=_('This organisation is a favorite for {count} users') empty=_('Favorite organisations') icon='phone' %}
+    {% else %}
+        {% brick_header_title title=_('This entity is a favorite for {count} user') plural=_('This entity is a favorite for {count} users') empty=_('Favorite entities') icon='phone' %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% if not current_user_fav %}
+        {% brick_header_action id='update' url='mobile__mark_as_favorite'|url:object.id type='link' label=_('Mark as favorite') %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_list_content %}
+    {% for fav_user in page.object_list %}
+    <div class="brick-list-item mobile-item">
+        <div class="mobile-favorite mobile-favorite-name">{{fav_user}}</div>
+        {% if user == fav_user %}
+        <div class="mobile-favorite mobile-favorite-actions">
+            {% brick_action id='delete' url='mobile__unmark_favorite'|url:object.id label=_('Remove from your favorite contacts') icon='unlink' %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% endblock %}
+
+{% block brick_list_empty %}
+    {% if is_contact %}
+        {% translate 'This contact is not a favorite for the moment' %}
+    {% elif is_orga %}
+        {% translate 'This organisation is not a favorite for the moment' %}
+    {% else %}
+        {% translate 'This entity is not a favorite for the moment' %}
+    {% endif %}
+{% endblock %}

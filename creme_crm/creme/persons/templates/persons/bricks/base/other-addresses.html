@@ -1,0 +1,42 @@
+{% extends 'creme_core/bricks/base/paginated.html' %}
+{% load i18n creme_bricks creme_perms %}
+{% load grouper url from creme_core_tags %}
+
+{% block brick_extra_class %}brick-scrollable brick-full-width persons-addresses-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Other address') plural=_('{count} Others addresses') empty=_('Other Addresses') %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='persons__create_address'|url:object.id label=_('Create an address') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_content_extra_class %}{{block.super}} brick-scrollable-container{% endblock %}
+
+{% block brick_content %}
+ {% with edit_perm=user|has_perm_to_change:object delete_url='creme_core__delete_related_to_entity'|url:objects_ctype.id %}
+  {% for addresses in page.object_list|grouper:2 %}
+    <div class='address-group'>
+      {% for address in addresses %}
+       {% if address %}
+        <div class='address-map'>{# NB: for future integrated map #}
+            <div class='address-container'>
+                <span class='address-title'>
+                    {{address.name}}
+                    {% brick_action id='edit'   url=address.get_edit_absolute_url display='both' enabled=edit_perm %}
+                    {% brick_action id='delete' url=delete_url __id=address.id    display='both' enabled=edit_perm %}
+                </span>
+                {% block address_content %}{# TODO: override this #}
+                    <div class='address'>{{address}}</div>
+                {% endblock %}
+            </div>
+        </div>
+       {% endif %}
+      {% endfor %}
+    </div>
+  {% empty %}
+    <div class="brick-empty">{% translate 'No other address set for the moment' %}</div>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load i18n %}{% load lt from creme_core_tags %}{% spaceless %}
+{% with view_less=widget.view_less creation_allowed=widget.creation_allowed creation_url=widget.creation_url %}
+{% if widget.choice_count == 0 and not creation_allowed %}
+{% translate 'No choice available.' %}
+{% else %}
+<div class="{{widget.class}}" widget="{{widget.widget_type}}"{% if widget.view_less %} less{% if widget.view_less is not True %}="{{widget.view_less}}"{% endif %}{% endif %} selectall="{{widget.MIN_CHECKALL_COUNT}}">
+    {% include 'django/forms/widgets/select.html' %}
+    <span class="checklist-counter"></span>
+    <div class="checklist-header">
+        {% if widget.checkall  %}
+        {% with checkall_hidden=widget.choice_count|lt:widget.MIN_CHECKALL_COUNT %}
+        <a type="button" class="checklist-check-all{% if checkall_hidden %} hidden{% endif %}">{% translate 'Check all' %}</a>
+        <a type="button" class="checklist-check-none{% if checkall_hidden %} hidden{% endif %}">{% translate 'Check none' %}</a>
+        {% endwith %}
+        {% endif %}
+
+        {% if creation_url %}
+            {% if creation_allowed %}
+            <a type="button" class="checklist-create" href="{{creation_url}}">{{widget.creation_label}}</a>
+            {% else %}
+            <a type="button" class="checklist-create is-disabled">{{widget.creation_label}}</a>
+            {% endif %}
+        {% endif %}
+
+        {% if widget.filter_type %}
+        {% if widget.filter_type == 'filter' %}{% translate 'Filter' context 'creme_core-noun' as filter_name %}
+        {% else %}                             {% translate 'Search' context 'creme_core-noun' as filter_name %}{% endif %}
+        <input type="search" class="checklist-filter" placeholder="{{filter_name|upper}}">
+        {% endif %}
+    </div>
+    <div class="checklist-body">
+        <ul class="checklist-content{% if widget.filter_type %} {{widget.filter_type}}{% endif %}{% if widget.column_type %} {{widget.column_type}}{% endif %}"></ul>
+    </div>
+    {% if widget.view_less %}
+    <div class="checklist-footer">
+       <a class="checklist-toggle-less">{% translate 'More' %}</a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endwith %}
+{% endspaceless %}

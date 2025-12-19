@@ -1,0 +1,18 @@
+{% extends 'creme_config/portal.html' %}
+{% load i18n creme_bricks creme_perms %}
+
+{% block page_title %}{% translate 'Configuration' %} > {{app_verbose_name}} - {% endblock %}
+
+{% block title %}
+    {% if user|has_perm_to_access:'creme_config' %}<a href="{% url 'creme_config__portal' %}">{% translate 'Configuration' %} > </a>{% endif %}{% translate 'Application' %}: {{app_verbose_name}}
+{% endblock %}
+
+{% block portal_bricks %}
+    {% include 'creme_config/bricks/configurable-models.html' %}
+
+    {% brick_import app='creme_config' name='settings' as settings_brick %}
+{#    {% brick_declare bricks %} #}
+    {% brick_declare bricks.main %}
+{#    {% brick_display settings_brick bricks %} #}
+    {% brick_display settings_brick bricks.main %}
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load uca_sort url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-relation-types-brick{% endblock %}
+
+{% block brick_header_title %}
+  {% if custom %}
+    {% brick_header_title title=_('{count} Custom type of relation') plural=_('{count} Custom types of relation') empty=verbose_name icon='relations' %}
+  {% else %}
+    {% brick_header_title title=_('{count} Standard type of relation') plural=_('{count} Standard types of relation') empty=verbose_name icon='relations' %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if custom %}
+    {% brick_header_action id='add' url='creme_config__create_rtype'|url label=_('New custom type') enabled=user|has_perm_to_admin:'creme_core' %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Subject(s)') class='relation-subject'   colspan=4 %}
+    {% brick_table_column title=_('Predicate')  class='relation-predicate' status='nowrap' %}
+    {% brick_table_column title=_('Object(s)')  class='relation-object'    colspan=4 %}
+    {% if custom %}
+      {% brick_table_column title=_('Actions') status='action' colspan=4 %}
+    {% else %}
+      {% brick_table_column title=_('Actions') status='action' colspan=3 %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with admin_perm=user|has_perm_to_admin:'creme_core' delete_url='creme_config__delete_rtype'|url %}
+  {% for relation_type in page.object_list %}
+   {% with sym_type=relation_type.symmetric_type %}
+    <tr {% if not relation_type.enabled %}class="relation-type-disabled"{% endif %} >
+        <td class="relation-subject-ctypes">{% widget_enumerator relation_type.subject_ctypes.all|uca_sort threshold=5 empty=_('No type') summary=_('{count} types of resource') %}</td>
+        <td class="relation-subject-properties">
+            {% include 'creme_config/bricks/frags/rtype_property_contraints.html' with mandatory=relation_type.subject_properties.all forbidden=relation_type.subject_forbidden_properties.all %}
+        </td>
+        <td class="relation-subject-copiable">{% if not relation_type.is_copiable %}<span title="{% translate 'The relationships are not copied when the subject entity is cloned' %}">{% translate 'No copy' %}</span>{% endif %}</td>
+        <td class="relation-subject-display">{% if relation_type.minimal_display %}<span title="{% translate 'The relationships are not displayed in the «Relationships» block (detail-view of subject) when they are already displayed by another block.' %}">{% translate 'Display once' %}</span>{% endif %}</td>
+        <td class="relation-predicate">{{relation_type.predicate}} — {{sym_type.predicate}}</td>
+        <td class="relation-object-ctypes">{% widget_enumerator relation_type.object_ctypes.all|uca_sort threshold=5 empty=_('No type') summary=_('{count} types of resource') %}</td>
+        <td class="relation-object-properties">
+            {% include 'creme_config/bricks/frags/rtype_property_contraints.html' with mandatory=relation_type.object_properties.all forbidden=relation_type.object_forbidden_properties.all %}
+        </td>
+        <td class="relation-object-copiable">{% if not sym_type.is_copiable %}<span title="{% translate 'The relationships are not copied when the object entity is cloned' %}">{% translate 'No copy' %}</span>{% endif %}</td>
+        <td class="relation-subject-display">{% if sym_type.minimal_display %}<span title="{% translate 'The relationships are not displayed in the «Relationships» block (detail-view of object) when they are already displayed by another block.' %}">{% translate 'Display once' %}</span>{% endif %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='redirect' url=relation_type.get_absolute_url icon='view' label=_('View details') %}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% if relation_type.is_internal %}
+            {% brick_table_action id='update' label=_('Disable') display='text' help_text=_('You cannot disable an internal type') enabled=False %}
+          {% elif relation_type.enabled %}
+            {% brick_table_action id='update' url='creme_config__disable_rtype'|url:relation_type.id label=_('Disable') display='text' enabled=admin_perm %}
+          {% else %}
+            {% brick_table_action id='update' url='creme_config__enable_rtype'|url:relation_type.id  label=_('Enable')  display='text' enabled=admin_perm %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% if relation_type.enabled %}
+           {% if custom %}
+            {% brick_table_action id='edit' url='creme_config__edit_rtype'|url:relation_type.id label=_('Edit this relation type') enabled=admin_perm %}
+           {% else %}
+            {% brick_table_action id='edit' url='creme_config__edit_not_custom_rtype'|url:relation_type.id label=_('Edit this relation type') enabled=admin_perm %}
+           {% endif %}
+          {% else %}
+            {% brick_table_action id='edit' label=_('You cannot edit a disabled relation type') enabled=False %}
+          {% endif %}
+        </td>
+        {% if custom %}
+         <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_url __id=relation_type.id label=_('Delete this relation type') enabled=admin_perm %}
+         </td>
+        {% endif %}
+    </tr>
+   {% endwith %}
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% if custom %}{% translate 'No custom type of relation for the moment' %}{% endif %}
+{% endblock %}

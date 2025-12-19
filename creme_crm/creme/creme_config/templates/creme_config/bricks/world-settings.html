@@ -1,0 +1,52 @@
+{% extends 'creme_core/bricks/base/table.html' %}
+{% load i18n creme_bricks creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %} {{block.super}} creme_config-world_settings-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=verbose_name icon='config' %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Key') status='primary' %}
+    {% brick_table_column title=_('Value') %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% translate 'Menu icon' %}</td>
+        <td>
+          {% if world_settings.menu_icon %}
+            {% widget_icon data=world_settings.menu_icon.path size='header-menu-home' label=_('Home') class='header-menu-home-icon' %}
+          {% else %}
+            <span class="world_settings-default">{% translate 'Default icon' %}</span>
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='creme_config__edit_world_setting'|url:'menu_icon' label=_('Edit this configuration') enabled=user.is_superuser %}
+        </td>
+    </tr>
+    <tr>
+        <td {% brick_table_data_status primary %}>{% translate 'Password change' %}</td>
+        <td>
+            <ul>
+                <li>{% if world_settings.password_change_enabled %}{% translate 'Users can change their password' %}{% else %}{% translate 'Users cannot change their password' %}{% endif %}</li>
+                <li>{% if world_settings.password_reset_enabled %}{% translate 'Users can reset their lost password' %}{% else %}{% translate 'Users cannot reset their lost password' %}{% endif %}</li>
+            </ul>
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='creme_config__edit_world_setting'|url:'password' label=_('Edit this configuration') enabled=user.is_superuser %}
+        </td>
+    </tr>
+    <tr>
+        <td {% brick_table_data_status primary %}>{% translate 'Displayed name change' %}</td>
+        <td>
+            {% if world_settings.user_name_change_enabled %}{% translate 'Users can change their own displayed name' %}{% else %}{% translate 'Users cannot change their own displayed name' %}{% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='creme_config__edit_world_setting'|url:'displayed_name' label=_('Edit this configuration') enabled=user.is_superuser %}
+        </td>
+    </tr>
+{% endblock %}

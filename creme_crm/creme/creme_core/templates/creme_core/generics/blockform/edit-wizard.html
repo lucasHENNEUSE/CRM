@@ -1,0 +1,22 @@
+{% extends BASE_HTML %}
+{% load i18n %}
+
+{% block page_title %}
+    {% if object %}
+        {% blocktranslate %}Edit «{{object}}»{% endblocktranslate %}
+    {% else %}
+        {% translate 'Edit' %}
+    {% endif %} -
+{% endblock %}
+
+{% block content_extra_class %}content-form-view content-form-view-edition{% endblock %}
+
+{% block content %}
+    {% with icon_name='edit' icon_label=_('Edit') submit_label=submit_label|default:_('Save the modifications') %}
+        {% if not title %}{% blocktranslate asvar form_title %}Edit «{{object}}»{% endblocktranslate %}
+            {% include 'creme_core/generics/blockform/base.html' with title=form_title %}
+        {% else %}
+            {% include 'creme_core/generics/blockform/base-wizard.html' %}
+        {% endif %}
+    {% endwith %}
+{% endblock %}

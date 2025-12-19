@@ -1,0 +1,12 @@
+{% extends 'creme_config/portals/base.html' %}
+{% load i18n creme_widgets %}
+
+{% block page_title %}{% translate 'Configuration of menu' %} - {% endblock %}
+
+{% block title %}
+    {{block.super}}{% translate 'Menu' %}
+{% endblock %}
+
+{% block portal_help %}
+    {% widget_help_sign message=_('Here you can configure the main menu, placed on top of this page for example.') %}
+{% endblock %}

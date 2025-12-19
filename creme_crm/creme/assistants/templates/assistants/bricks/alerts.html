@@ -1,0 +1,86 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets assistants_tags %}
+{% load print_field url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} assistants-alerts-brick{% endblock %}
+
+{% block brick_menu_actions %}
+    {{block.super}}
+    <hr/>
+    {% assistants_brick_menu_hide_validated_alerts_action url='assistants__hide_validated_alerts'|url hidden=hide_validated %}
+{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Alert') plural=_('{count} Alerts') empty=verbose_name icon='alert' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if object %}
+    {% brick_header_action id='add' url='assistants__create_alert'|url:object.id label=_('New alert') enabled=user|has_perm_to_change:object %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='title' status='primary' %}
+
+    {% if not object %}
+    {% brick_table_column title=_('Concerned entity') %}
+    {% endif %}
+
+    {% brick_table_column_for_field ctype=objects_ctype field='user'         title=_('User') %}
+    {% brick_table_column_for_field ctype=objects_ctype field='trigger_date' title=_('Triggering') %}
+    {% brick_table_column_for_field ctype=objects_ctype field='description'  title=_('Details') %}
+    {% brick_table_column title=_('Status')  status='action' %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}{% url 'creme_core__delete_related_to_entity' objects_ctype.id as delete_url %}
+  {% for alert in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% print_field object=alert field='title' %}</td>
+        {% if not object %}<td>{% widget_entity_hyperlink alert.real_entity user %}</td>{% endif %}
+        <td>{% print_field object=alert field='user' %}</td>
+        <td data-type="date"
+          {% if alert.is_validated %}
+            class="brick-table-data-highlighted"
+          {% elif alert.trigger_date is None %}
+            class="brick-table-data-error" title="{% translate 'The date cannot be computed (related field is empty)' %}"
+          {% elif alert.trigger_date >= today %}
+            class="brick-table-data-valid" title="{% translate 'The date is not expired' %}"
+          {% else %}
+            class="brick-table-data-error" title="{% translate 'The date is expired' %}"
+          {% endif %}
+        >
+            {% if alert.trigger_date is None %}{% translate '(error)' %}{% else %}{% print_field object=alert field='trigger_date' %}{% endif %}
+            {% if alert.trigger_offset %}
+            <a data-action="popover" data-title="{% translate 'Details' %}">
+                {% widget_icon name='info' label=_('The trigger date is relative') size='brick-table' %}
+                <script type="text/html">
+                <span>{% assistants_verbose_date_offset offset_dict=alert.trigger_offset entity=alert.real_entity %}</span>
+                </script>
+            </a>
+            {% endif %}
+        </td>
+        <td>{% print_field object=alert field='description' %}</td>
+        {% with has_perm=user|has_perm_to_change:alert.real_entity %}
+        <td {% brick_table_data_status action %}>
+          {% if alert.is_validated %}
+            {% widget_icon name='ok' label=_('Validated') size='brick-table' class='brick-table-icon' %}
+          {% else %}
+            {% brick_table_action id='update' url='assistants__validate_alert'|url:alert.id confirm=_('Are you sure?') label=_('Validate') display='text' enabled=has_perm %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url=alert.get_edit_absolute_url label=_('Edit this alert') enabled=has_perm %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_url __id=alert.id label=_('Delete this alert') enabled=has_perm %}
+        </td>
+        {% endwith %}
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No alert for the moment' %}
+{% endblock %}

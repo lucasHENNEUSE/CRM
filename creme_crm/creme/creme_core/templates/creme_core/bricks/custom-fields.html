@@ -1,0 +1,24 @@
+{% extends 'creme_core/bricks/base/tiles.html' %}
+{% load creme_bricks creme_perms %}{% load inner_edition_uri from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_core-custom-fields-brick{% if not cells %} is-empty{% endif %}{% endblock %}
+
+{% block brick_menu_actions %}
+    {% brick_menu_reduce_action state %}
+    {{block.super}}
+{% endblock %}
+
+{% block brick_header_actions %}
+ {% if cells %}
+  {% inner_edition_uri instance=object cells=cells as edition_uri %}
+  {% if edition_uri %}
+    {% brick_header_action id='edit' url=edition_uri enabled=user|has_perm_to_change:object comeback=True %}
+  {% endif %}
+ {% endif %}
+{% endblock %}
+
+{% block brick_content %}
+  {% for cell in cells %}
+    {% brick_tile_for_cell cell object user %}
+  {% endfor %}
+{% endblock %}

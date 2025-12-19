@@ -1,0 +1,12 @@
+{% load i18n creme_widgets %}{% load blockjsondata from creme_core_tags %}
+{% if button.parent_folder %}
+<a class="with-icon parent-folder" data-action="submit-lv-state">
+    {% blockjsondata %}{
+        "data": {
+            "parent_id": "{{button.parent_folder.parent_folder_id}}"
+        }
+    }{% endblockjsondata %}
+    {% translate 'Previous folder' as label %}
+    {{label}}{% widget_icon name='previous' label=label size='listview-button' %}
+</a>
+{% endif %}

@@ -1,0 +1,43 @@
+{% extends 'creme_core/detailview.html' %}
+{% load i18n creme_widgets %}{# reports_tags #}
+
+{% block page_title %}{% blocktranslate %}Preview {{object}}{% endblocktranslate %} - {% endblock %}
+
+{% block head %}
+    {{block.super}}
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            var controller = new creme.reports.PreviewController({
+                previewUrl: '{% url 'reports__export_report_preview' object.id %}',
+                downloadUrl: '{% url 'reports__export_report' object.id %}'
+            });
+
+            controller.bind($('.report-preview'));
+        });
+    </script>
+{% endblock %}
+
+{% block global_buttons %}
+    <li>
+        <a class="menu_button menu-button-icon" href="{{object.get_absolute_url}}">{% translate 'Back to the report' as back_label %}
+            {% widget_icon name='previous' size='global-button' label=back_label %}
+            {{back_label}}
+        </a>
+    </li>
+{% endblock %}
+
+{% block title %}{% blocktranslate with title=object|capfirst %}Preview of the report «{{title}}»{% endblocktranslate %}{% endblock %}
+
+{% block main_content %}
+    <div class="report-preview">
+        <div class='report-preview-header'>
+            <form>{% include 'reports/frags/report_preview_format.html' %}</form>
+            <div class="report-preview-buttons">
+                <button class="ui-creme-actionbutton" type="button" name="generate">{% translate 'Preview' context 'reports-preview' %}</button>
+                <button class="ui-creme-actionbutton" type="button" name="download">{% translate 'Download as file' %}</button>
+            </div>
+        </div>
+
+        {% include 'reports/bricks/preview.html' %}
+    </div>
+{% endblock %}

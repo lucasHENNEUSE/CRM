@@ -1,0 +1,10 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks %}
+
+{% block page_title %}{% translate "List of Market Segments" %} - {% endblock %}
+
+{% block content %}
+    {% brick_import app='commercial' name='segments' as segments_brick %}
+    {% brick_display segments_brick %}
+    {% brick_end %}
+{% endblock %}

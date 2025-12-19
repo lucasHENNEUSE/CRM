@@ -1,0 +1,12 @@
+{% extends 'creme_core/bricks/generic/hat-bar.html' %}
+{% load i18n creme_bricks %}
+{% load url from creme_core_tags %}
+
+{% block buttons %}
+    {% if download_button %}
+    <div class='bar-action'>
+        {% brick_action id='redirect' url='billing__export'|url:object.id label=_('Download as file (PDF/XLS…)') class='bar-button' icon_size='brick-hat-bar-button' icon='download' display='icon' %}
+    </div>
+    {% endif %}
+    {{block.super}}
+{% endblock %}

@@ -1,0 +1,448 @@
+# FR LOCALISATION OF 'MOBILE' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Mobile 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-18 20:16+0200\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Mobile"
+msgstr "Mobile"
+
+msgid "Favorite Contacts & Organisations (for mobile)"
+msgstr "Contacts & Sociétés favoris (pour mobile)"
+
+msgid ""
+"Displays the users who marked the current entity as favorite in mobile "
+"views.\n"
+"App: Mobile"
+msgstr ""
+"Affiche les utilisateurs qui ont marqué la fiche courante comme favorite "
+"dans les vues mobile.\n"
+"App : Mobile"
+
+msgctxt "mobile-contact"
+msgid "Is favorite"
+msgstr "Est favori"
+
+msgctxt "mobile-orga"
+msgid "Is favorite"
+msgstr "Est favorite"
+
+msgid "URL pattern to map & geolocation services."
+msgstr "Motif d'URL pour les services de carte & de géolocalisation."
+
+#, python-brace-format
+msgid ""
+"Use {search} placeholder for the address and if geolocation is enabled, "
+"{lat} & {lng} coordinates can be used too."
+msgstr ""
+"Utilisez le paramètre fictif {search} pour l'adresse et si la "
+"géolocalisation est activée, les coordonnées {lat} & {lng} peuvent être "
+"utilisées aussi."
+
+# Already in activities
+msgid "Activities"
+msgstr ""
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Directory"
+msgstr "Annuaire"
+
+#, python-format
+msgid "%(counter)s delayed phone call"
+msgid_plural "%(counter)s last delayed phone calls"
+msgstr[0] "%(counter)s appel en retard"
+msgstr[1] "%(counter)s derniers appels en retard"
+
+msgid "No delayed phone calls"
+msgstr "Pas d'appel en retard"
+
+#, python-format
+msgid "%(counter)s activity without date"
+msgid_plural "%(counter)s activities without date"
+msgstr[0] "%(counter)s activité sans date"
+msgstr[1] "%(counter)s activités sans date"
+
+#, python-format
+msgid "%(counter)s activity without date (on %(total)s)"
+msgid_plural "%(counter)s activities without date (on %(total)s)"
+msgstr[0] "%(counter)s activité sans date (sur %(total)s)"
+msgstr[1] "%(counter)s activités sans date (sur %(total)s)"
+
+msgid "No activity without date"
+msgstr "Pas d'activité sans date"
+
+msgid "l j F"
+msgstr "l j F"
+
+#, python-format
+msgid "%(counter)s activity planned tomorrow, %(tomorrow_date)s"
+msgid_plural "%(counter)s activities planned tomorrow, %(tomorrow_date)s"
+msgstr[0] "%(counter)s activité prévue demain, %(tomorrow_date)s"
+msgstr[1] "%(counter)s activités prévues demain, %(tomorrow_date)s"
+
+#, python-format
+msgid "No activity planned tomorrow, %(tomorrow_date)s"
+msgstr "Pas d'activité prévue demain, %(tomorrow_date)s"
+
+# Already in creme_core
+msgid "Owner user"
+msgstr ""
+
+msgid "(required)"
+msgstr "(obligatoire)"
+
+msgid "The owner must be filled."
+msgstr "Le propriétaire doit être renseigné."
+
+# Already in persons
+msgid "Last name"
+msgstr ""
+
+msgid "The last name must be filled."
+msgstr "Le nom doit être rempli."
+
+# Already in persons
+msgid "First name"
+msgstr ""
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Email address"
+msgstr "Adresse e-mail"
+
+# Already in persons
+msgid "Organisation"
+msgstr ""
+
+msgid "Add this contact to the favorites"
+msgstr "Ajouter ce contact aux favoris"
+
+# Already in persons
+msgid "Save the contact"
+msgstr ""
+
+# Already in creme_core
+msgid "Cancel"
+msgstr ""
+
+# Already in persons
+msgid "Name"
+msgstr ""
+
+msgid "The name must be filled."
+msgstr "Le nom doit être rempli."
+
+msgid "Add this organisation to the favorites"
+msgstr "Ajouter cette société aux favoris"
+
+# Already in persons
+msgid "Save the organisation"
+msgstr ""
+
+#, python-brace-format
+msgid "This contact is a favorite for {count} user"
+msgstr "Ce contact est un favori pour {count} utilisateur"
+
+#, python-brace-format
+msgid "This contact is a favorite for {count} users"
+msgstr "Ce contact est un favori pour {count} utilisateurs"
+
+msgid "Favorite contacts"
+msgstr "Contacts favoris"
+
+#, python-brace-format
+msgid "This organisation is a favorite for {count} user"
+msgstr "Cette société est une favorite pour {count} utilisateur"
+
+#, python-brace-format
+msgid "This organisation is a favorite for {count} users"
+msgstr "Cette société est une favorite pour {count} utilisateurs"
+
+msgid "Favorite organisations"
+msgstr "Sociétés favorites"
+
+#, python-brace-format
+msgid "This entity is a favorite for {count} user"
+msgstr "Cette fiche est une favorite pour {count} utilisateur"
+
+#, python-brace-format
+msgid "This entity is a favorite for {count} users"
+msgstr "Cette fiche est une favorite pour {count} utilisateurs"
+
+msgid "Favorite entities"
+msgstr "Fiches favorites"
+
+msgid "Mark as favorite"
+msgstr "Marquer comme favori"
+
+msgid "Remove from your favorite contacts"
+msgstr "Enlever de vos contacts favoris"
+
+msgid "This contact is not a favorite for the moment"
+msgstr "Ce contact n'est pas un favori pour le moment"
+
+msgid "This organisation is not a favorite for the moment"
+msgstr "Cette société n'est pas une favorite pour le moment"
+
+msgid "This entity is not a favorite for the moment"
+msgstr "Cette fiche n'est pas une favorite pour le moment"
+
+# Already in persons
+msgid "Create a contact"
+msgstr ""
+
+# Already in persons
+msgid "Create an organisation"
+msgstr ""
+
+#, python-format
+msgid "%(counter)s favorite contact"
+msgid_plural "%(counter)s favorite contacts"
+msgstr[0] "%(counter)s contact favori"
+msgstr[1] "%(counter)s contacts favoris"
+
+msgid "No favorite contact"
+msgstr "Aucun contact favori"
+
+#, python-format
+msgid "%(counter)s favorite organisation"
+msgid_plural "%(counter)s favorite organisations"
+msgstr[0] "%(counter)s société favorite"
+msgstr[1] "%(counter)s sociétés favorites"
+
+msgid "No favorite organisation"
+msgstr "Aucune société favorite"
+
+#, python-format
+msgid "Error! (%(status)s)"
+msgstr "Erreur ! (%(status)s)"
+
+msgid "Detail:"
+msgstr "Détail :"
+
+msgid "This call has already been spent"
+msgstr "Cet appel a déjà été passé"
+
+msgid "Start this activity"
+msgstr "Commencer l'activité"
+
+msgid "Stop this activity"
+msgstr "Terminer l'activité"
+
+msgid "contact"
+msgstr "contact"
+
+msgid "phone"
+msgstr "tél."
+
+msgid "mobile"
+msgstr "mobile"
+
+msgid "email"
+msgstr "e-mail"
+
+msgid "address"
+msgstr "adresse"
+
+msgid "position"
+msgstr "fonction"
+
+msgid "organisation"
+msgstr "société"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Search in the directory"
+msgstr "Recherche dans l'annuaire"
+
+#, python-format
+msgid "%(hour)sh"
+msgstr "%(hour)sh"
+
+#, python-format
+msgid "Welcome on Creme Mobile, %(user)s"
+msgstr "Bienvenue sur Crème Mobile, %(user)s"
+
+msgid "H:i"
+msgstr "H\\hi"
+
+msgid "j F"
+msgstr "j F"
+
+#, python-format
+msgid "%(counter)s activity in progress at %(start_time)s this %(today_date)s"
+msgid_plural ""
+"%(counter)s activities in progress at %(start_time)s this %(today_date)s"
+msgstr[0] "%(counter)s activité en cours à %(start_time)s ce %(today_date)s"
+msgstr[1] "%(counter)s activités en cours à %(start_time)s ce %(today_date)s"
+
+#, python-format
+msgid "No activity in progress at %(start_time)s this %(today_date)s"
+msgstr "Aucune activité en cours à %(start_time)s ce %(today_date)s"
+
+#, python-format
+msgid "%(counter)s activity planned this %(today_date)s"
+msgid_plural "%(counter)s activities planned this %(today_date)s"
+msgstr[0] "%(counter)s activité prévue ce %(today_date)s"
+msgstr[1] "%(counter)s activités prévues ce %(today_date)s"
+
+#, python-format
+msgid "No activity planned this %(today_date)s"
+msgstr "Aucune activité prévue ce %(today_date)s"
+
+# Already in creme/locale
+msgid "Connection"
+msgstr ""
+
+# Already in creme_core
+msgid "Username"
+msgstr ""
+
+msgid "The username must be filled."
+msgstr "Le nom d'utilisateur doit être rempli."
+
+# Already in creme_core
+msgid "Password"
+msgstr ""
+
+msgid "The password must be filled."
+msgstr "Le mot de passe doit être rempli."
+
+# Already in creme/locale
+msgid "Log in"
+msgstr ""
+
+msgctxt "creme_core-noun"
+msgid "Search"
+msgstr "Recherche"
+
+#, python-format
+msgid "Search of contacts &ndash; %(counter)s result"
+msgid_plural "Search of contacts &ndash; %(counter)s results"
+msgstr[0] "Recherche de contacts &ndash; %(counter)s résultat"
+msgstr[1] "Recherche de contacts &ndash; %(counter)s résultats"
+
+#, python-format
+msgid "Search of organisations &ndash; %(counter)s result"
+msgid_plural "Search of organisations &ndash; %(counter)s results"
+msgstr[0] "Recherche de sociétés &ndash; %(counter)s résultat"
+msgstr[1] "Recherche de sociétés &ndash; %(counter)s résultats"
+
+msgid "d/m/Y"
+msgstr "d/m/Y"
+
+msgid "All day"
+msgstr "Toute la journée"
+
+msgid "In day"
+msgstr "Dans la journée"
+
+msgid "d/m/Y H:i"
+msgstr "d/m/Y H\\hi"
+
+# Already in creme_core
+msgid "Log out"
+msgstr ""
+
+msgid "Go to the complete site"
+msgstr "Accéder au site complet"
+
+msgid "Call in progress"
+msgstr "Appel en cours"
+
+#, python-format
+msgid ""
+"You left the application to call <span class=\"call-target\"><span class="
+"\"contact-first-name\">%(first_name)s</span> <span class=\"contact-last-name"
+"\">%(last_name)s</span></span> to <a class=\"phone-number\" href=\"tel:"
+"%(number)s\">%(number)s</a>, you can save the result if this call."
+msgstr ""
+"Vous avez quitté l'application pour appeler <span class=\"call-target"
+"\"><span class=\"contact-first-name\">%(first_name)s</span> <span class="
+"\"contact-last-name\">%(last_name)s</span></span> au <a class=\"phone-number"
+"\" href=\"tel:%(number)s\">%(number)s</a>, vous pouvez sauvegarder le "
+"résultat de cet appel."
+
+#, python-format
+msgid ""
+"You left the application to call <span class=\"call-target\"><span class="
+"\"orga-name\">%(name)s</span></span> to <a class=\"phone-number\" href=\"tel:"
+"%(number)s\">%(number)s</a>, you can save the result if this call."
+msgstr ""
+"Vous avez quitté l'application pour appeler <span class=\"call-target"
+"\"><span class=\"orga-name\">%(name)s</span></span> au <a class=\"phone-"
+"number\" href=\"tel:%(number)s\">%(number)s</a>, vous pouvez sauvegarder le "
+"résultat de cet appel."
+
+msgid "Add call minutes"
+msgstr "Ajouter un bilan d'appel"
+
+msgid "Call minutes"
+msgstr "Bilan de l'appel "
+
+msgid "Call is just done"
+msgstr "L'appel vient de se terminer"
+
+msgid "Call lasted 5 minutes"
+msgstr "L'appel a duré 5 minutes"
+
+msgid "Call has failed"
+msgstr "L'appel a échoué"
+
+msgid "Call has failed and<br/> Recall tomorrow"
+msgstr "L'appel a échoué et<br/> Rappeler demain"
+
+msgid "Do not save"
+msgstr "Ne pas sauvegarder"
+
+# Already in creme_core
+msgid "You do not have access to this page, please contact your administrator."
+msgstr ""
+
+# Already in creme/locale
+msgid "The page you have requested is not found."
+msgstr ""
+
+# Already in creme/locale
+msgid "You can not perform this action because of business constraints."
+msgstr ""
+
+msgid "Your search is too short."
+msgstr "Votre recherche est trop courte."
+
+msgid "You cannot create a call to yourself."
+msgstr "Vous ne pouvez pas créer un appel vers vous-même."
+
+#, python-brace-format
+msgid "{status} call to {person} from {software} Mobile"
+msgstr "Appel {status} vers {person} depuis {software} Mobile"
+
+msgid "Successful"
+msgstr "réussi"
+
+msgid "Failed"
+msgstr "échoué"
+
+#, python-brace-format
+msgid "Call to {person} from {software} Mobile"
+msgstr "Appel vers {person} depuis {software} Mobile"
+
+# Already in creme_core
+msgid "This model does not use the generic clone view."
+msgstr ""

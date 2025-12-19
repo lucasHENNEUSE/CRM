@@ -1,0 +1,13 @@
+{% load i18n creme_widgets %}
+{% if button.permission_error %}
+<span class="menu_button menu-button-icon forbidden" title="{{button.permission_error}}">
+    {% widget_icon name='phone' size='instance-button' label=_('Phone call') %}
+    {{button.verbose_name}}
+</span>
+{% else %}
+<a class="menu_button menu-button-icon" title="{{button.description}}" data-action="update"
+   href="{% url 'opportunities__create_unsuccessful_phone_call' object.id %}">
+    {% widget_icon name='phone' size='instance-button' label=_('Phone call') %}
+    {{button.verbose_name}}
+</a>
+{% endif %}

@@ -1,0 +1,15 @@
+{% extends BASE_HTML %}
+{% load i18n %}
+
+{% block page_title %}{% translate 'Merge' %} - {% endblock %}
+
+{% block content %}
+    {# TODO: move to a js file + init widgets automatically #}
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            creme.merge.initializeMergeForm($('form'));
+        });
+    </script>
+
+    {% include 'creme_core/generics/blockform/base.html' with icon_name='merge' icon_label=_('Merge') %}
+{% endblock %}

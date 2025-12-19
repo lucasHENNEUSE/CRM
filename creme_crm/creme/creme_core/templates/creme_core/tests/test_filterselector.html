@@ -1,0 +1,426 @@
+{% extends "creme_core/tests/testbase.html" %}
+
+{% block test_title %}Filter Widget{% endblock %}
+
+{% block test_content %}
+<ul>
+    <li>
+       <h3>Filter</h3>
+       <ul>
+           <li>
+               <div class="ui-creme-widget ui-creme-chainedselect widget-auto" style="" widget="ui-creme-chainedselect">
+                    <input type="hidden" name="" class="ui-creme-input ui-creme-chainedselect" 
+                           value="{&quot;field&quot;:{&quot;name&quot;:&quot;civility__title&quot;, &quot;type&quot;:&quot;enum&quot;, &quot;ctype&quot;:&quot;27&quot;}, &quot;operator&quot;:{&quot;id&quot;:3, &quot;types&quot;:&quot;string enum number date fk&quot;}, &quot;value&quot;:2}"/>
+                    <ul class="ui-layout hbox">
+                        <li chained-name="field" class="ui-creme-chainedselect-item">
+                            <select widget="ui-creme-dselect" class="ui-creme-input ui-creme-widget ui-creme-dselect" datatype="json">
+                                <optgroup label="">
+                                    <option value="{&quot;name&quot;:&quot;email&quot;, &quot;type&quot;:&quot;string&quot;}">Adresse e-mail</option>
+                                    <option value="{&quot;name&quot;:&quot;description&quot;, &quot;type&quot;:&quot;string&quot;}">Description</option>
+                                    <option value="{&quot;name&quot;:&quot;fax&quot;, &quot;type&quot;:&quot;string&quot;}">Fax</option>
+                                    <option value="{&quot;name&quot;:&quot;mobile&quot;, &quot;type&quot;:&quot;string&quot;}">Mobile</option>
+                                    <option value="{&quot;name&quot;:&quot;last_name&quot;, &quot;type&quot;:&quot;string&quot;}">Nom</option>
+                                    <option value="{&quot;name&quot;:&quot;phone&quot;, &quot;type&quot;:&quot;string&quot;}">Numéro de téléphone</option>
+                                    <option value="{&quot;name&quot;:&quot;first_name&quot;, &quot;type&quot;:&quot;string&quot;}">Prénom</option>
+                                    <option value="{&quot;name&quot;:&quot;url_site&quot;, &quot;type&quot;:&quot;string&quot;}">Site Web</option>
+                                    <option value="{&quot;name&quot;:&quot;skype&quot;, &quot;type&quot;:&quot;string&quot;}">Skype</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address&quot;, &quot;type&quot;:&quot;fk&quot;, &quot;ctype&quot;:&quot;{{TEST_CONTENTTYPES.address}}&quot;}">Adresse de facturation</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address&quot;, &quot;type&quot;:&quot;fk&quot;, &quot;ctype&quot;:&quot;{{TEST_CONTENTTYPES.address}}&quot;}">Adresse de livraison</option>
+                                    <option value="{&quot;name&quot;:&quot;user&quot;, &quot;type&quot;:&quot;user&quot;, &quot;ctype&quot;:&quot;{{TEST_CONTENTTYPES.user}}&quot;}">Propriétaire</option>
+                                </optgroup>
+                                <optgroup label="Adresse de facturation">
+                                    <option value="{&quot;name&quot;:&quot;billing_address__address&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - Adresse</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__po_box&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - Boite postale</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__zipcode&quot;, &quot;type&quot;:&quot;number&quot;}">[Adresse de facturation] - Code postal</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__department&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - Département</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__name&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - Nom</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__country&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - Pays</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__city&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - Ville</option>
+                                    <option value="{&quot;name&quot;:&quot;billing_address__state&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de facturation] - État</option>
+                                </optgroup>
+                                <optgroup label="Adresse de livraison">
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__address&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - Adresse</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__po_box&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - Boite postale</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__zipcode&quot;, &quot;type&quot;:&quot;number&quot;}">[Adresse de livraison] - Code postal</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__department&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - Département</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__name&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - Nom</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__country&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - Pays</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__city&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - Ville</option>
+                                    <option value="{&quot;name&quot;:&quot;shipping_address__state&quot;, &quot;type&quot;:&quot;string&quot;}">[Adresse de livraison] - État</option>
+                                </optgroup>
+                                <optgroup label="Civilité">
+                                    <option value="{&quot;name&quot;:&quot;civility__title&quot;, &quot;type&quot;:&quot;enum&quot;, &quot;ctype&quot;:&quot;{{TEST_CONTENTTYPES.civility}}&quot;}">[Civilité] - Intitulé</option>
+                                </optgroup>
+                                <optgroup label="Est un utilisateur">
+                                    <option value="{&quot;name&quot;:&quot;is_user__is_team&quot;, &quot;type&quot;:&quot;boolean&quot;}">[Est un utilisateur] - Est une équipe ?</option>
+                                    <option value="{&quot;name&quot;:&quot;is_user__role&quot;, &quot;type&quot;:&quot;boolean&quot;}">[Est un utilisateur] - Rôle</option>
+                                    <option value="{&quot;name&quot;:&quot;is_user__email&quot;, &quot;type&quot;:&quot;string&quot;}">[Est un utilisateur] - adresse électronique</option>
+                                    <option value="{&quot;name&quot;:&quot;is_user__last_name&quot;, &quot;type&quot;:&quot;string&quot;}">[Est un utilisateur] - nom</option>
+                                    <option value="{&quot;name&quot;:&quot;is_user__username&quot;, &quot;type&quot;:&quot;string&quot;}">[Est un utilisateur] - nom d'utilisateur</option>
+                                    <option value="{&quot;name&quot;:&quot;is_user__first_name&quot;, &quot;type&quot;:&quot;string&quot;}">[Est un utilisateur] - prénom</option>
+                                </optgroup>
+                                <optgroup label="Fonction">
+                                    <option value="{&quot;name&quot;:&quot;position__title&quot;, &quot;type&quot;:&quot;enum&quot;, &quot;ctype&quot;:&quot;{{TEST_CONTENTTYPES.position}}&quot;}">[Fonction] - Intitulé</option>
+                                </optgroup>
+                                <optgroup label="Langue(s) parlée(s)">
+                                    <option value="{&quot;name&quot;:&quot;language__code&quot;, &quot;type&quot;:&quot;string&quot;}">[Langue(s) parlée(s)] - Code</option>
+                                    <option value="{&quot;name&quot;:&quot;language__name&quot;, &quot;type&quot;:&quot;string&quot;}">[Langue(s) parlée(s)] - Nom</option>
+                                </optgroup>
+                                <optgroup label="Photo du contact">
+                                    <option value="{&quot;name&quot;:&quot;image__description&quot;, &quot;type&quot;:&quot;string&quot;}">[Photo du contact] - Description</option>
+                                    <option value="{&quot;name&quot;:&quot;image__height&quot;, &quot;type&quot;:&quot;number&quot;}">[Photo du contact] - Hauteur</option>
+                                    <option value="{&quot;name&quot;:&quot;image__image&quot;, &quot;type&quot;:&quot;fk&quot;, &quot;ctype&quot;:&quot;;{{TEST_CONTENTTYPES.image}}&quot;}">[Photo du contact] - Image</option>
+                                    <option value="{&quot;name&quot;:&quot;image__width&quot;, &quot;type&quot;:&quot;number&quot;}">[Photo du contact] - Largueur</option>
+                                    <option value="{&quot;name&quot;:&quot;image__name&quot;, &quot;type&quot;:&quot;string&quot;}">[Photo du contact] - Nom</option>
+                                    <option value="{&quot;name&quot;:&quot;image__user&quot;, &quot;type&quot;:&quot;fk&quot;, &quot;ctype&quot;:&quot;user&quot;}">[Photo du contact] - Utilisateur</option>
+                                </optgroup>
+                                <optgroup label="Secteur d'activités">
+                                    <option value="{&quot;name&quot;:&quot;sector__title&quot;, &quot;type&quot;:&quot;enum&quot;, &quot;ctype&quot;:&quot;{{TEST_CONTENTTYPES.sector}}&quot;}">[Secteur d'activités] - Intitulé</option>
+                                </optgroup>
+                                <optgroup label="Utilisateur">
+                                    <option value="{&quot;name&quot;:&quot;user__is_team&quot;, &quot;type&quot;:&quot;boolean&quot;}">[Utilisateur] - Est une équipe ?</option>
+                                    <option value="{&quot;name&quot;:&quot;user__role&quot;, &quot;type&quot;:&quot;string&quot;}">[Utilisateur] - Rôle</option>
+                                    <option value="{&quot;name&quot;:&quot;user__email&quot;, &quot;type&quot;:&quot;string&quot;}">[Utilisateur] - adresse électronique</option>
+                                    <option value="{&quot;name&quot;:&quot;user__last_name&quot;, &quot;type&quot;:&quot;string&quot;}">[Utilisateur] - nom</option>
+                                    <option value="{&quot;name&quot;:&quot;user__username&quot;, &quot;type&quot;:&quot;string&quot;}">[Utilisateur] - nom d'utilisateur</option>
+                                    <option value="{&quot;name&quot;:&quot;user__first_name&quot;, &quot;type&quot;:&quot;string&quot;}">[Utilisateur] - prénom</option>
+                                </optgroup>
+                            </select>
+                        </li>
+                        <li chained-name="operator" class="ui-creme-chainedselect-item">
+                            <select widget="ui-creme-dselect"
+                                    datatype="json"
+                                    dependencies="field"
+                                    filter="context.field ? item.value.types.indexOf(context.field.type) !== -1 : true;"
+                                    class="ui-creme-input ui-creme-widget ui-creme-dselect">
+                                <option value="{&quot;id&quot;:1, &quot;types&quot;:&quot;string enum number date fk user&quot;}">Est égal à</option>
+                                <option value="{&quot;id&quot;:2, &quot;types&quot;:&quot;string number&quot;}">Est égal à (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:3, &quot;types&quot;:&quot;string enum number date fk user&quot;}">N'est pas égal à</option>
+                                <option value="{&quot;id&quot;:4, &quot;types&quot;:&quot;string number&quot;}">N'est pas égal à (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:5, &quot;types&quot;:&quot;string&quot;}">Contient</option>
+                                <option value="{&quot;id&quot;:6, &quot;types&quot;:&quot;string&quot;}">Contient (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:7, &quot;types&quot;:&quot;string&quot;}">Ne contient pas</option>
+                                <option value="{&quot;id&quot;:8, &quot;types&quot;:&quot;string&quot;}">Ne contient pas (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:9, &quot;types&quot;:&quot;number date&quot;}">&gt;</option>
+                                <option value="{&quot;id&quot;:10, &quot;types&quot;:&quot;number date&quot;}">&gt;=</option>
+                                <option value="{&quot;id&quot;:11, &quot;types&quot;:&quot;number date&quot;}">&lt;</option>
+                                <option value="{&quot;id&quot;:12, &quot;types&quot;:&quot;number date&quot;}">&lt;=</option>
+                                <option value="{&quot;id&quot;:13, &quot;types&quot;:&quot;string&quot;}">Commence par</option>
+                                <option value="{&quot;id&quot;:14, &quot;types&quot;:&quot;string&quot;}">Commence par (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:15, &quot;types&quot;:&quot;string&quot;}">Ne commence pas par</option>
+                                <option value="{&quot;id&quot;:16, &quot;types&quot;:&quot;string&quot;}">Ne commence pas par (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:17, &quot;types&quot;:&quot;string&quot;}">Se termine par</option>
+                                <option value="{&quot;id&quot;:18, &quot;types&quot;:&quot;string&quot;}">Se termine par (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:19, &quot;types&quot;:&quot;string&quot;}">Ne se termine pas par</option>
+                                <option value="{&quot;id&quot;:20, &quot;types&quot;:&quot;string&quot;}">Ne se termine pas par (Ne respecte pas la casse)</option>
+                                <option value="{&quot;id&quot;:21, &quot;types&quot;:&quot;string fk user&quot;}">Est vide</option>
+                                <option value="{&quot;id&quot;:22, &quot;types&quot;:&quot;string fk user&quot;}">N'est pas vide</option>
+                                <option value="{&quot;id&quot;:23, &quot;types&quot;:&quot;number date&quot;}">Intervalle</option>
+                            </select>
+                        </li> 
+                        <li chained-name="value" class="ui-creme-chainedselect-item">
+                            <span class="ui-creme-widget ui-creme-polymorphicselect" widget="ui-creme-polymorphicselect"
+                                  key="${field.type}.${operator.id}">
+                                <script selector-key="^enum.*" type="text/template">
+                                        <select widget="ui-creme-dselect" class="ui-creme-input ui-creme-widget ui-creme-dselect"
+                                                url="/creme_core/enumerable/${field.ctype}/json" datatype="json">
+                                        </select>
+                                </script>
+                                <script selector-key="^user.(1|3)" type="text/template">
+                                        <select widget="ui-creme-dselect" class="ui-creme-input ui-creme-widget ui-creme-dselect"
+                                                url="/creme_core/enumerable/userfilter/json" datatype="json">
+                                        </select>
+                                </script>
+                                <script selector-key="^fk.(1|3)" type="text/template">
+                                        <div widget="ui-creme-entityselector" class="ui-creme-widget ui-creme-entityselector"
+                                             labelURL="/creme_core/relation/entity/${id}/json" label="Sélectionner..."
+                                             popupURL="{% url 'creme_core__listview_popup' %}?ct_id=${field.ctype}&selection=${selection}&q_filter=${qfilter}" popupSelection="0" qfilter="">
+                                            <input type="hidden" class="ui-creme-input ui-creme-entityselector"/>
+                                            <button type="button">Sélectionner...</button>
+                                        </div>
+                                </script>
+                                <script selector-key=".23$" type="text/template">
+                                        <ul widget="ui-creme-rangeselector" class="ui-creme-input ui-creme-widget ui-creme-rangeselector">
+                                            <li><input widget="ui-creme-dinput" type="${field.type}" class="ui-creme-input ui-creme-widget ui-creme-dinput date-start" placeholder="Entrez un nombre"/></li>
+                                            <li>&nbsp;-&nbsp;</li>
+                                            <li><input widget="ui-creme-dinput" type="${field.type}" class="ui-creme-input ui-creme-widget ui-creme-dinput date-end" placeholder="Entrez un nombre"/></li>
+                                        </ul>
+                                </script>
+                                <script selector-key="^boolean.*" type="text/template">
+                                        <input widget="ui-creme-dselect" class="ui-creme-input ui-creme-widget ui-creme-dselect" type="hidden" value="true"/>
+                                </script>
+                                <script selector-key=".(21|22)$" type="text/template">
+                                        <input widget="ui-creme-dselect" class="ui-creme-input ui-creme-widget ui-creme-dselect" type="hidden" value="true"/>
+                                </script>
+                                <script selector-key="^number.*" type="text/template">
+                                        <input widget="ui-creme-dinput" type="text" class="ui-creme-input ui-creme-widget ui-creme-dinput" placeholder="Entrez un nombre"/>
+                                </script>
+                                <script selector-key="*" type="text/template">
+                                        <input widget="ui-creme-dinput" type="text" class="ui-creme-input ui-creme-widget ui-creme-dinput"/>
+                                </script>
+                           </span>
+                       </li>
+                   </ul>
+               </div>
+            </li>
+       </ul>
+       <!-- 
+       <h3>Filter List</h3>
+       <ul>
+           <li><h5>Default</h5>
+               <div class="ui-creme-widget widget-auto ui-creme-selectorlist widget-active widget-ready" style="" widget="ui-creme-selectorlist">
+                    <input type="hidden" value="[]" class="ui-creme-input ui-creme-selectorlist">
+                    <div class="inner-selector-model" style="display:none;">
+                        <div class="ui-creme-widget ui-creme-chainedselect" style="" widget="ui-creme-chainedselect">
+                            <input type="hidden" name="" class="ui-creme-input ui-creme-chainedselect"/>
+                            <ul class="ui-layout hbox">
+                                <li chained-name="field" class="ui-creme-chainedselect-item">
+                                    <select auto="False" widget="ui-creme-dselect" class="ui-creme-input ui-creme-widget ui-creme-dselect">
+                                        <optgroup label="">
+                                            <option value="['email', 'string']">Adresse e-mail</option>
+                                            <option value="['description', 'string']">Description</option>
+                                            <option value="['fax', 'string']">Fax</option>
+                                            <option value="['mobile', 'string']">Mobile</option>
+                                            <option value="['last_name', 'string']">Nom</option>
+                                            <option value="['phone', 'string']">Numéro de téléphone</option>
+                                            <option value="['first_name', 'string']">Prénom</option>
+                                            <option value="['url_site', 'string']">Site Web</option>
+                                            <option value="['skype', 'string']">Skype</option>
+                                        </optgroup>
+                                        <optgroup label="Adresse de facturation">
+                                            <option value="billing_address__address">[Adresse de facturation] - Adresse</option>
+                                            <option value="billing_address__po_box">[Adresse de facturation] - Boite postale</option>
+                                            <option value="billing_address__zipcode">[Adresse de facturation] - Code postal</option>
+                                            <option value="billing_address__department">[Adresse de facturation] - Département</option>
+                                            <option value="billing_address__name">[Adresse de facturation] - Nom</option>
+                                            <option value="billing_address__country">[Adresse de facturation] - Pays</option>
+                                            <option value="billing_address__city">[Adresse de facturation] - Ville</option>
+                                            <option value="billing_address__state">[Adresse de facturation] - État</option>
+                                        </optgroup>
+                                        <optgroup label="Adresse de livraison">
+                                            <option value="shipping_address__address">[Adresse de livraison] - Adresse</option>
+                                            <option value="shipping_address__po_box">[Adresse de livraison] - Boite postale</option>
+                                            <option value="shipping_address__zipcode">[Adresse de livraison] - Code postal</option>
+                                            <option value="shipping_address__department">[Adresse de livraison] - Département</option>
+                                            <option value="shipping_address__name">[Adresse de livraison] - Nom</option>
+                                            <option value="shipping_address__country">[Adresse de livraison] - Pays</option>
+                                            <option value="shipping_address__city">[Adresse de livraison] - Ville</option>
+                                            <option value="shipping_address__state">[Adresse de livraison] - État</option>
+                                        </optgroup>
+                                        <optgroup label="Civilité">
+                                            <option value="civility__title">[Civilité] - Intitulé</option>
+                                        </optgroup>
+                                        <optgroup label="Est un utilisateur">
+                                            <option value="is_user__is_team">[Est un utilisateur] - Est une équipe ?</option>
+                                            <option value="is_user__role">[Est un utilisateur] - Rôle</option>
+                                            <option value="is_user__email">[Est un utilisateur] - adresse électronique</option>
+                                            <option value="is_user__last_name">[Est un utilisateur] - nom</option>
+                                            <option value="is_user__username">[Est un utilisateur] - nom d'utilisateur</option>
+                                            <option value="is_user__first_name">[Est un utilisateur] - prénom</option>
+                                        </optgroup>
+                                        <optgroup label="Fonction">
+                                            <option value="position__title">[Fonction] - Intitulé</option>
+                                        </optgroup>
+                                        <optgroup label="Langue(s) parlée(s)">
+                                            <option value="language__code">[Langue(s) parlée(s)] - Code</option>
+                                            <option value="language__name">[Langue(s) parlée(s)] - Nom</option>
+                                        </optgroup>
+                                        <optgroup label="Photo du contact">
+                                            <option value="image__description">[Photo du contact] - Description</option>
+                                            <option value="image__height">[Photo du contact] - Hauteur</option>
+                                            <option value="image__image">[Photo du contact] - Image</option>
+                                            <option value="image__width">[Photo du contact] - Largueur</option>
+                                            <option value="image__name">[Photo du contact] - Nom</option>
+                                            <option value="image__user">[Photo du contact] - Utilisateur</option>
+                                        </optgroup>
+                                        <optgroup label="Secteur d'activités">
+                                            <option value="sector__title">[Secteur d'activités] - Intitulé</option>
+                                        </optgroup>
+                                        <optgroup label="Utilisateur">
+                                            <option value="user__is_team">[Utilisateur] - Est une équipe ?</option>
+                                            <option value="user__role">[Utilisateur] - Rôle</option>
+                                            <option value="user__email">[Utilisateur] - adresse électronique</option>
+                                            <option value="user__last_name">[Utilisateur] - nom</option>
+                                            <option value="user__username">[Utilisateur] - nom d'utilisateur</option>
+                                            <option value="user__first_name">[Utilisateur] - prénom</option>
+                                        </optgroup>
+                                    </select>
+                                </li>
+                                <li chained-name="operator" class="ui-creme-chainedselect-item">
+                                    <select url="" auto="False" widget="ui-creme-dselect" name="" class="ui-creme-input ui-creme-widget ui-creme-dselect">
+                                        <option value="1">Est égal à</option>
+                                        <option value="2">Est égal à (Ne respecte pas la casse)</option>
+                                        <option value="3">N'est pas égal à</option>
+                                        <option value="4">N'est pas égal à (Ne respecte pas la casse)</option>
+                                        <option value="5">Contient</option>
+                                        <option value="6">Contient (Ne respecte pas la casse)</option>
+                                        <option value="7">Ne contient pas</option>
+                                        <option value="8">Ne contient pas (Ne respecte pas la casse)</option>
+                                        <option value="9">&gt;</option>
+                                        <option value="10">&gt;=</option>
+                                        <option value="11">&lt;</option>
+                                        <option value="12">&lt;=</option>
+                                        <option value="13">Commence par</option>
+                                        <option value="14">Commence par (Ne respecte pas la casse)</option>
+                                        <option value="15">Ne commence pas par</option>
+                                        <option value="16">Ne commence pas par (Ne respecte pas la casse)</option>
+                                        <option value="17">Se termine par</option>
+                                        <option value="18">Se termine par (Ne respecte pas la casse)</option>
+                                        <option value="19">Ne se termine pas par</option>
+                                        <option value="20">Ne se termine pas par (Ne respecte pas la casse)</option>
+                                        <option value="21">Est vide</option>
+                                        <option value="22">N'est pas vide</option>
+                                        <option value="23">Intervalle</option>
+                                    </select>
+                                </li>
+                                <li chained-name="value" class="ui-creme-chainedselect-item">
+                                    <span class="ui-creme-widget ui-creme-polymorphicselect" style="" widget="ui-creme-polymorphicselect" key="${operator}">
+                                        <input type="hidden" class="ui-creme-input ui-creme-polymorphicselect"/>
+                                        <script selector-key="21|22" type="text/template">
+                                            <input widget="ui-creme-dinput" type="hidden" class="ui-creme-input ui-creme-widget ui-creme-dinput" value="true"/>
+                                        </script>
+                                        <script selector-key="*" type="text/template">
+                                            <input widget="ui-creme-dinput" type="text" class="ui-creme-input ui-creme-widget ui-creme-dinput"/>
+                                        </script>
+                                   </span>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+                   <ul class="selectors ui-layout"></ul>
+                   <div class="add">Ajouter</div>
+               </div>
+           </li>
+           <li><h5>Autocomplete</h5>
+               <div class="ui-creme-widget widget-auto ui-creme-selectorlist widget-active widget-ready" style="" widget="ui-creme-selectorlist">
+                    <input type="hidden" value="[]" class="ui-creme-input ui-creme-selectorlist">
+                    <div class="inner-selector-model" style="display:none;">
+                        <div class="ui-creme-widget ui-creme-chainedselect" style="" widget="ui-creme-chainedselect">
+                            <input type="hidden" name="" class="ui-creme-input ui-creme-chainedselect"/>
+                            <ul class="ui-layout hbox">
+                                <li chained-name="name" class="ui-creme-chainedselect-item">
+                                    <select autocomplete url="" auto="False" widget="ui-creme-dselect" name="" class="ui-creme-input ui-creme-widget ui-creme-dselect">
+                                        <optgroup label="">
+                                            <option value="email">Adresse e-mail</option>
+                                            <option value="description">Description</option>
+                                            <option value="fax">Fax</option>
+                                            <option value="mobile">Mobile</option>
+                                            <option value="last_name">Nom</option>
+                                            <option value="phone">Numéro de téléphone</option>
+                                            <option value="first_name">Prénom</option>
+                                            <option value="url_site">Site Web</option>
+                                            <option value="skype">Skype</option>
+                                        </optgroup>
+                                        <optgroup label="Adresse de facturation">
+                                            <option value="billing_address__address">[Adresse de facturation] - Adresse</option>
+                                            <option value="billing_address__po_box">[Adresse de facturation] - Boite postale</option>
+                                            <option value="billing_address__zipcode">[Adresse de facturation] - Code postal</option>
+                                            <option value="billing_address__department">[Adresse de facturation] - Département</option>
+                                            <option value="billing_address__name">[Adresse de facturation] - Nom</option>
+                                            <option value="billing_address__country">[Adresse de facturation] - Pays</option>
+                                            <option value="billing_address__city">[Adresse de facturation] - Ville</option>
+                                            <option value="billing_address__state">[Adresse de facturation] - État</option>
+                                        </optgroup>
+                                        <optgroup label="Adresse de livraison">
+                                            <option value="shipping_address__address">[Adresse de livraison] - Adresse</option>
+                                            <option value="shipping_address__po_box">[Adresse de livraison] - Boite postale</option>
+                                            <option value="shipping_address__zipcode">[Adresse de livraison] - Code postal</option>
+                                            <option value="shipping_address__department">[Adresse de livraison] - Département</option>
+                                            <option value="shipping_address__name">[Adresse de livraison] - Nom</option>
+                                            <option value="shipping_address__country">[Adresse de livraison] - Pays</option>
+                                            <option value="shipping_address__city">[Adresse de livraison] - Ville</option>
+                                            <option value="shipping_address__state">[Adresse de livraison] - État</option>
+                                        </optgroup>
+                                        <optgroup label="Civilité">
+                                            <option value="civility__title">[Civilité] - Intitulé</option>
+                                        </optgroup>
+                                        <optgroup label="Est un utilisateur">
+                                            <option value="is_user__is_team">[Est un utilisateur] - Est une équipe ?</option>
+                                            <option value="is_user__role">[Est un utilisateur] - Rôle</option>
+                                            <option value="is_user__email">[Est un utilisateur] - adresse électronique</option>
+                                            <option value="is_user__last_name">[Est un utilisateur] - nom</option>
+                                            <option value="is_user__username">[Est un utilisateur] - nom d'utilisateur</option>
+                                            <option value="is_user__first_name">[Est un utilisateur] - prénom</option>
+                                        </optgroup>
+                                        <optgroup label="Fonction">
+                                            <option value="position__title">[Fonction] - Intitulé</option>
+                                        </optgroup>
+                                        <optgroup label="Langue(s) parlée(s)">
+                                            <option value="language__code">[Langue(s) parlée(s)] - Code</option>
+                                            <option value="language__name">[Langue(s) parlée(s)] - Nom</option>
+                                        </optgroup>
+                                        <optgroup label="Photo du contact">
+                                            <option value="image__description">[Photo du contact] - Description</option>
+                                            <option value="image__height">[Photo du contact] - Hauteur</option>
+                                            <option value="image__image">[Photo du contact] - Image</option>
+                                            <option value="image__width">[Photo du contact] - Largueur</option>
+                                            <option value="image__name">[Photo du contact] - Nom</option>
+                                            <option value="image__user">[Photo du contact] - Utilisateur</option>
+                                        </optgroup>
+                                        <optgroup label="Secteur d'activités">
+                                            <option value="sector__title">[Secteur d'activités] - Intitulé</option>
+                                        </optgroup>
+                                        <optgroup label="Utilisateur">
+                                            <option value="user__is_team">[Utilisateur] - Est une équipe ?</option>
+                                            <option value="user__role">[Utilisateur] - Rôle</option>
+                                            <option value="user__email">[Utilisateur] - adresse électronique</option>
+                                            <option value="user__last_name">[Utilisateur] - nom</option>
+                                            <option value="user__username">[Utilisateur] - nom d'utilisateur</option>
+                                            <option value="user__first_name">[Utilisateur] - prénom</option>
+                                        </optgroup>
+                                    </select>
+                                </li>
+                                <li chained-name="operator" class="ui-creme-chainedselect-item">
+                                    <select autocomplete url="" auto="False" widget="ui-creme-dselect" name="" class="ui-creme-input ui-creme-widget ui-creme-dselect">
+                                        <option value="1">Est égal à</option>
+                                        <option value="2">Est égal à (Ne respecte pas la casse)</option>
+                                        <option value="3">N'est pas égal à</option>
+                                        <option value="4">N'est pas égal à (Ne respecte pas la casse)</option>
+                                        <option value="5">Contient</option>
+                                        <option value="6">Contient (Ne respecte pas la casse)</option>
+                                        <option value="7">Ne contient pas</option>
+                                        <option value="8">Ne contient pas (Ne respecte pas la casse)</option>
+                                        <option value="9">&gt;</option>
+                                        <option value="10">&gt;=</option>
+                                        <option value="11">&lt;</option>
+                                        <option value="12">&lt;=</option>
+                                        <option value="13">Commence par</option>
+                                        <option value="14">Commence par (Ne respecte pas la casse)</option>
+                                        <option value="15">Ne commence pas par</option>
+                                        <option value="16">Ne commence pas par (Ne respecte pas la casse)</option>
+                                        <option value="17">Se termine par</option>
+                                        <option value="18">Se termine par (Ne respecte pas la casse)</option>
+                                        <option value="19">Ne se termine pas par</option>
+                                        <option value="20">Ne se termine pas par (Ne respecte pas la casse)</option>
+                                        <option value="21">Est vide</option>
+                                        <option value="22">Intervalle</option>
+                                    </select>
+                                </li>
+                                <li chained-name="value" class="ui-creme-chainedselect-item">
+                                    <span class="ui-creme-widget ui-creme-polymorphicselect" style="" widget="ui-creme-polymorphicselect" url="${operator}">
+                                        <input auto="False" type="hidden" name="" class="ui-creme-input ui-creme-polymorphicselect"/>
+                                        <ul style="display:none;" class="selector-model">
+                                            <li input-type="21">
+                                                <select url="" auto="False" widget="ui-creme-dselect" name="" class="ui-creme-input ui-creme-widget ui-creme-dselect">
+                                                    <option value="true">Vrai</option>
+                                                    <option value="false">Faux</option>
+                                                </select>
+                                            </li>
+                                            <li class="default">
+                                                <input auto="False" widget="ui-creme-dinput" type="text" name="" class="ui-creme-input ui-creme-widget ui-creme-dinput"/>
+                                            </li>
+                                        </ul>
+                                   </span>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+                   <ul class="selectors ui-layout"></ul>
+                   <div class="add">Ajouter</div>
+               </div>
+           </li>
+       </ul>
+       -->
+   </li>
+</ul>
+{% endblock %}

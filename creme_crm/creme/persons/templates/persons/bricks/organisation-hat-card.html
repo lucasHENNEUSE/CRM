@@ -1,0 +1,99 @@
+{% extends 'creme_core/bricks/base/hat-card.html' %}
+{% load i18n creme_bricks creme_cells creme_listview creme_perms persons_tags %}
+{% load inner_edition_uri is_field_hidden listify url url_join from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} persons-organisation-card-brick{% endblock %}
+
+{% block card_intro_content %}
+    {% if intro_summary.template_name %}{% include intro_summary.template_name with summary=intro_summary %}{% endif %}
+{% endblock %}
+
+{% block card_main %}
+    <div class='card-main{% if object.is_managed or is_customer or is_supplier %} has-indicators{% endif %}'>
+        <span class="card-name">{{object.name}}{% if object.legal_form and not object|is_field_hidden:'legal_form' %}, {{object.legal_form}}{% endif %}
+            {% if not object.is_deleted and not object.sandbox %}
+             {% cell_4_regularfield instance=object field="name" as name_cell %}
+             {% cell_4_regularfield instance=object field="legal_form" as lform_cell %}
+             {% listify name_cell lform_cell as cells %}
+             {% inner_edition_uri instance=object cells=cells as edition_uri %}
+             {% brick_card_action id='edit' url=edition_uri enabled=user|has_perm_to_change:object %}
+            {% endif %}
+            {% include 'creme_core/bricks/frags/hat-card-title-indicators.html' %}
+        </span>
+        <div class='business-card-indicators'>
+          {% if object.is_managed %}
+            <div class='business-card-indicator'>{% blocktranslate with software=SOFTWARE_LABEL %}Managed by {{software}}{% endblocktranslate %}</div>
+          {% endif %}
+          {% if is_customer %}<div class='business-card-indicator'>{% translate 'Customer' %}</div>{% endif %}
+          {% if is_supplier %}<div class='business-card-indicator'>{% translate 'Supplier' %}</div>{% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block card_secondary %}
+  {% with total_count=managers_count|add:employees_count %}
+    <div class="card-employees{% if total_count > 3 and total_count < max_contacts %} card-employees-wide{% endif %}">
+      {% if total_count >= max_contacts %}
+        <span class="card-function">{% url 'persons__list_contacts' as lv_url %}
+          {% if managers_count %}<a href="{{lv_url}}?{% listview_q_argument relations__type=REL_SUB_MANAGES relations__object_entity=object.id %}">{% blocktranslate count count=managers_count %}{{count}} Manager{% plural %}{{count}} Managers{% endblocktranslate %}</a>{% endif %}
+          {% if managers_count and employees_count %}, {% endif %}
+          {% if employees_count %}<a href="{{lv_url}}?{% listview_q_argument relations__type=REL_SUB_EMPLOYED_BY relations__object_entity=object.id %}">{% blocktranslate count count=employees_count %}{{count}} Employee{% plural %}{{count}} Employees{% endblocktranslate %}</a>{% endif %}
+        </span>
+      {% elif position_is_hidden %}
+        {% for manager in managers %}
+          <span class="card-function">{% translate 'Manager' %}</span> <a href='{{manager.get_absolute_url}}'>{{manager|persons_pretty_contact}}</a>{% if not forloop.last or employees %}, {% endif %}
+        {% endfor %}
+        {% for employee in employees %}
+          <span class="card-function">{% translate 'Employee' %}</span> <a href='{{employee.get_absolute_url}}'>{{employee|persons_pretty_contact}}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      {% else %}
+        {% for manager in managers %}
+          <span class="card-function">{{manager.position|default:_('Manager')}}</span> <a href='{{manager.get_absolute_url}}'>{{manager|persons_pretty_contact}}</a>{% if not forloop.last or employees %}, {% endif %}
+        {% endfor %}
+        {% for employee in employees %}
+          <span class="card-function">{{employee.position|default:_('Employee')}}</span> <a href='{{employee.get_absolute_url}}'>{{employee|persons_pretty_contact}}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endwith %}
+{% endblock %}
+
+{% block card_fields_title %}
+{% translate 'Details' context 'persons-organisation' %}
+{% endblock %}
+
+{% block card_fields %}
+  {% if not object|is_field_hidden:'phone' %}
+    <div class="card-info-field">
+        <span class='card-info-key'>{% translate 'Phone' %}</span>
+        <span class='card-info-value'>
+            {{object.phone|default:'—'}}
+            {% brick_card_action_for_field instance=object field='phone' user=user %}
+        </span>
+    </div>
+  {% endif %}
+  {% if not object|is_field_hidden:'billing_address' %}
+    <div class="card-info-field">
+        <span class='card-info-key'>{% translate 'Address' %}</span>
+        <span class='card-info-value'>
+         {% with address=object.billing_address %}
+          {% if address is not None %}
+           {% with address_desc=address|persons_pretty_address|linebreaksbr %}
+            {% if address_desc %}{{address_desc}}{% else %}—{% endif %}
+            {% url_join address.get_edit_absolute_url type='billing' as b_uri %}{% brick_card_action url=b_uri enabled=user|has_perm_to_change:object %}
+           {% endwith %}
+          {% else %}
+            —
+            {% brick_card_action url='persons__create_billing_address'|url:object.id enabled=user|has_perm_to_change:object %}
+          {% endif %}
+         {% endwith %}
+        </span>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block card_summary %}
+  {% for summary_ctxt in summaries %}
+    {% if summary_ctxt.template_name %}{% include summary_ctxt.template_name with summary=summary_ctxt %}{% endif %}
+  {% endfor %}
+{% endblock %}

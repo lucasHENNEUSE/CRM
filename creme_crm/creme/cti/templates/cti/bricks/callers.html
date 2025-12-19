@@ -1,0 +1,37 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} cti-callers-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Potential caller') plural=_('{count} Potential callers') empty=verbose_name icon='phone' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% if not page.paginator.count %}
+        {% brick_header_action id='redirect' url='cti__create_contact'|url:number      label=contact_creation_label type='add' enabled=can_create_contact %}
+        {% brick_header_action id='redirect' url='cti__create_organisation'|url:number label=orga_creation_label    type='add' enabled=can_create_orga %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Entity') class='caller-entity' %}
+    {% brick_table_column title=_('Actions') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+{% url 'creme_core__delete_related_to_entity' ct_id as delete_url %}{% translate 'Create a phone call' as creation_label %}
+    {% for caller in page.object_list %}
+    <tr>
+        <td class="caller-entity">{% widget_entity_hyperlink caller user %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='redirect' url='cti__create_phonecall'|url:caller.id label=creation_label enabled=can_create_activity display='text' %}
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% blocktranslate %}No contact/organisation corresponds to this number: {{number}}{% endblocktranslate %}
+{% endblock %}

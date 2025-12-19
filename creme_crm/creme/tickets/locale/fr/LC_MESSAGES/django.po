@@ -1,0 +1,250 @@
+# FR LOCALISATION OF 'TICKETS' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i tests.py --no-location
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Tickets 2.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-18 20:16+0200\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Tickets"
+msgstr "Tickets"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "Tickets not closed"
+msgstr "Tickets non fermés"
+
+msgid "Information on the ticket"
+msgstr "Informations sur le ticket"
+
+msgid "Link to a ticket"
+msgstr "Lier à un ticket"
+
+msgid ""
+"This button links the current entity to a selected ticket, using the "
+"relationship type «is linked to the ticket».\n"
+"App: Tickets"
+msgstr ""
+"Ce bouton relie la fiche courante avec un ticket sélectionné, en utilisant "
+"le type de relation «est lié au ticket».\n"
+"App : Tickets"
+
+msgid "Creation form for ticket"
+msgstr "Formulaire de création de ticket"
+
+msgid "Edition form for ticket"
+msgstr "Formulaire de modification de ticket"
+
+msgid "Creation form for ticket template"
+msgstr "Formulaire de création de patron"
+
+msgid "Edition form for ticket template"
+msgstr "Formulaire de modification de patron"
+
+msgid "Resolving duration"
+msgstr "Temps de résolution"
+
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "tickets-criticality"
+msgid "Create a criticality"
+msgstr "Créer une criticité"
+
+msgctxt "tickets-singular"
+msgid "Ticket criticality"
+msgstr "Criticité de ticket"
+
+msgctxt "tickets-plural"
+msgid "Ticket criticality"
+msgstr "Criticités de ticket"
+
+msgctxt "tickets-priority"
+msgid "Create a priority"
+msgstr "Créer une priorité"
+
+msgid "Ticket priority"
+msgstr "Priorité de ticket"
+
+msgid "Ticket priorities"
+msgstr "Priorités de ticket"
+
+msgid "Is a \"closed\" status?"
+msgstr "Est un statut \"fermé\" ?"
+
+msgid ""
+"If you set as closed, existing tickets which use this status will not be "
+"updated automatically (i.e. closing dates will not be set)."
+msgstr ""
+"Si vous marquez comme fermé, les tickets existants qui utilisent ce statut "
+"ne seront pas automatiquement mis à jour (c-à-d: les date de clôture ne "
+"seront pas renseignées)."
+
+msgctxt "tickets-status"
+msgid "Create a status"
+msgstr "Créer un statut"
+
+msgid "Ticket status"
+msgstr "Statut de ticket"
+
+msgid "Ticket statuses"
+msgstr "Statuts de ticket"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Priority"
+msgstr "Priorité"
+
+msgid "Criticality"
+msgstr "Criticité"
+
+msgid "Solution"
+msgstr "Solution"
+
+msgid "Number"
+msgstr "Numéro"
+
+msgid "Closing date"
+msgstr "Date de clôture"
+
+msgid "Create a ticket"
+msgstr "Créer un ticket"
+
+msgid "Save the ticket"
+msgstr "Enregistrer le ticket"
+
+msgid "Ticket"
+msgstr "Ticket"
+
+msgid "Create a ticket template"
+msgstr "Créer un patron de ticket"
+
+msgid "Save the ticket template"
+msgstr "Enregistrer le patron de ticket"
+
+msgid "Ticket template"
+msgstr "Patron de ticket"
+
+msgid "Ticket templates"
+msgstr "Patrons de ticket"
+
+msgctxt "tickets-status"
+msgid "Open"
+msgstr "Ouvert"
+
+msgctxt "tickets-status"
+msgid "Closed"
+msgstr "Fermé"
+
+msgctxt "tickets-status"
+msgid "Invalid"
+msgstr "Invalide"
+
+msgctxt "tickets-status"
+msgid "Duplicated"
+msgstr "Dupliqué"
+
+msgid "Won't fix"
+msgstr "Ne sera pas corrigé"
+
+msgid "Low"
+msgstr "Basse"
+
+msgid "Normal"
+msgstr "Normale"
+
+msgid "High"
+msgstr "Haute"
+
+msgid "Urgent"
+msgstr "Urgente"
+
+msgid "Blocking"
+msgstr "Bloquante"
+
+msgid "Minor"
+msgstr "Mineure"
+
+msgid "Major"
+msgstr "Majeure"
+
+msgid "Feature"
+msgstr "Fonctionnalité"
+
+msgid "Critical"
+msgstr "Critique"
+
+msgid "Enhancement"
+msgstr "Amélioration"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "is linked to the ticket"
+msgstr "est lié au ticket"
+
+msgid "(ticket) linked to the entity"
+msgstr "(ticket) lié à la fiche"
+
+msgid "Ticket view"
+msgstr "Vue de Ticket"
+
+msgid "Ticket template view"
+msgstr "Vue de patron de ticket"
+
+#, python-format
+msgid "The relationship type «%(predicate)s» is disabled"
+msgstr "Le type de relation «%(predicate)s» est désactivé"
+
+#~ msgid "You are not allowed to link this entity"
+#~ msgstr "Vous n'avez pas la permission de relier cette fiche"
+
+#~ msgid "You are not allowed to access to the app «Tickets»"
+#~ msgstr "Vous n'avez pas accès à l'application «Tickets»"
+
+#~ msgid "Is linked to a ticket"
+#~ msgstr "Est lié à un ticket"
+
+#~ msgid "Order"
+#~ msgstr "Ordre"
+
+#~ msgid "forbidden"
+#~ msgstr "interdit"
+
+#~ msgid "Number of tickets"
+#~ msgstr "Nombre de ticket(s)"
+
+#~ msgid "Number of open tickets"
+#~ msgstr "Nombre de ticket(s) ouvert(s)"
+
+#~ msgid "Percentage of closed tickets"
+#~ msgstr "Pourcentage de tickets fermés"
+
+#~ msgid "Copy"
+#~ msgstr "Copie"
+
+#~ msgid "Status - Name"
+#~ msgstr "Statut - Nom"
+
+#~ msgid "Priority - Name"
+#~ msgstr "Priorité - Nom"
+
+#~ msgid "Criticity - Name"
+#~ msgstr "Criticité - Nom"
+
+#~ msgid "Deletable"
+#~ msgstr "Supprimable"

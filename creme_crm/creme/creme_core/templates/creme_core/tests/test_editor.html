@@ -1,0 +1,12 @@
+{% extends "creme_core/tests/testbase.html" %}
+
+{% block test_title %}Rich text editor{% endblock %}
+
+{% block test_content %}
+    <ul>
+        <li>
+            <h4>Tiny MCE</h4>
+            <textarea widget="ui-creme-editor" class="ui-creme-editor ui-creme-widget widget-auto" basepath="tiny_mce"></textarea>
+        </li>
+    </ul>
+{% endblock %}

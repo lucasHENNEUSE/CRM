@@ -1,0 +1,84 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_cells creme_perms creme_widgets %}
+{% load and_op in inner_edition_uri listify print_field url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} opportunities-quotes-brick{% endblock %}
+
+{% block brick_script %}
+    <script type="text/javascript">
+        $('.brick[data-brick-id="{{brick_id}}"]').on('brick-ready', function(e, brick) {
+            new creme.opportunities.QuoteController().bind(brick);
+        });
+    </script>
+{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Proposed quote') plural=_('{count} Proposed quotes') empty=_('Proposed quotes') icon='invoice' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if relation_type.enabled %}
+   {% with link_perm=user|has_perm_to_link:object create_perm=user|has_perm_to_create:objects_ctype %}
+    {% url 'opportunities__generate_billing_doc' object.id objects_ctype.id as create_url %}
+    {% brick_header_action id='update' url=create_url type='add' label=_('Generate a current quote') enabled=link_perm|and_op:create_perm %}
+    {% brick_header_action id='add-relationships' icon='link'    label=_('Link to a quote')          enabled=link_perm __selector_url='opportunities__select_billing_objs_to_link'|url __subject_id=object.id __rtype_id=relation_type.id __ctype_id=objects_ctype.id __multiple=True %}
+   {% endwith %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_before_content %}
+  {% if not relation_type.enabled %}
+    <div class="global-error">
+        {% blocktranslate with predicate=relation_type.predicate %}Beware: the relationship type «{{predicate}}» is disabled. You should re-enable it if it's still useful, or remove this block{% endblocktranslate %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='number' status='primary' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='name' status='nowrap' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='status' %}
+    {% brick_table_column title=_('Current quote?') status='nowrap' %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with current_quote_ids=object.get_current_quote_ids link_perm=user|has_perm_to_link:object unlink_perm=user|has_perm_to_unlink:object delete_relation_url='creme_core__delete_similar_relations'|url %}
+  {% for quote in page.object_list %}
+   {% with quote_is_current=quote.id|in:current_quote_ids quote_view_perm=user|has_perm_to_view:quote quote_unlink_perm=user|has_perm_to_unlink:quote %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% if quote_view_perm %}{{quote.number}}{% else %}{{HIDDEN_VALUE}}{% endif %}</td>
+        <td>{% widget_entity_hyperlink quote user %}</td>
+        <td>{% if quote_view_perm %}{% print_field object=quote field='status' %}{% else %}{{HIDDEN_VALUE}}{% endif %}</td>
+        <td>
+          {% if quote_is_current %}
+            <input class="opportunities-current-quote" type="checkbox" data-url="{% url 'opportunities__linked_quote_is_current' object.id quote.id 'unset_current' %}"
+                   {% if not unlink_perm or not quote_unlink_perm %}disabled="disabled"{% endif %}
+                   checked />
+            {% translate 'Yes' %}
+          {% else %}
+            <input class="opportunities-current-quote" type="checkbox" data-url="{% url 'opportunities__linked_quote_is_current' object.id quote.id 'set_current' %}"
+                   {% if not unlink_perm or not quote_unlink_perm %}disabled="disabled"{% endif %} />
+            {% translate 'No' %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% cell_4_regularfield model=quote field="number" as number_cell %}
+            {% cell_4_regularfield model=quote field="name" as name_cell %}
+            {% cell_4_regularfield model=quote field="status" as status_cell %}
+            {% listify number_cell name_cell status_cell as cells %}
+            {% inner_edition_uri instance=quote cells=cells as edition_uri %}
+            {% brick_table_action id='edit' url=edition_uri comeback=True label=_('Edit this quote') enabled=user|has_perm_to_change:quote %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_relation_url __subject_id=object.id __type=relation_type.id __object_id=quote.id label=_('Unlink this quote') icon='unlink' enabled=unlink_perm|and_op:quote_unlink_perm %}
+        </td>
+    </tr>
+   {% endwith %}
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No linked quote for the moment' %}
+{% endblock %}

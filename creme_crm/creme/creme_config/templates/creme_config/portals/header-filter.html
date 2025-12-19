@@ -1,0 +1,12 @@
+{% extends 'creme_config/portals/base.html' %}
+{% load i18n creme_widgets %}
+
+{% block page_title %}{% translate 'Configuration of views' %} - {% endblock %}
+
+{% block title %}
+    {{block.super}}{% translate 'Views' %}
+{% endblock %}
+
+{% block portal_help %}
+    {% widget_help_sign message=_('Views allow to choose which columns to show in list-views. You can create/edit/delete them directly from list-views. This portal displays all of them at once.') %}
+{% endblock %}

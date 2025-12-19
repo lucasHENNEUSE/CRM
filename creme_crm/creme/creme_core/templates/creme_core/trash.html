@@ -1,0 +1,21 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks creme_widgets %}
+
+{% block page_title %}{% translate 'Trash' %} - {% endblock %}
+
+{% block content %}
+    <div class="hat-bar-container">
+        <div class="hat-bar">{% translate 'Trash' as title %}
+            <div class="bar-icon">{% widget_icon name='delete' size='brick-hat-bar' label=title %}</div>
+            <div class="bar-title"><h1>{{title}}</h1></div>
+        </div>
+    </div>
+
+    {% if not ENTITIES_DELETION_ALLOWED %}
+        {% widget_help_sign message=_('The definitive deletion has been disabled by the administrator.') %}
+    {% endif%}
+
+    {% brick_import app='creme_core' name='trash' as trash_brick %}
+    {% brick_display trash_brick %}
+    {% brick_end %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks %}
+{% load print_field from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-file_refs-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Temporary file') plural=_('{count} Temporary files') empty=verbose_name icon='document' %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='created' status='primary' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='user' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='filedata' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='temporary' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='description' %}
+    {% brick_table_column title=_('Actions') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+  {% for file_ref in page.object_list %}
+    <tr>
+        <td>{% print_field object=file_ref field='created' %}</td>
+        <td>{% print_field object=file_ref field='user' %}</td>
+        <td>{{file_ref.filedata}}</td>
+        <td>{% print_field object=file_ref field='temporary' %}</td>
+        <td>{% print_field object=file_ref field='description' %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='redirect' url=file_ref.get_download_absolute_url icon='download' label=_('Download') %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No file for the moment' %}
+{% endblock %}

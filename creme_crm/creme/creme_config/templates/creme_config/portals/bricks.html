@@ -1,0 +1,8 @@
+{% extends 'creme_config/portals/base.html' %}
+{% load i18n %}
+
+{% block page_title %}{% translate 'Configuration of blocks' %} - {% endblock %}
+
+{% block title %}
+    {{block.super}}{% translate 'Blocks' %}
+{% endblock %}

@@ -1,0 +1,5155 @@
+# FR LOCALISATION OF 'CREME_CORE' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" -i "templates/creme_core/tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Creme-Core 2.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-11 16:55+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "See"
+msgstr "Voir"
+
+#, python-brace-format
+msgid "Go to the entity {entity}"
+msgstr "Accéder à la fiche {entity}"
+
+msgid "Clone"
+msgstr "Cloner"
+
+msgid "Multiple update"
+msgstr "Modification multiple"
+
+msgid "Multiple deletion"
+msgstr "Suppression multiple"
+
+msgid "Multiple property adding"
+msgstr "Ajout de propriété multiple"
+
+msgid "Multiple relationship adding"
+msgstr "Ajout de relation multiple"
+
+msgid "Merge 2 entities"
+msgstr "Fusionner 2 fiches"
+
+msgid "Core"
+msgstr "Cœur"
+
+msgid "Web browser"
+msgstr "Navigateur web"
+
+msgctxt "creme_core"
+msgid "Email"
+msgstr "E-mail"
+
+msgid "A staff user is required."
+msgstr "Un administrateur est requis."
+
+msgid "A superuser is required."
+msgstr "Un super-utilisateur est requis."
+
+msgid "You are not super-user."
+msgstr "Vous n'êtes pas super-utilisateur"
+
+#, python-format
+msgid "The password must contain at least %(min_length)d character."
+msgid_plural "The password must contain at least %(min_length)d characters."
+msgstr[0] "Le mot de passe doit contenir au minimum %(min_length)d caractère."
+msgstr[1] "Le mot de passe doit contenir au minimum %(min_length)d caractères."
+
+msgid "The password can’t be too similar to the other personal information."
+msgstr ""
+"Le mot de passe ne peut pas trop ressembler aux autres informations "
+"personnelles."
+
+msgid "The password can’t be a commonly used password."
+msgstr "Le mot de passe ne peut pas être un mot de passe couramment utilisé."
+
+msgid "The password can’t be entirely numeric."
+msgstr "Le mot de passe ne peut pas être entièrement numérique."
+
+msgid "CSV File (delimiter: ',')"
+msgstr "Fichier CSV (séparateur: ',')"
+
+msgid "CSV File (delimiter: ';')"
+msgstr "Fichier CSV (séparateur: ';')"
+
+msgid "CSV File"
+msgstr "Fichier CSV"
+
+msgid ""
+"A CSV file contains the fields values of an entity on each line, separated "
+"by commas or semicolons and each one can be surrounded by quotation marks "
+"\" (to protect a value containing a comma for example)."
+msgstr ""
+"Un fichier CSV contient les valeurs des champs d'une fiche sur chaque ligne, "
+"séparées par des virgules ou des points-virgules et chacune pouvant être "
+"entourée par des guillemets \" (pour protéger une valeur contenant une "
+"virgule par exemple)."
+
+msgid "XLS File"
+msgstr "Fichier XLS"
+
+msgid "Mass export"
+msgstr "Export en masse"
+
+msgid ""
+"XLS is a file extension for a spreadsheet file format created by Microsoft "
+"for use with Microsoft Excel ® (Excel 97-2003 Workbook)."
+msgstr ""
+"XLS est une extension de nom de fichier pour tableur au format de Microsoft "
+"Excel ® (Excel 97-2003 Workbook)."
+
+msgid "XLSX File"
+msgstr "Fichier XLSX"
+
+msgid "XLSX file created by Microsoft Excel 2010 ®."
+msgstr "Fichier XLSX créé par Microsoft Excel 2010 ®."
+
+msgid "Properties"
+msgstr "Propriétés"
+
+msgid ""
+"Displays the Properties attached to the current entity. Properties are kind "
+"of markers, useful to filter entities.\n"
+"App: Core"
+msgstr ""
+"Affiche les Propriétés attachées à la fiche courante. Les Propriétés sont "
+"des sortes de marqueurs, utiles pour filtrer les fiches.\n"
+"App : Cœur"
+
+msgid "Relationships"
+msgstr "Relations"
+
+msgid ""
+"Displays the entities which are linked to the current entity with a "
+"Relationship. A Relationship is: \n"
+"- typed (examples of types: «is a customer of», «has been sent by»)\n"
+"- has a symmetric relationship (e.g. «is a customer of» & «is a supplier of» "
+"are symmetric)\n"
+"App: Core"
+msgstr ""
+"Affiche les fiches qui sont reliées à la fiche courante par une Relation. "
+"Une Relation est : \n"
+"- typée (exemples de types : «est un client de», «a été envoyé par»)\n"
+"- a une relation symétrique (ex: «est un client de» & «est un fournisseur "
+"de» sont symétriques)\n"
+"App : Cœur"
+
+msgid "Custom fields"
+msgstr "Champs personnalisés"
+
+msgid ""
+"Displays the values of the Custom Fields for the current entity. Custom "
+"Fields can be created in the general configuration.\n"
+"App: Core"
+msgstr ""
+"Affiche les valeurs des Champs Personnalisés pour la fiche courante. Les "
+"Champs Personnalisés peuvent être créés dans la configuration générale.\n"
+"App : Cœur"
+
+msgid "History"
+msgstr "Historique"
+
+msgid ""
+"Displays the history of modifications on the current entity. Each line of "
+"history contains a date, the user which made the modifications & the type of "
+"modification (creation, edition of fields, deletion, relationship adding…).\n"
+"App: Core"
+msgstr ""
+"Affiche l'historique de modifications sur la fiche courante. Chaque ligne "
+"d'historique contient une date, l'utilisateur qui a fait les modifications & "
+"le type de modification (création, modification de champs, suppression, "
+"ajout de relation…).\n"
+"App : Cœur"
+
+msgid "History of consultation"
+msgstr "Historique de consultation"
+
+msgid ""
+"Displays who has consulted the current entity, and the date of the "
+"consultations.\n"
+"Hint: only super-users can view this data.\n"
+"App: Core"
+msgstr ""
+"Affiche qui a consulté la fiche courante, et la date de la consultations.\n"
+"Astuce: seul les super-utilisateurs peuvent voir ces données.\n"
+"App : Cœur"
+
+msgid "Trash"
+msgstr "Corbeille"
+
+msgid "Recent entities"
+msgstr "Fiches récentes"
+
+msgid "Pinned entities"
+msgstr "Fiches épinglées"
+
+msgid ""
+"Even if the pinned entities are the same as the ones in the menu, this block "
+"allows you to unpin entities which you cannot view anymore.\n"
+"App: Core"
+msgstr ""
+"Même si les fiches épinglées sont les mêmes que dans le menu, ce bloc vous "
+"permet de désépingler les fiches que vous ne pouvez plus voir.\n"
+"App : Cœur"
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid ""
+"Displays many statistics (e.g. the numbers of customers), depending on "
+"installed apps.\n"
+"App: Core"
+msgstr ""
+"Affiche plusieurs statistiques (ex: le nombre de clients), en fonction des "
+"apps installées.\n"
+"App : Cœur"
+
+msgid "Jobs"
+msgstr "Jobs"
+
+msgid "My jobs"
+msgstr "Mes jobs"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Restrict to superusers"
+msgstr "Réserver aux super-utilisateurs"
+
+msgid ""
+"This button moves the current entity within a sandbox reserved to the "
+"superusers, so the regular users cannot see it. If the current is already "
+"restricted to superusers, the button can be used to move the entity out of "
+"the sandbox.\n"
+"The button is only viewable by superusers.\n"
+"App: Core"
+msgstr ""
+"Ce bouton déplace la fiche courante dans un bac-à-sable réservé aux super-"
+"utilisateurs, donc les utilisateurs normaux ne peuvent plus la voir. Si la "
+"fiche courante est déjà réservée aux super-utilisateurs, le bouton peut être "
+"utilisé pour sortir la fiche du bac-à-sable.\n"
+"Le bouton est seulement visible par les super-utilisateurs.\n"
+"App : Cœur"
+
+msgid "enter a whole number"
+msgstr "entrez un nombre entier"
+
+msgid "enter a positive number"
+msgstr "entrez un nombre positif"
+
+msgid "To upper case"
+msgstr "En majuscule"
+
+msgid "To lower case"
+msgstr "En minuscule"
+
+msgid "Initial to upper case"
+msgstr "Initiales en majuscule"
+
+msgid "Prefix"
+msgstr "Préfixe"
+
+msgid "Suffix"
+msgstr "Suffixe"
+
+msgid "Remove a sub-string"
+msgstr "Enlever une sous-chaîne"
+
+msgid "Remove the start (N characters)"
+msgstr "Enlever le début (N caractères)"
+
+msgid "Remove the end (N characters)"
+msgstr "Enlever la fin (N caractères)"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Subtract"
+msgstr "Soustraire"
+
+msgid "Multiply"
+msgstr "Multiplier"
+
+msgid "Divide"
+msgstr "Diviser"
+
+msgid "The operator '{}' needs a value."
+msgstr "L'opérateur '{}' a besoin d'une valeur."
+
+#, python-brace-format
+msgid "{operator}: {message}."
+msgstr "{operator} : {message}."
+
+#, python-brace-format
+msgid "{field} ➔ {operator}"
+msgstr "{field} ➔ {operator}"
+
+#, python-brace-format
+msgid "{field} ➔ {operator}: «{value}»"
+msgstr "{field} ➔ {operator} : «{value}»"
+
+msgid "A deleted entity cannot be cloned"
+msgstr "Une fiche supprimée ne peut pas être clonée"
+
+#, python-brace-format
+msgid "In «{model} - {field}», replace by «{new}»"
+msgstr "Dans «{model} - {field}», remplacer par «{new}»"
+
+#, python-brace-format
+msgid "Remove from «{model} - {field}»"
+msgstr "Enlever de «{model}» - «{field}»"
+
+#, python-brace-format
+msgid "Empty «{model} - {field}»"
+msgstr "Vider «{model}» - «{field}»"
+
+#, python-brace-format
+msgid "In «{model} - {field}», replace by a fallback value"
+msgstr "Dans «{model} - {field}», remplacer par une valeur de secours"
+
+msgid "You are not allowed to delete this entity by your role"
+msgstr "Votre rôle vous empêche de supprimer cette fiche"
+
+msgid "Deletion has been disabled by your administrator"
+msgstr "La suppression a été désactivée par votre administrateur."
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Fields"
+msgstr "Champs"
+
+msgid "{} [hidden]"
+msgstr "{} [caché]"
+
+msgid "{} [deleted]"
+msgstr "{} [supprimé]"
+
+msgid "Computed fields"
+msgstr "Champs calculés"
+
+msgid "{} [disabled]"
+msgstr "{} [désactivé]"
+
+msgid "Credentials filter"
+msgstr "Filtre de droits"
+
+msgid "Regular filter (usable in list-view)"
+msgstr "Filtre normal (utilisable dans les vues en liste)"
+
+msgid "Entities are accepted by the filter «{}»"
+msgstr "Les fiches sont acceptées par le filtre «{}»"
+
+msgid "Sub-filters"
+msgstr "Sous-filtres"
+
+#, python-brace-format
+msgid "Condition on field «{field}»: {error}"
+msgstr "Condition sur le champ «{field}» : {error}"
+
+msgid "True"
+msgstr "Vrai"
+
+msgid "False"
+msgstr "Faux"
+
+msgid "On regular fields"
+msgstr "Sur les champs normaux"
+
+msgid "You can write several values, separated by commas."
+msgstr "Vous pouvez écrire plusieurs valeurs, séparées par des virgules."
+
+#, python-brace-format
+msgid "«{field}» is «{value}»"
+msgstr "«{field}» vaut «{value}»"
+
+#, python-brace-format
+msgid "«{field}» is between «{start}» and «{end}»"
+msgstr "«{field}» est entre «{start}» et «{end}»"
+
+#, python-brace-format
+msgid "«{field}» starts «{date}»"
+msgstr "«{field}» commence le «{date}»"
+
+#, python-brace-format
+msgid "«{field}» ends «{date}»"
+msgstr "«{field}» finit le «{date}»"
+
+msgid "On date fields"
+msgstr "Sur les champs de date"
+
+msgid "On custom fields"
+msgstr "Sur les champs personnalisés"
+
+msgid "On date custom fields"
+msgstr "Sur les champs personnalisés de date"
+
+#, python-brace-format
+msgid "The entities have relationships «{predicate}»"
+msgstr "Les fiches ont des relations «{predicate}»"
+
+#, python-brace-format
+msgid "The entities have no relationship «{predicate}»"
+msgstr "Les fiches n'ont pas de relation «{predicate}»"
+
+#, python-brace-format
+msgid "The entities have relationships «{predicate}» to «{model}»"
+msgstr "Les fiches ont des relations «{predicate}» vers «{model}»"
+
+#, python-brace-format
+msgid "The entities have no relationship «{predicate}» to «{model}»"
+msgstr "Les fiches n'ont pas de relation «{predicate}» vers «{model}»"
+
+#, python-brace-format
+msgid "The entities have relationships «{predicate}» to «{entity}»"
+msgstr "Les fiches ont des relations «{predicate}» vers «{entity}»"
+
+#, python-brace-format
+msgid "The entities have no relationship «{predicate}» to «{entity}»"
+msgstr "Les fiches n'ont pas de relation «{predicate}» vers «{entity}»"
+
+msgid "On relationships"
+msgstr "Sur les relations"
+
+msgid "Do not select any entity if you want to match them all."
+msgstr "Ne sélectionnez aucune fiche si vous voulez chercher parmi toutes."
+
+#, python-brace-format
+msgid "The entities have relationships «{predicate}» to «{filter}»"
+msgstr "Les fiches ont des relations «{predicate}» vers «{filter}»"
+
+#, python-brace-format
+msgid "The entities have no relationship «{predicate}» to «{filter}»"
+msgstr "Les fiches n'ont pas de relation «{predicate}» vers «{filter}»"
+
+msgid "On relationships with results of other filters"
+msgstr "Sur les relations avec les résultats d'autres filtres"
+
+msgid "The entities have the property «{}»"
+msgstr "Les fiches ont la propriété «{}»"
+
+msgid "The entities have no property «{}»"
+msgstr "Les fiches n'ont pas la propriété «{}»"
+
+msgid "On properties"
+msgstr "Sur les propriétés"
+
+msgid "Current user"
+msgstr "Utilisateur courant"
+
+#, python-brace-format
+msgid "«{enum_value}»"
+msgstr "«{enum_value}»"
+
+#, python-brace-format
+msgid "{first} or {last}"
+msgstr "{first} ou {last}"
+
+msgid "Equals"
+msgstr "Est égal à"
+
+#, python-brace-format
+msgid "«{field}» is {values}"
+msgstr "«{field}» vaut {values}"
+
+msgid "Does not equal"
+msgstr "N'est pas égal à"
+
+#, python-brace-format
+msgid "«{field}» is not {values}"
+msgstr "«{field}» n'est pas {values}"
+
+msgid ">"
+msgstr ">"
+
+#, python-brace-format
+msgid "«{field}» is greater than {values}"
+msgstr "«{field}» est plus grand que {values}"
+
+msgid "≥"
+msgstr "≥"
+
+#, python-brace-format
+msgid "«{field}» is greater than or equal to {values}"
+msgstr "«{field}» est plus grand ou égal à {values}"
+
+msgid "<"
+msgstr "<"
+
+#, python-brace-format
+msgid "«{field}» is less than {values}"
+msgstr "«{field}» est plus petit que {values}"
+
+msgid "≤"
+msgstr "≤"
+
+#, python-brace-format
+msgid "«{field}» is less than or equal to {values}"
+msgstr "«{field}» est plus petit ou égal à {values}"
+
+msgid "Equals (case insensitive)"
+msgstr "Est égal à (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» is equal to {values} (case insensitive)"
+msgstr "«{field}» est égal à {values} (insensible à la casse)"
+
+msgid "Does not equal (case insensitive)"
+msgstr "N'est pas égal à (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» is different from {values} (case insensitive)"
+msgstr "«{field}» n'est pas égal à {values} (insensible à la casse)"
+
+msgid "Contains"
+msgstr "Contient"
+
+#, python-brace-format
+msgid "«{field}» contains {values}"
+msgstr "«{field}» contient {values}"
+
+msgid "Does not contain"
+msgstr "Ne contient pas"
+
+#, python-brace-format
+msgid "«{field}» does not contain {values}"
+msgstr "«{field}» ne contient pas {values}"
+
+msgid "Contains (case insensitive)"
+msgstr "Contient (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» contains {values} (case insensitive)"
+msgstr "«{field}» contient {values} (insensible à la casse)"
+
+msgid "Does not contain (case insensitive)"
+msgstr "Ne contient pas (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» does not contain {values} (case insensitive)"
+msgstr "«{field}» ne contient pas {values} (insensible à la casse)"
+
+msgid "Starts with"
+msgstr "Commence par"
+
+#, python-brace-format
+msgid "«{field}» starts with {values}"
+msgstr "«{field}» commence par {values}"
+
+msgid "Does not start with"
+msgstr "Ne commence pas par"
+
+#, python-brace-format
+msgid "«{field}» does not start with {values}"
+msgstr "«{field}» ne commence pas par {values}"
+
+msgid "Starts with (case insensitive)"
+msgstr "Commence par (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» starts with {values} (case insensitive)"
+msgstr "«{field}» commence par {values} (insensible à la casse)"
+
+msgid "Does not start with (case insensitive)"
+msgstr "Ne commence pas par (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» does not start with {values} (case insensitive)"
+msgstr "«{field}» ne commence pas par {values} (insensible à la casse)"
+
+msgid "Ends with"
+msgstr "Se termine par"
+
+#, python-brace-format
+msgid "«{field}» ends with {values}"
+msgstr "«{field}» finit par {values}"
+
+msgid "Does not end with"
+msgstr "Ne se termine pas par"
+
+#, python-brace-format
+msgid "«{field}» does not end with {values}"
+msgstr "«{field}» ne finit pas par {values}"
+
+msgid "Ends with (case insensitive)"
+msgstr "Se termine par (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» ends with {values} (case insensitive)"
+msgstr "«{field}» finit par {values} (insensible à la casse)"
+
+msgid "Does not end with (case insensitive)"
+msgstr "Ne se termine pas par (Ne respecte pas la casse)"
+
+#, python-brace-format
+msgid "«{field}» does not end with {values} (case insensitive)"
+msgstr "«{field}» ne finit pas par {values} (insensible à la casse)"
+
+msgid "Is empty"
+msgstr "Est vide"
+
+#, python-brace-format
+msgid "«{field}» is empty"
+msgstr "«{field}» est vide"
+
+#, python-brace-format
+msgid "«{field}» is not empty"
+msgstr "«{field}» n'est pas vide"
+
+msgid "Range"
+msgstr "Intervalle"
+
+msgid "Is the current year"
+msgstr "Est l'année courante"
+
+#, python-brace-format
+msgid "«{field}» is the current year"
+msgstr "«{field}» est l'année courante"
+
+#, python-brace-format
+msgid "«{field}» is not the current year"
+msgstr "«{field}» n'est pas l'année courante"
+
+msgid "Is current year +"
+msgstr "Est l'année courante +"
+
+#, python-brace-format
+msgid "«{field}» is {count} year in the future"
+msgid_plural "«{field}» is {count} years in the future"
+msgstr[0] "«{field}» est {count} année dans le futur"
+msgstr[1] "«{field}» est {count} années dans le futur"
+
+msgid "Is current year -"
+msgstr "Est l'année courante -"
+
+#, python-brace-format
+msgid "«{field}» is {count} year in the past"
+msgid_plural "«{field}» is {count} years in the past"
+msgstr[0] "«{field}» est {count} année dans le passé"
+msgstr[1] "«{field}» est {count} années dans le passé"
+
+msgid ""
+"The job manager does not respond.\n"
+"Please contact your administrator."
+msgstr ""
+"Le gestionnaire de job ne répond pas.\n"
+"Veuillez contacter votre administrateur."
+
+#, python-brace-format
+msgid ""
+"There is a connection error with the job manager.\n"
+"Please contact your administrator.\n"
+"[Original error from «{queue}»:\n"
+"{message}]"
+msgstr ""
+"Il y a une erreur de connexion avec le gestionnaire de job.\n"
+"Veuillez contacter votre administrateur.\n"
+"[Erreur originale depuis «{queue}»:\n"
+"{message}]"
+
+msgid "Redis queue"
+msgstr "Queue Redis"
+
+msgid "Socket queue"
+msgstr "Queue par 'socket'"
+
+msgid "Notification (type cannot be determined)"
+msgstr "Notification (type inconnu)"
+
+msgid "Please contact your administrator"
+msgstr "Veuillez contacter votre administrateur"
+
+#, python-brace-format
+msgid "{hour}h"
+msgstr "{hour}h"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Enter a valid HTML color."
+msgstr "Saisissez une couleur HTML valide."
+
+#, python-brace-format
+msgid "The model «{key}» is invalid"
+msgstr "Le modèle «{key}» est invalide"
+
+#, python-brace-format
+msgid "Error ({message})"
+msgstr "Erreur ({message})"
+
+#, python-brace-format
+msgid "Conditions on «{source}»:"
+msgstr "Conditions sur «{source}» :"
+
+#, python-brace-format
+msgid "No condition on «{source}»"
+msgstr "Pas de condition sur «{source}»"
+
+#, python-brace-format
+msgid "The type of action «{type}» is invalid (uninstalled app?)"
+msgstr "Le type d'action «{type}» est invalide (app désinstallée ?)"
+
+#, python-brace-format
+msgid "The action «{name}» is broken (original error: {error})"
+msgstr "L'action «{name}» est cassée (erreur originale : {error})"
+
+#, python-brace-format
+msgid "The type of source «{type}» is invalid (uninstalled app?)"
+msgstr "Le type de source «{type}» est invalide (app désinstallée ?)"
+
+#, python-brace-format
+msgid "The source «{name}» is broken (original error: {error})"
+msgstr "La source «{name}» est cassée (erreur originale : {error})"
+
+#, python-brace-format
+msgid "The type of trigger «{type}» is invalid (uninstalled app?)"
+msgstr "Le type de déclenchement «{type}» est invalide (app désinstallée ?)"
+
+#, python-brace-format
+msgid "The trigger «{name}» is broken (original error: {error})"
+msgstr "Le déclenchement «{name}» est cassé (erreur originale : {error})"
+
+msgid "Batch process"
+msgstr "Traitement par lots"
+
+msgid "The filter does not exist anymore"
+msgstr "Le filtre n'existe plus."
+
+#, python-brace-format
+msgid "{count} entity has been processed."
+msgid_plural "{count} entities have been processed."
+msgstr[0] "{count} fiche a été traitée."
+msgstr[1] "{count} fiches ont été traitées."
+
+msgid "Entity type: {}"
+msgstr "Type de fiche : {}"
+
+msgid "Filter: {}"
+msgstr "Filtre: {}"
+
+#, python-brace-format
+msgid "{count} entity has been successfully modified."
+msgid_plural "{count} entities have been successfully modified."
+msgstr[0] "{count} fiche a été modifiée avec succès."
+msgstr[1] "{count} fiches ont été modifiées avec succès."
+
+msgid "Replace & delete"
+msgstr "Remplacer & supprimer"
+
+#, python-brace-format
+msgid ""
+"«{instance}» can not be deleted because of its dependencies: {dependencies}"
+msgstr ""
+"«{instance}» ne peut être supprimé à cause de ses dépendances : "
+"{dependencies}"
+
+#, python-brace-format
+msgid "{count} entity updated."
+msgid_plural "{count} entities updated."
+msgstr[0] "{count} Fiche mise à jour"
+msgstr[1] "{count} Fiches mises à jour"
+
+#, python-brace-format
+msgid "Deleting «{object}» ({model})"
+msgstr "Supprimer «{object}» ({model})"
+
+msgid "Mass import"
+msgstr "Import en masse"
+
+msgid "Invalid data [{}]"
+msgstr "Données invalides [{}]"
+
+#, python-brace-format
+msgid "{count} line has been processed."
+msgid_plural "{count} lines have been processed."
+msgstr[0] "{count} ligne a été traitée."
+msgstr[1] "{count} lignes ont été traitées."
+
+#, python-brace-format
+msgid "Import «{model}» from {doc}"
+msgstr "Importer des «{model}» depuis {doc}"
+
+#, python-brace-format
+msgid "{count} «{model}» has been created."
+msgid_plural "{count} «{model}» have been created."
+msgstr[0] "{count} «{model}» a été créé(e)"
+msgstr[1] "{count} «{model}» ont été créé(e)s."
+
+#, python-brace-format
+msgid "No «{model}» has been created."
+msgstr "Aucun(e) «{model}» n'a été créé(e)"
+
+#, python-brace-format
+msgid "{count} «{model}» has been updated."
+msgid_plural "{count} «{model}» have been updated."
+msgstr[0] "{count} «{model}» a été mis(e) à jour."
+msgstr[1] "{count} «{model}» ont été mis(es) à jour."
+
+#, python-brace-format
+msgid "No «{model}» has been updated."
+msgstr "Aucun(e) «{model}» n'a été mis(e) à jour."
+
+#, python-brace-format
+msgid "{count} line in the file."
+msgid_plural "{count} lines in the file."
+msgstr[0] "{count} ligne dans le fichier."
+msgstr[1] "{count} lignes dans le fichier."
+
+msgid "Send notification emails"
+msgstr "Envoyer les e-mails de notification"
+
+#, python-brace-format
+msgid "[Notification from {software}] {subject}"
+msgstr "[Notification depuis {software}] {subject}"
+
+msgid "An error occurred while sending notification's emails"
+msgstr "Une erreur s'est produite pendant l'envoi des e-mails de notification"
+
+msgid "Original error: {}"
+msgstr "Erreur originale : {}"
+
+msgid "Reminders"
+msgstr "Mémentos"
+
+#, python-brace-format
+msgid "Execute reminders for «{model}»"
+msgstr "Exécuter les mémentos pour «{model}»"
+
+msgid "None of your apps uses reminders"
+msgstr "Aucune de vos apps n'utilise de mémentos"
+
+msgid "Sessions cleaner"
+msgstr "Nettoyeur de sessions"
+
+msgid ""
+"The session engine does not support clearing. Please contact your "
+"administrator."
+msgstr ""
+"Le moteur de session ne gère pas le nettoyage. Veuillez contacter votre "
+"administrateur."
+
+msgid "Remove expired user sessions"
+msgstr "Enlève les sessions utilisateur expirées"
+
+msgid "Temporary files cleaner"
+msgstr "Nettoyeur de fichiers temporaires"
+
+msgid ""
+"The configured delay is invalid. Edit the job's configuration to fix it."
+msgstr ""
+"Le délai configuré est invalide. Modifiez la configuration du job pour le "
+"corriger."
+
+msgid "An error occurred while deleting the temporary file «{}»"
+msgstr ""
+"Une erreur s'est produite pendant la suppression du fichier temporaire «{}»"
+
+msgid ""
+"The temporary file with id={} cannot be deleted because of its dependencies."
+msgstr ""
+"Le fichier temporaire avec id={} ne peut être supprimé à cause de ses "
+"dépendances."
+
+msgid ""
+"The temporary file with id={} cannot be deleted because of an unexpected "
+"error."
+msgstr ""
+"Le fichier temporaire avec id={} ne peut être supprimé à cause d'une erreur "
+"inattendue."
+
+msgid "Remove old temporary files"
+msgstr "Supprimer les vieux fichiers temporaires"
+
+msgid "Trash cleaner"
+msgstr "Videur de corbeille"
+
+msgid "This type of entity does not use the generic deletion way."
+msgstr "Ce type de fiche n'utilise pas la méthode de suppression générique."
+
+msgid "Can not be deleted because of links with other entities."
+msgstr "Ne peut être supprimé à cause de ses liens avec d'autres fiches."
+
+msgid "Deletion caused an unexpected error [{}]."
+msgstr "La suppression a provoqué une erreur inattendue [{}]."
+
+#, python-brace-format
+msgid "{count} entity deleted."
+msgid_plural "{count} entities deleted."
+msgstr[0] "{count} Fiche supprimée"
+msgstr[1] "{count} Fiches supprimées"
+
+msgid "Teams"
+msgstr "Équipes"
+
+msgid "Inactive users"
+msgstr "Utilisateurs inactifs"
+
+msgid "Private ({})"
+msgstr "Privé ({})"
+
+msgid "General information"
+msgstr "Informations générales"
+
+msgid "Information on relationships"
+msgstr "Informations sur les relations"
+
+msgid "Relationships to add"
+msgstr "Relations à ajouter"
+
+msgid "Semi-fixed types of relationship"
+msgstr "Types de relation semi-fixés"
+
+msgid "You are not allowed to link the created entity (wrong owner?)."
+msgstr ""
+"Vous n'avez pas la permission de relier la fiche créée (mauvais "
+"propriétaire ?)"
+
+msgid "Description"
+msgstr "Description"
+
+#, python-brace-format
+msgid "This relationship will be added: {predicate} «{entity}»"
+msgstr "Cette relation va être ajoutée : {predicate} «{entity}»"
+
+#, python-brace-format
+msgid "{predicate} «{entity}»"
+msgstr "{predicate} «{entity}»"
+
+msgid "This relationship will be added: {}"
+msgid_plural "These relationships will be added: {}"
+msgstr[0] "Cette relation va être ajoutée : {}"
+msgstr[1] "Ces relations vont être ajoutées : {}"
+
+msgid "You are not allowed to link this kind of entity."
+msgstr "Vous n'avez pas la permission de relier ce type de fiche."
+
+msgid "This field is invalid with this model."
+msgstr "Ce champ n'existe pas dans ce type de fiche."
+
+#, python-format
+msgid "The field «%(field)s» can not be used twice."
+msgstr "Le champ «%(field)s» ne peut pas être utilisé deux fois."
+
+msgid "This operator is invalid."
+msgstr "Cette opérateur est invalide."
+
+#, python-format
+msgid "Invalid value => %(error)s"
+msgstr "Valeur invalide => %(error)s"
+
+msgctxt "creme_core-noun"
+msgid "Filter"
+msgstr "Filtre"
+
+msgctxt "creme_core-filter"
+msgid "All"
+msgstr "Tout"
+
+msgid "Type of property"
+msgstr "Type de propriété"
+
+msgid "Related entities"
+msgstr "Fiches associées"
+
+msgid "NONE!"
+msgstr "AUCUNE !"
+
+msgid "Not editable entities"
+msgstr "Fiches non modifiables"
+
+msgid "This value is invalid."
+msgstr "Cette valeur est invalide."
+
+msgid "This field is not a date field for this model."
+msgstr "Ce champ date n'existe pas dans ce type de fiche."
+
+msgid "This date range is invalid."
+msgstr "Cet intervalle de date n'est pas valide."
+
+msgid "Please enter a start date and/or a end date."
+msgstr "Veuillez entrer une date de début et/ou de fin."
+
+msgid "This custom field is invalid with this model."
+msgstr "Ce champ personnalisé est invalide pour ce type de fiche."
+
+msgid "This date custom field is invalid with this model."
+msgstr "Ce champ personnalisé de date est invalide pour ce type de fiche."
+
+msgid "This type of relationship type is invalid with this model."
+msgstr "Cette relation est invalide avec ce type de fiche."
+
+msgid "This content type is invalid."
+msgstr "Ce type de ressource n'est pas autorisé."
+
+msgid "This entity is invalid."
+msgstr "Cette fiche est invalide."
+
+msgid "This filter is invalid."
+msgstr "Ce filtre est invalide."
+
+msgid "This property type is invalid with this model."
+msgstr "Ce type de propriété est invalide avec ce type de fiche."
+
+msgid "The filter must have at least one condition."
+msgstr "Le filtre doit avoir au moins une condition."
+
+msgid "A private filter must belong to you (or one of your teams)."
+msgstr "Un filtre privé doit vous être attribué (ou à une des vos équipes)."
+
+msgid "Conditions"
+msgstr "Conditions"
+
+msgid "No owner"
+msgstr "Pa de propriétaire"
+
+msgid ""
+"If you assign an owner, only the owner can edit or delete the filter; "
+"filters without owner can be edited/deleted by all users"
+msgstr ""
+"Si vous affectez un propriétaire, seul le propriétaire pourra modifier ou "
+"supprimer le filtre ; les filtres sans propriétaire peuvent être modifiés/"
+"supprimés par tous les utilisateurs"
+
+msgid ""
+"If you assign an owner, only the owner can edit or delete the filter; "
+"filters without owner can only be edited/deleted by superusers"
+msgstr ""
+"Si vous affectez un propriétaire, seul le propriétaire pourra modifier ou "
+"supprimer le filtre ; les filtres sans propriétaire peuvent être modifiés/"
+"supprimés seulement par les super-utilisateurs"
+
+msgid "Has the property"
+msgstr "A la propriété"
+
+msgid "Does not have the property"
+msgstr "N'a pas la propriété"
+
+msgid "Has the relationship"
+msgstr "A la relation"
+
+msgid "Does not have the relationship"
+msgstr "N'a pas la relation"
+
+msgid "No choice available."
+msgstr "Aucun choix disponible."
+
+msgid "No custom field at present."
+msgstr "Aucun champ personnalisé pour le moment."
+
+msgid "No date custom field at present."
+msgstr "Aucun champ personnalisé de date pour le moment."
+
+msgid "No relation type at present."
+msgstr "Aucun type de relation pour le moment."
+
+msgid "(no filter)"
+msgstr "(pas de filtre)"
+
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+"Sélectionnez un choix valide. Ce choix n'est pas un des choix disponibles."
+
+msgid "Invalid format"
+msgstr "Format invalide"
+
+msgid "Invalid type"
+msgstr "Type invalide"
+
+msgid "This entity does not exist."
+msgstr "Cette fiche n'existe pas."
+
+#, python-format
+msgid "«%(entity)s» is in the trash."
+msgstr "«%(entity)s» est dans la corbeille."
+
+#, python-format
+msgid "«%(entity)s» violates the constraints."
+msgstr "«%(entity)s» enfreint les contraintes."
+
+msgid "This content type does not exist."
+msgstr "Ce type de fiche n'existe pas."
+
+msgid "The content type is required."
+msgstr "Le type de ressource est obligatoire."
+
+msgid "The entity is required."
+msgstr "La fiche est obligatoire."
+
+msgid "This content type is not allowed."
+msgstr "Ce type de ressource n'est pas autorisé'."
+
+#, python-format
+msgid ""
+"This type of relationship causes a constraint error (id=\"%(rtype_id)s\")."
+msgstr ""
+"Ce type de relation provoque une erreur de contrainte (id=\"%(rtype_id)s\")."
+
+msgid "Enter a value if you check the box."
+msgstr "Entrez une valeur si vous cochez la case."
+
+msgid "Empty"
+msgstr "Vide"
+
+msgctxt "creme_core-date_period"
+msgid "Before"
+msgstr "Avant"
+
+msgctxt "creme_core-date_period"
+msgid "After"
+msgstr "Après"
+
+msgid "Start date has to be before end date."
+msgstr "La date début doit être avant la date de fin."
+
+msgctxt "creme_core-date_range"
+msgid "Customized"
+msgstr "Personnalisé"
+
+msgid "Enter a valid value (e.g. DF8177)."
+msgstr "Saisissez une valeur valide (ex: DF8177)."
+
+msgid "Enter a value for \"Other\" choice."
+msgstr "Entrez une valeur pour le choix \"Autre\""
+
+msgid "Other"
+msgstr "Autre"
+
+#, python-format
+msgid "The choice %(value)s is mandatory."
+msgstr "Le choix %(value)s est obligatoire."
+
+#, python-format
+msgid "This value is invalid: %(value)s"
+msgstr "Cette valeur est invalide : %(value)s"
+
+#, python-format
+msgid "This field has sub-field & cannot be selected: %(value)s"
+msgstr "Ce champ a des sous-champs & ne peut pas être sélectionné: %(value)s"
+
+#, python-format
+msgid "This type of relationship is not compatible with «%(model)s»."
+msgstr "Ce type de relation n'est pas compatible avec «%(model)s»."
+
+msgid "This type of relationship is disabled."
+msgstr "Ce type de relation est désactivé."
+
+msgid "A private view of list must be assigned to a user/team."
+msgstr "Une vue de liste privée doit être attribuée à un utilisateur/équipe."
+
+msgid "A private view of list must belong to you (or one of your teams)."
+msgstr ""
+"Une vue de liste privée doit vous être attribuée (ou à une des vos équipe)."
+
+msgid "Columns"
+msgstr "Colonnes"
+
+msgid ""
+"If you assign an owner, only the owner can edit or delete the view; views "
+"without owner can be edited/deleted by all users"
+msgstr ""
+"Si vous affectez un propriétaire, seul le propriétaire pourra modifier ou "
+"supprimer la vue ; les vues sans propriétaire peuvent être modifiées/"
+"supprimées par tous les utilisateurs"
+
+msgid ""
+"If you assign an owner, only the owner can edit or delete the view; views "
+"without owner can only be edited/deleted by superusers"
+msgstr ""
+"Si vous affectez un propriétaire, seul le propriétaire pourra modifier ou "
+"supprimer la vue ; les vues sans propriétaire peuvent être modifiées/"
+"supprimées seulement par les super-utilisateurs"
+
+msgid ""
+"You can use these operators: <, <=, >, >=\n"
+"E.g. < 100\n"
+"\n"
+"You can combine several expressions with the separator «;»\n"
+"E.g. > -100 ; <= 2000\n"
+msgstr ""
+"Vous pouvez utiliser ces opérateurs : <, <=, >, >=\n"
+"Ex: < 100\n"
+"\n"
+"Vous pouvez combiner plusieurs expressions avec le séparateur «;»\n"
+"Ex: > -100 ; <= 2000\n"
+
+msgid ""
+"You can use these operators: <, <=, >, >=\n"
+"E.g. < 100\n"
+"\n"
+"You can combine several expressions with the separator «;»\n"
+"E.g. > 100 ; <= 2000\n"
+msgstr ""
+"Vous pouvez utiliser ces opérateurs : <, <=, >, >=\n"
+"Ex: < 100\n"
+"\n"
+"Vous pouvez combiner plusieurs expressions avec le séparateur «;»\n"
+"Ex: > 100 ; <= 2000\n"
+
+msgid ""
+"You can use these operators: <, <=, >, >=\n"
+"E.g. < 100\n"
+"\n"
+"You can combine several expressions with the separator «;»\n"
+"E.g. > 10 ; <= 10.5\n"
+msgstr ""
+"Vous pouvez utiliser ces opérateurs : <, <=, >, >=\n"
+"Ex: < 100\n"
+"\n"
+"Vous pouvez combiner plusieurs expressions avec le séparateur «;»\n"
+"Ex: > 10 ; <= 10,5\n"
+
+msgid ""
+"You must use these operators: <, <=, >, >=\n"
+"E.g. < 100\n"
+"\n"
+"You can combine several expressions with the separator «;»\n"
+"E.g. > 10 ; <= 10.5\n"
+msgstr ""
+"Vous devez utiliser ces opérateurs : <, <=, >, >=\n"
+"Ex: < 100\n"
+"\n"
+"Vous pouvez combiner plusieurs expressions avec le séparateur «;»\n"
+"Ex: > 10 ; <= 10,5\n"
+
+msgctxt "creme_core-filter"
+msgid "Is empty"
+msgstr "Est vide"
+
+msgid "* is empty *"
+msgstr "* est vide *"
+
+#, python-brace-format
+msgid "Error reading document, unsupported file type: {file}."
+msgstr ""
+"Erreur lors de la lecture du document, type de fichier non supporté: {file}."
+
+#, python-brace-format
+msgid "Error reading document: {error}."
+msgstr "Erreur lors de la lecture du document: {error}."
+
+msgid "File to import"
+msgstr "Fichier à importer"
+
+msgid "Header present?"
+msgstr "Entête présent ?"
+
+msgid ""
+"Does the first line of the line contain the header of the columns (e.g. "
+"\"Last name\",\"First name\")?"
+msgstr ""
+"La première ligne du fichier contient-il l'entête des colonnes de valeurs "
+"(ex: \"Nom\",\"Prénom\") ?"
+
+#, python-brace-format
+msgid "{backend_name}: {help}"
+msgstr "{backend_name} : {help}"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value: tried to retrieve and then build "
+"«{value}» (column {column}) on {model}. Raw error: [{raw_error}]"
+msgstr ""
+"Erreur lors de l'extraction de valeur: a essayé de retrouver et puis de "
+"construire «{value}» (colonne {column}) sur {model}. Erreur brute: "
+"[{raw_error}]"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value: tried to retrieve «{value}» (column {column}) "
+"on {model}. Raw error: [{raw_error}]"
+msgstr ""
+"Erreur lors de l'extraction de valeur: a essayé de retrouver "
+"«{value}» (colonne {column}) sur {model}. Erreur brute: [{raw_error}]"
+
+msgid "Enter a valid value."
+msgstr "Saisissez une valeur valide."
+
+#, python-brace-format
+msgid ""
+"Select a valid choice. \"{value}\" is not one of the available sub-field."
+msgstr ""
+"Sélectionnez un choix valide. \"{value}\" n'est pas un des sous-champs "
+"disponibles."
+
+#, python-brace-format
+msgid "{field} [CREATION]"
+msgstr "{field} [CRÉATION]"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value [{raw_error}]: tried to retrieve and then build "
+"«{value}» on {model}"
+msgstr ""
+"Erreur lors de l'extraction de valeur ({raw_error}) : a essayé de retrouver "
+"et puis de construire «{value}» sur {model}"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value [{raw_error}]: tried to retrieve «{value}» on "
+"{model}"
+msgstr ""
+"Erreur lors de l'extraction de valeur ({raw_error}) : a essayé de retrouver "
+"«{value}» sur {model}"
+
+#, python-format
+msgid "You are not allowed to create: %(model)s"
+msgstr "Vous n'avez pas la permission de créer : %(model)s"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value to build a Relation: tried to retrieve {field}"
+"=«{value}» (column {column}) on {model}. Raw error: [{raw_error}]"
+msgstr ""
+"Erreur lors de l'extraction de valeur pour construire une Relation : a "
+"essayé de retrouver {field}=«{value}» (colonne {column}) sur {model}. Erreur "
+"brute: [{raw_error}]"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value: tried to build {model} with data={data} "
+"(column {column}) ➔ errors={errors}"
+msgstr ""
+"Erreur lors de l'extraction  de valeur: a essayé de construire {model} avec "
+"données={data} (colonne {column}) ➔ erreurs={errors}"
+
+#, python-brace-format
+msgid ""
+"Error while extracting value to build a Relation: tried to retrieve {field}"
+"=«{value}» (column {column}) on {model}"
+msgstr ""
+"Erreur lors de l'extraction de valeur pour construire une Relation: a essayé "
+"de retrouver {field}=«{value}» (colonne {column}) sur {model}"
+
+msgid "The entity"
+msgstr "La fiche"
+
+msgid "which field"
+msgstr "quel champs"
+
+msgid "equals to"
+msgstr "Est égal à"
+
+msgid "This field doesn't exist in this ContentType."
+msgstr "Ce champ n'existe pas dans ce type de fiche."
+
+msgid "This column is not a valid choice."
+msgstr "Cette colonne n'est pas un choix valide'."
+
+#, python-format
+msgid ""
+"The type «%(model)s» is not allowed by the relationship «%(predicate)s»."
+msgstr ""
+"Le type «%(model)s» n'est pas autorisé par la relation «%(predicate)s»."
+
+#, python-brace-format
+msgid ""
+"Error while extracting value: the choice «{value}» was not found in existing "
+"choices (column {column}). Hint: fix your imported file, or configure the "
+"import to create new choices."
+msgstr ""
+"Erreur lors de l'extraction de valeur: le choix «{value}» n'a pas été trouvé "
+"dans les choix existants (colonne {column}). Suggestion : corrigez votre "
+"fichier importé, ou configurer l'import pour créer les nouveaux choix."
+
+msgid "Key fields"
+msgstr "Champs clé"
+
+msgid ""
+"Select at least one field if you want to use the \"update\" mode. If an "
+"entity already exists with the same field values, it will be simply updated "
+"(i.e. a new entity will not be created).\n"
+"But if several entities are found, a new entity is created (in order to "
+"avoid errors)."
+msgstr ""
+"Sélectionnez au moins un champ si vous voulez utiliser le mode \"mise-à-jour"
+"\". Si une fiche existe déjà avec les mêmes valeurs de champ, elle sera "
+"simplement mise à jour (c-à-d: pas de nouvelle fiche créée).\n"
+"Mais si plusieurs fiches sont trouvées, une nouvelle fiche sera créée (pour "
+"éviter les erreurs)."
+
+msgid "This document does not exist or does not exist any more."
+msgstr "Ce document n'existe pas/plus."
+
+msgid "You have not the credentials to read this document."
+msgstr "Vous n'avez pas les droits pour lire ce document."
+
+msgid "Update mode"
+msgstr "Mode mise-à-jour"
+
+msgid "Field values"
+msgstr "Valeurs de champ"
+
+msgid ""
+"Several entities corresponding to the search have been found. So a new "
+"entity have been created to avoid errors."
+msgstr ""
+"Plusieurs fiches correspondant à la recherche ont été trouvées. Donc une "
+"nouvelle fiche a été créée pour éviter les erreurs."
+
+msgid "Owner user"
+msgstr "Utilisateur propriétaire"
+
+msgid "Fixed relationships"
+msgstr "Relations fixes"
+
+msgid "Relationships from the file"
+msgstr "Relations depuis le fichier"
+
+msgid "General"
+msgstr "Général"
+
+msgid "Related properties"
+msgstr "Propriétés associées"
+
+msgid "Associated relationships"
+msgstr "Relations associées"
+
+msgid "Not in the file"
+msgstr "Pas dans le fichier"
+
+#, python-brace-format
+msgid "Column {index} - {name}"
+msgstr "Colonne {index} - {name}"
+
+msgid "Column {}"
+msgstr "Colonne {}"
+
+msgid "Label"
+msgstr "Label"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Merged entity"
+msgstr "Fiche fusionnée"
+
+msgid "Start"
+msgstr "Début"
+
+msgid "Extra message"
+msgstr "Extra message"
+
+msgid "Use it to give additional information, like expected duration"
+msgstr ""
+"Utilisez le pour donner des informations supplémentaires, comme la durée "
+"attendue"
+
+msgid "Start must be in the future"
+msgstr "Le début doit être dans le futur"
+
+#, python-format
+msgid "There are duplicates: %(duplicates)s"
+msgstr "Il y a des doublons: %(duplicates)s"
+
+#, python-format
+msgid "An entity can not be linked to itself: %(entities)s"
+msgstr "Une fiche ne peut pas être reliée à elle-même : %(entities)s"
+
+msgid "You must give one relationship at least."
+msgstr "Vous devez donner au moins une relation."
+
+msgid "Not linkable entities"
+msgstr "Fiches non reliables"
+
+msgid "Remove temporary files which are older than:"
+msgstr "Supprimer les fichiers temporaires qui sont plus vieux que :"
+
+msgid "Not authenticated user is not allowed to view entities"
+msgstr ""
+"Un utilisateur non connecté ou anonyme n'est pas autorisé à voir ces fiches"
+
+msgid "Some entities are not viewable: {}"
+msgstr "Certaines fiches ne sont pas visibles : {}"
+
+msgid "Not authenticated user is not allowed to edit entities"
+msgstr ""
+"Un utilisateur non connecté ou anonyme n'est pas autorisé à modifier ces "
+"fiches"
+
+msgid "Some entities are not editable: {}"
+msgstr "Certaines fiches ne sont pas modifiables : {}"
+
+msgid "Not authenticated user is not allowed to link entities"
+msgstr ""
+"Un utilisateur non connecté ou anonyme n'est pas autorisé à relier ces fiches"
+
+msgid "Some entities are not linkable: {}"
+msgstr "Certaines fiches ne sont pas reliables: {}"
+
+#, python-brace-format
+msgid "Not authenticated user is not allowed to link «{model}»"
+msgstr ""
+"Un utilisateur non connecté ou anonyme n'est pas autorisé à relier «{model}»"
+
+#, python-brace-format
+msgid "You are not allowed to link with the «{models}» of this user."
+msgstr ""
+"Vous n'avez pas la permission de relier avec les «{models}» de cet "
+"utilisateur."
+
+msgid "Clear"
+msgstr "Effacer"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "Can't create"
+msgstr "Création interdite"
+
+msgctxt "creme_core-verb"
+msgid "Select"
+msgstr "Sélectionner"
+
+msgid "E.g. {}"
+msgstr "Ex: {}"
+
+msgid "Available"
+msgstr "Disponible"
+
+msgid "Chosen"
+msgstr "Choisi"
+
+#. Translators: this string is used to set the order of the inputs
+#. in the widget to choose the relative trigger date of Alerts.
+#. Just re-order the format argument, DO NOT ADD other characters (like space...)
+#. dateperiod_value: the value of the period ("1" in "1 week)
+#. dateperiod_type: the type of the period ("week" in "1 week)
+#, python-brace-format
+msgid "{dateperiod_value}{dateperiod_type}"
+msgstr "{dateperiod_value}{dateperiod_type}"
+
+#. Translators: this string is used to set the order of the inputs
+#. in the widget to choose the relative trigger date of Alerts.
+#. Just re-order the format argument, DO NOT ADD other characters (like space...)
+#. dateperiod_value: the value of the period ("1" in "1 week)
+#. dateperiod_type: the type of the period ("week" in "1 week)
+#. dateperiod_direction: "after" or "before"
+#, python-brace-format
+msgid "{dateperiod_value}{dateperiod_type}{dateperiod_direction}"
+msgstr "{dateperiod_value}{dateperiod_type}{dateperiod_direction}"
+
+msgid "Value not in the choices? Fill it here!"
+msgstr "Valeur indisponible ? Remplissez ici !"
+
+msgid "Clear the current file"
+msgstr "Effacer le fichier courant"
+
+msgid "This type of relationship does not exist or causes a constraint error"
+msgstr "Ce type de relation n'existe pas ou provoque une erreur de contrainte"
+
+msgid "This type of entity causes a constraint error"
+msgstr "Ce type de relation provoque une erreur de contrainte"
+
+msgid "Entity which receives the property"
+msgstr "Fiche qui reçoit la propriété"
+
+msgid "Property type"
+msgstr "Type de propriété"
+
+msgid "Adding a property"
+msgstr "Ajouter une propriété"
+
+msgid "This property type is not compatible with the chosen type of entity."
+msgstr ""
+"Ce type de propriété n'est pas compatible avec le type de fiche choisi."
+
+msgid "Entity which becomes the subject"
+msgstr "Fiche qui devient le sujet"
+
+msgid "Relationship type"
+msgstr "Type de relation"
+
+msgid "Entity which becomes the object"
+msgstr "Fiche qui devient l'objet'"
+
+msgid "Adding a relationship"
+msgstr "Ajouter une relation"
+
+msgid "You cannot use the same subject & object."
+msgstr "Vous ne pouvez pas utiliser les mêmes sujet & objet."
+
+msgid ""
+"This relationship type is not compatible with the chosen type of subject."
+msgstr "Ce type de relation n'est pas compatible avec le type de sujet choisi."
+
+msgid ""
+"This relationship type is not compatible with the chosen type of object."
+msgstr "Ce type de relation n'est pas compatible avec le type d'objet choisi."
+
+msgid "* no property *"
+msgstr "* pas de propriété *"
+
+msgid "Information on the entity (generic)"
+msgstr "Information sur la fiche (générique)"
+
+msgid ""
+"Displays the values for the fields of the current entity.\n"
+"Hint #1: lots of fields can be hidden in configuration (so their are hidden "
+"everywhere: forms, list-views…).\n"
+"Hint #2: you can create Custom Blocks in configuration to chose the title of "
+"the block, which fields are displayed and their order."
+msgstr ""
+"Affiche les valeurs pour les champs de la fiche courante.\n"
+"Astuce #1 : beaucoup de champs peuvent cachés dans la configuration (ils "
+"sont alors cachés partout: formulaires, vues en liste…).\n"
+"Astuce #2 : vous pouvez créer des Blocs Personnalisés dans la configuration "
+"pour choisir le titre du bloc, quels champs sont affichés et leur ordre."
+
+#, python-brace-format
+msgid "Information «{model}»"
+msgstr "Informations «{model}»"
+
+msgid ""
+"Displays the entities linked to the current entity with a specific type of "
+"Relationship.\n"
+"Hint #1: this kind of block can be created in the configuration of blocks.\n"
+"Hint #2: you can configure the fields which are displayed (in the blocks' "
+"configuration, or in the block's menu which appears when you click on the "
+"block's icon)."
+msgstr ""
+"Affiche les fiches reliées à la fiche courante avec un type spécifique de "
+"Relation.\n"
+"Astuce #1 : ce type de bloc peut être créé dans la configuration des blocs.\n"
+"Astuce #2 : vous pouvez configurer les champs qui sont affichés (dans la "
+"configuration des blocs, ou dans le menu du bloc qui apparaît quand vous "
+"cliquez sur l'icône du bloc)."
+
+#, python-brace-format
+msgid "Relationship block: «{predicate}»"
+msgstr "Bloc de relation: «{predicate}»"
+
+#, python-brace-format
+msgid ""
+"Displays the linked entities which are the objects of relationships "
+"«{predicate}» (the current entity being the subject of these "
+"relationships).\n"
+"Hint #1: this kind of block can be created in the configuration of blocks.\n"
+"Hint #2: you can configure the fields which are displayed (in the blocks' "
+"configuration, or in the block's menu which appears when you click on the "
+"block's icon)."
+msgstr ""
+"Affiche les fiches reliées qui sont les objets de relations "
+"«{predicate}» (la fiche courante étant le sujet de ces relations).\n"
+"Astuce #1 : ce type de bloc peut être créé dans la configuration des blocs.\n"
+"Astuce #2 : vous pouvez configurer les champs qui sont affichés (dans la "
+"configuration des blocs, ou dans le menu du bloc qui apparaît quand vous "
+"cliquez sur l'icône du bloc)."
+
+msgid ""
+"Displays some information concerning the current entity, like:\n"
+"- fields\n"
+"- Custom Fields\n"
+"- related entities\n"
+"- …\n"
+"Hint: this kind of block can be created/modified in the configuration of "
+"blocks («Custom blocks»)."
+msgstr ""
+"Affiche des informations concernant la fiche courante, comme :\n"
+"- des champs\n"
+"- des Champs Personnalisés\n"
+"- des fiches reliées\n"
+"- …\n"
+"Astuce : ce type de bloc peut être créé/modifié dans la configuration des "
+"blocs («Blocs personnalisés»)."
+
+msgid "Unknown type of block (bad uninstall?)"
+msgstr "Type de bloc inconnu (mauvaise désinstallation ?)"
+
+msgid "Information on the entity"
+msgstr "Informations sur la fiche"
+
+msgid "Title bar"
+msgstr "Barre de titre"
+
+msgid "The field «{}» is not editable (it seems to be a sub-field)."
+msgstr ""
+"Le champ «{}» n'est pas modifiable (il semble que c'est un sous-champ)."
+
+msgid "The field «{}» is not editable (it may have been hidden)."
+msgstr "Le champ «{}» n'est pas modifiable (peut-être est-il caché)."
+
+msgid "*Remaining regular fields*"
+msgstr "*Champs normaux restants*"
+
+msgid "*Remaining custom fields*"
+msgstr "*Champs personnalisés restants*"
+
+msgid "*Relationships*"
+msgstr "*Relations*"
+
+msgid "Missing required fields (update your configuration)"
+msgstr "Champs obligatoires manquants (mettez à jour votre configuration)"
+
+msgid "Missing required custom fields (update your configuration)"
+msgstr ""
+"Champs personnalisés obligatoires manquants (mettez à jour votre "
+"configuration)"
+
+msgid "Missing required special fields (update your configuration)"
+msgstr ""
+"Champs spéciaux obligatoires manquants (mettez à jour votre configuration)"
+
+#, python-brace-format
+msgid "Download «{file}»"
+msgstr "Télécharger «{file}»"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Seconds: {}"
+msgstr "Secondes : {}"
+
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "heure"
+msgstr[1] "heures"
+
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "minute"
+msgstr[1] "minutes"
+
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "seconde"
+msgstr[1] "secondes"
+
+#, python-brace-format
+msgid "{field} set"
+msgstr "{field} modifié"
+
+#, python-brace-format
+msgid "{field} set to {value}"
+msgstr "{field} mis à {value}"
+
+#, python-brace-format
+msgid "{field} emptied (it was {oldvalue})"
+msgstr "{field} vidé (c'était {oldvalue})"
+
+#, python-brace-format
+msgid "{field} changed from {oldvalue} to {value}"
+msgstr "{field} passe de {oldvalue} à {value}"
+
+#, python-brace-format
+msgid "“{field}”"
+msgstr "“{field}”"
+
+#, python-brace-format
+msgid "“{value}”"
+msgstr "“{value}”"
+
+msgid "N/A"
+msgstr "NC"
+
+#, python-brace-format
+msgid "{field} emptied {details_link}"
+msgstr "{field} vidé {details_link}"
+
+#, python-brace-format
+msgid "{field} set {details_link}"
+msgstr "{field} modifié {details_link}"
+
+msgid "(see details)"
+msgstr "(voir détails)"
+
+msgid "Details of modifications"
+msgstr "Détails des modifications"
+
+msgid "Old value"
+msgstr "Vieille valeur"
+
+msgid "New value"
+msgstr "Nouvelle valeur"
+
+#, python-brace-format
+msgid "{pk} (deleted)"
+msgstr "{pk} (supprimé)"
+
+#, python-brace-format
+msgid "{field} changed: {changes}"
+msgstr "{field} a changé : {changes}"
+
+msgid "{} was added"
+msgid_plural "[{}] were added"
+msgstr[0] "{} a été ajouté(e)"
+msgstr[1] "[{}] ont été ajouté(e)s"
+
+msgid "{} was removed"
+msgid_plural "[{}] were removed"
+msgstr[0] "{} a été enlevé(e)"
+msgstr[1] "[{}] ont été enlevé(e)s"
+
+#, python-brace-format
+msgid "Deleted field (with id={id}) set"
+msgstr "Champ supprimé (avec id={id}) changé"
+
+#, python-brace-format
+msgid "“{field}” set"
+msgstr "“{field}” modifié"
+
+msgid "Results"
+msgstr "Résultats"
+
+msgid "Errors"
+msgstr "Erreurs"
+
+#, python-brace-format
+msgid "{aggregation_label}: {aggregation_value}"
+msgstr "{aggregation_label} : {aggregation_value}"
+
+msgid "The batch processing is disabled because the custom type is deleted"
+msgstr ""
+"Le traitement par lots est désactivé car le type personnalisé est supprimé"
+
+msgid "Add a URL entry"
+msgstr "Ajouter une entrée URL"
+
+#, python-brace-format
+msgid "{label} (broken configuration)"
+msgstr "{label} (configuration cassée)"
+
+msgid "Separator"
+msgstr "Séparateur"
+
+msgid "Add a separator"
+msgstr "Ajouter un séparateur"
+
+msgid "Custom entities"
+msgstr "Fiches personnalisées"
+
+msgid "To page {}"
+msgstr "À la page {}"
+
+msgid "Previous page"
+msgstr "Page précédente"
+
+msgid "To first page"
+msgstr "À la première page"
+
+msgid "To another page"
+msgstr "Aller à une autre page"
+
+msgid "To last page"
+msgstr "À la dernière page"
+
+msgid "Next page"
+msgstr "Page suivante"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "My page"
+msgstr "Ma page"
+
+msgid "Log out"
+msgstr "Se déconnecter"
+
+#, python-brace-format
+msgid "{count} entity"
+msgid_plural "{count} entities"
+msgstr[0] "{count} Fiche"
+msgstr[1] "{count} Fiches"
+
+msgid "Change password"
+msgstr "Changer de mot de passe"
+
+msgid "Your configuration forbids not superusers to change their own password"
+msgstr ""
+"Votre configuration interdit les non super-utilisateurs à changer leur "
+"propre mot de passe"
+
+msgid "Available roles"
+msgstr "Rôles disponibles"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "*Quick forms*"
+msgstr "*Formulaires rapides*"
+
+msgid "No type available"
+msgstr "Aucun type disponible."
+
+msgid "Other type of entity"
+msgstr "Autre type de fiche"
+
+msgid "Create an entity of any type"
+msgstr "Créer une fiche de n'importe quel type"
+
+msgid "Quick access"
+msgstr "Accès rapide"
+
+msgid "No recently visited entity"
+msgstr "Aucune fiche récemment visitée"
+
+msgid "No pinned entity"
+msgstr "Aucine fiche épinglée"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Deactivated on"
+msgstr "Désactivé le"
+
+msgid "Creatable resources"
+msgstr "Ressources créables"
+
+msgid "Listable resources"
+msgstr "Ressources listables"
+
+msgid "Exportable resources"
+msgstr "Ressources exportables"
+
+msgid "Create a role"
+msgstr "Créer un rôle"
+
+msgid "Save the role"
+msgstr "Enregistrer le rôle"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Roles"
+msgstr "Rôles"
+
+#, python-brace-format
+msgid "{role} [deactivated]"
+msgstr "{role} [désactivé]"
+
+msgid "All entities"
+msgstr "Toutes les fiches"
+
+msgid "User's own entities"
+msgstr "Ses propres fiches"
+
+msgid "Filtered entities"
+msgstr "Fiches filtrées"
+
+msgid "Type of entities set"
+msgstr "Type d'ensemble de fiches"
+
+msgid ""
+"The choice «Filtered entities» allows to configure credentials based on "
+"values of fields or relationships for example."
+msgstr ""
+"Le choix «Fiches filtrées» permet de configurer des droits basés sur la "
+"valeur de champs ou bien les relations par exemple."
+
+msgid "Apply to a specific type"
+msgstr "Appliquer à un type spécifique"
+
+msgid "Allow or forbid?"
+msgstr "Autoriser ou interdire ?"
+
+msgid "The users are allowed to perform the selected actions"
+msgstr "les utilisateurs sont autorisés à effectuer les actions sélectionnées"
+
+msgid "The users are NOT allowed to perform the selected actions"
+msgstr ""
+"les utilisateurs NE sont PAS autorisés à effectuer les actions sélectionnées"
+
+msgid ""
+"Notice that actions which are forbidden & allowed at the same time are "
+"considered as forbidden when final permissions are computed."
+msgstr ""
+"Remarquez que les actions qui sont à la fois interdites et autorisées sont "
+"considérées comme interdites quand les permissions finales sont calculées."
+
+msgid "view"
+msgstr "voir"
+
+msgid "change"
+msgstr "modifier"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "link"
+msgstr "relier"
+
+msgid "unlink"
+msgstr "délier"
+
+msgid "nothing forbidden"
+msgstr "rien d'interdit"
+
+msgid "nothing allowed"
+msgstr "rien d'autorisé"
+
+#, python-brace-format
+msgid "For “{set}“ of type “{type}” it is forbidden to: {perms}"
+msgstr "Pour “{set}“ du type “{type}” interdit de : {perms}"
+
+#, python-brace-format
+msgid "For “{set}“ of type “{type}” it is allowed to: {perms}"
+msgstr "Pour “{set}“ du type “{type}” autorisé à : {perms}"
+
+#, python-brace-format
+msgid "For “{set}“ it is forbidden to: {perms}"
+msgstr "Pour “{set}“ interdit de : {perms}"
+
+#, python-brace-format
+msgid "For “{set}“ it is allowed to: {perms}"
+msgstr "Pour “{set}“ autorisé à : {perms}"
+
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+msgid "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr ""
+"Requis. 30 caractères maximum. Uniquement des lettres, nombres et les "
+"caractères « @ », « . », « + », « - » et « _ »."
+
+# Already in django.auth
+msgid "A user with that username already exists."
+msgstr ""
+
+msgid "Last name"
+msgstr "Nom"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "Email address"
+msgstr "Adresse e-mail"
+
+msgid "Displayed name"
+msgstr "Nom affiché"
+
+msgid ""
+"If you do not fill this field, an automatic name will be used («John Doe» "
+"will be displayed as «John D.»)."
+msgstr ""
+"Si vous ne remplissez pas ce champ, un nom automatique sera utilisé («Jean "
+"Dupont» sera affiché «Jean D.»)."
+
+msgid "Date joined"
+msgstr "Date d'inscription"
+
+msgid "Active?"
+msgstr "Actif ?"
+
+msgid "Is staff?"
+msgstr "Est administrateur ?"
+
+msgid "Is a superuser?"
+msgstr "Est un super-utilisateur ?"
+
+msgid ""
+"A normal user must have at least one role.\n"
+" - A user with no role will be a SUPERUSER.\n"
+" - If you choose several roles, the user will be able to switch between them."
+msgstr ""
+"Un utilisateur normal doit avoir au moins un rôle.\n"
+" - Un utilisateur sans rôle sera un SUPER utilisateur.\n"
+" - Si vous choisissez plusieurs rôles, l'utilisateur pourra changer parmi "
+"eux."
+
+msgid "Is a team?"
+msgstr "Est une équipe ?"
+
+msgid "Teammates"
+msgstr "Coéquipiers"
+
+msgid "Time zone"
+msgstr "Fuseau horaire"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Language of your browser"
+msgstr "Langue de votre navigateur"
+
+msgid "An active user with the same email address already exists."
+msgstr "Un utilisateur activé avec la même adresse e-mail existe déjà."
+
+msgid "Create a user"
+msgstr "Créer un utilisateur"
+
+msgid "Save the user"
+msgstr "Enregistrer l'utilisateur"
+
+msgid "Users"
+msgstr "Utilisateurs"
+
+#, python-brace-format
+msgid "{user} (team)"
+msgstr "{user} (équipe)"
+
+#, python-brace-format
+msgid "{first_name} {last_name}."
+msgstr "{first_name} {last_name}."
+
+msgid "Forbidden (unspecified reason)"
+msgstr "Interdit (raison indéterminée)"
+
+msgid "You have not this special permission: «{}»"
+msgstr "Vous n'avez pas cette permission spéciale : «{}»"
+
+msgid "Invalid app \"{}\""
+msgstr "App invalide \"{}\""
+
+msgid "You are not allowed to access to the app: {}"
+msgstr "Vous n'avez pas accès à cette application: {}"
+
+msgid "You are not allowed to configure this app: {}"
+msgstr "Vous n'avez pas la permission de configurer cette app : {}"
+
+msgid "You are not allowed to edit this entity: {}"
+msgstr "Vous n'avez pas la permission de modifier cette fiche : {}"
+
+msgid "You are not allowed to create: {}"
+msgstr "Vous n'avez pas la permission de créer : {}"
+
+msgid "You are not allowed to delete this entity: {}"
+msgstr "Vous n'avez pas la permission de supprimer cette fiche : {}"
+
+msgid "You are not allowed to export: {}"
+msgstr "Vous n'avez pas la permission d'exporter : {}"
+
+msgid "You are not allowed to link this entity: {}"
+msgstr "Vous n'avez pas la permission de relier cette fiche : {}"
+
+msgid "You are not allowed to link: {}"
+msgstr "Vous n'avez pas la permission de relier : {}"
+
+msgid "You are not allowed to unlink this entity: {}"
+msgstr "Vous n'avez pas la permission de délier cette fiche : {}"
+
+msgid "You are not allowed to list: {}"
+msgstr "Vous n'avez pas la permission de lister : {}"
+
+msgid "You are not allowed to view this entity: {}"
+msgstr "Vous n'avez pas la permission de voir cette fiche : {}"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Deletion of «{}»"
+msgstr "Suppression de «{}»"
+
+msgid "The field «{}» has been configured as required."
+msgstr "Le champ «{}» a été configuré comme obligatoire."
+
+msgid "Creation date"
+msgstr "Date de création"
+
+msgid "Last modification"
+msgstr "Dernière modification"
+
+msgid "Related type"
+msgstr "Type associé"
+
+msgid "Related role"
+msgstr "Rôle associé"
+
+#, python-brace-format
+msgid "Default block configuration for detail-views uses «{block}»"
+msgstr ""
+"La configuration par défaut des blocs pour les vues détaillée utilise "
+"«{block}»"
+
+#, python-brace-format
+msgid ""
+"Block configuration for detail-views of «{model}» for role «{role}» uses "
+"«{block}»"
+msgstr ""
+"La configuration des blocs pour la vue détaillée de «{model}» pour le rôle "
+"«{role}» utilise «{block}»"
+
+#, python-brace-format
+msgid ""
+"Block configuration for detail-views of «{model}» for superusers uses "
+"«{block}»"
+msgstr ""
+"La configuration des blocs pour la vue détaillée de «{model}» pour les super-"
+"utilisateurs utilise «{block}»"
+
+#, python-brace-format
+msgid "Block configuration for detail-views of «{model}» uses «{block}»"
+msgstr ""
+"La configuration des blocs pour la vue détaillée de «{model}» utilise "
+"«{block}»"
+
+#, python-brace-format
+msgid "Block configuration of Home for role «{role}» uses «{block}»"
+msgstr ""
+"La configuration des blocs pour l'accueil du rôle «{role}» utilise «{block}»"
+
+#, python-brace-format
+msgid "Block configuration of Home for superusers uses «{block}»"
+msgstr ""
+"La configuration des blocs pour l'accueil des super-utilisateurs utilise "
+"«{block}»"
+
+#, python-brace-format
+msgid "Block configuration of Home uses «{block}»"
+msgstr "La configuration des blocs pour l'accueil utilise «{block}»"
+
+#, python-brace-format
+msgid "Block configuration of \"My page\" for «{user}» uses «{block}»"
+msgstr ""
+"La configuration des blocs de \"Ma page\" pour l'utilisateur «{user}» "
+"utilise «{block}»"
+
+#, python-brace-format
+msgid "Default block configuration of \"My page\" uses «{block}»"
+msgstr "La configuration par défaut des blocs de \"Ma page\" utilise «{block}»"
+
+msgid "This block is used in the default detail-view configuration"
+msgstr ""
+"Ce bloc est utilisé dans la configuration de la vue détaillée par défaut"
+
+#, python-brace-format
+msgid "This block is used in the detail-view configuration of «{model}»"
+msgstr ""
+"Ce bloc est utilisé dans la configuration de la vue détaillée de «{model}»"
+
+#, python-brace-format
+msgid ""
+"This block is used in the detail-view configuration of «{model}» for "
+"superusers"
+msgstr ""
+"Ce bloc est utilisé dans la configuration de la vue détaillée de «{model}» "
+"pour les super-utilisateurs"
+
+#, python-brace-format
+msgid ""
+"This block is used in the detail-view configuration of «{model}» for role "
+"«{role}»"
+msgstr ""
+"Ce bloc est utilisé dans la configuration de la vue détaillée de «{model}» "
+"pour le rôle «{role}»"
+
+msgid "This block is used in the default Home configuration"
+msgstr "Ce bloc est utilisé dans la configuration par défaut de l'accueil"
+
+msgid "This block is used in the Home configuration for superusers"
+msgstr ""
+"Ce bloc est utilisé dans la configuration de l'accueil pour les super-"
+"utilisateurs"
+
+msgid "This block is used in the Home configuration of role «{}»"
+msgstr "Ce bloc est utilisé dans la configuration de l'accueil du rôle «{}»"
+
+msgid "This block is used in the default configuration for \"My page\""
+msgstr "Ce bloc est utilisé dans la configuration par défaut de \"Ma page\""
+
+msgid "This block is used in the configuration of «{}» for \"My page\""
+msgstr "Ce bloc est utilisé dans la configuration de «{}» pour \"Ma page\""
+
+msgid "Related type of relationship"
+msgstr "Type de relation associé"
+
+msgid "Create a type of block"
+msgstr "Créer un type de bloc"
+
+msgid "Save the block"
+msgstr "Enregistrer le bloc"
+
+msgid "Block related entity"
+msgstr "Fiche associée au bloc"
+
+msgid "Create a block"
+msgstr "Créer un bloc"
+
+msgid "Block ID"
+msgstr "Identifiant de bloc"
+
+msgid "Button ID"
+msgstr "Identifiant de bouton"
+
+msgid "Priority"
+msgstr "Priorité"
+
+msgid "Button to display"
+msgstr "Bouton à afficher"
+
+msgid "Buttons to display"
+msgstr "Boutons à afficher"
+
+msgid "Deprecated button"
+msgstr "Bouton obsolète"
+
+msgid "Created by the app"
+msgstr "Crée par l'app"
+
+msgid "Text"
+msgstr "Texte"
+
+msgid "For example: 'is pretty'"
+msgstr "Par exemple: 'est joli'"
+
+msgid "Related to types of entities"
+msgstr "S'applique aux types de fiches"
+
+msgid "No selected type means that all types are accepted"
+msgstr "Aucun type sélectionné signifiera que tous les types sont acceptés"
+
+msgid "Is copiable"
+msgstr "Est copiable"
+
+msgid "Are the properties with this type copied when an entity is cloned?"
+msgstr ""
+"Est-ce que les propriétés avec ce type sont copiées quand une fiche est "
+"clonée ?"
+
+msgid "Enabled?"
+msgstr "Activé ?"
+
+msgid "Create a type of property"
+msgstr "Créer un type de propriété"
+
+msgid "Save the type of property"
+msgstr "Enregistrer le type de propriété"
+
+msgid "Types of property"
+msgstr "Types de propriété"
+
+msgid "Entity"
+msgstr "Fiche"
+
+msgid "Property"
+msgstr "Propriété"
+
+msgid "Currency"
+msgstr "Devise"
+
+msgid "Local symbol"
+msgstr "Symbole local"
+
+msgid "International symbol"
+msgstr "Symbole international"
+
+msgid "Is default?"
+msgstr "Par défaut ?"
+
+msgid "Create a currency"
+msgstr "Créer une devise"
+
+msgid "Currencies"
+msgstr "Devises"
+
+msgid "Name (plural)"
+msgstr "Nom (pluriel)"
+
+msgid "Create a type of entity"
+msgstr "Créer un type de fiche"
+
+msgid "Save the type of entity"
+msgstr "Enregistrer le type de fiche"
+
+msgid "Custom entity"
+msgstr "Fiche personnalisée"
+
+msgid "Field name"
+msgstr "Nom du champ"
+
+msgid "Field type"
+msgstr "Type du champ"
+
+msgid "Is required?"
+msgstr "Est obligatoire ?"
+
+msgid ""
+"A required custom-field must be filled when a new entity is created; "
+"existing entities are not immediately impacted."
+msgstr ""
+"Un champ personnalisé obligatoire doit être rempli quand une nouvelle fiche "
+"est créée ; les fiches existantes ne sont pas immédiatement concernées."
+
+msgid "Is deleted?"
+msgstr "Est supprimé ?"
+
+msgid "The description is notably used in forms to help user"
+msgstr ""
+"La description est notamment utilisée dans les formulaires pour aider "
+"l'utilisateur"
+
+msgid "Create a custom field"
+msgstr "Créer un champ personnalisé"
+
+msgid "Save the custom field"
+msgstr "Enregistrer le champ personnalisé"
+
+msgid "Custom field"
+msgstr "Champ personnalisé"
+
+msgid "Short string"
+msgstr "Chaîne de caractères courte"
+
+msgid "Long text"
+msgstr "Texte long"
+
+msgid "URL (link)"
+msgstr "URL (lien)"
+
+msgid "Integer"
+msgstr "Nombre entier"
+
+msgid "Decimal"
+msgstr "Nombre à virgule"
+
+msgid "Date and time"
+msgstr "Date et heure"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Boolean (2 values: Yes/No)"
+msgstr "Booléen (2 valeurs: Oui/Non)"
+
+msgid "Choice list"
+msgstr "Liste de choix"
+
+msgid "Multiple choice list"
+msgstr "Liste de choix multiples"
+
+msgid "Type of form"
+msgstr "Type de formulaire"
+
+msgid "Create a custom form"
+msgstr "Créer un formulaire personnalisé"
+
+msgid "Save the custom form"
+msgstr "Enregistrer le formulaire personnalisé"
+
+msgid "Custom form"
+msgstr "Formulaire personnalisé"
+
+msgid "Custom forms"
+msgstr "Formulaires personnalisés"
+
+#, python-brace-format
+msgid ""
+"Cannot delete some instances of model «{model}» because they are referenced "
+"through a protected foreign key: «{related} - {field}»"
+msgstr ""
+"Certaines instances du modèle «{model}» ne peuvent être supprimées car elles "
+"sont utilisées via une clé étrangère protégée : «{related} - {field}»"
+
+msgid "Create an entity"
+msgstr "Créer une fiche"
+
+msgid "Save the entity"
+msgstr "Enregistrer la fiche"
+
+#, python-brace-format
+msgid "Entity #{id} (not viewable)"
+msgstr "Fiche #{id} (non visible)"
+
+msgid "If you assign an owner, only the owner can edit or delete the filter"
+msgstr ""
+"Si vous affectez un propriétaire, seul le propriétaire pourra modifier ou "
+"supprimer le filtre"
+
+msgctxt "creme_core-entity_filter"
+msgid "Is private?"
+msgstr "Est privé ?"
+
+msgid ""
+"A private filter can only be used by its owner (or the teammates if the "
+"owner is a team)"
+msgstr ""
+"Un filtre privé peut seulement être utilisé par son propriétaire (ou les "
+"coéquipiers si le propriétaire est une équipe)"
+
+msgid "The entity is accepted if"
+msgstr "La fiche est acceptée si"
+
+msgid "All the conditions are met"
+msgstr "Toutes les conditions sont remplies"
+
+msgid "Any condition is met"
+msgstr "Au moins une condition est remplie"
+
+msgid "Create a filter"
+msgstr "Créer un filtre"
+
+msgid "Save the filter"
+msgstr "Enregistrer le filtre"
+
+msgid "Filter of Entity"
+msgstr "Filtre de fiche"
+
+msgid "Filters of Entity"
+msgstr "Filtres de fiche"
+
+msgid "This filter can't be deleted (system filter)"
+msgstr "Ce filtre ne peut être supprimé (filtre système)"
+
+msgid "You are not allowed to access to this app"
+msgstr "Vous n'avez pas la permission d'accéder à cette application"
+
+msgid "Only superusers can delete this filter (no owner)"
+msgstr ""
+"Seuls les super-utilisateurs peuvent supprimer ce filtre (pas de "
+"propriétaire)"
+
+msgid "You are not allowed to delete this filter (you are not the owner)"
+msgstr ""
+"Vous n'avez pas la permission de supprimer ce filtre (il ne vous appartient "
+"pas)"
+
+msgid "Only superusers can edit this filter (no owner)"
+msgstr ""
+"Seuls les super-utilisateurs peuvent modifier ce filtre (pas de propriétaire)"
+
+msgid "You are not allowed to edit this filter (you are not the owner)"
+msgstr ""
+"Vous n'avez pas la permission de modifier ce filtre (il ne vous appartient "
+"pas)"
+
+msgid "You are not allowed to view this filter (you are not the owner)"
+msgstr ""
+"Vous n'avez pas la permission de voir ce filtre (il ne vous appartient pas)"
+
+msgid "A condition can not reference its own filter."
+msgstr "Une condition ne peut pas référencer son propre filtre."
+
+msgid "There is a cycle with a sub-filter."
+msgstr "Il y a un cycle avec un sous-filtre."
+
+msgid ""
+"This filter cannot be private because it is a sub-filter for the public "
+"filter \"{}\""
+msgstr ""
+"Ce filtre ne peut pas être privé parce que c'est un sous-filtre pour le "
+"filtre public \"{}\""
+
+#, python-brace-format
+msgid ""
+"This filter cannot be private and belong to this team because it is a sub-"
+"filter for the filter \"{filter}\" which belongs to the team \"{team}\"."
+msgstr ""
+"Ce filtre ne peut pas être privé et appartenir à cette équipe parce que "
+"c'est un sous-filtre pour le filtre \"{filter}\" qui appartient à l'équipe "
+"\"{team}\"."
+
+#, python-brace-format
+msgid ""
+"This filter cannot be private and belong to this team because it is a sub-"
+"filter for the filter \"{filter}\" which belongs to the user \"{user}\" (who "
+"is not a member of this team)."
+msgstr ""
+"Ce filtre ne peut pas être privé et appartenir à cette équipe parce que "
+"c'est un sous-filtre pour le filtre \"{filter}\" qui appartient à "
+"l'utilisateur \"{user}\" (qui n'est pas membre de cette équipe)."
+
+msgid ""
+"This filter cannot be private because it is a sub-filter for a private "
+"filter of another user."
+msgstr ""
+"Ce filtre ne peut pas être privé parce que c'est un sous-filtre un filtre "
+"privé d'un autre utilisateur."
+
+msgid ""
+"This filter cannot be private and belong to a user because it is a sub-"
+"filter for the filter \"{}\" which belongs to a team."
+msgstr ""
+"Ce filtre ne peut pas être privé et appartenir à un utilisateur parce que "
+"c'est un sous-filtre pour le filtre \"{}\" qui appartient à une équipe."
+
+msgid "A private filter must be assigned to a user/team."
+msgstr "Un filtre privé doit être attribué à un utilisateur/équipe."
+
+msgid ""
+"A private filter which belongs to a team can only use public sub-filters & "
+"private sub-filters which belong to this team. So this private sub-filter "
+"cannot be chosen: {}"
+msgid_plural ""
+"A private filter which belongs to a team can only use public sub-filters & "
+"private sub-filters which belong to this team. So these private sub-filters "
+"cannot be chosen: {}"
+msgstr[0] ""
+"Un filtre privé qui appartient à une équipe peut seulement utiliser des sous-"
+"filtres publiques & des sous-filtres privés qui appartiennent à cette "
+"équipe. Donc ce sous-filtre privé ne peut pas être choisi : {}"
+msgstr[1] ""
+"Un filtre privé qui appartient à une équipe peut seulement utiliser des sous-"
+"filtres publiques & des sous-filtres privés qui appartiennent à cette "
+"équipe. Donc ces sous-filtres privés ne peuvent pas être choisis : {}"
+
+msgid ""
+"A private filter can only use public sub-filters, & private sub-filters "
+"which belong to the same user and his teams. So this private sub-filter "
+"cannot be chosen: {}"
+msgid_plural ""
+"A private filter can only use public sub-filters, & private sub-filters "
+"which belong to the same user and his teams. So these private sub-filters "
+"cannot be chosen: {}"
+msgstr[0] ""
+"Un filtre privé peut seulement utiliser des sous-filtres publiques & des "
+"sous-filtres privés qui appartiennent au même utilisateur ou à une de ses "
+"équipes. Donc ce sous-filtre privé ne peut pas être choisi : {}"
+msgstr[1] ""
+"Un filtre privé peut seulement utiliser des sous-filtres publiques & des "
+"sous-filtres privés qui appartiennent au même utilisateur ou à une de ses "
+"équipes. Donc ces sous-filtres privés ne peuvent pas être choisis: {}"
+
+msgid "Your filter must be private in order to use this private sub-filter: {}"
+msgid_plural ""
+"Your filter must be private in order to use these private sub-filters: {}"
+msgstr[0] ""
+"Votre filtre doit être privé pour pouvoir utiliser ce sous-filtre privé : {}"
+msgstr[1] ""
+"Votre filtre doit être privé pour pouvoir utiliser ces sous-filtres privés : "
+"{}"
+
+msgid "You can not delete this filter, because it is used as sub-filter by: {}"
+msgstr ""
+"Vous ne pouvez pas supprimer ce filtre, car il est utilisé comme sous-filtre "
+"par : {}"
+
+msgid "URL (no validation)"
+msgstr "URL (pas de validation)"
+
+msgid "HTML Color"
+msgstr "Couleur HTML"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "No user"
+msgstr "Pas d'utilisateur"
+
+msgid "Select a user…"
+msgstr "Sélectionnez un utilisateur…"
+
+msgid "Create a fields configuration"
+msgstr "Créer une configuration de champs"
+
+msgid "Save the configuration"
+msgstr "Enregistrer la configuration"
+
+#, python-brace-format
+msgid "Configuration of {model}"
+msgstr "Configuration de {model}"
+
+#, python-brace-format
+msgid "Warning: the app «{app}» need the field «{field}»."
+msgstr "Attention: l'app «{app}» a besoin du champ «{field}»."
+
+msgid "Path"
+msgstr "Chemin"
+
+msgctxt "creme_core-temporary_file"
+msgid "Created"
+msgstr "Créé"
+
+msgid "To be deleted by the job?"
+msgstr "Doit être supprimé par le job ?"
+
+msgid "Name of the view"
+msgstr "Nom de la vue"
+
+msgid "If you assign an owner, only the owner can edit or delete the view"
+msgstr ""
+"Si vous affectez un propriétaire, seul le propriétaire pourra modifier ou "
+"supprimer la vue"
+
+msgctxt "creme_core-header_filter"
+msgid "Is private?"
+msgstr "Est privée ?"
+
+msgid ""
+"A private view of list can only be used by its owner (or the teammates if "
+"the owner is a team)"
+msgstr ""
+"Une vue de liste privée peut seulement être utilisée par son propriétaire "
+"(ou les coéquipiers si le propriétaire est une équipe)"
+
+msgid "Create a view"
+msgstr "Créer une vue"
+
+msgid "Save the view"
+msgstr "Enregistrer la vue"
+
+msgid "This view can't be deleted"
+msgstr "Cette vue ne peut être supprimée"
+
+msgid "Only superusers can edit/delete this view (no owner)"
+msgstr ""
+"Seuls les super-utilisateurs peuvent modifier/supprimer cette vue (pas de "
+"propriétaire)"
+
+msgid "You are not allowed to edit/delete this view"
+msgstr "Vous n'avez pas la permission de modifier/supprimer cette vue"
+
+msgid "Creation"
+msgstr "Création"
+
+msgid "Edition"
+msgstr "Modification"
+
+msgid "Edition (custom fields)"
+msgstr "Modification (champs personnalisés)"
+
+msgid "Deletion"
+msgstr "Suppression"
+
+msgid "Related modification"
+msgstr "Modification liée"
+
+msgid "Property creation"
+msgstr "Création de propriété"
+
+msgid "Add property “{}”"
+msgstr "Ajout de la propriété “{}”"
+
+msgid "Property deletion"
+msgstr "Suppression de propriété"
+
+msgid "Delete property “{}”"
+msgstr "Suppression de la propriété “{}”"
+
+msgid "Relationship"
+msgstr "Relation"
+
+msgid "Add a relationship “{}”"
+msgstr "Ajout de la relation: “{}”"
+
+msgid "Relationship deletion"
+msgstr "Suppression de Relation"
+
+msgid "Delete a relationship “{}”"
+msgstr "Suppression de la relation “{}”"
+
+msgid "Auxiliary (creation)"
+msgstr "Auxiliaire (création)"
+
+msgid "Auxiliary (edition)"
+msgstr "Auxiliaire (modification)"
+
+msgid "Auxiliary (deletion)"
+msgstr "Auxiliaire (suppression)"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Action of Workflow engine"
+msgstr "Action du moteur de Processus"
+
+msgid "Line of history"
+msgstr "Ligne d'historique"
+
+msgid "Lines of history"
+msgstr "Lignes d'historique"
+
+msgid "Create a language"
+msgstr "Créer une langue"
+
+msgid "Languages"
+msgstr "Langues"
+
+msgid "Type of job"
+msgstr "Type de job"
+
+msgctxt "creme_core-job"
+msgid "Enabled"
+msgstr "Activé"
+
+msgid "Reference run"
+msgstr "Exécution de référence"
+
+msgid "Periodicity"
+msgstr "Périodicité"
+
+msgid "Last run"
+msgstr "Dernière exécution"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Waiting"
+msgstr "En attente"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Completed successfully"
+msgstr "Terminé avec succès"
+
+msgid "Job"
+msgstr "Job"
+
+msgid ""
+"When a channel is required, users have to chose at least one output (in-app, "
+"email) in their personal configuration."
+msgstr ""
+"Quand un canal est obligatoire, les utilisateurs doivent choisir au moins "
+"une sortie (dans l'app, par e-mail) dans leur configuration personnelle."
+
+msgid "Default outputs"
+msgstr "Sorties par défaut"
+
+msgid "Create a channel"
+msgstr "Créer un canal"
+
+msgid "Save the channel"
+msgstr "Enregistrer le canal"
+
+msgctxt "creme_core-notif"
+msgid "Low"
+msgstr "Bas"
+
+msgctxt "creme_core-notif"
+msgid "Normal"
+msgstr "Normal"
+
+msgctxt "creme_core-notif"
+msgid "High"
+msgstr "Haut"
+
+msgid "Channel"
+msgstr "Canal"
+
+msgid "Level"
+msgstr "Niveau"
+
+msgid "Create a notification"
+msgstr "Créer une notification"
+
+msgid "Send the notification"
+msgstr "Envoyer la notification"
+
+msgid "Pinned on"
+msgstr "Épinglée le"
+
+msgid "Predicate"
+msgstr "Prédicat"
+
+msgid "Create a type of relationship"
+msgstr "Créer un type de relation"
+
+msgid "Save the type"
+msgstr "Enregistrer le type"
+
+msgid "Type of relationship"
+msgstr "Type de relation"
+
+msgid "Types of relationship"
+msgstr "Types de relation"
+
+msgid "No relationship"
+msgstr "Aucune relation"
+
+#, python-brace-format
+msgid ""
+"You cannot add (or delete) relationships with the type «{predicate}» because "
+"it is an internal type."
+msgstr ""
+"Vous ne pouvez pas ajouter (ou supprimer) de relations avec le type "
+"«{predicate}» car c'est un type interne."
+
+#, python-brace-format
+msgid ""
+"You cannot add relationship with the type «{predicate}» because it is "
+"disabled."
+msgstr ""
+"Vous ne pouvez pas ajouter de relation avec le type «{predicate}» car il est "
+"désactivé."
+
+#, python-format
+msgid ""
+"The entity «%(entity)s» is a «%(model)s» which is not allowed by the "
+"relationship «%(predicate)s»."
+msgstr ""
+"La fiche «%(entity)s» est un(e) «%(model)s», ce qui n'est pas autorisé par "
+"la relation «%(predicate)s»."
+
+#, python-format
+msgid ""
+"The entity «%(entity)s» has no property «%(property)s» which is required by "
+"the relationship «%(predicate)s»."
+msgstr ""
+"La fiche «%(entity)s» n'a pas la propriété «%(property)s» qui est "
+"obligatoire pour la relation «%(predicate)s»."
+
+#, python-format
+msgid ""
+"The entity «%(entity)s» has the property «%(property)s» which is forbidden "
+"by the relationship «%(predicate)s»."
+msgstr ""
+"La fiche «%(entity)s» a la propriété «%(property)s» qui est interdite par la "
+"relation «%(predicate)s»."
+
+msgid "Create a semi-fixed type of relationship"
+msgstr "Créer un type de relation semi-fixé"
+
+msgid "Semi-fixed type of relationship"
+msgstr "Type de relation semi-fixé"
+
+msgid "Related resource"
+msgstr "Ressource associée"
+
+msgctxt "creme_core-search_conf"
+msgid "Disabled?"
+msgstr "Désactivée ?"
+
+msgid "Create a search configuration"
+msgstr "Créer une configuration de recherche"
+
+#, python-brace-format
+msgid "Search configuration of super-users for «{model}»"
+msgstr "Configuration de recherche des super-utilisateurs pour «{model}»"
+
+#, python-brace-format
+msgid "Default search configuration for «{model}»"
+msgstr "Configuration de recherche par défaut pour «{model}»"
+
+#, python-brace-format
+msgid "Search configuration of «{role}» for «{model}»"
+msgstr "Configuration de recherche de «{role}» pour «{model}»"
+
+msgid "Invalid custom type"
+msgstr "Type personnalisé invalide"
+
+#, python-brace-format
+msgid "{custom_model} [deleted]"
+msgstr "{custom_model} [supprimé]"
+
+msgid "VAT"
+msgstr "TVA"
+
+msgid "Create a VAT value"
+msgstr "Créer une valeur de TVA"
+
+msgid "There is already a VAT with this value."
+msgstr "Il y a déjà une TVA avec cette valeur."
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Create a Workflow"
+msgstr "Créer un Processus"
+
+msgid "Save the Workflow"
+msgstr "Enregistrer le Processus"
+
+msgid "Workflows"
+msgstr "Processus automatisés"
+
+msgid "Menu icon"
+msgstr "Icône du menu"
+
+msgid "Allow all users to change their own password?"
+msgstr "Autoriser tous les utilisateurs à changer leur propre mot de passe ?"
+
+msgid "Enable the «Lost password» feature?"
+msgstr "Activer la fonctionnalité «Mot de passe perdu» ?"
+
+msgid ""
+"This feature allows users to reset their password if they forgot it. The "
+"login page proposes to receive an email to start the reset process."
+msgstr ""
+"Cette fonctionnalité permet aux utilisateurs de réinitialiser leur mot de "
+"passe s'ils l'ont perdu. La page de connexion propose de recevoir un e-mail "
+"pour démarrer le processus de réinitialisation."
+
+msgid "Can users change their own displayed name?"
+msgstr "Les utilisateurs peuvent changer leur propre nom affiché ?"
+
+msgctxt "creme_core-channels"
+msgid "System"
+msgstr "Système"
+
+msgid "System upgrades…"
+msgstr "Mises à niveau système…"
+
+msgctxt "creme_core-channels"
+msgid "Administration"
+msgstr "Administration"
+
+msgid "Important changes on your user like password change."
+msgstr ""
+"Les changements importants sur votre utilisateur comme une changement de mot "
+"de passe."
+
+msgid "End of some long jobs (like CSV import)."
+msgstr "La fin de certain jobs long (comme les imports CSV)."
+
+msgid ""
+"The reminder feature is used by Alerts & ToDos (from the app Assistants) for "
+"example."
+msgstr ""
+"La fonctionnalité de rappel est utilisée par les Alertes & ToDos (de l'app "
+"Assistants) par exemple."
+
+msgid "owns"
+msgstr "possède"
+
+msgid "belongs to"
+msgstr "appartient à"
+
+msgid "Euro"
+msgstr "Euro"
+
+msgid "United States dollar"
+msgstr "Dollar américain"
+
+msgid "Pound sterling"
+msgstr "Livre sterling"
+
+msgid "Japanese yen"
+msgstr "Yen"
+
+msgid "Chinese yuan"
+msgstr "Yuan"
+
+msgid "South Korean won"
+msgstr "Won sud-coréen"
+
+msgid "Dinar"
+msgstr "Dinar algérien"
+
+msgid "Brazilian real"
+msgstr "Réal brésilien"
+
+msgid "Indian rupee"
+msgstr "Roupie indienne"
+
+msgid "Australian dollar"
+msgstr "Dollar australien"
+
+msgid "Swiss franc"
+msgstr "Franc suisse"
+
+msgid "CHF"
+msgstr "fr."
+
+msgid "Canadian dollar"
+msgstr "Dollar canadien"
+
+msgid "replaceMe@byYourAddress.com"
+msgstr "remplacezMoi@parVotreAdresse.fr"
+
+msgid "Regular user"
+msgstr "Utilisateur normal"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "French"
+msgstr "Français"
+
+msgid "German"
+msgstr "Allemand"
+
+msgid "Spanish"
+msgstr "Espagnol"
+
+msgid "Chinese"
+msgstr "Chinois"
+
+msgid "Japanese"
+msgstr "Japonais"
+
+msgid "Italian"
+msgstr "Italien"
+
+msgid "Portuguese"
+msgstr "Portugais"
+
+msgid "Dutch"
+msgstr "Néerlandais"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "+ Creation"
+msgstr "+ Création"
+
+msgid "Main entities"
+msgstr "Fiches principales"
+
+msgid "Quick creation"
+msgstr "Création rapide"
+
+msgid "Restricted to superusers"
+msgstr "Réservé aux super-utilisateurs"
+
+msgid ""
+"Filters & views of list without owner can be edited by all users? (\"No\" "
+"means only superusers are allowed to)"
+msgstr ""
+"Les filtres & vues de liste sans propriétaire peuvent-ils être modifiés par "
+"tous les utilisateurs ? (\"Non\" signifie que seuls les super-utilisateurs "
+"le peuvent)"
+
+msgid "By default, are blocks open?"
+msgstr "Par défaut, est-ce que les blocs apparaissent ouverts ?"
+
+msgid "By default, are empty fields displayed?"
+msgstr "Par défaut, est-ce que les champs vides sont affichés ?"
+
+msgid ""
+"Display the currency local symbol (e.g. €)? If no the international symbol "
+"will be used (ex: EUR)"
+msgstr ""
+"Afficher la devise avec son symbole locale (ex: €) ? Sinon le symbole "
+"internationale sera utilisé (ex: EUR)."
+
+msgid "Back to home"
+msgstr "Revenir à l'accueil"
+
+#, python-format
+msgid "Changeset: %(id)s (%(date)s)"
+msgstr "Changeset: %(id)s (%(date)s)"
+
+msgid "You lost your password?"
+msgstr "Vous avez perdu votre mot de passe ?"
+
+msgid "Reset your password"
+msgstr "Réinitialisez votre mot de passe"
+
+msgid "Your new password has been saved."
+msgstr "Votre nouveau mot de passe a été enregistré."
+
+msgid "Log in"
+msgstr "Se connecter"
+
+msgid ""
+"If the given email address exists in Creme CRM database then instructions to "
+"reset your password has been sent."
+msgstr ""
+"Si l'adresse e-mail fournie est connue de Crème CRM alors des instructions "
+"vont vous être envoyées."
+
+msgid "They should not be long!"
+msgstr "Elles ne devraient pas tarder à arriver !"
+
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"You receive this email because a reset of your password for %(software)s has "
+"been requested.\n"
+"\n"
+"Click on the following link to choose a new password: %(url)s\n"
+"\n"
+"Here your username in case you forgot it too: %(username)s\n"
+"\n"
+"Thanks for show an interest in %(software)s.\n"
+"\n"
+"Your %(software)s administrator\n"
+msgstr ""
+"Bonjour,\n"
+"\n"
+"Vous recevez cet e-mail parce qu'une réinitialisation de votre mot de passe "
+"%(software)s a été demandée.\n"
+"\n"
+"Cliquez sur le lien suivant pour choisir un nouveau mot de passe : %(url)s\n"
+"\n"
+"Voici votre identifiant au cas où vous l'auriez également oublié : "
+"%(username)s\n"
+"\n"
+"Merci de votre intérêt pour %(software)s.\n"
+"\n"
+"Votre administrateur %(software)s\n"
+
+#, python-format
+msgid "%(software)s > Reinitialisation of your password"
+msgstr "%(software)s > Réinitialisation de votre mot de passe"
+
+msgid "Strategic summary"
+msgstr "Résumé stratégique"
+
+msgid "Unpin"
+msgstr "Désépingler"
+
+msgid "Pin"
+msgstr "Épingler"
+
+msgid "You already have the maximum of pinned entities"
+msgstr "Vous avez déjà le maximum de fiches épinglées"
+
+msgid "Pin this entity to put it in the menu entry «Quick access»"
+msgstr ""
+"Épinglez cette fiche pour la mettre dans l'entrée de menu «Accès rapide»"
+
+#, python-format
+msgid "Cloning is forbidden (%(error)s)"
+msgstr "Clonage interdit (%(error)s)"
+
+msgid "Do you really want to clone this entity?"
+msgstr "Voulez-vous vraiment cloner cette fiche ?"
+
+msgid "Merge"
+msgstr "Fusionner"
+
+msgid "Restore"
+msgstr "Restaurer"
+
+msgid "Do you really want to restore this entity?"
+msgstr "Voulez-vous vraiment restaurer cette fiche ?"
+
+#, python-brace-format
+msgid "{count} Error"
+msgstr "{count} Erreur"
+
+#, python-brace-format
+msgid "{count} Errors"
+msgstr "{count} Erreurs"
+
+msgid "Induced error"
+msgstr "Erreur provoquée"
+
+msgid "Other errors have been omitted."
+msgstr "Les autres erreurs ont été omises."
+
+msgid "Configure the fields"
+msgstr "Configurer les champs"
+
+msgid ""
+"It seems that all fields are hidden. Ask your administrator to fix the "
+"configuration."
+msgstr ""
+"Il semble que tous les champs soient cachés. Demandez à votre administrateur "
+"de corriger la configuration."
+
+#, python-format
+msgid "Edition is forbidden (%(error)s)"
+msgstr "La modification est interdite (%(error)s)"
+
+msgid "Do you really want to delete this filter?"
+msgstr "Voulez-vous vraiment supprimer ce filtre ?"
+
+#, python-format
+msgid "Deletion is forbidden (%(error)s)"
+msgstr "La suppression est interdite (%(error)s)"
+
+msgid "Type of filter"
+msgstr "Type de filtre"
+
+msgid "Related type of entity"
+msgstr "Type de fiches concerné"
+
+msgid "Is custom?"
+msgstr "Est personnalisé ?"
+
+msgid "Any condition is met:"
+msgstr "Au moins une condition est remplie :"
+
+msgid "All these conditions are met:"
+msgstr "Toutes les conditions sont remplies :"
+
+#, python-format
+msgid "Filter used by %(count)s %(model)s (field «%(field)s»)"
+msgstr "Filtre utilisé par %(count)s %(model)s (champ «%(field)s»)"
+
+msgid "You cannot delete the filter because of this dependency."
+msgstr "Vous ne pouvez pas supprimer me filtre à cause de ces dépendances."
+
+#, python-brace-format
+msgid "{count} Parent filter"
+msgstr "{count} Filtre parent"
+
+#, python-brace-format
+msgid "{count} Parent filters"
+msgstr "{count} Filtres parents"
+
+msgid "Parent filters"
+msgstr "Filtres parents"
+
+msgid "No parent filter"
+msgstr "Pas de filtre parent"
+
+msgid "Information on Creme entity"
+msgstr "Informations fiche Crème"
+
+msgctxt "creme_core-entity"
+msgid "Created on"
+msgstr "Créée le"
+
+msgid "at"
+msgstr "à"
+
+msgid "by"
+msgstr "par"
+
+msgid "Edited on"
+msgstr "Modifiée le"
+
+msgid "Assigned to"
+msgstr "Assignée à"
+
+msgid "Entity in the trash"
+msgstr "Fiche dans la corbeille"
+
+msgid "Pinned"
+msgstr "Épinglé"
+
+msgid "You are not allowed to view this block"
+msgstr "Vous n'avez pas la permission de voir ce bloc"
+
+msgid "Concerned entity"
+msgstr "Fiche concernée"
+
+msgid "Modifications"
+msgstr "Modifications"
+
+msgid "By"
+msgstr "Par"
+
+#, python-format
+msgid ""
+"This action has been performed by the Workflow engine, which has been "
+"triggered by another action of the user «%(user)s»"
+msgstr ""
+"Cette action a été effectuée par le moteur de Processus automatisé, qui a "
+"été déclenché par une autre action de l'utilisateur «%(user)s»"
+
+msgid "Workflow"
+msgstr "Processus automatisé"
+
+msgid "No history for the moment"
+msgstr "Aucun historique pour le moment"
+
+msgid "No consultation for the moment"
+msgstr "Aucune consultation pour le moment"
+
+msgid "Errors [job is not finished yet]"
+msgstr "Erreurs [le job n'est pas encore fini]"
+
+msgid "No error"
+msgstr "Aucune erreur"
+
+msgid "Information on the job"
+msgstr "Informations sur le job"
+
+msgid "Edit the job's configuration"
+msgstr "Modifier la configuration du job"
+
+msgid "Delete the job"
+msgstr "Supprimer le job"
+
+msgid "Disable"
+msgstr "Désactiver"
+
+msgid "Enable"
+msgstr "Activer"
+
+msgid "Disabling takes effect only after the current execution."
+msgstr ""
+"La désactivation ne prendra seulement effet qu'après l'exécution courante."
+
+msgid "App"
+msgstr "App"
+
+msgid "Every"
+msgstr "Chaque"
+
+msgid "Not run yet"
+msgstr "Pas encore exécuté"
+
+#, python-brace-format
+msgid "{count} Result"
+msgstr "{count} Résultat"
+
+#, python-brace-format
+msgid "{count} Results"
+msgstr "{count} Résultats"
+
+msgid "Results [job is not finished yet]"
+msgstr "Résultats [le job n'est pas encore fini]"
+
+msgid "No message"
+msgstr "Aucun message"
+
+#, python-brace-format
+msgid "{count} Job"
+msgstr "{count} Job"
+
+#, python-brace-format
+msgid "{count} Jobs"
+msgstr "{count} Jobs"
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "You must wait that your job is finished in order to create a new one."
+msgstr ""
+"Vous devez attendre que votre job soit fini pour pouvoir en créer un nouveau."
+
+msgid ""
+"You must wait that one of your jobs is finished in order to create a new one."
+msgstr ""
+"Vous devez attendre qu'un de vos jobs soit fini pour pouvoir en créer un "
+"nouveau."
+
+msgid "Every (at least)"
+msgstr "Chaque (au moins)"
+
+msgid "Edit this job"
+msgstr "Modifier ce job"
+
+msgid "View this job"
+msgstr "Voir ce job"
+
+msgid "Delete this job"
+msgstr "Supprimer ce job"
+
+msgid "No job for the moment"
+msgstr "Aucun job pour le moment"
+
+msgid "My job"
+msgstr "Mon job"
+
+#, python-brace-format
+msgid "My jobs ({count})"
+msgstr "Mes jobs ({count})"
+
+#, python-brace-format
+msgid "{count} Import error"
+msgstr "{count} Erreur d'import"
+
+#, python-brace-format
+msgid "{count} Import errors"
+msgstr "{count} Erreurs d'import"
+
+msgid "Import errors"
+msgstr "Erreurs d'import"
+
+msgid "Download the errors file"
+msgstr "Télécharger le fichier des erreurs"
+
+msgid "Line"
+msgstr "Ligne"
+
+msgid "updated"
+msgstr "mis-à-jour"
+
+msgid "created"
+msgstr "créé"
+
+msgid "None (because error is critical)"
+msgstr "Aucune (parce que l'erreur est critique)"
+
+#, python-brace-format
+msgid "{count} Notification"
+msgstr "{count} Notification"
+
+#, python-brace-format
+msgid "{count} Notifications"
+msgstr "{count} Notifications"
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgid "Body"
+msgstr "Corps"
+
+msgid "Discard this notification"
+msgstr "Défausser cette notification"
+
+msgid "No notification for the moment"
+msgstr "Aucune notification pour le moment"
+
+#, python-brace-format
+msgid "{count} Pinned entity"
+msgstr "{count} Fiche épinglée"
+
+#, python-brace-format
+msgid "{count} Pinned entities"
+msgstr "{count} Fiches épinglées"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Unpin this entity"
+msgstr "Désépingler cette fiche"
+
+msgid "No pinned entity for the moment"
+msgstr "Aucune fiche épinglée pour le moment"
+
+#, python-brace-format
+msgid "{count} Property"
+msgstr "{count} Propriété"
+
+#, python-brace-format
+msgid "{count} Properties"
+msgstr "{count} Propriétés"
+
+msgid "New properties"
+msgstr "Nouvelles propriétés"
+
+msgid "Remove this property"
+msgstr "Enlever cette propriété"
+
+msgid "No property for the moment"
+msgstr "Aucune propriété pour le moment"
+
+msgctxt "creme_core-property_type"
+msgid "Disabled"
+msgstr "Désactivé"
+
+msgid "You are not allowed to edit this property type"
+msgstr "Vous n'avez pas l'autorisation de modifier ce type de propriété"
+
+msgid "This property type cannot be edited"
+msgstr "Ce type de propriété ne peut pas être modifié"
+
+msgid "Edit this property type"
+msgstr "Modifier ce type de propriété"
+
+msgid "You are not allowed to delete this property type"
+msgstr "Vous n'avez pas l'autorisation de supprimer ce type de propriété"
+
+msgid "This property type cannot be deleted"
+msgstr "Cette vue ne peut être supprimée"
+
+msgid "This property type cannot be deleted because it is used"
+msgstr "Ce type de propriété ne peut pas être supprimé car il est utilisé"
+
+msgid "Delete this property type"
+msgstr "Supprimer ce type de propriété"
+
+msgid "Do you really want to delete this property type?"
+msgstr "Voulez-vous vraiment supprimer ce type de propriété ?"
+
+msgid "Applies on entities with following types"
+msgstr "S'applique aux fiches des types suivants"
+
+msgid "No related type of resource"
+msgstr "Pas de type de ressource associé"
+
+#, python-format
+msgid "%(count)s entity with this property"
+msgid_plural "%(count)s entities with this property"
+msgstr[0] "%(count)s fiche avec cette propriété"
+msgstr[1] "%(count)s fiches avec cette propriété"
+
+#, python-brace-format
+msgid "{count} Recent entity"
+msgstr "{count} Fiche récente"
+
+#, python-brace-format
+msgid "{count} Recent entities"
+msgstr "{count} Fiches récentes"
+
+msgid "No recent entity for the moment"
+msgstr "Aucune fiche récente pour le moment"
+
+#, python-brace-format
+msgid "{count} Other entity"
+msgstr "{count} Autre fiche"
+
+#, python-brace-format
+msgid "{count} Other entities"
+msgstr "{count} Autres fiches"
+
+msgid "Other entities"
+msgstr "Autres fiches"
+
+msgid "Cannot delete this relationship (internal type)"
+msgstr "Vous ne pouvez pas supprimer cette relation (type interne)"
+
+msgid "Delete this relationship"
+msgstr "Supprimer cette relation"
+
+#, python-brace-format
+msgid "{count} Relationship"
+msgstr "{count} Relation"
+
+#, python-brace-format
+msgid "{count} Relationships"
+msgstr "{count} Relations"
+
+msgid "New relationships"
+msgstr "Nouvelles relations"
+
+msgid "No relationship for the moment"
+msgstr "Aucune relation pour le moment"
+
+msgctxt "creme_core-relation_type"
+msgid "Disabled"
+msgstr "Désactivé"
+
+msgid "Applies on entities with properties"
+msgstr "S'applique aux fiches avec les propriétés"
+
+msgid "No constraint on properties"
+msgstr "Pas de contrainte sur les propriétés"
+
+msgid "Applies on entities without properties"
+msgstr "S'applique aux fiches sans ces propriétés"
+
+msgid "No forbidden property"
+msgstr "Aucune propriété interdite"
+
+msgid "Is an internal type"
+msgstr "Est un type interne"
+
+msgid "Is a custom type"
+msgstr "Est un type personnalisé"
+
+msgid "Display once on the subject's page"
+msgstr "Afficher une seule fois sur la page du sujet"
+
+msgid "Symmetric type"
+msgstr "Type symmétrique"
+
+#, python-format
+msgid "Configure the fields for «%(ctype)s»'"
+msgstr "Configurer les champs pour «%(ctype)s»"
+
+msgid "Configure the fields of a new type"
+msgstr "Configurer les champs d'un nouveau type"
+
+#, python-brace-format
+msgid "{count} Entities"
+msgstr "{count} Fiches"
+
+#, python-brace-format
+msgid "{count} Entity"
+msgstr "{count} Fiche"
+
+msgid ""
+"This relation type is internal, so you cannot create a relationship with "
+"this generic block"
+msgstr ""
+"Ce type de relation est interne, donc vous ne pouvez pas créer de relation "
+"via ce bloc générique"
+
+#, python-format
+msgid ""
+"Beware: the relationship type «%(predicate)s» is disabled. You should re-"
+"enable it if it's still useful, or remove this block"
+msgstr ""
+"Attention : le type de relation «%(predicate)s» est désactivé. Vous devriez "
+"le ré-activer s'il est encore utile, ou enlever ce bloc"
+
+#, python-format
+msgid "%(count)s Entity"
+msgid_plural "%(count)s Entities"
+msgstr[0] "%(count)s Fiche"
+msgstr[1] "%(count)s Fiches"
+
+msgid "(empty)"
+msgstr "(vide)"
+
+#, python-format
+msgid "Edit «%(object)s»"
+msgstr "Modifier «%(object)s»"
+
+msgid "No related entity for the moment"
+msgstr "Aucune fiche liée pour le moment"
+
+#, python-format
+msgid ""
+"Remove all the properties related to the «%(models)s» which you are allowed "
+"to edit"
+msgstr ""
+"Enlever toutes les propriétés liées aux «%(models)s» que vous avoir la "
+"permission de modifier"
+
+msgid "Remove these properties"
+msgstr "Enlever les propriétés"
+
+msgid "Remove the property"
+msgstr "Enlever la propriété"
+
+msgid "Remaining entity"
+msgstr "Fiche restante"
+
+msgid "Reason"
+msgstr "Raison"
+
+msgid "Retry"
+msgstr "Ré-essayer"
+
+#, python-brace-format
+msgid "{count} Deleted entity"
+msgstr "{count} Fiche supprimée"
+
+#, python-brace-format
+msgid "{count} Deleted entities"
+msgstr "{count} Fiches supprimées"
+
+msgid "Deleted entities"
+msgstr "Fiches supprimées"
+
+msgid "Empty the trash"
+msgstr "Vider la corbeille"
+
+msgid "Deletion date"
+msgstr "Date de suppression"
+
+msgid "The trash is empty"
+msgstr "La corbeille est vide"
+
+#, python-format
+msgid "%(counter)s entity has been successfully modified."
+msgid_plural "%(counter)s entities have been successfully modified."
+msgstr[0] "%(counter)s fiche a été modifiée avec succès."
+msgstr[1] "%(counter)s fiches ont été modifiées avec succès."
+
+#, python-format
+msgid "%(counter)s entity on %(initial_count)s has been successfully modified."
+msgid_plural ""
+"%(counter)s entities on %(initial_count)s have been successfully modified."
+msgstr[0] "%(counter)s fiche sur %(initial_count)s a été modifiée avec succès."
+msgstr[1] ""
+"%(counter)s fiches sur %(initial_count)s ont été modifiées avec succès."
+
+#, python-format
+msgid "%(counter)s entity was not editable."
+msgid_plural "%(counter)s entities were not editable."
+msgstr[0] "%(counter)s n'était pas modifiable."
+msgstr[1] "%(counter)s n'étaient pas modifiables."
+
+msgid "Confidentiality"
+msgstr "Confidentialité"
+
+msgid "Are you sure you want to restrict this entity to superusers?"
+msgstr "Voulez-vous vraiment réserver cette fiche aux super-utilisateurs ?"
+
+msgid "Not restrict to superusers"
+msgstr "Ne pas réserver aux super-utilisateurs"
+
+msgid "Are you sure you want this entity to be accessible to regular users?"
+msgstr ""
+"Voulez-vous vraiment que cette fiche soit accessible aux utilisateurs "
+"normaux ?"
+
+#, python-format
+msgid "Cannot restrict because already in «%(sandbox)s»"
+msgstr "Impossible de réserver car déjà dans «%(sandbox)s»"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Go to the configuration of filters"
+msgstr "Aller à la configuration des filtres"
+
+msgid "Go to the configuration of types"
+msgstr "Aller à la configuration des types"
+
+msgid "You do not have access to this page, please contact your administrator."
+msgstr ""
+"Vous n'avez pas accès à cette page, veuillez contacter votre administrateur."
+
+msgid "Are you sure?"
+msgstr "Êtes-vous sûr ?"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Edit a filter"
+msgstr "Modifier un filtre"
+
+#, python-format
+msgid "Create a filter for «%(ctype)s»"
+msgstr "Créer un filtre pour «%(ctype)s»"
+
+#, python-format
+msgid "Edit the filter «%(filter)s»"
+msgstr "Modifier le filtre «%(filter)s»"
+
+msgid "Create a view of list"
+msgstr "Créer une vue de liste"
+
+msgid "Edit a view of list"
+msgstr "Modifier une vue de liste"
+
+#, python-format
+msgid "Create a view of list for «%(ctype)s»"
+msgstr "Créer une vue de liste pour «%(ctype)s»"
+
+msgid "View of list"
+msgstr "Vue de liste"
+
+#, python-format
+msgid "Edit the view of list «%(view)s»"
+msgstr "Modifier la vue de liste «%(view)s»"
+
+msgid "Reset"
+msgstr "Vider"
+
+msgid "From"
+msgstr "De"
+
+msgid "To"
+msgstr "À"
+
+msgid "On"
+msgstr "Le"
+
+msgid "Hour"
+msgstr "Heure"
+
+msgid "h"
+msgstr "h"
+
+msgid "Minute"
+msgstr "Minute"
+
+msgid "Clean"
+msgstr "Effacer"
+
+msgid "Now"
+msgstr "Maintenant"
+
+msgid "Hour(s)"
+msgstr "Heure(s)"
+
+msgid "Minute(s)"
+msgstr "Minute(s)"
+
+msgid "Second(s)"
+msgstr "Seconde(s)"
+
+msgid "No custom field at the moment."
+msgstr "Aucun champ personnalisé pour le moment."
+
+msgid "Regular fields"
+msgstr "Champs normaux"
+
+msgid "Click to select the sub-fields"
+msgstr "Cliquez pour sélectionner les sous-champs"
+
+#, python-format
+msgid "%(field)s: %(subfields_count)s sub-field"
+msgid_plural "%(field)s: %(subfields_count)s sub-fields"
+msgstr[0] "%(field)s: %(subfields_count)s sous-champ"
+msgstr[1] "%(field)s: %(subfields_count)s sous-champs"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "No available field."
+msgstr "Aucun champ disponible."
+
+msgid "FILTER"
+msgstr "FILTRER"
+
+msgid "SEARCH"
+msgstr "RECHERCHE"
+
+msgid "Remove all columns"
+msgstr "Enlever toutes les colonnes"
+
+msgid "Select…"
+msgstr "Sélectionner…"
+
+msgid "Create if not found?"
+msgstr "Créer si non trouvé ?"
+
+msgid "Default value"
+msgstr "Valeur par défaut"
+
+msgid "Search by:"
+msgstr "Chercher selon:"
+
+msgid "Create if not found? (only with the field marked [CREATION])"
+msgstr "Créer si non trouvé ? (juste avec le champ marqué [CRÉATION])"
+
+msgid ""
+"Create entities if they are not found? (only fields followed by [CREATION] "
+"allows you to create, if they exist)"
+msgstr ""
+"Créer les fiches si elle ne sont pas trouvées ? (seuls les champs suivi de "
+"[CRÉATION] vous permettent de créer, si ils existent)"
+
+msgid ""
+"Drag'n drop an element to the other list to select it, or simply double-"
+"click on it"
+msgstr ""
+"Glissez-déposez un élément vers l'autre liste pour le sélectionner, ou juste "
+"double-cliquez dessus"
+
+msgid ""
+"Reorder elements with drag'n drop. To deselect an element, use the button "
+"«Deselect», or simply double-click on it"
+msgstr ""
+"Réordonnez les éléments par glisser-déposer. Pour dé-sélectionner un "
+"élément, utilisez le bouton «Dé-sélectionner», ou juste double-cliquez dessus"
+
+msgid "Check all"
+msgstr "Tout sélectionner"
+
+msgid "Check none"
+msgstr "Tout dé-sélectionner"
+
+msgctxt "creme_core-noun"
+msgid "Search"
+msgstr "Recherche"
+
+msgid "More"
+msgstr "Plus"
+
+msgid "Details on the filter"
+msgstr "Détails sur le filtre"
+
+#, python-format
+msgid "%(title)s: step %(current_step)s of %(step_count)s"
+msgstr "%(title)s : étape %(current_step)s sur %(step_count)s"
+
+msgid "Fields marked with * are required."
+msgstr "Les champs suivis d'un * sont obligatoires."
+
+msgid "Global errors"
+msgstr "Erreurs globales"
+
+msgid "First step"
+msgstr "Première étape"
+
+msgid "Previous step"
+msgstr "Étape précédente"
+
+msgid "Next step"
+msgstr "Étape suivante"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Save the modifications"
+msgstr "Enregistrer les modifications"
+
+msgid "Link"
+msgstr "Lier"
+
+msgid "You are not allowed to list"
+msgstr "Vous n'avez pas la permission de lister"
+
+msgid "List-view"
+msgstr "Vue en liste"
+
+msgid "Back to the list"
+msgstr "Retour à la liste"
+
+msgid "You are not allowed to create"
+msgstr "Vous n'avez pas la permission de créer"
+
+msgid "Go to the next entity"
+msgstr "Accéder à la fiche suivante"
+
+msgid "Explore"
+msgstr "Explorer"
+
+msgid "Continue the exploration"
+msgstr "Continuer l'exploration"
+
+msgid "See all notifications"
+msgstr "Voir toutes les notifications"
+
+msgid "Loading…"
+msgstr "Chargement…"
+
+msgid "Advanced search"
+msgstr "Recherche avancée"
+
+#, python-format
+msgid "“%(auxiliary_ctype)s“ added: %(auxiliary_value)s"
+msgstr "“%(auxiliary_ctype)s“ ajouté(e) : %(auxiliary_value)s"
+
+#, python-format
+msgid "“%(auxiliary_ctype)s“ deleted: “%(auxiliary_value)s”"
+msgstr "“%(auxiliary_ctype)s“ supprimé(e) : “%(auxiliary_value)s”"
+
+msgid "Expand"
+msgstr "Agrandir"
+
+#, python-format
+msgid "“%(auxiliary_ctype)s“ edited: %(auxiliary_value)s"
+msgstr "“%(auxiliary_ctype)s“ modifié(e) : %(auxiliary_value)s"
+
+#, python-format
+msgid ""
+"Export of «%(counted_instances)s» (view «%(view)s» & filter «%(filter)s»)"
+msgstr ""
+"Export de «%(counted_instances)s» (vue «%(view)s» & filtre «%(filter)s»)"
+
+#, python-format
+msgid "%(property_text)s added"
+msgstr "%(property_text)s ajoutée"
+
+#, python-format
+msgid "%(property_text)s removed"
+msgstr "%(property_text)s enlevée"
+
+#, python-format
+msgid "“%(entity)s“ edited"
+msgstr "“%(entity)s“ modifié(e)"
+
+#, python-format
+msgid "%(entity_link)s edited"
+msgstr "%(entity_link)s modifié(e)"
+
+#, python-format
+msgid "%(predicate)s added to “%(entity)s“"
+msgstr "%(predicate)s ajouté vers “%(entity)s“"
+
+#, python-format
+msgid "%(predicate)s added to %(entity_link)s"
+msgstr "%(predicate)s ajouté vers %(entity_link)s"
+
+#, python-format
+msgid "%(predicate)s to “%(entity)s“ removed"
+msgstr "%(predicate)s vers “%(entity)s“ enlevée"
+
+#, python-format
+msgid "%(predicate)s to %(entity_link)s removed"
+msgstr "%(predicate)s vers %(entity_link)s enlevée"
+
+msgid "Sent to the trash"
+msgstr "Envoyé dans la corbeille"
+
+msgid "Restored"
+msgstr "Restauré"
+
+msgid "List of jobs"
+msgstr "Liste des jobs"
+
+msgid "Disabling a job takes effect only after its current execution."
+msgstr ""
+"La désactivation d'un job ne prendra seulement effet qu'après son exécution "
+"courante."
+
+msgid "Finish"
+msgstr "Terminer"
+
+msgid ""
+"Apply some treatments (like making the name uppercase) on many entities at "
+"once"
+msgstr ""
+"Appliquer des traitements (comme mettre le nom en majuscule) sur de "
+"nombreuse fiches en une fois"
+
+msgid "Forbidden"
+msgstr "Interdit"
+
+msgid "Download the titles of the columns of the list as a file (.csv, .xls)"
+msgstr ""
+"Télécharger les titres des colonnes de la liste en tant que fichier (.csv, ."
+"xls)"
+
+msgid "Download header"
+msgstr "Télécharger l'en-tête"
+
+msgid "Download the content of the list as a file (.csv, .xls)"
+msgstr "Télécharger le contenu de la liste en tant que fichier (.csv, .xls)"
+
+msgid "Download"
+msgstr "Télécharger"
+
+msgid "Import entities from a file (.csv, .xls)"
+msgstr "Importer des fiches depuis un fichier (.csv, .xls)"
+
+msgid "Import"
+msgstr "Importer"
+
+msgid "In exploration mode you visit the detailed views of the listed entities"
+msgstr ""
+"En mode exploration, vous visitez les vues détaillées des fiches listées"
+
+msgid "Enter the exploration mode"
+msgstr "Entrer en mode exploration"
+
+msgctxt "creme_core-verb"
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Clear search"
+msgstr "Effacer la recherche"
+
+msgid "Select all"
+msgstr "Tout sélectionner"
+
+#, python-format
+msgid "Sort by %(col_title)s"
+msgstr "Trier par %(col_title)s"
+
+msgid "Quick search"
+msgstr "Recherche rapide"
+
+msgid "No entity exists / matches your search"
+msgstr "Aucun élément n'existe / ne correspond à votre recherche"
+
+#, python-format
+msgid "Recordings %(start_index)s - %(end_index)s on %(entities_count)s"
+msgstr "Enregistrements %(start_index)s - %(end_index)s sur %(entities_count)s"
+
+#, python-format
+msgid "%(entities_count)s recording"
+msgid_plural "%(entities_count)s recordings"
+msgstr[0] "%(entities_count)s enregistrement"
+msgstr[1] "%(entities_count)s enregistrements"
+
+msgid "Nb / Page:"
+msgstr "Nb / Page :"
+
+msgid "End"
+msgstr "Fin"
+
+msgid "Send a system upgrade announcement"
+msgstr "Envoyer une annonce de mise à niveau système"
+
+msgid ""
+"This button displays a form which allows to announce to all users that a "
+"system upgrade will be performed at a given date."
+msgstr ""
+"Ce bouton affiche une formulaire qui permet d'annoncer à tous les "
+"utilisateurs qu'une mise à niveau système va être effectuée à une date "
+"donnée."
+
+msgid "The document is deleted"
+msgstr "Le document est supprimé"
+
+#, python-format
+msgid "The mass import for %(document)s is done"
+msgstr "L'import en masse pour %(document)s est fini"
+
+#, python-format
+msgid "The mass import for document «%(object)s» is done"
+msgstr "L'import en masse pour le document «%(object)s» est fini"
+
+msgid "A mass import is done"
+msgstr "Un import en masse est fini"
+
+#, python-format
+msgid ""
+"An upgrade will be performed on <strong>%(start)s</strong>.<br>%(message)s"
+msgstr ""
+"Une mise à niveau va être effectuée le <strong>%(start)s</strong>.<br>"
+"%(message)s"
+
+#, python-format
+msgid "An upgrade will be performed on <strong>%(start)s</strong>"
+msgstr "Une mise à niveau va être effectuée le <strong>%(start)s</strong>"
+
+#, python-format
+msgid ""
+"An upgrade will be performed on %(start)s.\n"
+"%(message)s"
+msgstr ""
+"Une mise à niveau va être effectuée le %(start)s.\n"
+"%(message)s"
+
+#, python-format
+msgid "An upgrade will be performed on %(start)s"
+msgstr "Une mise à niveau va être effectuée le %(start)s"
+
+msgid "An upgrade is planned"
+msgstr "Une mise à niveau est prévue"
+
+msgid "Search results"
+msgstr "Résultats de recherche"
+
+#, python-format
+msgid "Search results: %%d entity"
+msgstr "Résultats de recherche: %%d fiche"
+
+#, python-format
+msgid "Search results: %%d entities"
+msgstr "Résultats de recherche: %%d fiches"
+
+#, python-format
+msgid ""
+"Your search: %(searched)s\n"
+"\n"
+"Concerned types: %(types)s"
+msgstr ""
+"Votre recherche : %(searched)s\n"
+"\n"
+"Types concernés : %(types)s"
+
+#, python-format
+msgid "Display the available actions for «&nbsp;%(entity)s&nbsp;»"
+msgstr "Afficher les actions disponibles pour «&nbsp;%(entity)s&nbsp;»"
+
+msgid "Filter the lines of the table with conditions on fields, relationships…"
+msgstr ""
+"Filtrer les lignes de la table avec des conditions sur les champs, relations…"
+
+msgid "My filters"
+msgstr "Mes filtres"
+
+#, python-format
+msgid "Filters of %(user)s"
+msgstr "Filtres de %(user)s"
+
+#, python-format
+msgid "Conditions of «%(efilter)s»"
+msgstr "Conditions de «%(efilter)s»"
+
+msgid "Information on the current filter"
+msgstr "Informations sur le filtre courant"
+
+msgid "Create a custom filter"
+msgstr "Créer un filtre personnalisé"
+
+msgid "Clone this filter"
+msgstr "Cloner ce filtre"
+
+msgid "Edit this filter"
+msgstr "Modifier ce filtre"
+
+msgid "Delete this custom filter"
+msgstr "Supprimer ce filtre personnalisé"
+
+msgid "Actions on the selected entities"
+msgstr "Actions sur les fiches sélectionnées"
+
+msgid "Show only the desired columns"
+msgstr "Afficher uniquement les colonnes désirées"
+
+msgid "My views"
+msgstr "Mes vues"
+
+#, python-format
+msgid "Views of %(user)s"
+msgstr "Vues de %(user)s"
+
+msgid "Create a custom view"
+msgstr "Créer une vue personnalisée"
+
+msgid "Clone this view"
+msgstr "Cloner cette vue"
+
+msgid "Edit this view"
+msgstr "Modifier cette vue"
+
+msgid "Delete this custom view"
+msgstr "Supprimer cette vue personnalisée"
+
+msgid "First page"
+msgstr "Première page"
+
+#, python-format
+msgid "%(count)s items"
+msgstr "%(count)s éléments"
+
+msgid "The definitive deletion has been disabled by the administrator."
+msgstr "La suppression définitive a été désactivée par l'administrateur."
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Click to display the block's menu"
+msgstr "Cliquez pour afficher le menu du bloc"
+
+msgid "Information"
+msgstr "Informations"
+
+msgid "Collapse block"
+msgstr "Replier le bloc"
+
+msgid "Expand block"
+msgstr "Déplier le bloc"
+
+msgid "Hide empty fields"
+msgstr "Cacher les champs vides"
+
+msgid "Show empty fields"
+msgstr "Montrer les champs vides"
+
+#, python-brace-format
+msgid "Sort «{model}» by «{field}»"
+msgstr "Trier «{model}» par «{field}»"
+
+msgid "Delete permanently"
+msgstr "Supprimer définitivement"
+
+msgid "Do you really want to delete this entity definitely?"
+msgstr "Voulez-vous vraiment supprimer définitivement cette fiche ?"
+
+msgid "Do you really want to send this entity to the trash?"
+msgstr "Voulez-vous vraiment envoyer cette fiche dans la corbeille ?"
+
+#, python-brace-format
+msgid "{count} {model}"
+msgstr "{count} {model}"
+
+#, python-brace-format
+msgid "{number} day"
+msgid_plural "{number} days"
+msgstr[0] "{number} jour"
+msgstr[1] "{number} jours"
+
+#, python-brace-format
+msgid "{number} hour"
+msgid_plural "{number} hours"
+msgstr[0] "{number} heure"
+msgstr[1] "{number} heures"
+
+#, python-brace-format
+msgid "{number} minute"
+msgid_plural "{number} minutes"
+msgstr[0] "{number} minute"
+msgstr[1] "{number} minutes"
+
+#, python-brace-format
+msgid "{number} second"
+msgid_plural "{number} seconds"
+msgstr[0] "{number} seconde"
+msgstr[1] "{number} secondes"
+
+msgid "and"
+msgstr "et"
+
+msgid "Day(s)"
+msgstr "Jour(s)"
+
+msgid "Week(s)"
+msgstr "Semaine(s)"
+
+#, python-brace-format
+msgid "{number} week"
+msgid_plural "{number} weeks"
+msgstr[0] "{number} semaine"
+msgstr[1] "{number} semaines"
+
+msgid "Month(s)"
+msgstr "Mois"
+
+#, python-brace-format
+msgid "{number} month"
+msgid_plural "{number} months"
+msgstr[0] "{number} mois"
+msgstr[1] "{number} mois"
+
+msgid "Year(s)"
+msgstr "Année(s)"
+
+#, python-brace-format
+msgid "{number} year"
+msgid_plural "{number} years"
+msgstr[0] "{number} année"
+msgstr[1] "{number} années"
+
+msgid "Previous year"
+msgstr "Année précédente"
+
+msgid "Current year"
+msgstr "Année courante"
+
+msgid "Next year"
+msgstr "Année suivante"
+
+msgid "Previous month"
+msgstr "Mois précédent"
+
+msgid "Current month"
+msgstr "Mois courant"
+
+msgid "Next month"
+msgstr "Mois suivant"
+
+msgid "Previous quarter"
+msgstr "Trimestre précédent"
+
+msgid "Current quarter"
+msgstr "Trimestre courant"
+
+msgid "Next quarter"
+msgstr "Trimestre suivant"
+
+msgid "In the future"
+msgstr "Dans le futur"
+
+msgid "In the past"
+msgstr "Dans le passé"
+
+msgid "Yesterday"
+msgstr "Hier"
+
+msgid "Today"
+msgstr "Aujourd'hui"
+
+msgid "Tomorrow"
+msgstr "Demain"
+
+msgid "Is not empty"
+msgstr "N'est pas vide"
+
+#, python-brace-format
+msgid ""
+"Error while retrieving emails on \"{host}\" for the user "
+"\"{user}\" [original error: {error}]"
+msgstr ""
+"Erreur pendant la récupération des e-mails sur \"{host}\" pour l'utilisateur "
+"\"{user}\" [erreur originale : {error}]"
+
+#, python-brace-format
+msgid "{count} more element"
+msgid_plural "{count} more elements"
+msgstr[0] "{count} élément de plus"
+msgstr[1] "{count} éléments de plus"
+
+msgid "France"
+msgstr "France"
+
+#, python-brace-format
+msgid ""
+"Do not forget that Workflows can be triggered by the actions performed by "
+"this form (there is {count} enabled Workflow)."
+msgid_plural ""
+"Do not forget that Workflows can be triggered by the actions performed by "
+"this form (there are {count} enabled Workflows)."
+msgstr[0] ""
+"N'oubliez pas que les Processus automatisés peuvent être déclenchés par les "
+"actions effectuées par ce formulaire (il y a {count} Processus activé)."
+msgstr[1] ""
+"N'oubliez pas que les Processus automatisés peuvent être déclenchés par les "
+"actions effectuées par ce formulaire (il y a {count} Processus activés)."
+
+#, python-brace-format
+msgid ""
+"Do not forget that Workflows can be triggered by the actions performed by "
+"this form. For example, this Workflow is directly related to «{models}»: "
+"{workflows}"
+msgid_plural ""
+"Do not forget that Workflows can be triggered by the actions performed by "
+"this form. For example, these Workflows are directly related to «{models}»: "
+"{workflows}"
+msgstr[0] ""
+"N'oubliez pas que les Processus automatisés peuvent être déclenchés par les "
+"actions effectuées par ce formulaire. Par exemple, ce Processus est "
+"directement lié aux «{models}» : {workflows}"
+msgstr[1] ""
+"N'oubliez pas que les Processus automatisés peuvent être déclenchés par les "
+"actions effectuées par ce formulaire. Par exemple, ces Processus sont "
+"directement liés aux «{models}» : {workflows}"
+
+msgid "(truncated cell)"
+msgstr "(cellule tronquée)"
+
+msgid "Superusers cannot switch their role"
+msgstr "Les super-utilisateur ne peuvent pas changer leur rôle"
+
+msgid "This role is not available for you"
+msgstr "Ce rôle n'est pas disponible pour vous"
+
+msgid "Reset your password (Step 1/4)"
+msgstr "Réinitialiser votre mot de passe (Étape 1/4)"
+
+msgid "Send me instructions"
+msgstr "Envoyez moi les instructions"
+
+msgid "You are not allowed to use the «Lost password» feature."
+msgstr ""
+"Vous n'avez pas la permission d'utiliser la fonctionnalité «Mot de passe "
+"perdu»."
+
+msgid "Reset your password (Step 2/4)"
+msgstr "Réinitialiser votre mot de passe (Étape 2/4)"
+
+msgid "Reset your password (Step 3/4)"
+msgstr "Réinitialiser votre mot de passe (Étape 3/4)"
+
+msgid "Save the new password"
+msgstr "Enregistrer le nouveau mot de passe"
+
+msgid "Change your password"
+msgstr "Modifier votre mot de passe"
+
+msgid "You are not allowed to change your password."
+msgstr "Vous n'avez pas la permission de modifier votre mot de passe."
+
+#, python-brace-format
+msgid "You lost your password? <a href=\"{url}\">You can reset it</a>"
+msgstr ""
+"Vous avez perdu votre mot de passe ? <a href=\"{url}\">Vous pouvez le "
+"réinitialiser</a>"
+
+msgid "Use your new password the next time you want to login."
+msgstr ""
+"Utilisez votre nouveau mot de passe la prochaine fois que vous vous "
+"connectez."
+
+msgid "Run"
+msgstr "Exécuter"
+
+msgid "Multiple adding of properties"
+msgstr "Ajout multiple de propriétés"
+
+msgid "Add the properties"
+msgstr "Ajouter les propriétés"
+
+#, python-brace-format
+msgid "New properties for «{entity}»"
+msgstr "Nouvelles propriétés pour «{entity}»"
+
+#, python-brace-format
+msgid ""
+"The property type cannot be deleted because it is used as relationship type "
+"constraint in: {rtypes}"
+msgstr ""
+"Le type de propriété ne peut être supprimé car il est utilisé comme "
+"contrainte de type de relation par : {rtypes}"
+
+#, python-brace-format
+msgid ""
+"The property type cannot be deleted because it is used in filter conditions: "
+"{filters}"
+msgstr ""
+"Le type de propriété ne peut être supprimé car il est utilisé dans des "
+"conditions de filtre : {filters}"
+
+#, python-brace-format
+msgid ""
+"The property type cannot be deleted because it is used by triggers of "
+"Workflow: {workflows}"
+msgstr ""
+"Le type de propriété ne peut être supprimé car il est utilisé par des "
+"déclenchements de Processus automatisé : {workflows}"
+
+#, python-brace-format
+msgid "The field \"{model}.{field}\" is hidden."
+msgstr "Le champ \"{model}.{field}\" est caché."
+
+msgid "This model does not use the generic clone view."
+msgstr "Ce modèle n'utilise pas la vue de clonage générique."
+
+msgid "The exploration is over"
+msgstr "L'exploration est finie"
+
+msgid "This field is hidden."
+msgstr "Ce champ est caché."
+
+msgid "No entity corresponding to your search was found."
+msgstr "Aucun élément correspondant à votre recherche n'a été trouvé."
+
+msgid "You are not allowed to edit this entity"
+msgstr "Vous n'avez pas la permission de modifier cette fiche"
+
+msgid "Full edition form"
+msgstr "Formulaire de modification entier"
+
+#, python-brace-format
+msgid "{count} «{model}» has been selected."
+msgid_plural "{count} «{model}» have been selected."
+msgstr[0] "{count} fiche «{model}» a été sélectionnée"
+msgstr[1] "{count} fiche «{model}» ont été sélectionnées"
+
+msgid "Field to update"
+msgstr "Champ à mettre à jour"
+
+msgid "You are not allowed to edit these entities"
+msgstr "Vous n'avez pas la permission de modifier ces fiches"
+
+#, python-brace-format
+msgid "Merge «{entity1}» with «{entity2}»"
+msgstr "Fusionner «{entity1}» avec «{entity2}»"
+
+msgid ""
+"You are going to merge two entities into a new one.\n"
+"Choose which information you want the old entities give to the new entity.\n"
+"The relationships, the properties and the other links with any of old "
+"entities will be automatically available in the new merged entity."
+msgstr ""
+"Vous êtes sur le point de fusionner deux fiches en une seule.\n"
+"Choisissez quelles informations vous voulez que les vieilles fiches donnent "
+"à la nouvelle fiche.\n"
+"Les relations, les propriétés et les autres liens avec n'importe laquelle "
+"des vieilles fiches seront automatiquement disponibles dans la nouvelle "
+"fiche fusionnée."
+
+msgid ""
+"One entity you want to merge does not exist anymore (have you already "
+"performed the merge?)"
+msgstr ""
+"Une fiche que vous voulez fusionner n'existe plus (avez-vous déjà effectué "
+"la fusion ?)"
+
+msgid "A job is already cleaning the trash."
+msgstr "Un job est déjà en train de vider la corbeille."
+
+msgid ""
+"Are you sure you want to delete definitely all the entities in the trash?"
+msgstr ""
+"Voulez-vous vraiment supprimer définitivement toutes les fiches dans la "
+"corbeille ?"
+
+msgid "This type of entity does not use the generic deletion view."
+msgstr "Ce modèle n'utilise pas la vue de suppression générique."
+
+#, python-brace-format
+msgid "This entity can not be deleted ({reason})"
+msgstr "Cette fiche ne peut être supprimée ({reason})"
+
+msgid ""
+"This entity can not be deleted because of its links with other entities:"
+msgstr ""
+"Cette fiche ne peut être supprimée à cause de ses liens avec d'autres "
+"fiches :"
+
+#, python-brace-format
+msgid "The deletion caused an unexpected error [{error}]."
+msgstr "La suppression a provoqué une erreur inattendue [{error}]."
+
+#, python-brace-format
+msgid "{count} entity doesn't exist or has been removed."
+msgid_plural "{count} entities don't exist or have been removed."
+msgstr[0] "{count} fiche n'existe pas ou a été supprimée."
+msgstr[1] "{count} fiches n'existent pas ou ont été supprimées."
+
+#, python-brace-format
+msgid "{entity}: {error}"
+msgstr "{entity} : {error}"
+
+msgid "Operation successfully completed"
+msgstr "Opération effectuée avec succès"
+
+msgid ""
+"Notice: your database is not case-sensitive, so the string operators which "
+"are case-sensitive and the ones which are not will accept the same entities."
+msgstr ""
+"Remarque : votre base de données n'est pas sensible à la casse, donc les "
+"opérateurs sur chaîne de caractères qui sont sensibles à la casse et ceux "
+"qui ne le sont pas accepteront les mêmes fiches."
+
+msgid ""
+"Notice: your database is not case-sensitive for the \"equals\" operator, so "
+"the string equality operators which are case-sensitive and the ones which "
+"are not will accept the same entities."
+msgstr ""
+"Remarque : votre base de données n'est pas sensible à la casse pour "
+"l'opérateur \"égale\", donc les opérateurs d'égalité sur chaîne de "
+"caractères qui sont sensibles à la casse et ceux qui ne le sont pas "
+"accepteront les mêmes fiches."
+
+msgid ""
+"Notice: your database is not case-sensitive, so the string operators which "
+"are case-sensitive and the ones which are not will accept the same entities "
+"(excepted equality ones, which are case-sensitive)."
+msgstr ""
+"Remarque : votre base de données n'est pas sensible à la casse, donc les "
+"opérateurs sur chaîne de caractères qui sont sensibles à la casse et ceux "
+"qui ne le sont pas accepteront les mêmes fiches (exceptés ceux d'égalité qui "
+"sont sensibles à la casse)."
+
+msgid "Save the modified filter"
+msgstr "Enregistrer le filtre modifié"
+
+msgid "It seems you logged out."
+msgstr "Vous semblez vous être déconnecté(e)."
+
+#, python-brace-format
+msgid ""
+"No default form has been created in DataBase for the model «{model}». "
+"Contact your administrator."
+msgstr ""
+"Aucun formulaire par défaut n'a été créé dans la Base de Données pour le "
+"modèle «{model}». Contactez votre administrateur."
+
+#, python-brace-format
+msgid "{count} not viewable entity"
+msgid_plural "{count} not viewable entities"
+msgstr[0] "{count} Fiche non visible"
+msgstr[1] "{count} Fiches non visibles"
+
+#, python-brace-format
+msgid "{count} relationship «{predicate}»"
+msgid_plural "{count} relationships «{predicate}»"
+msgstr[0] "{count} relation «{predicate}»"
+msgstr[1] "{count} relations «{predicate}»"
+
+msgid ""
+"This deletion cannot be performed because of the links with some entities (& "
+"other elements):"
+msgstr ""
+"La suppression ne peut être effectuée à cause des liens avec certaines "
+"fiches (& autres éléments) :"
+
+#, python-brace-format
+msgid "Edit «{object}»"
+msgstr "Modifier «{object}»"
+
+#, python-brace-format
+msgid "List of {models}"
+msgstr "Liste des {models}"
+
+msgid "The desired list does not have any view, please create one."
+msgstr "La liste souhaitée n'a aucune vue, veuillez en créer au moins une."
+
+msgid "Save the modified view"
+msgstr "Enregistrer la vue modifiée"
+
+msgid "Unknown job type ({}). Please contact your administrator."
+msgstr "Type de job inconnu({}). Veuillez contacter votre administrateur."
+
+#, python-brace-format
+msgid "Edit the job «{object}»"
+msgstr "Modifier le job «{object}»"
+
+msgid "Save the entities"
+msgstr "Enregistrer les fiches"
+
+msgid "Import this file"
+msgstr "Importer ce fichier"
+
+#, python-brace-format
+msgid "Import «{model}» from data file"
+msgstr "Importer des «{model}» depuis un fichier"
+
+msgid "Unknown file type; please contact your administrator."
+msgstr "Type de fichier inconnu ; veuillez contacter votre administrateur."
+
+msgid "Announce a system upgrade to users"
+msgstr "Annoncer une mise à niveau système aux utilisateurs"
+
+#, python-brace-format
+msgid "You cannot have more than {count} pinned entity"
+msgid_plural "You cannot have more than {count} pinned entities"
+msgstr[0] "Vous ne pouvez pas avoir plus que {count} fiche épinglée"
+msgstr[1] "Vous ne pouvez pas avoir plus que {count} fiches épinglées"
+
+#, python-brace-format
+msgid "Relationships for «{entity}»"
+msgstr "Relations pour «{entity}»"
+
+msgid "Save the relationships"
+msgstr "Enregistrer les relations"
+
+msgid "Multiple adding of relationships"
+msgstr "Ajout multiple de relations"
+
+msgid "Permission denied to entity with id={}"
+msgstr "Permission refusée pour la fiche avec l'id={}"
+
+#, python-brace-format
+msgid "Please enter at least {count} characters"
+msgstr "Veuillez entrer au moins {count} caractères"
+
+msgid "Empty search…"
+msgstr "Recherche vide…"
+
+msgid "An entity has been created"
+msgstr "Une fiche a été créée"
+
+#, python-brace-format
+msgid "A «{model}» has been created"
+msgstr "Un(e) «{model}» a été créé(e)"
+
+msgid "An entity has been modified"
+msgstr "Une fiche a été modifiée"
+
+#, python-brace-format
+msgid "A «{model}» has been modified"
+msgstr "Un(e) «{model}» a été mis(e) à jour"
+
+msgid "A property has been added"
+msgstr "Une propriété a été ajoutée"
+
+#, python-brace-format
+msgid "A property «{label}» has been added"
+msgstr "Une propriété «{label}» a été ajoutée"
+
+msgid "The property type does not exist anymore"
+msgstr "Le type de propriété n'existe plus"
+
+msgid "A relationship has been added"
+msgstr "Une relation a été ajoutée"
+
+#, python-brace-format
+msgid "A relationship «{predicate}» has been added to a «{model}»"
+msgstr "Une relation «{predicate}» a été ajoutée à une fiche «{model}»"
+
+msgid "The relationship type does not exist anymore"
+msgstr "Le type de relation n'existe plus"
+
+msgid "Created entity"
+msgstr "Fiche créée"
+
+#, python-brace-format
+msgid "Created entity ({type})"
+msgstr "Fiche créée ({type})"
+
+msgid "Modified entity"
+msgstr "Fiche modifiée"
+
+#, python-brace-format
+msgid "Modified entity ({type})"
+msgstr "Fiche modifiée ({type})"
+
+msgid "Received a new property"
+msgstr "A reçu une nouvelle propriété"
+
+#, python-brace-format
+msgid "Received a new property ({type})"
+msgstr "A reçu une nouvelle propriété ({type})"
+
+msgid "Subject of the created relationship"
+msgstr "Sujet de la relation créée"
+
+#, python-brace-format
+msgid "Subject of the created relationship ({type})"
+msgstr "Sujet de la relation créée ({type})"
+
+msgid "Object of the created relationship"
+msgstr "Objet de la relation créée"
+
+#, python-brace-format
+msgid "Object of the created relationship ({type})"
+msgstr "Objet de la relation créée ({type})"
+
+msgid "Fixed entity"
+msgstr "Fiche fixe"
+
+#, python-brace-format
+msgid "The «{model}» does not exist anymore"
+msgstr "La fiche «{model}» n'existe plus"
+
+#, python-brace-format
+msgid "A fixed «{model}»"
+msgstr "Une fiche «{model}» fixe"
+
+#. Translators: "it" means "model"
+msgid "It does not exist anymore"
+msgstr "La fiche n'existe plus"
+
+#, python-brace-format
+msgid "The fixed «{model}» does not exist anymore"
+msgstr "La fiche «{model}» n'existe plus"
+
+msgid "(fixed entity)"
+msgstr "(fiche fixe)"
+
+#, python-brace-format
+msgid "Fixed entity «{entity}» [deleted]"
+msgstr "Fiche fixe «{entity}» [supprimée]"
+
+#, python-brace-format
+msgid "Fixed entity «{entity}»"
+msgstr "Fiche fixe «{entity}»"
+
+msgid "Field to another entity"
+msgstr "Champ vers une autre fiche"
+
+#, python-brace-format
+msgid "The field «{field}» is invalid in model «{model}»"
+msgstr "Le champ «{field}» est invalide dans le modèle «{model}»"
+
+#, python-brace-format
+msgid "The field «{field}» does not reference an entity"
+msgstr "Le champ «{field}» ne référence pas une fiche"
+
+#, python-brace-format
+msgid "Field of: {source}"
+msgstr "Champ de : {source}"
+
+#, python-brace-format
+msgid "Field «{field}» of: {source}"
+msgstr "Champ «{field}» de : {source}"
+
+msgid "First related entity"
+msgstr "Première fiche reliée"
+
+#, python-brace-format
+msgid "First related entity to: {source}"
+msgstr "Première fiche reliée à : {source}"
+
+#, python-brace-format
+msgid "{error} (first related entity)"
+msgstr "{error} (première fiche reliée)"
+
+#, python-brace-format
+msgid "First related «{type}» by «{predicate}» to: {source}"
+msgstr "Première fiche «{type}» reliée par «{predicate}» à : {source}"
+
+#, python-brace-format
+msgid "Adding the property «{property}» to: {source}"
+msgstr "Ajouter la propriété «{property}» à : {source}"
+
+msgid "The source type is not compatible with this property type"
+msgstr "Le type de source n'est pas compatible avec ce type de propriété"
+
+#, python-brace-format
+msgid "Adding the relationship «{predicate}» between:"
+msgstr "Ajouter la relation «{predicate}» entre :"
+
+msgid "The source type is not compatible with this relationship type"
+msgstr "Le type de source n'est pas compatible avec ce type de relation"
+
+#~ msgid "All users"
+#~ msgstr "Tous les utilisateurs"
+
+#~ msgid "«{object}» ({model})"
+#~ msgstr "«{object}» ({model})"
+
+#~ msgid "You are not allowed to access this view."
+#~ msgstr "Vous n'avez pas la permission d'accéder à cette page."
+
+#~ msgid "Delete definitively"
+#~ msgstr "Supprimer définitivement"
+
+#~ msgid "«{entity}» does not use the generic deletion view."
+#~ msgstr "«{entity}» n'utilise pas la vue de suppression générique."
+
+#~ msgid "{entity}: <b>Permission denied</b>"
+#~ msgstr "{entity} : <b>Permission refusée</b>"
+
+#~ msgid "You cannot edit/delete a system filter"
+#~ msgstr "Vous ne pouvez pas modifier/supprimer un filtre système"
+
+#~ msgid "Reminder"
+#~ msgstr "Mémento"
+
+#~ msgid "The field «{}» is empty"
+#~ msgstr "Le champ «{}» est vide"
+
+#~ msgid "Execute all reminders"
+#~ msgstr "Exécuter tous les mémentos"
+
+#~ msgid "Set field “{field}”"
+#~ msgstr "Champ “{field}” modifié"
+
+#~ msgid "Set field “{field}” to “{value}”"
+#~ msgstr "Champ “{field}” mis à “{value}”"
+
+#~ msgid "Set field “{field}” from “{oldvalue}” to “{value}”"
+#~ msgstr "Champ “{field}” passe de “{oldvalue}” à “{value}”"
+
+#~ msgid "Add <{type}>: “{value}”"
+#~ msgstr "Ajout de <{type}>: “{value}”"
+
+#~ msgid "Edit <{type}>: “{value}”"
+#~ msgstr "Modification de <{type}>: “{value}”"
+
+#~ msgid "Delete <{type}>: “{value}”"
+#~ msgstr "Suppression de <{type}>: “{value}”"
+
+#~ msgid "Export of {count} «{model}» (view «{view}» & filter «{filter}»)"
+#~ msgstr "Export de {count} «{model}» (vue «{view}» & filtre «{filter}»)"
+
+#~ msgid "Code"
+#~ msgstr "Code"
+
+#~ msgid "Invalid file"
+#~ msgstr "Fichier invalide"
+
+#~ msgid "The filter can not be deleted because of its dependencies."
+#~ msgstr "Le filtre ne peut être supprimé à cause de ses dépendances."
+
+#~ msgid "All"
+#~ msgstr "Tout"
+
+#~ msgid "Verbose"
+#~ msgstr "Verbeux"
+
+#~ msgid "No selected entities"
+#~ msgstr "Aucune fiche sélectionnée"
+
+#~ msgid "Filter successfully deleted"
+#~ msgstr "Filtre supprimé avec succès"
+
+#~ msgid "View successfully deleted"
+#~ msgstr "Vue supprimée avec succès"
+
+#~ msgid "View"
+#~ msgstr "Voir"
+
+#~ msgid "Go to the list"
+#~ msgstr "Aller à la liste"
+
+#~ msgid "Configure"
+#~ msgstr "Configurer"
+
+#~ msgid "New"
+#~ msgstr "Nouveau"
+
+#~ msgid "You can not edit this model"
+#~ msgstr "Vous ne pouvez pas modifier ce modèle"
+
+#~ msgid "%s «{model}» has been selected."
+#~ msgstr "%s «{model}» a été sélectionné(e)."
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Order"
+#~ msgstr "Ordre"
+
+#~ msgid "My settings"
+#~ msgstr "Ma configuration"
+
+#~ msgid "«Enter» to submit"
+#~ msgstr "Touche «Entrée» pour valider"
+
+#~ msgid "Last page"
+#~ msgstr "Dernière page"
+
+#~ msgid "Error!"
+#~ msgstr "Erreur !"
+
+#~ msgid "Creme 409 Error"
+#~ msgstr "Creme Erreur 409"
+
+#~ msgid "You can not perform this action because of business constraints."
+#~ msgstr ""
+#~ "Vous ne pouvez pas effectuer cette action à cause de contraintes métier."
+
+#~ msgid "Creme 403 Error"
+#~ msgstr "Creme Erreur 403"
+
+#~ msgid "Import data file"
+#~ msgstr "Importer un fichier de données"
+
+#~ msgid "Page"
+#~ msgstr "Page"
+
+#~ msgid "on"
+#~ msgstr "sur"
+
+#~ msgid "Message"
+#~ msgstr "Message"
+
+#~ msgid "You can't view this value, so you can't set it."
+#~ msgstr ""
+#~ "Vous ne pouvez pas voir cette valeur, donc vous ne pouvez pas l'attribuer."
+
+#~ msgid "Add a filter"
+#~ msgstr "Ajouter un filtre"
+
+#~ msgid "Add a view"
+#~ msgstr "Ajouter une vue"
+
+#~ msgid "Can't delete all"
+#~ msgstr "Suppression de tout interdite"
+
+#~ msgid "Is finished"
+#~ msgstr "Est fini"
+
+#~ msgid "Yes,No"
+#~ msgstr "Oui,Non"
+
+#~ msgid "Work in progress"
+#~ msgstr "En cours"
+
+#~ msgid "This view can't be edited/deleted"
+#~ msgstr "Cette vue ne peut être modifiée/supprimée"
+
+#~ msgid "Error reading document, unsupported file type: %s."
+#~ msgstr ""
+#~ "Erreur lors de la lecture du document, type de fichier non supporté: %s."
+
+#~ msgid "Open"
+#~ msgstr "Ouvrir"
+
+#~ msgid "Searches"
+#~ msgstr "Recherches"
+
+#~ msgid "all users"
+#~ msgstr "tous les utilisateurs"
+
+#~ msgid "Entity #%s"
+#~ msgstr "Fiche #%s"
+
+#~ msgid "Block of instance: %s"
+#~ msgstr "Bloc d'instance: %s"
+
+#~ msgid "None"
+#~ msgstr "Aucun"
+
+#~ msgid "Entities to update"
+#~ msgstr "Fiches à mettre à jour"
+
+#~ msgid "Select a valid field."
+#~ msgstr "Sélectionnez un champ valide"
+
+#~ msgid "Select a valid choice."
+#~ msgstr "Sélectionnez un choix valide."
+
+#~ msgid "Field"
+#~ msgstr "Champ"
+
+#~ msgid "Inner update"
+#~ msgstr "Modification rapide"
+
+#~ msgid "Search field"
+#~ msgstr "Champ de recherche"
+
+#~ msgid "Block state"
+#~ msgstr "Etat de bloc"
+
+#~ msgid "Content type is not registered in config"
+#~ msgstr "Le type de ressource n'est enregistrée dans la configuration"
+
+#~ msgid "Drag and drop the columns to order them."
+#~ msgstr "Glissez-déposez les colonnes pour les ordonner."
+
+#~ msgid "Functions"
+#~ msgstr "Fonctions"
+
+#~ msgid "Generic information"
+#~ msgstr "Infos génériques"
+
+#~ msgid "Form"
+#~ msgstr "Formulaire"
+
+#~ msgid "CSV file"
+#~ msgstr "Fichier CSV"
+
+#~ msgid "New (forbidden)"
+#~ msgstr "Nouveau (interdit)"
+
+#~ msgid "Blocks to display"
+#~ msgstr "Blocs à afficher"
+
+#~ msgid "Call"
+#~ msgstr "Appeler"
+
+#~ msgid "Begin date"
+#~ msgstr "Date de début"
+
+#~ msgid "End date"
+#~ msgstr "Date de fin"
+
+#~ msgid "Test"
+#~ msgstr "Test"
+
+#~ msgid "No match"
+#~ msgstr "Aucune correspondance"
+
+#~ msgid "Some predicates doesn't not exist"
+#~ msgstr "Certains prédicats n'existent pas"
+
+#~ msgid "Link to existing entities"
+#~ msgstr "Lier à des fiches existantes"
+
+#~ msgid "Permission denied"
+#~ msgstr "Permission refusée"
+
+#~ msgid "Incompatible type for subject"
+#~ msgstr "Type incompatible pour le sujet"
+
+#~ msgid "Read"
+#~ msgstr "Lire"
+
+#~ msgid "Modify"
+#~ msgstr "Modifier"
+
+#~ msgid "Create relation with"
+#~ msgstr "Mettre en relation avec"
+
+#~ msgid "Has access"
+#~ msgstr "A accès"
+
+#~ msgid "Superior"
+#~ msgstr "Supérieur"

@@ -1,0 +1,9 @@
+{% extends 'creme_core/history/html/base.html' %}
+{% load i18n creme_ctype %}{% load templatize from creme_core_tags %}
+
+{% block content %}
+{% with modifications=hline.modifications %}
+    {% if modifications|length >= 3 %}{% templatize '{{modifications.2}}' as filter %}{% else %}{% translate 'All' context 'creme_core-filter' as filter %}{% endif %}
+    {% blocktranslate with counted_instances=hline.entity_ctype|ctype_counted_label:modifications.0 view=modifications.1 %}Export of «{{counted_instances}}» (view «{{view}}» & filter «{{filter}}»){% endblocktranslate %}
+{% endwith %}
+{% endblock %}

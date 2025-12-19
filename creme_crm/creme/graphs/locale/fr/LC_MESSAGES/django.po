@@ -1,0 +1,242 @@
+# FR LOCALISATION OF 'GRAPHS' APP
+# Copyright (C) 2024 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i tests.py --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Graphs 2.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-07 14:39+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgctxt "graphs"
+msgid "Graphs"
+msgstr "Graphes"
+
+msgid "Analysis"
+msgstr "Analyse"
+
+msgid "Relationship graph"
+msgstr "Graphe de relations"
+
+msgid "Root nodes"
+msgstr "Nœuds racines"
+
+msgid ""
+"The Root nodes are the entities in the center of the Graph, associated with "
+"some relationship types, to retrieve entities linked to the root entities.\n"
+"App: Graphs"
+msgstr ""
+"Les Nœuds racines les fiches au centre du Graphe, associées avec des types "
+"de relation, pour récupérer les fiches reliées aux fiches racines.\n"
+"App: Graphes"
+
+msgid "Peripheral types of relationship"
+msgstr "Types de relations périphériques"
+
+msgid ""
+"These types of relationship are displayed in the Graph between entities "
+"which are linked to the root entities.\n"
+"App: Graphs"
+msgstr ""
+"Ces types de relation sont affichés dans le Graphe entre les fiches qui sont "
+"reliées aux fiches racines.\n"
+"App: Graphes"
+
+msgctxt "graphs"
+msgid "Creation form for graph"
+msgstr "Formulaire de création de graphe"
+
+msgctxt "graphs"
+msgid "Edition form for graph"
+msgstr "Formulaire de modification de graphe"
+
+msgid "Types of the peripheral relations"
+msgstr "Types des relations périphériques"
+
+msgid "Root entities"
+msgstr "Fiches racines"
+
+msgid "Related types of relations"
+msgstr "Types de relation associés"
+
+msgctxt "graphs"
+msgid "Name of the graph"
+msgstr "Nom du graphe"
+
+msgctxt "graphs"
+msgid "Create a graph"
+msgstr "Créer un graphe"
+
+msgctxt "graphs"
+msgid "Save the graph"
+msgstr "Enregistrer le graphe"
+
+msgctxt "graphs"
+msgid "Graph"
+msgstr "Graphe"
+
+msgid "Graph view"
+msgstr "Vue de Graphe"
+
+#, python-brace-format
+msgid "{count} Peripheral type of relationship"
+msgstr "{count} Type de relation périphérique"
+
+#, python-brace-format
+msgid "{count} Peripheral types of relationship"
+msgstr "{count} Types de relation périphériques"
+
+msgid "Add some types of relationship"
+msgstr "Ajouter des types de relation"
+
+msgid "Type of relation"
+msgstr "Type de relation"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Remove this type"
+msgstr "Enlever ce type"
+
+msgid "No type of relation for the moment"
+msgstr "Pas de type de relation pour le moment"
+
+#, python-brace-format
+msgid "{count} Root node"
+msgstr "{count} Nœud racine"
+
+#, python-brace-format
+msgid "{count} Root nodes"
+msgstr "{count} Nœuds racines"
+
+msgid "Add some entities"
+msgstr "Ajouter des fiches"
+
+msgid "Entity"
+msgstr "Fiche"
+
+msgid "Types of relation"
+msgstr "Types de relation"
+
+msgid "Actions"
+msgstr "Actions"
+
+#, python-brace-format
+msgid "{count} types of relationship"
+msgstr "{count} types de relation"
+
+msgid "No type of relationship"
+msgstr "Pas de type de relation"
+
+msgid "Disabled types:"
+msgstr "Types désactivés :"
+
+msgid "Edit this node"
+msgstr "Modifier ce nœud"
+
+msgid "Remove this node"
+msgstr "Enlever ce nœud"
+
+msgid "No root node for the moment"
+msgstr "Pas de nœud racine pour le moment"
+
+#, python-brace-format
+msgid "Add relation types to «{entity}»"
+msgstr "Ajouter des types de relation à «{entity}»"
+
+msgid "Save"
+msgstr ""
+
+#, python-brace-format
+msgid "Add root nodes to «{entity}»"
+msgstr "Ajouter des nœuds racines à «{entity}»"
+
+#, python-brace-format
+msgid "Edit root node for «{entity}»"
+msgstr "Modifier le nœud racine pour «{entity}»"
+
+#~ msgid "Download as PNG file"
+#~ msgstr "Télécharger sous forme de fichier PNG"
+
+#~ msgid ""
+#~ "The package \"pygraphviz\" is not installed; please contact your "
+#~ "administrator."
+#~ msgstr ""
+#~ "Le paquet \"pygraphviz\" n'est pas installé ; veuillez contacter votre "
+#~ "administrateur."
+
+#~ msgid "This graph is too big!"
+#~ msgstr "Ce graphe est trop gros !"
+
+#~ msgid "Roots nodes of a graph"
+#~ msgstr "Nœuds racines d'un graphe"
+
+#~ msgid "Peripheral types of relation of a graph"
+#~ msgstr "Types de relation périphériques d'un graphe"
+
+#~ msgid "Graphs portal"
+#~ msgstr "Portail Graphes"
+
+#~ msgctxt "graphs"
+#~ msgid "List of Graphs"
+#~ msgstr "Liste des Graphes"
+
+#~ msgid "Portal of graphs"
+#~ msgstr "Portail des graphes"
+
+#~ msgid "All graphs"
+#~ msgstr "Liste des graphes"
+
+#~ msgid "Number of graphs"
+#~ msgstr "Nombre de graphe(s)"
+
+#~ msgid "Peripheral relation types"
+#~ msgstr "Types de relation périphériques"
+
+#~ msgid "Add some existing types of relation"
+#~ msgstr "Ajouter des types de relation existants"
+
+#~ msgid "Unlink"
+#~ msgstr "Délier"
+
+#~ msgid "Add root nodes from existing entities"
+#~ msgstr "Ajouter des nœuds racines depuis des fiches existantes"
+
+#~ msgid "Download PNG"
+#~ msgstr "Télécharger PNG"
+
+# msgctxt "graphs"
+#~ msgid "Add a graph"
+#~ msgstr "Ajouter un graphe"
+
+#~ msgid "Graph"
+#~ msgstr "Graphe"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "Portal"
+#~ msgstr "Portail"
+
+#~ msgid "Add root nodes"
+#~ msgstr "Ajouter des nœuds racines"
+
+#~ msgid "Can't add"
+#~ msgstr "Ajout interdit"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Edit"
+#~ msgstr "Modifier"
+
+#~ msgid "Subjects"
+#~ msgstr "Sujets"

@@ -1,0 +1,22 @@
+{% extends 'geolocation/bricks/base/filtered-map.html' %}
+{% load creme_bricks creme_perms %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} geolocation-google{% endblock %}
+
+{% block brick_geolocation_script %}
+    <script type="text/javascript">
+         $('.brick[data-brick-id="{{brick_id}}"]').on('brick-ready', function(event, brick) {
+             return new creme.geolocation.AddressesBrick(brick, {
+                 mapController: new creme.geolocation.GoogleMapController({
+                     apiKey: '{{map_api_key}}'
+                 }),
+                 addressesUrl: '{{addresses_url}}'
+             });
+         });
+    </script>
+{% endblock %}
+
+{% block brick_geomap_error %}
+    {% brick_action id='redirect' display='text' url='creme_config__app_portal'|url:'geolocation' label=_('Google API key may be missing or invalid. Please try to configure it or contact your administrator.') enabled=user|has_perm_to_admin:'geolocation' %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks creme_widgets %}
+
+{% block page_title %}{% translate 'History' %} - {% endblock %}
+
+{% block content %}
+    <div class="hat-bar-container">
+        <div class="hat-bar">
+            <div class="bar-icon">{% widget_icon name='history' size='brick-hat-bar-button' label=_('History') %}</div>
+            <div class="bar-title"><h1>{% translate 'History of automated creations' %}</h1></div>
+        </div>
+    </div>
+
+{#    {% brick_declare bricks %} #}
+    {% brick_declare bricks.main %}
+{#    {% brick_display bricks %} #}
+    {% brick_display bricks.main %}
+
+    {% brick_end %}
+{% endblock %}

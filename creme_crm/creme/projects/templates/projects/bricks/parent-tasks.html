@@ -1,0 +1,35 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} projects-parent-tasks-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Parent Task') plural=_('{count} Parent Tasks') empty=_('Parent Tasks') icon='task' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='projects__add_parent_task'|url:object.id label=_('Add parent tasks') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Name') status='primary' %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with edit_perm=user|has_perm_to_change:object remove_url='projects__remove_parent_task'|url %}
+  {% for task in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink task user %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=remove_url __id=object.id __parent_id=task.id label=_('Remove this parent') icon='unlink' enabled=edit_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No parent task for the moment' %}
+{% endblock %}

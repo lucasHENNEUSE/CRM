@@ -1,0 +1,20 @@
+{% load i18n creme_ctype creme_perms creme_widgets %}{% load blockjsondata from creme_core_tags %}
+{% if not button.permission_error and button.rtype.enabled %}
+ {% with ticket_ct='TICKETS_TICKET_MODEL'|ctype_for_swappable %}
+  <a class="menu_button menu-button-icon" title="{{button.description}}" data-action="add-relationships">
+    {% widget_icon name='ticket' size='instance-button' label=_('Ticket') %}
+    {{button.verbose_name}}
+    {% blockjsondata %}{
+        "data": {
+            "subject_id": {{object.id}}, "rtype_id": "{{button.rtype.id}}", "ctype_id": {{ticket_ct.id}}
+        }
+    }{% endblockjsondata %}
+  </a>
+ {% endwith %}
+{% else %}
+<span class="menu_button menu-button-icon forbidden{% if not button.rtype.enabled %} menu-button-error{% endif %}"
+      title="{% if not button.rtype.enabled %}{% blocktranslate with predicate=button.rtype.predicate %}The relationship type «{{predicate}}» is disabled{% endblocktranslate %}{% else %}{{button.permission_error}}{% endif %}">
+    {% widget_icon name='ticket' size='instance-button' label=_('Ticket') %}
+    {{button.verbose_name}}
+</span>
+{% endif %}

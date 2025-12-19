@@ -1,0 +1,46 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-custom-enums-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Choice') plural=_('{count} Choices') empty=_('Choices') icon='config' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if not custom_field.is_deleted %}
+    {% brick_header_action id='add' url='creme_config__add_custom_enums'|url:custom_field.id label=_('New choices') enabled=user|has_perm_to_admin:'creme_core' %}
+  {% endif%}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Value') %}
+    {% brick_table_column title=_('Action') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with admin_perm=user|has_perm_to_admin:'creme_core' %}
+  {% for enum_value in page.object_list %}
+   {% with deleted=custom_field.is_deleted %}
+    <tr>
+        <td>{{enum_value.value}}</td>
+        <td {% brick_table_data_status action %}>
+          {% if not deleted %}
+            {% brick_table_action id='edit' url='creme_config__edit_custom_enum'|url:enum_value.id label=_('Edit this choice') enabled=admin_perm %}
+          {% endif%}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% if not deleted %}
+            {% brick_table_action id='edit' url='creme_config__delete_custom_enum'|url:enum_value.id label=_('Delete this choice') icon='delete' enabled=admin_perm %}
+          {% endif%}
+        </td>
+    </tr>
+   {% endwith %}
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No choice for this custom field' %}
+{% endblock %}

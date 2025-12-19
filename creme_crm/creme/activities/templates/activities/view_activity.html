@@ -1,0 +1,12 @@
+{% extends 'creme_core/generics/view_entity.html' %}
+{% load i18n creme_widgets %}
+
+{% block global_buttons %}
+    <li>
+        <a class="menu_button menu-button-icon" href="{% url 'activities__calendar' %}">{% translate 'Go to the calendar' as go_label %}
+            {% widget_icon name='calendar' size='global-button' label=go_label %}
+            {{go_label}}
+        </a>
+    </li>
+    {{block.super}}
+{% endblock %}

@@ -1,0 +1,1479 @@
+# FR LOCALISATION OF 'EMAILS' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Emails 2.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-28 16:00+0200\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Re-send email"
+msgstr "Ré-envoyer l'e-mail"
+
+msgid "Re-send email(s)"
+msgstr "Ré-envoyer les e-mails"
+
+msgid "Emails"
+msgstr "E-mails"
+
+msgid "Marketing"
+msgstr "Marketing"
+
+msgid "HTML body"
+msgstr "Corps HTML"
+
+msgid "Mailing lists"
+msgstr "Listes de diffusion d'e-mails"
+
+msgid ""
+"Allows to add Mailing lists to the current campaign. A campaign needs to be "
+"linked a least to one Mailing list in order to send emails.\n"
+"Note: do not worry, if an email address is contained by several lists, only "
+"one email will be sent to this address.\n"
+"App: Emails"
+msgstr ""
+"Permet d'ajouter des Listes de Diffusion à la campagne courante. Une "
+"campagne a besoin d'être reliée à au moins une Liste de Diffusion pour "
+"pouvoir envoyer des e-mails.\n"
+"Note : ne vous inquiétez pas, si une adresse e-mail est incluse par "
+"plusieurs listes, seul un e-mail sera envoyé à cette adresse.\n"
+"App : E-mails"
+
+msgid "Not linked recipients"
+msgstr "Destinataires manuels"
+
+msgid ""
+"Allows to add simple email addresses to the current Mailing list. These "
+"addresses are not related to a Contact or an Organisation.\n"
+"Hint: if you want to send emails to Contacts/Organisations, you should use "
+"the other blocks to add recipients.\n"
+"App: Emails"
+msgstr ""
+"Permet d'ajouter des simples adresses e-mail à la Liste de Diffusion. Ces "
+"adresses ne sont pas relatives à des Contacts ou Sociétés.\n"
+"Astuce : si vous voulez envoyer des e-mails à des Contacts/Sociétés, vous "
+"devriez utiliser les autres blocs pour ajouter des destinataires.\n"
+"App : E-mails"
+
+msgid "Contact-recipients"
+msgstr "Contacts destinataires"
+
+msgid "Organisations recipients"
+msgstr "Sociétés destinataires"
+
+msgid "Child mailing lists"
+msgstr "Listes de diffusion filles"
+
+msgid "Parent mailing lists"
+msgstr "Listes de diffusion parentes"
+
+msgid "Attachments"
+msgstr "Fichiers attachés"
+
+msgid "Emails sending"
+msgstr "Envois d'e-mails"
+
+msgid ""
+"Allows to send emails to all the recipients listed in the related Mailing "
+"lists.\n"
+"App: Emails"
+msgstr ""
+"Permet d'envoyer des e-mails à tous les destinataires figurant dans les "
+"Liste de Diffusion reliée.\n"
+"App : E-mails"
+
+msgid "Information"
+msgstr "Informations"
+
+msgid "Emails history"
+msgstr "Historique des e-mails"
+
+msgid ""
+"Displays the Emails linked to the current entity with a relationship «sent "
+"the email», «received the email» or «related to the email». Allows you to "
+"send emails too.\n"
+"App: Emails"
+msgstr ""
+"Affiche les E-Mails reliée à la fiche courante avec une relation «a envoyé "
+"l'e-mail»,  «a reçu l'e-mail» ou «relatif à l'e-mail». Permet aussi "
+"d'envoyer des e-mails.\n"
+"App : E-mails"
+
+msgid "Campaigns emails history"
+msgstr "Historique des e-mails des campagnes"
+
+msgid ""
+"Displays the emails (sent from Campaigns) received by the current entity.\n"
+"App: Emails"
+msgstr ""
+"Affiche les e-mails (envoyés depuis des Campagnes) reçus par la fiche "
+"courante.\n"
+"App : E-mails"
+
+msgid "My signatures"
+msgstr "Mes signatures"
+
+msgid "Link this email to"
+msgstr "Relier cet e-mail à"
+
+msgid ""
+"This button links the current entity with a selected email, using a "
+"relationship type in:\n"
+" - «sent the email».\n"
+" - «received the email».\n"
+" - «related to the email».\n"
+"App: Emails"
+msgstr ""
+"Ce bouton relie la fiche courante avec un e-mail sélectionné, en utilisant "
+"un type de relation parmi :\n"
+" - «a envoyé l'e-mail».\n"
+" - «a reçu l'e-mail».\n"
+" - «relatif à l'e-mail».\n"
+"App : E-mails"
+
+#, python-format
+msgid "The following variables are invalid: %(vars)s"
+msgstr "Les variables suivantes sont invalides: %(vars)s"
+
+msgid "You can use variables: {}"
+msgstr "Vous pouvez utiliser les variables : {}"
+
+msgid "Send emails from campaigns"
+msgstr "Envoyer les e-mails des campagnes"
+
+msgid "Send entity emails"
+msgstr "Envoyer les fiches e-mail"
+
+#, python-brace-format
+msgid "Synchronize externals emails with {software}"
+msgstr "Synchroniser des e-mails externes avec {software}"
+
+msgid "Attachment for email synchronization"
+msgstr "Pièce jointe pour synchronisation e-mail"
+
+#, python-brace-format
+msgid "There was no message on \"{host}\" for the user \"{user}\""
+msgstr ""
+"Il n'y avait pas de message sur \"{host}\" pour l'utilisateur \"{user}\""
+
+#, python-brace-format
+msgid "There was {count} valid message on \"{host}\" for the user \"{user}\""
+msgid_plural ""
+"There were {count} valid messages on \"{host}\" for the user \"{user}\""
+msgstr[0] ""
+"Il y avait {count} message valide sur \"{host}\" pour l'utilisateur "
+"\"{user}\""
+msgstr[1] ""
+"Il y avait {count} messages valides sur \"{host}\" pour l'utilisateur "
+"\"{user}\""
+
+#, python-brace-format
+msgid "There was {count} erroneous message (see logs for more details)"
+msgid_plural ""
+"There were {count} erroneous messages (see logs for more details)"
+msgstr[0] ""
+"Il y avait {count} message invalide (regardez les logs pour plus de détails)"
+msgstr[1] ""
+"Il y avait {count} messages invalides (regardez les logs pour plus de "
+"détails)"
+
+#, python-brace-format
+msgid "There was {count} ignored message (no known address found)"
+msgid_plural "There were {count} ignored messages (no known address found)"
+msgstr[0] "Il y avait {count} message ignoré (pas d'adresse connue trouvée)"
+msgstr[1] "Il y avait {count} messages ignorés (pas d'adresse connue trouvée)"
+
+msgid "Send Workflow emails"
+msgstr "Envoyer les e-mails de Processus automatisé"
+
+msgctxt "emails"
+msgid "Creation form for campaign"
+msgstr "Formulaire de création de campagne"
+
+msgctxt "emails"
+msgid "Edition form for campaign"
+msgstr "Formulaire de modification de campagne"
+
+msgctxt "emails"
+msgid "Creation form for template"
+msgstr "Formulaire de création de patron"
+
+msgctxt "emails"
+msgid "Edition form for template"
+msgstr "Formulaire de modification de patron"
+
+msgid "Creation form for mailing list"
+msgstr "Formulaire de création de liste de diffusion"
+
+msgid "Edition form for mailing list"
+msgstr "Formulaire de modification de liste de diffusion"
+
+msgid "Lists"
+msgstr "Listes"
+
+msgid "Sender"
+msgstr "Expéditeur"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+msgid "Organisations"
+msgstr "Sociétés"
+
+msgid "Send me a copy of this mail"
+msgstr "Envoyez moi une copie de cet e-mail"
+
+msgid "Select at least a Contact or an Organisation"
+msgstr "Sélectionnez au moins un Contact ou une Société"
+
+msgid "Both bodies cannot be empty at the same time."
+msgstr "Les 2 corps ne peuvent pas être vides en même temps."
+
+msgid "Who"
+msgstr "Qui"
+
+msgid "What"
+msgstr "Quoi"
+
+msgid "With"
+msgstr "Avec"
+
+msgid "Required custom fields"
+msgstr "Champs personnalisés obligatoires"
+
+msgid ""
+"If you let the body empty, it will be filled from the HTML body (HTML "
+"markups are removed)."
+msgstr ""
+"Si vous laissez le corps vide, il sera rempli depuis le corps HTML (les "
+"balises HTML sont enlevées)."
+
+msgid ""
+"If you let the HTML body empty, it will be filled from the regular body "
+"(without fancy layout of course)."
+msgstr ""
+"Si vous laissez le corps HTML vide, il sera rempli depuis le corps normal "
+"(sans jolie mise en page évidemment)."
+
+msgid "Beware: the contact «{}» has no email address!"
+msgstr "Attention : le contact «{}» n'a pas d'adresse e-mail !"
+
+msgid "Beware: the organisation «{}» has no email address!"
+msgstr "Attention : la société «{}» n'a pas d'adresse e-mail !"
+
+msgid ""
+"Beware: the field «Email address» is hidden; please contact your "
+"administrator."
+msgstr ""
+"Attention : le champ «Adresse e-mail» est caché ; veuillez contacter votre "
+"administrateur."
+
+msgid "The email address for {} is invalid"
+msgstr "L'adresse e-mail pour {} est invalide"
+
+msgctxt "emails"
+msgid "Template"
+msgstr "Patron d'e-mail"
+
+msgid "Select this template"
+msgstr "Sélectionner ce patron"
+
+msgid "Filters"
+msgstr "Filtres"
+
+# Already in creme_core
+msgctxt "creme_core-filter"
+msgid "All"
+msgstr ""
+
+msgid "List"
+msgstr "Liste"
+
+msgid "A list can't be its own child"
+msgstr "Une liste ne peut pas être fille d'elle même"
+
+msgid "List already in the parents"
+msgstr "Liste déjà dans les parents"
+
+msgid "List already in the children"
+msgstr "Liste déjà dans les filles"
+
+msgid "Child mailing list"
+msgstr "Liste de diffusion fille"
+
+msgid "Recipients"
+msgstr "Destinataires"
+
+msgid "Write a valid email address per line."
+msgstr "Mettez une adresse e-mail par ligne."
+
+msgid ""
+"A file containing one email address per line (e.g. \"creme@crm.com\" without "
+"quotation marks)."
+msgstr ""
+"Un fichier contenant une adresse e-mail par ligne (ex: \"creme@crm.com\" "
+"sans les guillemets)."
+
+msgid "CSV file"
+msgstr "Fichier CSV"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Beware to use an email address compatible with the chosen SMTP server"
+msgstr ""
+"Attention de bien donner une adresse e-mail compatible avec le serveur SMTP "
+"choisi"
+
+msgid "Email template"
+msgstr "Patron d'e-mail"
+
+msgid "Sending date"
+msgstr "Date d'envoi"
+
+msgid "Required only of the sending is deferred."
+msgstr "Obligatoire si l'envoi est différé seulement."
+
+msgid "Sending hour"
+msgstr "Heure d'envoi"
+
+msgid "Sending minute"
+msgstr "Minute d'envoi"
+
+msgid ""
+"You are not allowed to modify the sender address, please contact your "
+"administrator."
+msgstr ""
+"Vous n'avez pas la permission de modifier l'adresse de l'expéditeur, "
+"veuillez contacter votre administrateur."
+
+msgid "Sending date required for a deferred sending"
+msgstr "Date d'envoi obligatoire pour un envoi différé"
+
+msgid "Sending date must be is the future"
+msgstr "La date d'envoi doit être dans le futur"
+
+msgid "*No default user*"
+msgstr "*Pas d'utilisateur par défaut*"
+
+msgid "Leave empty to keep the recorded password"
+msgstr "Laissez vide pour garder mot de passe enregistré"
+
+msgid "Contact or Organisation"
+msgstr "Contact ou Société"
+
+msgid ""
+"The email address of the Contact/Organisation will be automatically updated."
+msgstr ""
+"L'adresse e-mail du Contact (ou de la Société) sera automatiquement mise à "
+"jour."
+
+msgid ""
+"You are not allowed to edit «{}», so the email address cannot be updated"
+msgstr ""
+"Vous n'avez pas la permission de modifier «{}», donc l'adresse e-mail ne "
+"peut pas être mise à jour"
+
+msgid "Recipient"
+msgstr "Destinataire"
+
+msgid "This entity has no email address."
+msgstr "Cette fiche n'a pas d'adresse e-mail."
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgid "Entity which is used as template variable"
+msgstr "Fiche utilisée comme variable dans le patron"
+
+msgid "Body"
+msgstr "Corps"
+
+#. Translators: do not translate "{{entity}}"
+msgid "You can use the variable {{entity}} to display the entity chosen above"
+msgstr ""
+"Vous pouvez utiliser la variable {{entity}} pour afficher la fiche choisie "
+"au dessus"
+
+msgid "Sending an email"
+msgstr "Envoyer un e-mail"
+
+msgid "Email body"
+msgstr "Corps d'e-mail"
+
+msgid "The tags like {% … %} are forbidden"
+msgstr "Les balises comme {% … %} sont interdites"
+
+msgid "Entity which is used to fill the template"
+msgstr "Fiche utilisée pour remplir le patron"
+
+msgid "The entity must be a Contact or an Organisation."
+msgstr "La fiche doit être un Contact ou une Société."
+
+msgid "Synchronization of incoming emails"
+msgstr "Synchronisation des e-mails externes"
+
+msgid "Name of the campaign"
+msgstr "Nom de la campagne"
+
+msgid "Related mailing lists"
+msgstr "Listes de diffusion associées"
+
+msgid "Create an emailing campaign"
+msgstr "Créer une campagne d'envois"
+
+msgid "Save the emailing campaign"
+msgstr "Enregistrer la campagne"
+
+msgid "Emailing campaign"
+msgstr "Campagne d'envois d'e-mails"
+
+msgid "Emailing campaigns"
+msgstr "Campagnes d'envois d'e-mails"
+
+msgctxt "emails"
+msgid "Sent"
+msgstr "Envoyé"
+
+msgctxt "emails"
+msgid "Not sent"
+msgstr "Non envoyé"
+
+msgid "Sending error"
+msgstr "Erreur d'envoi"
+
+msgctxt "emails"
+msgid "Synchronized"
+msgstr "Synchronisé"
+
+msgid "Number of reads"
+msgstr "Nombre de lecture"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Reception date"
+msgstr "Date de réception"
+
+msgid "Email ID"
+msgstr "Identifiant de l'e-mail"
+
+msgid "Body (HTML)"
+msgstr "Corps (HTML)"
+
+msgid "Signature"
+msgstr "Signature"
+
+msgid "Create an email"
+msgstr "Créer un e-mail"
+
+msgid "Save the email"
+msgstr "Enregistrer l'e-mail"
+
+msgid "Send the email"
+msgstr "Envoyer l'e-mail"
+
+msgctxt "emails"
+msgid "Email"
+msgstr "E-mail"
+
+msgctxt "emails"
+msgid "Emails"
+msgstr "E-mails"
+
+#, python-brace-format
+msgid "Email <from: {sender}> <to: {to}> <status: {status}>"
+msgstr "E-Mail <de: {sender}> <à: {to}> <statut: {status}>"
+
+msgid "Name of the mailing list"
+msgstr "Nom de la liste de diffusion"
+
+msgid "Create a mailing list"
+msgstr "Créer une liste de diffusion"
+
+msgid "Save the mailing list"
+msgstr "Enregistrer la liste de diffusion"
+
+msgid "Mailing list"
+msgstr "Liste de diffusion d'e-mails"
+
+msgid "Related mailing list"
+msgstr "Liste de diffusion associée"
+
+msgid "Email address"
+msgstr "Adresse e-mail"
+
+msgctxt "emails"
+msgid "Add a recipient"
+msgstr "Ajouter un destinataire"
+
+msgctxt "emails"
+msgid "Save the recipient"
+msgstr "Enregistrer le destinataire"
+
+msgctxt "emails"
+msgid "Save the recipients"
+msgstr "Enregistrer les destinataires"
+
+msgctxt "emails"
+msgid "Recipient"
+msgstr "Destinataire"
+
+msgctxt "emails"
+msgid "Recipients"
+msgstr "Destinataires"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Name displayed to users when selecting a configuration"
+msgstr "Nom affiché aux utilisateurs lorsqu'ils choisissent une configuration"
+
+msgid "Server URL"
+msgstr "URL du serveur"
+
+msgid "E.g. smtp.mydomain.org"
+msgstr "Ex: smtp.mon_domaine.org"
+
+# Already in creme_core
+msgid "Username"
+msgstr ""
+
+msgid "E.g. me@mydomain.org"
+msgstr "Ex: moi@mon_domaine.org"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Leave empty to use the default port"
+msgstr "Laissez vide pour utiliser le port par défaut"
+
+msgid "Use TLS"
+msgstr "Utiliser TLS"
+
+msgid "Default sender"
+msgstr "Expéditeur par défaut"
+
+msgid ""
+"If you fill this field with an email address, this address will be used as "
+"the default value in the form for the field «Sender» when sending a campaign."
+msgstr ""
+"Si vous remplissez ce champ avec une adresse e-mail, celle-ci sera utilisée "
+"comme valeur par défaut dans le formulaire pour le champ «Expéditeur» "
+"lorsque vous envoyez une campagne."
+
+msgctxt "emails"
+msgid "Create a server configuration"
+msgstr "Créer une configuration serveur"
+
+msgid "Save the configuration"
+msgstr "Enregistrer la configuration"
+
+msgid "SMTP configuration"
+msgstr "Configuration SMTP"
+
+msgid "Immediate"
+msgstr "Immédiat"
+
+msgctxt "emails-sending"
+msgid "Deferred"
+msgstr "Différé"
+
+msgctxt "emails-sending"
+msgid "Done"
+msgstr "Effectué"
+
+msgid "In progress"
+msgstr "En cours"
+
+msgctxt "emails-sending"
+msgid "Planned"
+msgstr "Prévu"
+
+msgid "Error during sending"
+msgstr "Erreur pendant l'envoi."
+
+msgid "SMTP server"
+msgstr "Serveur SMTP"
+
+msgid "Sender address"
+msgstr "Adresse e-mail de l'expéditeur"
+
+msgctxt "emails"
+msgid "Related campaign"
+msgstr "Campagne associée"
+
+msgid "Sending type"
+msgstr "Type d'envoi"
+
+msgid "Sending state"
+msgstr "État de l'envoi"
+
+msgctxt "emails"
+msgid "Create a sending"
+msgstr "Créer un envoi"
+
+msgctxt "emails"
+msgid "Save the sending"
+msgstr "Enregistrer l'envoi"
+
+msgid "Email campaign sending"
+msgstr "Envoi de campagne d'e-mails"
+
+msgid "Email campaign sendings"
+msgstr "Envois de campagne d'e-mails"
+
+#, python-brace-format
+msgctxt "emails"
+msgid "Sending of «{campaign}» on {date}"
+msgstr "Envoi de «{campaign}» du {date}"
+
+#, python-brace-format
+msgid "[{software}] Campaign email sending error."
+msgstr "[{software}] Erreur d'envoi de campagne d'e-mail."
+
+#, python-brace-format
+msgid ""
+"Emails in the sending of the campaign «{campaign}» on {date} weren't sent "
+"because the image «{image}» is no longer available in the template."
+msgstr ""
+"Les e-mails de l'envoi de la campagne «{campaign}» prévue le {date} n'ont "
+"pas été envoyés car l'image «{image}» n'est plus disponible dans le patron "
+"d'e-mail."
+
+msgid "Related sending"
+msgstr "Envoi associé"
+
+msgid "Email of campaign"
+msgstr "E-mail de campagne"
+
+msgid "Emails of campaign"
+msgstr "E-mails  de campagne"
+
+msgid ""
+"The name is only used to select the signature you want to use (in an email "
+"or an email template), it is not display in the email's body."
+msgstr ""
+"Le nom est uniquement utilisé pour sélectionner la signature que vous "
+"souhaitez utiliser (dans un e-mail ou un patron d'e-mail), il n'est pas "
+"affiché dans le corps de l'e-mail."
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Images"
+msgstr "Images"
+
+msgid ""
+"Images embedded in emails (but not as attached).\n"
+"Hint: try to keep your images light (less than 2MB).\n"
+"Hint: try to keep your images less than 500px wide to get a good render on "
+"mobile."
+msgstr ""
+"Images incorporées aux e-mails (et non pas en pièce jointe).\n"
+"Astuce : utilisez de préférence des images légères (moins de 2Mo).\n"
+"Astuce : utilisez de préférence des images qui font moins de 500px de large "
+"pour un bon affichage sur mobile."
+
+msgctxt "emails"
+msgid "Create a signature"
+msgstr "Créer la signature"
+
+msgctxt "emails"
+msgid "Save the signature"
+msgstr "Enregistrer la signature"
+
+msgid "Email signature"
+msgstr "Signature d'e-mail"
+
+msgid "Email signatures"
+msgstr "Signatures d'e-mail"
+
+msgid "Default owner"
+msgstr "Propriétaire par défaut"
+
+msgid ""
+"If no user corresponding to an email address is found (in the fields \"From"
+"\", \"To\", \"CC\" or \"BCC\") to be the owner of the email, this user is "
+"used as default one.\n"
+"Beware: if *No default user* is selected, emails with no address related to "
+"a user are just dropped."
+msgstr ""
+"Si aucun utilisateur correspondant à une adresse e-mail n'est trouvé (dans "
+"les champs \"From\", \"To\", \"CC\" or \"BCC\") pour être le propriétaire de "
+"l'e-mail, cet utilisateur sera utilisé comme celui par défaut.\n"
+"Attention : si *Aucun utilisateur par défaut* est sélectionné, les e-mails "
+"sans adresse relative à un utilisateur seront juste jetés."
+
+msgid "E.g. pop.mydomain.org"
+msgstr "Ex: pop.mon_domaine.org"
+
+msgid "Use SSL"
+msgstr "Utiliser SSL"
+
+msgid "Keep the attachments"
+msgstr "Garder les fichiers joints"
+
+msgid "Attachments are converted to real Documents when the email is accepted."
+msgstr ""
+"Les fichiers joints sont convertis en vrai Documents quand l'e-mail est "
+"accepté."
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Sender/recipient to synchronize"
+msgstr "Expéditeur/destinataire à synchroniser"
+
+msgid "Senders/recipients to synchronize"
+msgstr "Expéditeurs/destinataires à synchroniser"
+
+msgid "Create an email template"
+msgstr "Créer un patron d'e-mail"
+
+msgid "Save the email template"
+msgstr "Enregistrer le patron d'e-mail"
+
+msgid "Email templates"
+msgstr "Patrons d'e-mail"
+
+msgid "Documents received by email"
+msgstr "Documents reçus par e-mail"
+
+msgid "(email) received by"
+msgstr "(e-mail) a été reçu par"
+
+msgid "received the email"
+msgstr "a reçu l'e-mail"
+
+msgid "(email) sent by"
+msgstr "(e-mail) envoyé par"
+
+msgid "sent the email"
+msgstr "a envoyé l'e-mail"
+
+msgid "(email) related to"
+msgstr "(e-mail) relatif à"
+
+msgid "related to the email"
+msgstr "relatif à l'e-mail"
+
+msgid "Mailing list view"
+msgstr "Vue de Liste de Diffusion"
+
+msgid "Campaign view"
+msgstr "Vue de Campagne"
+
+msgid "Email template view"
+msgstr "Vue de Patron d'e-mail"
+
+msgid "Email view"
+msgstr "Vue d'E-mail"
+
+msgid "Email information"
+msgstr "Informations sur l'e-mail"
+
+msgid "Email template information"
+msgstr "Informations sur le patron d'e-mail"
+
+#, python-brace-format
+msgid "{count} Attachment"
+msgstr "{count} Fichier attaché"
+
+#, python-brace-format
+msgid "{count} Attachments"
+msgstr "{count} Fichiers attachés"
+
+msgid "Add documents"
+msgstr "Ajouter des documents"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Remove this attachment"
+msgstr "Enlever ce fichier joint"
+
+msgid "No attachment for the moment"
+msgstr "Aucune pièce jointe pour le moment"
+
+#, python-brace-format
+msgid "{count} Child List"
+msgstr "{count} Liste fille"
+
+#, python-brace-format
+msgid "{count} Child Lists"
+msgstr "{count} Listes filles"
+
+msgid "Child Lists"
+msgstr "Listes filles"
+
+msgid "Add a child list"
+msgstr "Ajouter une liste fille"
+
+msgid "Name of the list"
+msgstr "Nom de la liste"
+
+msgid "Remove this mailing list"
+msgstr "Enlever la liste de diffusion"
+
+msgid "No child list for the moment"
+msgstr "Aucune liste fille pour le moment"
+
+#, python-brace-format
+msgid "{count} Contact-recipient"
+msgstr "{count} Contact destinataire"
+
+#, python-brace-format
+msgid "{count} Contact-recipients"
+msgstr "{count} Contacts destinataires"
+
+msgid "Add from a filter"
+msgstr "Ajouter à partir d'un filtre"
+
+msgid "Add contacts"
+msgstr "Ajouter des contacts"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid ""
+"The field «Email address» of Contact is hidden; in order to use this block, "
+"you have to reactivate it (so please contact your administrator)."
+msgstr ""
+"Le champ «Adresse e-mail» de Contact est caché ; pour pouvoir utiliser ce "
+"bloc, vous devez le réactiver (donc veuillez contacter votre administrateur)."
+
+msgid "no email address"
+msgstr "pas d'adresse e-mail"
+
+msgid "Remove this contact"
+msgstr "Enlever ce contact"
+
+msgid "No contact recipient for the moment"
+msgstr "Aucun contact destinataire pour le moment"
+
+#, python-brace-format
+msgid "{count} Email to synchronise"
+msgstr "{count} E-mail à synchroniser"
+
+#, python-brace-format
+msgid "{count} Emails to synchronise"
+msgstr "{count} E-mails à synchroniser"
+
+msgid "Emails to synchronise"
+msgstr "E-mails à synchroniser"
+
+msgid "Delete selected emails"
+msgstr "Supprimer les e-mails sélectionnés"
+
+msgid "Accept selected emails"
+msgstr "Accepter les e-mails sélectionnés"
+
+msgid "Select all"
+msgstr "Tout sélectionner"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid ""
+"Only the recipient marked as main is used to fill the field «Recipient» of "
+"the final email. All recipients are linked to the email anyway."
+msgstr ""
+"Seul le destinataire marqué comme principal est utilisé pour emplir le champ "
+"«Destinataire» de l'e-mail final. Tous les destinataires sont reliés à l'e-"
+"mail dans tous les cas."
+
+msgid "Select this email"
+msgstr "Sélectionner cet e-mail"
+
+msgid "Error: no Contact/Organisation is related to this address."
+msgstr "Erreur : aucun Contact (ou Société) n'est relié à cette adresse."
+
+msgid "Mark as main"
+msgstr "Marquer comme principal"
+
+msgid "Fix the forwarded email"
+msgstr "Corriger l'e-mail transféré"
+
+msgid ""
+"This email has only been sent to the synchronisation address; fix it by "
+"setting the true sender & recipient."
+msgstr ""
+"Cet e-mail a seulement été envoyé à l'adresse de synchronisation ; réparez "
+"le en indiquant les vrais expéditeur & destinataires."
+
+msgid "View the body"
+msgstr "Voir le corps"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "View the HTML body"
+msgstr "Voir le corps HTML"
+
+msgid "Delete this email"
+msgstr "Supprimer cet e-mail"
+
+msgid "Accept"
+msgstr "Accepter"
+
+msgid "Convert into a true entity email"
+msgstr "Convertir en une vraie fiches e-mail"
+
+msgid "Cannot accept because there are errors"
+msgstr "Impossible d'accepter car il reste des erreurs"
+
+msgid "No email to synchronise for the moment"
+msgstr "Aucun e-mail à synchroniser pour le moment"
+
+msgid "View external images"
+msgstr "Voir les images externes"
+
+msgid "Hide external images"
+msgstr "Cacher les images externes"
+
+#, python-format
+msgid "Full detailview of the campaign «%(campaign)s»"
+msgstr "Vue détaillée complète de la campagne «%(campaign)s»"
+
+#, python-brace-format
+msgid "{count} Campaign email in the history"
+msgstr "{count} E-mail de campagne dans l'historique"
+
+#, python-brace-format
+msgid "{count} Campaigns emails in the history"
+msgstr "{count} E-mails de campagne dans l'historique"
+
+msgid "No campaign email in the history"
+msgstr "Pas d'e-mail de campagne dans l'historique"
+
+#, python-brace-format
+msgid "{count} Email"
+msgstr "{count} E-mail"
+
+#, python-brace-format
+msgid "{count} Emails"
+msgstr "{count} E-mails"
+
+msgid "No email in this sending"
+msgstr "Aucun e-mail dans cet envoi"
+
+msgid "Re-send"
+msgstr "Ré-envoyer"
+
+msgid "This mail was synchronized. Are you sure you want to send it?"
+msgstr "Cet e-mail a été synchronisé. Êtes-vous sûr de vouloir l'envoyer ?"
+
+msgid "Full detailview"
+msgstr "Fiche complète"
+
+#, python-brace-format
+msgid "{count} Related mailing list"
+msgstr "{count} Liste de diffusion associée"
+
+#, python-brace-format
+msgid "{count} Related mailing lists"
+msgstr "{count} Listes de diffusion associées"
+
+msgid "Add existing mailing lists"
+msgstr "Ajouter des listes de diffusion existantes"
+
+msgid "No related mailing list for the moment"
+msgstr "Aucune liste de diffusion associée pour le moment"
+
+#, python-brace-format
+msgid "{count} Email in the history"
+msgstr "{count} E-mail dans l'historique"
+
+#, python-brace-format
+msgid "{count} Emails in the history"
+msgstr "{count} E-mails dans l'historique"
+
+msgid "Send a new related email"
+msgstr "Envoyer un nouvel e-mail lié"
+
+msgid "Send an email (with a template)"
+msgstr "Envoyer un e-mail (avec un patron)"
+
+msgid "Link to emails"
+msgstr "Lier à des e-mails"
+
+msgid ""
+"Beware: the relationship types for emails are disabled. You should re-enable "
+"them if they are still useful, or remove this block"
+msgstr ""
+"Attention : les types de  relations pour les e-mails sont désactivés. Vous "
+"devriez les réactiver s'ils sont encore utiles, ou enlever ce bloc"
+
+msgid "No email in the history for the moment"
+msgstr "Aucun e-mail dans l'historique pour le moment"
+
+#, python-brace-format
+msgid "{count} Organisation-recipient"
+msgstr "{count} Société destinataire"
+
+#, python-brace-format
+msgid "{count} Organisation-recipients"
+msgstr "{count} Sociétés destinataires"
+
+msgid "Add organisations"
+msgstr "Ajouter des sociétés"
+
+msgid ""
+"The field «Email address» of Organisation is hidden; in order to use this "
+"block, you have to reactivate it (so please contact your administrator)."
+msgstr ""
+"Le champ «Adresse e-mail» de Société est caché ; pour pouvoir utiliser ce "
+"bloc, vous devez le réactiver (donc veuillez contacter votre administrateur)."
+
+msgid "Remove this organisation"
+msgstr "Enlever cette société"
+
+msgid "No organisation recipient for the moment"
+msgstr "Aucune société destinataire pour le moment"
+
+#, python-brace-format
+msgid "{count} Parent List"
+msgstr "{count} Liste parente"
+
+#, python-brace-format
+msgid "{count} Parent Lists"
+msgstr "{count} Listes parentes"
+
+msgid "Parent Lists"
+msgstr "Listes parentes"
+
+msgid "No parent list for the moment"
+msgstr "Aucune liste parente pour le moment"
+
+#, python-brace-format
+msgid "{count} Not linked recipient"
+msgstr "{count} Destinataire manuel"
+
+#, python-brace-format
+msgid "{count} Not linked recipients"
+msgstr "{count} Destinataires manuels"
+
+msgid "Add from a CSV file"
+msgstr "Ajouter à partir d'un fichier CSV"
+
+msgid "Add manually"
+msgstr "Ajouter à la main"
+
+msgctxt "emails"
+msgid "Delete this recipient"
+msgstr "Supprimer ce destinataire"
+
+msgid "No recipient for the moment"
+msgstr "Aucun destinataire pour le moment"
+
+#, python-brace-format
+msgid "{count} Configured server for campaigns"
+msgstr "{count} Serveur configuré pour les campagnes"
+
+#, python-brace-format
+msgid "{count} Configured servers for campaigns"
+msgstr "{count} Serveurs configurés pour les campagnes"
+
+msgid "Configured servers for campaigns"
+msgstr "Serveurs configurés pour les campagnes"
+
+msgctxt "emails"
+msgid "New server configuration"
+msgstr "Nouvelle configuration de serveur"
+
+msgctxt "emails"
+msgid "Edit this configuration"
+msgstr "Modifier cette configuration"
+
+msgctxt "emails"
+msgid "Delete this configuration"
+msgstr "Supprimer cette configuration"
+
+msgid "Default port"
+msgstr "Port par défaut"
+
+# Already in creme_config
+msgid "Change the password"
+msgstr ""
+
+msgctxt "emails"
+msgid "No server for the moment"
+msgstr "Aucun serveur pour le moment"
+
+#, python-brace-format
+msgid "{count} Sent bundle"
+msgstr "{count} Envoi"
+
+#, python-brace-format
+msgid "{count} Sent bundles"
+msgstr "{count} Envois"
+
+msgid "New sending"
+msgstr "Nouvel envoi"
+
+msgid ""
+"No configuration for SMTP is available; so creation & edition of sending are "
+"forbidden."
+msgstr ""
+"Aucune configuration pour SMTP n'est disponible ; donc la création & la "
+"modification des envois est interdite."
+
+#, python-format
+msgid "You can create a configuration <a href=\"%(url)s\">here</a>."
+msgstr "Vous pouvez créer une configuration <a href=\"%(url)s\">ici</a>."
+
+msgid "Contact your administrator to create a configuration."
+msgstr "Contactez votre administrateur pour créer une configuration."
+
+msgid "SMTP & sender"
+msgstr "SMTP & expéditeur"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "State"
+msgstr "État"
+
+msgid "Number of email(s)"
+msgstr "Nombre d'e-mail(s)"
+
+msgid "No server"
+msgstr "Pas de serveur"
+
+#, python-format
+msgid "%(count)s not sent"
+msgid_plural "%(count)s not sent"
+msgstr[0] "%(count)s non envoyé"
+msgstr[1] "%(count)s non envoyés"
+
+msgid "Delete this sending"
+msgstr "Supprimer cet envoi"
+
+msgid "No sending for the moment"
+msgstr "Aucun envoi pour le moment"
+
+#, python-brace-format
+msgid "My signature ({count})"
+msgstr "Ma signature ({count})"
+
+#, python-brace-format
+msgid "My signatures ({count})"
+msgstr "Ma signature ({count})"
+
+msgctxt "emails"
+msgid "New signature"
+msgstr "Nouvelle signature"
+
+msgid "Content preview"
+msgstr "Aperçu du contenu"
+
+msgctxt "emails"
+msgid "Edit this signature"
+msgstr "Modifier cette signature"
+
+msgctxt "emails"
+msgid "Delete this signature"
+msgstr "Supprimer cette signature"
+
+msgid "No signature for the moment"
+msgstr "Aucune signature pour le moment"
+
+#, python-brace-format
+msgid "{count} Configured server for synchronization"
+msgstr "{count} Serveur configuré pour la synchronisation"
+
+#, python-brace-format
+msgid "{count} Configured servers for synchronization"
+msgstr "{count} Serveurs configurés pour la synchronisation"
+
+msgid "Configured servers for synchronization"
+msgstr "Serveurs configurés pour la synchronisation"
+
+#, python-format
+msgid ""
+"Emails sent to these servers can be synchronized (i.e. transformed as Creme "
+"Email entities).\n"
+"The emails are retrieved and stored in a sandbox. Then users can choose to "
+"transform them as entities (or to drop them) in the view <a href="
+"\"%(sync_url)s\">Synchronization of incoming emails</a>.\n"
+"BEWARE: these mailboxes must be dedicated to the synchronisation, because "
+"emails are deleted once they have been retrieved (the synchronisation "
+"address is generally used as Carbon Copy)."
+msgstr ""
+"Les e-mails envoyés à ces serveurs peuvent être synchronisés (c-à-d : "
+"transformés en fiches E-mail Creme).\n"
+"Les e-mails sont récupérés et stockés dans un \"bac à sable\". Puis les "
+"utilisateurs peuvent choisir de les transformer en fiches (ou de les jeter) "
+"dans la vue <a href=\"%(sync_url)s\">Synchronisation des e-mails externes</"
+"a>.\n"
+"ATTENTION: ces boites de réception doivent être dédiées à la "
+"synchronisation, car les e-mails sont supprimés une fois récupérés "
+"(l'adresse de synchronisation est généralement utilisée comme Copie Carbone)."
+
+msgid "Link to"
+msgstr "Relier à"
+
+msgid "SMTP server: "
+msgstr "Serveur SMTP : "
+
+msgid "Email address: "
+msgstr "Adresse e-mail : "
+
+msgid "The campaign has been deleted"
+msgstr "La campagne a été supprimée"
+
+#, python-format
+msgid "The campaign %(campaign)s has been sent"
+msgstr "La campagne %(campaign)s a été envoyée"
+
+#, python-format
+msgid "The campaign «%(campaign)s» has been sent"
+msgstr "La campagne «%(campaign)s» a été envoyée"
+
+msgid "An emailing campaign has been sent"
+msgstr "Une campagne d'e-mails a été envoyée"
+
+msgid "Synchronization of incoming emails with Creme"
+msgstr "Synchronisation des e-mails externes dans Creme"
+
+#, python-format
+msgid ""
+"If an email is sent to one of the <a href=\"%(config_url)s\">configured "
+"addresses</a> (Carbon Copy & Blind Carbon Copy work too), and your email "
+"address \"%(email)s\" is found (as sender or recipient), the email can be "
+"synchronized (i.e. transformed as a Creme Email entity)."
+msgstr ""
+"Si un e-mail est envoyé à une des <a href=\"%(config_url)s\">adresses "
+"configurées</a> (les Copies Carbone & Copies Cachées fonctionne aussi), et "
+"que votre adresse e-mail \"%(email)s\" est trouvée (comme expéditeur ou "
+"destinataire), l'e-mail peut être synchronisés (c-à-d : transformé en une "
+"fiche E-mail Creme)."
+
+#, python-format
+msgid ""
+"You have no email server configured; you can configure them <a href="
+"\"%(config_url)s\">here</a>."
+msgstr ""
+"Vous n'avez pas de serveur e-mail configuré ; vous pouvez les configurer <a "
+"href=\"%(config_url)s\">ici</a>."
+
+msgid "The job (which fetches emails to synchronise) is currently disabled."
+msgstr ""
+"Le job (qui récupère les e-mails à synchroniser) est actuellement désactivé."
+
+msgid "Back to the campaign"
+msgstr "Retour à la campagne"
+
+#, python-brace-format
+msgid "New mailing lists for «{entity}»"
+msgstr "Nouvelles listes de diffusion pour «{entity}»"
+
+msgid "Link the mailing lists"
+msgstr "Lier les listes de diffusion"
+
+#, python-brace-format
+msgid "Sending an email to «{entity}»"
+msgstr "Envoi d'un e-mail à «{entity}»"
+
+msgid "Staff users cannot send email"
+msgstr "Les super administrateurs ne peuvent pas envoyer d'e-mail"
+
+msgid "Details of the email"
+msgstr "Détails de l'e-mail"
+
+#, python-brace-format
+msgid "Link «{entity}» to emails"
+msgstr "Lier «{entity}» à des e-mails"
+
+msgid "No type of relationship is compatible."
+msgstr "Aucun type de relation n'est compatible"
+
+msgid "All the compatible types of relationship are disabled: {}"
+msgstr "Tous les types de relation compatibles sont désactivés : {}"
+
+#, python-brace-format
+msgid "New contacts for «{entity}»"
+msgstr "Nouveaux contacts pour «{entity}»"
+
+msgid "Link the contacts"
+msgstr "Lier les contacts"
+
+#, python-brace-format
+msgid "New organisations for «{entity}»"
+msgstr "Nouvelles sociétés pour «{entity}»"
+
+msgid "Link the organisations"
+msgstr "Lier les sociétés"
+
+#, python-brace-format
+msgid "New child list for «{entity}»"
+msgstr "Nouvelles listes filles pour «{entity}»"
+
+msgid "Link the mailing list"
+msgstr "Lier la liste de diffusion"
+
+#, python-brace-format
+msgid "New recipients for «{entity}»"
+msgstr "Nouveaux destinataires pour «{entity}»"
+
+msgctxt "emails"
+msgid "Edit the server configuration"
+msgstr "Modifier la configuration serveur"
+
+msgctxt "emails"
+msgid "Edit the server password"
+msgstr "Modifier le mot de passe serveur"
+
+msgid "Save the password"
+msgstr "Enregistrer le mot de passe"
+
+#, python-brace-format
+msgid "New sending for «{entity}»"
+msgstr "Nouvel envoi pour «{entity}»"
+
+#, python-brace-format
+msgid "Edit the sending on {date}"
+msgstr "Modifier l'envoi du {date}"
+
+msgid "This sending is done."
+msgstr "Cette envoi est effectué."
+
+msgid "You can not edit this signature (not yours)"
+msgstr ""
+"Vous n'avez pas la permission de modifier cette signature (pas la vôtre)"
+
+msgid "You can not delete this signature (not yours)"
+msgstr ""
+"Vous n'avez pas la permission de supprimer cette signature (pas la vôtre)"
+
+msgid "You cannot edit or delete this email (not yours)"
+msgstr ""
+"Vous n'avez pas la permission de modifier ou supprimer cet e-mail (pas le "
+"vôtre)"
+
+#, python-brace-format
+msgid "{count} email doesn't exist or has been removed."
+msgid_plural "{count} emails don't exist or have been removed."
+msgstr[0] "{count} e-mail n'existe pas ou a été supprimé."
+msgstr[1] "{count} e-mails n'existent pas ou ont été supprimés."
+
+msgid "Operation successfully completed"
+msgstr "Opération effectuée avec succès"
+
+msgid "The sender is not associated to a Contact/Organisation"
+msgstr "L'expéditeur n'est pas associé à un un Contact ou une Société"
+
+msgid "There is no recipient marked as main"
+msgstr "Il n'y a pas de destinataire marqué comme principal"
+
+#, python-brace-format
+msgid "The recipient «{email}» is not associated to a Contact/Organisation"
+msgstr ""
+"Le destinataire «{email}» n'est pas associé à un un Contact ou une Société"
+
+#, python-brace-format
+msgid "{username}'s files received by email"
+msgstr "Fichiers de {username} reçus par e-mail"
+
+msgid "You can not delete the last recipient."
+msgstr "Vous ne pouvez pas supprimer le dernier destinataire."
+
+#, python-brace-format
+msgid "New attachments for «{entity}»"
+msgstr "Nouveaux fichiers joints pour «{entity}»"
+
+msgid "Add the attachments"
+msgstr "Ajouter les fichiers joints"
+
+msgid "Fixed email address"
+msgstr "Adresse e-mail fixe"
+
+#, python-brace-format
+msgid "To: {recipient}"
+msgstr "À : {recipient}"
+
+msgid "Fixed user"
+msgstr "Utilisateur fixe"
+
+msgid "The user does not exist anymore"
+msgstr "L'utilisateur n'existe plus"
+
+msgid "To: a fixed user"
+msgstr "À : un utilisateur fixe"
+
+msgid "To:"
+msgstr "À :"
+
+#, python-brace-format
+msgid "The user «{username}» is disabled (no email will be sent)"
+msgstr "L'utilisateur «{username}» est désactivé (aucun e-mail se sera envoyé)"
+
+#, python-brace-format
+msgid "To: {user} <{email}>"
+msgstr "À : {user} <{email}>"
+
+#, python-brace-format
+msgid "The field «{field}» is invalid in model «{model}»"
+msgstr "Le champ «{field}» est invalide dans le modèle «{model}»"
+
+msgid "User field"
+msgstr "Champ utilisateur"
+
+#, python-brace-format
+msgid "Field to a user of: {source}"
+msgstr "Champ vers un utilisateur de : {source}"
+
+#, python-brace-format
+msgid "To: user «{field}» of: {source}"
+msgstr "À : utilisateur «{field}» de : {source}"
+
+msgid "Email field"
+msgstr "Champ e-mail"
+
+#, python-brace-format
+msgid "Email field of: {source}"
+msgstr "Champ e-mail de : {source}"
+
+#, python-brace-format
+msgid "To: field «{field}» of: {source}"
+msgstr "À : champ «{field}» de : {source}"
+
+#, python-brace-format
+msgid "The type of recipient «{type}» is invalid (uninstalled app?)"
+msgstr "Le type de destinataire «{type}» est invalide (app désinstallée ?)"
+
+#, python-brace-format
+msgid "The recipient «{name}» is broken (original error: {error})"
+msgstr "Le destinataire «{name}» est cassé (erreur originale : {error})"
+
+msgid "Created by a Workflow"
+msgstr "Crée par un Processus automatisé"
+
+msgid "Sending an email:"
+msgstr "Envoyer un e-mail :"
+
+#, python-brace-format
+msgid "Subject: {subject}"
+msgstr "Sujet : {subject}"
+
+msgid "Body:"
+msgstr "Corps :"
+
+msgid "Sending an email (from a template)"
+msgstr "Envoyer un e-mail (avec un patron)"
+
+msgid "The template does not exist anymore"
+msgstr "Le patron n'existe plus"
+
+msgid "Use template:"
+msgstr "Utilise le patron :"

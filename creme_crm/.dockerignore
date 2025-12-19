@@ -1,0 +1,45 @@
+__pycache__/
+*.py[cod]
+
+.git/
+.githooks/
+.gitignore
+
+.circleci/
+
+# # DEPRECATED with new project layout
+# creme/media/upload/*/*
+# creme/media/static/*
+# creme/local_settings.py
+# creme/_generated_media_names.py
+# *.sqlite
+# *.db
+
+# Python package
+*.egg-info
+build/*
+sdist/*
+dist/*
+
+# NetBeans
+nbproject/*
+
+# PyCharm
+.idea/*
+
+# PyDev
+.pydev*
+
+# coverage.py
+.coverage
+.coverage.*
+htmlcov/*
+artifacts/*
+
+# mypy
+.mypy_cache/*
+
+# nodejs
+node_modules/
+.coverage-karma/
+.eslint.*

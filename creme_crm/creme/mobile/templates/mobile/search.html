@@ -1,0 +1,96 @@
+<!DOCTYPE html>{% load i18n creme_ctype creme_perms mobile_tags %}
+<html class="{% mobile_document_class request %}" xmlns="http://www.w3.org/1999/xhtml" lang="{{LANGUAGE_CODE}}" xml:lang="{{LANGUAGE_CODE}}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<title>Creme Mobile - {% translate 'Search' context 'creme_core-noun' %}</title>
+<style type="text/css">
+  {% include 'mobile/css/base.css' %}
+  {% include 'mobile/css/directory.css' %}
+</style>
+{% include 'mobile/frags/phonecall_script.html' %}
+</head>
+<body class="page-directory" onload="checkCallCookies()">
+  <nav>
+    <a href="{% url 'mobile__portal' %}" class="tab">{% translate 'Home' %}</a>
+    <a href="{% url 'mobile__directory' %}" class="tab selected-tab">{% translate 'Directory' %}</a>
+    <a href="{% url 'mobile__activities' %}" class="tab">{% translate 'Activities' %}</a>
+  </nav>
+
+  {% include 'mobile/frags/search_div.html' %}
+
+  <section class="hideable-content">
+   {% with contact_ctype='PERSONS_CONTACT_MODEL'|ctype_for_swappable orga_ctype='PERSONS_ORGANISATION_MODEL'|ctype_for_swappable %}
+    {% with contact_creation_perm=user|has_perm_to_create:contact_ctype orga_creation_perm=user|has_perm_to_create:orga_ctype %}
+     {% if contact_creation_perm or orga_creation_perm %}
+      <div class="create-actions">
+        {% if contact_creation_perm %}
+          <a href="{% url 'mobile__create_contact' %}?last_name={{search|urlencode}}" class="button">{% translate 'Create a contact' %}</a>
+        {% endif %}
+        {% if orga_creation_perm %}
+          <a href="{% url 'mobile__create_organisation' %}?name={{search|urlencode}}" class="button">{% translate 'Create an organisation' %}</a>
+        {% endif %}
+      </div>
+     {% endif %}
+    {% endwith %}
+   {% endwith %}
+
+    <div class="card-list search-results-contact list-contact">
+      <div class="card-list-title">{% blocktranslate count counter=contacts|length %}Search of contacts &ndash; {{counter}} result{% plural %}Search of contacts &ndash; {{counter}} results{% endblocktranslate %}</div>
+
+      {% for contact in contacts %}
+        <div class="card-container">
+          {% include 'mobile/frags/contact_card.html' %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="card-list search-results-orga list-orga">
+      <div class="card-list-title">{% blocktranslate count counter=organisations|length %}Search of organisations &ndash; {{counter}} result{% plural %}Search of organisations &ndash; {{counter}} results{% endblocktranslate %}</div>
+
+      {% for orga in organisations %}
+        <div class="card-container">
+          {% include 'mobile/frags/orga_card.html' %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div id="workflow_panel" />
+  {% mobile_footer %}
+
+  <script type="text/javascript">
+    document.addEventListener('click', function (e) {
+      var trigger;
+      if (e.target.classList.contains('more-info-trigger')) {
+        trigger = e.target;
+      } else if (e.target.parentElement.classList.contains('more-info-trigger')) {
+        trigger = e.target.parentElement;
+      }
+
+      if (trigger) {
+        e.preventDefault();
+
+        var componentWithMoreInfo = trigger;
+        while ((componentWithMoreInfo = componentWithMoreInfo.parentElement)) {
+          if (componentWithMoreInfo.classList.contains('with-more-info')) {
+            trigger.classList.toggle('showing-more-info');
+            componentWithMoreInfo.classList.toggle('showing-more-info');
+            break;
+          }
+        }
+
+//         if (componentWithMoreInfo != null) {
+//           trigger.classList.toggle('showing-more-info');
+//           componentWithMoreInfo.classList.toggle('showing-more-info');
+//         }
+      }
+    });
+  </script>
+</body>
+</html>

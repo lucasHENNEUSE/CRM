@@ -1,0 +1,3352 @@
+# FR LOCALISATION OF 'CREME_CONFIG' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Creme-Config 2.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-27 14:39+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "General configuration"
+msgstr "Configuration générale"
+
+msgid "User management"
+msgstr "Gestion des utilisateurs"
+
+msgid "Can create, edit & disable users, can change passwords"
+msgstr ""
+"Peut créer, modifier & désactiver des utilisateurs, peut changer les mots de "
+"passe"
+
+msgid "Role configuration"
+msgstr "Configuration des rôles"
+
+msgid "Can create, edit & disable roles"
+msgstr "Peut créer, modifier & désactiver des rôles"
+
+msgid "Export & import configuration"
+msgstr "Exporter & importer la configuration"
+
+msgid "Instance settings"
+msgstr "Gestion de l'instance"
+
+msgid "Types of custom entity"
+msgstr "Types de fiche personnalisée"
+
+msgid "Types of property"
+msgstr "Types de propriété"
+
+msgid "Standard types of relation"
+msgstr "Types de relation standard"
+
+msgid "Custom types of relation"
+msgstr "Types de relation personnalisés"
+
+msgid "Semi-fixed types of relationship"
+msgstr "Types de relation semi-fixés"
+
+msgid "Missing required field: {}"
+msgstr "Champ obligatoire manquant : {}"
+
+msgid "Missing required custom field: {}"
+msgstr "Champ personnalisé obligatoire manquant : {}"
+
+msgid "Missing required special field: {}"
+msgstr "Champ spécial obligatoire manquant : {}"
+
+msgid "Form for super-user"
+msgstr "Formulaire pour super-utilisateur"
+
+#, python-brace-format
+msgid "Form for role «{role}»"
+msgstr "Formulaire pour le rôle «{role}»"
+
+msgid "Default form"
+msgstr "Formulaire par défaut"
+
+# Already in core
+msgid "Workflows"
+msgstr ""
+
+# Already in core
+msgid "Users"
+msgstr "Utilisateurs"
+
+# Already in core
+msgid "Teams"
+msgstr "Équipes"
+
+msgid "Superuser"
+msgstr "Super-utilisateur"
+
+msgid "Blocks on home"
+msgstr "Blocs sur l'accueil"
+
+msgid "Blocks on default «My page»"
+msgstr "Blocs sur «Ma page» par défaut"
+
+msgid "Blocks on «My page»"
+msgstr "Blocs sur «Ma page»"
+
+msgid "Instances' blocks"
+msgstr "Bloc d'instance"
+
+msgid "Custom blocks"
+msgstr "Blocs personnalisés"
+
+msgid "Menu configuration"
+msgstr "Configuration du menu"
+
+msgid "Default menu"
+msgstr "Menu par défaut"
+
+msgid "Menu for superusers"
+msgstr "Menu pour super-utilisateurs"
+
+#, python-brace-format
+msgid "Menu for role «{role}»"
+msgstr "Menu pour le rôle «{role}»"
+
+msgid "Roles"
+msgstr "Rôles"
+
+msgid "Setting values"
+msgstr "Valeurs de réglage"
+
+msgid "Temporary files"
+msgstr "Fichiers temporaires"
+
+#, python-brace-format
+msgid "The column with type=\"{type}\" is invalid in «{container}»."
+msgstr "La colonne avec le type=\"{type}\" est invalide dans «{container}»."
+
+#, python-brace-format
+msgid "The column with field=\"{field}\" is invalid in «{container}»."
+msgstr "La colonne avec le champ=\"{field}\" est invalide dans «{container}»."
+
+#, python-brace-format
+msgid "The column with custom-field=\"{uuid}\" is invalid in «{container}»."
+msgstr "La colonne avec le champ=\"{uuid}\" est invalide dans «{container}»."
+
+#, python-brace-format
+msgid ""
+"The column with function-field=\"{ffield}\" is invalid in «{container}»."
+msgstr ""
+"La colonne avec le champ calculé=\"{ffield}\" est invalide dans "
+"«{container}»."
+
+#, python-brace-format
+msgid "The column with relation-type=\"{rtype}\" is invalid in «{container}»."
+msgstr ""
+"La colonne avec le type de relation=\"{rtype}\" est invalide dans "
+"«{container}»."
+
+msgid "This filter PK is invalid: «{}»."
+msgstr "Cette clé primaire de filtre est invalide : «{}»."
+
+#, python-brace-format
+msgid "search configuration of model=\"{model}\""
+msgstr "configuration de recherche du modèle=\"{model}\""
+
+msgid "This property type cannot be overridden: «{}»."
+msgstr "Ce type de propriété ne peut pas être écrasé : «{}»."
+
+msgid "This property type UUIDs are invalid: {}."
+msgstr "Ces UUIDs de type de propriété sont invalides : {}."
+
+msgid "This relation type PK is invalid: «{}»."
+msgstr "Cette clé primaire de type de relation est invalide : «{}»."
+
+msgid "This relation type cannot be overridden: «{}»."
+msgstr "Ce type de relation ne peut pas être écrasé : «{}»."
+
+msgid "This custom-field type is invalid: {}."
+msgstr "Ce type de champ personnalisé est invalide: {}."
+
+msgid "There is already a custom-field with the same UUID: {}."
+msgstr "Il y a déjà un champ personnalisé avec le même UUID : {}."
+
+msgid "There is already a custom-field with the same name: {}."
+msgstr "Il y a déjà un champ personnalisé avec le même nom : {}."
+
+msgid "This view of list cannot be overridden: «{}»."
+msgstr "Cette vue de liste ne peut pas être écrasé: «{}»."
+
+#, python-brace-format
+msgid "view of list id=\"{id}\""
+msgstr "Vue de liste id=\"{id}\""
+
+#, python-brace-format
+msgid ""
+"The condition on sub-filter=\"{subfilter}\" is invalid in the filter id="
+"\"{id}\"."
+msgstr ""
+"La condition sur le sous-filtre=\"{subfilter}\" est invalide dans le filtre "
+"avec id=\"{id}\"."
+
+#, python-brace-format
+msgid ""
+"The condition on relation-type is invalid in the filter id=\"{id}\" (unknown "
+"uuid={uuid})."
+msgstr ""
+"La condition sur type de relation est invalide dans le filtre id="
+"\"{id}\" (uuid={uuid} inconnu)."
+
+#, python-brace-format
+msgid ""
+"The condition on relation-type is invalid in the filter id=\"{id}\" (unknown "
+"relation-type={rtype})."
+msgstr ""
+"La condition sur type de relation= est invalide dans le filtre id="
+"\"{id}\"(type-de-relation={rtype} inconnu)."
+
+#, python-brace-format
+msgid ""
+"The condition on related sub-filter=\"{subfilter}\" is invalid in the filter "
+"id=\"{id}\" (unknown relation-type ID)."
+msgstr ""
+"La condition sur le sous-filtre relié \"{subfilter}\"  est invalide dans le "
+"filtre id=\"{id}\" (ID de type de relation inconnu)."
+
+#, python-brace-format
+msgid ""
+"The condition on related sub-filter=\"{subfilter}\" is invalid in the filter "
+"id=\"{id}\" (unknown filter ID)."
+msgstr ""
+"La condition sur le sous-filtre relié \"{subfilter}\" est invalide dans le "
+"filtre id=\"{id}\" (ID de filtre inconnu)."
+
+#, python-brace-format
+msgid ""
+"The condition on property-type=\"{ptype}\" is invalid in the filter id="
+"\"{id}\"."
+msgstr ""
+"La condition sur le type de propriété=\"{ptype}\" est invalide dans le "
+"filtre id=\"{id}\"."
+
+#, python-brace-format
+msgid ""
+"The condition on custom-field=\"{cfield}\" is invalid in the filter id="
+"\"{id}\"."
+msgstr ""
+"La condition sur le champ personnalisé=\"{cfield}\" est invalide dans le "
+"filtre id=\"{id}\"."
+
+msgid "This filter cannot be overridden: «{}»."
+msgstr "Ce filtre ne peut pas être écrasé: «{}»."
+
+#, python-brace-format
+msgid ""
+"The condition with type=\"{type}\" is invalid in the filter id=\"{id}\"."
+msgstr ""
+"La condition avec le type=\"{type}\" est invalide dans le filtre id=\"{id}\"."
+
+#, python-brace-format
+msgid "A condition is invalid in the filter id=\"{id}\" [{error}]."
+msgstr "Une condition est invalide dans le filtre id=\"{id}\" [{error}]."
+
+msgid "There is a cycle between the filters [{}]."
+msgstr "Il y a un cycle entre les filtres [{}]."
+
+#, python-brace-format
+msgid "The filter with id=\"{id}\" already exists."
+msgstr "Le filtre avec id=\"{id}\" existe déjà."
+
+#, python-brace-format
+msgid "custom-form with id=\"{id}\""
+msgstr "formulaire personnalisé avec id=\"{id}\""
+
+#, python-brace-format
+msgid "block for relation-type id=\"{id}\""
+msgstr "bloc pour le type de relation id=\"{id}\""
+
+#, python-brace-format
+msgid "custom block with uuid=\"{uuid}\""
+msgstr "bloc personnalisé avec uuid=\"{uuid}\""
+
+msgid "The brick zone «{}» is not valid."
+msgstr "La zone de bloc «{}» n'est pas valide."
+
+msgid "Available blocks"
+msgstr "Blocs disponibles"
+
+msgid "Chosen blocks"
+msgstr "Blocs choisis"
+
+msgid "Header block"
+msgstr "Bloc entête"
+
+msgid "Blocks"
+msgstr "Blocs"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Configuration to clone"
+msgstr "Configuration à cloner"
+
+msgid "Role to configure"
+msgstr "Rôle à configurer"
+
+msgid "If the target has already a configuration, it will be overridden"
+msgstr "Si la cible a déjà une configuration, cette dernière sera écrasée"
+
+#, python-brace-format
+msgid "*Superuser* ({count} type of entity is configured)"
+msgid_plural "*Superuser* ({count} types of entity are configured)"
+msgstr[0] "*Super-utilisateur* ({count} type de fiche est configuré)"
+msgstr[1] "*Super-utilisateur* ({count} types de fiche sont configurés)"
+
+#, python-brace-format
+msgid "{role} ({count} type of entity is configured)"
+msgid_plural "{role} ({count} types of entity are configured)"
+msgstr[0] "{role} ({count} type de fiche est configuré)"
+msgstr[1] "{role} ({count} types de fiche sont configurés)"
+
+msgid "The source and the target must be different."
+msgstr "La source et la cible doivent être différentes."
+
+msgid "Blocks to display on the home"
+msgstr "Blocs à afficher sur l'accueil"
+
+msgid "Blocks to display on the «My Page» of the users"
+msgstr "Blocs à afficher sur le «Ma page» des utilisateurs"
+
+msgid "Customised resource"
+msgstr "Ressource personnalisée"
+
+msgid "Columns"
+msgstr "Colonnes"
+
+msgid "This type of field can not be the first column."
+msgstr "Ce type de champ ne peut pas être la première colonne."
+
+msgid "Related resource"
+msgstr "Ressource associée"
+
+msgid "Lines"
+msgstr "Lignes"
+
+msgid "Buttons to display"
+msgstr "Boutons à afficher"
+
+msgid ""
+"Drag and drop the buttons between the available buttons and the selected "
+"buttons sections to enable or disable the buttons, or within the selected "
+"buttons section to change the order."
+msgstr ""
+"Faites glisser et déposez les boutons entre la section des boutons "
+"disponibles et celle des boutons sélectionnés pour activer ou désactiver des "
+"boutons, ou au sein de la section des boutons sélectionnés afin d'en changer "
+"l'ordre."
+
+msgid "Related to types of entities"
+msgstr "S'applique aux types de fiches"
+
+msgid "No selected type means that all types are accepted"
+msgstr "Aucun type sélectionné signifiera que tous les types sont acceptés"
+
+msgid "There is already a type with this name."
+msgstr "Il y a déjà un type avec ce nom."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Name (plural)"
+msgstr "Nom (pluriel)"
+
+#, python-brace-format
+msgid "{model} view"
+msgstr "Vue de {model}"
+
+msgid "Type of field"
+msgstr "Type du champ"
+
+msgid "Available choices"
+msgstr "Choix disponibles"
+
+msgid ""
+"Give the possible choices (one per line) if you choose the type \"Choice list"
+"\"."
+msgstr ""
+"Mettez les choix possibles (un par ligne) si vous avez choisi le type  "
+"\"Liste de choix\"."
+
+msgid ""
+"The choices list must not be empty if you choose the type \"Choice list\"."
+msgstr ""
+"La liste de choix ne doit pas être vide si vous choisissez un type \"Liste "
+"de choix\""
+
+msgid "The choice «{}» is duplicated."
+msgstr "le choix «{}» est en double."
+
+msgid ""
+"The other custom fields for this type of resource will be chosen by editing "
+"the configuration"
+msgstr ""
+"Les autres champs personnalisés de ce type de ressource seront choisis en "
+"modifiant la configuration"
+
+msgid "There is already a custom field with this name."
+msgstr "Il y a déjà un champ personnalisé avec ce nom."
+
+msgid "New choice"
+msgstr "Nouveau choix"
+
+msgid "New choices of the list"
+msgstr "Nouveaux choix de la liste"
+
+msgid "Give the new possible choices (one per line)."
+msgstr "Rentrez les nouveaux choix possibles (un par ligne)."
+
+msgid "Choose a choice to transfer to"
+msgstr "Choisissez un choix auquel transférer"
+
+msgid ""
+"The selected choice will replace the deleted one in entities which use it."
+msgstr ""
+"Le choix sélectionné remplacera le choix supprimé dans les fiches qui lui "
+"sont associés."
+
+msgid "Information"
+msgstr "Informations"
+
+msgid "This choice is not used by any entity, you can delete it safely."
+msgstr ""
+"Ce choix n'est utilisé par aucune fiche, vous pouvez le supprimer en toute "
+"sécurité."
+
+msgid "Fields"
+msgstr "Champs"
+
+msgid "Group"
+msgstr "Groupe"
+
+msgid "Sorry no extra group is available any more."
+msgstr "Désolé il n'y a plus aucun groupe spécial de disponible."
+
+msgid "Form to copy"
+msgstr "Formulaire à copier"
+
+msgid ""
+"You can copy an existing form in order to avoid creating your new form from "
+"scratch."
+msgstr ""
+"Vous pouvez copier un formulaire existant pour éviter de créer votre nouveau "
+"formulaire depuis zéro."
+
+msgid "Create a choice"
+msgstr "Créer un choix"
+
+#, python-format
+msgid "Enter a valid list of entries: %(error)s."
+msgstr "Entrez une liste d'entrées valide : %(error)s."
+
+msgid "no entry ID"
+msgstr "pas d'ID d'entrée"
+
+msgid "the entry ID \"{}\" is invalid."
+msgstr "l'entrée d'ID \"{}\" est invalide."
+
+#, python-brace-format
+msgid "the entry «{entry}» is invalid ({error})"
+msgstr "l'entrée «{entry}» est invalide ({error})."
+
+msgid "The value doesn't match the expected format."
+msgstr "La valeur ne correspond pas au format attendu."
+
+#, python-format
+msgid "The following block should be displayed only once: «%(block)s»"
+msgstr "Le bloc suivant ne devrait être affiché qu'une seule fois: «%(block)s»"
+
+msgid "Your configuration is empty!"
+msgstr "Votre configuration est vide !"
+
+msgid ""
+"The proposed types of resource have at least a field which can be configured "
+"(set hidden or set required)."
+msgstr ""
+"Les types de ressource proposés ont au moins un champ qui peut être "
+"configuré (être caché ou rendu obligatoire)."
+
+msgid "All configurable types of resource are already configured."
+msgstr "Tous les types de ressource configurables sont déjà configurés."
+
+msgid "Fields to hide or mark as required"
+msgstr "Champs à cacher ou rendre comme obligatoire"
+
+msgid "Hidden"
+msgstr "Caché"
+
+msgid "Required"
+msgstr "Obligatoire"
+
+#, python-brace-format
+msgid "OK: no instance of «{model}»."
+msgstr "OK : aucune instance de «{model}»"
+
+#, python-brace-format
+msgid "BEWARE: {count} instance of «{model}»."
+msgid_plural "BEWARE: {count} instances of «{model}»."
+msgstr[0] "ATTENTION : {count} instance de «{model}»."
+msgstr[1] "ATTENTION : {count} instances de «{model}»."
+
+#, python-brace-format
+msgid "OK: no instance of «{model}» have to be deleted."
+msgstr "OK : aucune instance de «{model}» n'a à être supprimé."
+
+#, python-brace-format
+msgid "BEWARE: {count} instance of «{model}» will be deleted."
+msgid_plural "BEWARE: {count} instances of «{model}» will be deleted."
+msgstr[0] "ATTENTION : {count} instance de «{model}» va être supprimé."
+msgstr[1] "ATTENTION : {count} instances de «{model}» vont être supprimées."
+
+#, python-brace-format
+msgid ""
+"OK: there is no related instance of «{model}», the deletion can be done."
+msgstr ""
+"OK : il n'y aucune instance de «{model}» liée, la suppression peut avoir "
+"lieu."
+
+#, python-brace-format
+msgid ""
+"ERROR: {count} instance of «{model}» uses «{instance}» so the deletion is "
+"not possible."
+msgid_plural ""
+"ERROR: {count} instances of «{model}» use «{instance}» so the deletion is "
+"not possible."
+msgstr[0] ""
+"ERREUR : {count} instance de «{model}» utilise «{instance}» donc la "
+"suppression est impossible."
+msgstr[1] ""
+"ERREUR : {count} instances de «{model}» utilisent «{instance}» donc la "
+"suppression est impossible."
+
+#, python-brace-format
+msgid "OK: no instance of «{model}» have to be updated."
+msgstr "OK : aucune instance de «{model}» ne doit être mise à jour."
+
+#, python-brace-format
+msgid ""
+"BEWARE: {count} instance of «{model}» uses «{instance}» & will be updated "
+"(the field will be emptied)."
+msgid_plural ""
+"BEWARE: {count} instances of «{model}» use «{instance}» & will be updated "
+"(the field will be emptied)."
+msgstr[0] ""
+"ATTENTION : {count} instance de «{model}» utilise «{instance}» & va être "
+"mise à jour (le champ va être vidé)."
+msgstr[1] ""
+"ATTENTION : {count} instances de «{model}» utilisent «{instance}» & vont "
+"être mises à jour (le champ va être vidé)."
+
+#, python-brace-format
+msgid ""
+"BEWARE: {count} instance of «{model}» uses «{instance}» & will be updated "
+"(the field will be set to «{fallback}»)."
+msgid_plural ""
+"BEWARE: {count} instances of «{model}» use «{instance}» & will be updated "
+"(the field will be set to «{fallback}»)."
+msgstr[0] ""
+"ATTENTION : {count} instance de «{model}» utilise «{instance}» & va être "
+"mise à jour (le champ va être mis à «{fallback}»)."
+msgstr[1] ""
+"ATTENTION : {count} instances de «{model}» utilisent «{instance}» & vont "
+"être mises à jour (le champ va être mis à «{fallback}»)."
+
+msgid "ERROR: the default value is invalid. Please contact your administrator."
+msgstr ""
+"ERREUR : la valeur par défaut est invalide. Veuillez contacter votre "
+"administrateur."
+
+#, python-brace-format
+msgid ""
+"BEWARE: {count} instance of «{model}» uses «{instance}» & will be updated "
+"(the field will be set to the fallback value)."
+msgid_plural ""
+"BEWARE: {count} instances of «{model}» use «{instance}» & will be updated "
+"(the field will be set to the fallback value)."
+msgstr[0] ""
+"ATTENTION : {count} instance de «{model}» utilise «{instance}» & va être "
+"mise à jour (le champ va recevoir une valeur de secours)."
+msgstr[1] ""
+"ATTENTION : {count} instances de «{model}» utilisent «{instance}» & vont "
+"être mise à jour (le champ va recevoir une valeur de secours)."
+
+msgid "Replacement"
+msgstr "Remplacement"
+
+#, python-brace-format
+msgid ""
+"The field \"{model}.{field}\" cannot be deleted because its \"on_delete\" "
+"constraint is not managed. Please contact your administrator."
+msgstr ""
+"Le champ \"{model}.{field}\" ne peut pas être supprimé car sa contrainte "
+"\"on_delete\" n'est pas gérée. Veuillez contacter votre administrateur."
+
+msgid "Deletion is not possible."
+msgstr "La suppression n'est pas possible."
+
+msgid "Relation types"
+msgstr "Types de relation"
+
+msgid ""
+"If an entity is linked to other entities by a Relationship of this type, the "
+"history lines that are about the edition of this entity will appear in the "
+"history of the others entities."
+msgstr ""
+"Si une fiche est liée à d'autres fiches par une Relation de ce type, les "
+"lignes d'historique à propos des modifications de cette fiche apparaîtront "
+"dans l'historique des autres fiches."
+
+msgid "Label"
+msgstr "Label"
+
+msgid "Entries"
+msgstr "Entrées"
+
+msgid "Type of container"
+msgstr "Type de conteneur"
+
+msgid "Default outputs"
+msgstr "Sorties par défaut"
+
+msgid "Default outputs used by users' configurations"
+msgstr "Sorties par défaut utilisées par les configurations des utilisateurs"
+
+msgid ""
+"If the channel is not required anymore, users could configure it to receive "
+"no notification"
+msgstr ""
+"Si le canal n'est plus obligatoire, les utilisateurs pourront le configurer "
+"pour ne plus recevoir de notification"
+
+#, python-brace-format
+msgid ""
+"If the channel is set as required, the configuration of {count} user will be "
+"updated to use the default configuration"
+msgid_plural ""
+"If the channel is set as required, the configuration of {count} users will "
+"be updated to use the default configuration"
+msgstr[0] ""
+"Si le canal est rendu obligatoire, la configuration de {count} utilisateur "
+"sera mise à jour pour utiliser la configuration par défaut"
+msgstr[1] ""
+"Si le canal est rendu obligatoire, la configuration de {count} utilisateurs "
+"sera mise à jour pour utiliser la configuration par défaut"
+
+msgid "Outputs"
+msgstr "Sorties"
+
+msgid "Type constraint"
+msgstr "Contrainte sur le type"
+
+msgid "No constraint means that all types are accepted."
+msgstr "Aucune contrainte signifiera que tous les types sont acceptés."
+
+#, python-format
+msgid ""
+"These property types cannot be mandatory and forbidden at the same time: "
+"%(properties)s"
+msgstr ""
+"Ces types de propriété ne peuvent pas être obligatoires et interdits à la "
+"fois : %(properties)s"
+
+msgid "Mandatory properties"
+msgstr "Obligatoire propriétés"
+
+msgid "The subject must have all the selected properties."
+msgstr "Le sujet doit avoir toutes les propriétés sélectionnées."
+
+msgid "Forbidden properties"
+msgstr "Interdites propriétés"
+
+msgid "The subject cannot have any of the selected properties."
+msgstr "Le sujet ne peut avoir aucune des propriétés sélectionnées."
+
+msgid "Subject => object"
+msgstr "Sujet => objet"
+
+msgid "Direct relationship is copiable"
+msgstr "La relation directe est copiable"
+
+msgid ""
+"Are the relationships with this type copied when the subject entity is "
+"cloned?"
+msgstr ""
+"Est-ce que les relations avec ce type sont copiées quand la fiche sujet est "
+"clonée ?"
+
+msgid "Display once on the subject's page"
+msgstr "Afficher une seule fois sur la page du sujet"
+
+msgid ""
+"Do not display in the «Relationships» block (detail-view of subject) when it "
+"is already displayed by another block."
+msgstr ""
+"Ne pas afficher dans le bloc «Relations» (vue détaillée du sujet) quand "
+"c'est déjà affiché par un autre bloc"
+
+msgid "Object => subject"
+msgstr "Objet => sujet"
+
+msgid "Symmetrical relationship is copiable"
+msgstr "La relation symétrique est copiable"
+
+msgid ""
+"Are the relationships with this type copied when the object entity is cloned?"
+msgstr ""
+"Est-ce que les relations avec ce type sont copiées quand la fiche objet est "
+"clonée ?"
+
+msgid "Display once on the object's page"
+msgstr "Afficher une seule fois sur la page de l'objet"
+
+msgid ""
+"Do not display in the «Relationships» block (detail-view of object) when it "
+"is already displayed by another block."
+msgstr ""
+"Ne pas afficher dans le bloc «Relations» (vue détaillée de l'objet) quand "
+"c'est déjà affiché par un autre bloc"
+
+msgid "The object must have all the selected properties."
+msgstr "L'objet doit avoir toutes les propriétés sélectionnées."
+
+msgid "The object cannot have any of the selected properties."
+msgstr "L'objet ne peut avoir aucune des propriétés sélectionnées."
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgid "Verb/Predicate"
+msgstr "Verbe/Prédicat"
+
+msgid "Object"
+msgstr "Objet"
+
+msgid "…the subject's page"
+msgstr "…sur la page du sujet"
+
+msgid "…the object's page"
+msgstr "…sur la page de l'objet"
+
+#. Translators: the end of the sentence is "…the subject's page" or
+#. "…the object's page".
+msgid "Display once on…"
+msgstr "Afficher une seule fois sur…"
+
+msgid "Type and object"
+msgstr "Type et objet"
+
+msgid ""
+"A semi-fixed type of relationship with this type and this object already "
+"exists."
+msgstr "Un type de relation semi-fixé avec ce type et cet objet existe déjà."
+
+msgid "Concerned fields"
+msgstr "Champs concernés"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Configuration file"
+msgstr "Fichier de configuration"
+
+msgid ""
+"A JSON file created with the export button (generally in another Creme "
+"instance)."
+msgstr ""
+"Un fichier JSON  créé avec le bouton d'export (généralement dans une autre "
+"instance de Creme)."
+
+msgid "File content is not valid JSON."
+msgstr "Le contenu du fichier n'est pas du JSON valide."
+
+#, python-format
+msgid "File content is not valid (%(error)s)."
+msgstr "Le contenu du fichier n'est pas valide (%(error)s)."
+
+msgid "The file has an unsupported version."
+msgstr "Le fichier a une version qui n'est pas gérée."
+
+msgid "main content must be a dictionary"
+msgstr "le contenu principal doit être un dictionnaire"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Confirm password"
+msgstr "Confirmation du mot de passe"
+
+# Already in django.contrib.auth
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+msgid "Select at least one enabled role."
+msgstr "Sélectionnez au moins un rôle activé."
+
+msgid "Your old password"
+msgstr "Votre ancien mot de passe"
+
+# Already translated in django.auth
+msgid "New password"
+msgstr ""
+
+# Already translated in django.auth
+msgid "New password confirmation"
+msgstr ""
+
+msgid "Your password"
+msgstr "Votre mot de passe"
+
+#, python-brace-format
+msgid "New password for «{user}»"
+msgstr "Nouveau mot de passe pour «{user}»"
+
+msgid "Teammates"
+msgstr "Coéquipiers"
+
+msgid "Team name"
+msgstr "Nom de l'équipe"
+
+msgid "Choose a user to transfer to"
+msgstr "Choisissez un utilisateur auquel transférer"
+
+msgid "View"
+msgstr "Voir"
+
+msgid "Change"
+msgstr "Changer"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Link"
+msgstr "Lier"
+
+msgid ""
+"You must have the permission to link on 2 entities to create a relationship "
+"between them. Beware: if you use «Filtered entities», you won't be able to "
+"add relationships in the creation forms (you'll have to add them later)."
+msgstr ""
+"Vous devez avoir le droit de relier sur 2 fiches pour créer une relation "
+"entre elles. Attention : si vous utilisez «Fiches filtrées», vous ne pourrez "
+"pas ajouter de relations dans les formulaires de création (vous devrez les "
+"ajouter plus tard)."
+
+msgid "Unlink"
+msgstr "Délier"
+
+msgid ""
+"You must have the permission to unlink on 2 entities to delete a "
+"relationship between them."
+msgstr ""
+"Vous devez avoir le droit de délier 2 fiches pour supprimer une relation "
+"entre elles."
+
+# Already in creme_core
+msgid "General information"
+msgstr ""
+
+msgid "Actions"
+msgstr "Actions"
+
+msgctxt "content_type"
+msgid "None"
+msgstr "Aucun"
+
+msgid "No action has been selected."
+msgstr "Aucune action n'a été sélectionnée."
+
+msgid "Name of the filter"
+msgstr "Nom du filtre"
+
+# Already in creme_core
+msgid "The filter must have at least one condition."
+msgstr ""
+
+# Already in creme_core
+msgid "Filter"
+msgstr ""
+
+# Already in creme_core
+msgid "Conditions"
+msgstr ""
+
+msgid ""
+"Beware to performances with conditions on custom fields or relationships."
+msgstr ""
+"Attention aux performances avec les conditions sur les champs personnalisés "
+"ou sur les relations."
+
+msgid "No filter, no condition."
+msgstr "Pas de filtre, pas de condition."
+
+#, python-brace-format
+msgid "Copy of «{role}»"
+msgstr "Copie de «{role}»"
+
+msgid "Copy the configuration of menu"
+msgstr "Copier la configuration du menu"
+
+msgid "Copy the configuration of blocks"
+msgstr "Copier la configuration des blocs"
+
+msgid "Copy the custom forms"
+msgstr "Copier les formulaires personnalisés"
+
+msgid "Copy the configuration of search"
+msgstr "Copier la configuration de la recherche"
+
+msgid "Choose a role to transfer to"
+msgstr "Choisissez un rôle auquel transférer"
+
+msgid "The chosen role will replace the deleted one in users which use it."
+msgstr ""
+"Le rôle choisi remplacera le rôle supprimé dans les utilisateurs qui lui "
+"sont associés."
+
+msgid "This role is not used by any user, you can delete it safely."
+msgstr ""
+"Ce rôle n'est utilisé par aucun utilisateur, vous pouvez le supprimer en "
+"toute sécurité."
+
+msgid "Allowed applications"
+msgstr "Applications autorisées"
+
+msgid "Administrated applications"
+msgstr "Applications administrées"
+
+msgid ""
+"These applications can be configured. For example, the concerned users can "
+"create new choices available in forms (e.g. position for contacts)."
+msgstr ""
+"Ces applications peuvent être configurées. Par exemple, les utilisateurs "
+"concernés peuvent créer de nouveaux choix disponibles dans les formulaires "
+"(ex: la fonction pour les contacts)."
+
+# Already in creme_core
+msgid "Creatable resources"
+msgstr ""
+
+# Already in creme_core
+msgid "Listable resources"
+msgstr ""
+
+msgid "This types of entities can be listed as list-views."
+msgstr "Ces types de fiches peuvent être listés dans des vues en liste."
+
+# Already in creme_core
+msgid "Exportable resources"
+msgstr ""
+
+msgid ""
+"This types of entities can be downloaded as CSV/XLS files (in the "
+"corresponding list-views)."
+msgstr ""
+"Ces types de fiches peuvent être téléchargés en tant que fichiers CSV/XLS "
+"(dans les vues en liste correspondantes)."
+
+msgid "Special permissions"
+msgstr "Permissions spéciales"
+
+msgid "First credentials: main information"
+msgstr "Premiers droits : informations principales"
+
+msgid "First credentials: actions"
+msgstr "Premiers droits : actions"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "First credentials: filter"
+msgstr "Premiers droits : filtre"
+
+msgid "First credentials: conditions"
+msgstr "Premiers droits : conditions"
+
+msgid "Your theme"
+msgstr "Votre thème"
+
+msgid "Your time zone"
+msgstr "Votre fuseau horaire"
+
+msgid "Your language"
+msgstr "Votre langue"
+
+msgid "How to display your name"
+msgstr "Comment afficher votre nom"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "Cannot create"
+msgstr "Création interdite"
+
+msgid "Trigger"
+msgstr "Déclenchement"
+
+msgid "Which kind of event will trigger the Workflow?"
+msgstr "Quel type d'évènement va déclencher le Processus ?"
+
+#, python-brace-format
+msgid "Conditions on «{source}»"
+msgstr "Conditions de «{source}»"
+
+msgid "Type of action"
+msgstr "Type d'action"
+
+msgid "The file is too large (maximum size: {} bytes)"
+msgstr "Le fichier est trop gros (taille maximum : {} octets)"
+
+msgid "*User's timezone*"
+msgstr "*Fuseau horaire de l'utilisateur*"
+
+msgid "Time zone: {}"
+msgstr "Fuseau horaire : {}"
+
+msgid "My settings"
+msgstr "Ma configuration"
+
+msgid "*Current app's settings*"
+msgstr "*Gestion d'app courante*"
+
+#, python-brace-format
+msgid "Configuration of «{app}»"
+msgstr "Configuration de «{app}»"
+
+msgid "Instance"
+msgstr "Instance"
+
+msgid "Custom forms"
+msgstr "Formulaires personnalisés"
+
+msgid "History"
+msgstr "Historique"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Button menu"
+msgstr "Menu bouton"
+
+# Already in creme_core
+msgctxt "creme_core-noun"
+msgid "Search"
+msgstr ""
+
+msgid "Roles and credentials"
+msgstr "Rôles et droits"
+
+msgid "Filters"
+msgstr "Filtres"
+
+msgid "Views"
+msgstr "Vues"
+
+msgid "Credentials management"
+msgstr "Gestion des droits"
+
+msgid "List-views management"
+msgstr "Gestion des vues en liste"
+
+msgid "Staff tools"
+msgstr "Outils administrateur"
+
+# Already in contrib.auth
+msgid "Password change"
+msgstr ""
+
+msgid "Your password has been changed by an administrator."
+msgstr "Votre mot de passe a été changé par un administrateur."
+
+msgid "Role switch"
+msgstr "Bascule de rôles"
+
+msgid ""
+"Your role has been switched to another role because it has been disabled."
+msgstr "Votre rôle a été basculé pour un autre rôle car il a été désactivé."
+
+msgid "Action"
+msgstr "Action"
+
+msgid "No block for the moment"
+msgstr "Aucun bloc pour le moment"
+
+#, python-brace-format
+msgid "Detailed views — {count} Configured type of resource"
+msgstr "Vues détaillées — {count} Type de ressource configuré"
+
+#, python-brace-format
+msgid "Detailed views — {count} Configured types of resource"
+msgstr "Vues détaillées — {count} Types de ressource configurés"
+
+msgid "Clone the configuration of a role"
+msgstr "Cloner la configuration d'un rôle"
+
+msgid "Default configuration"
+msgstr "Configuration par défaut"
+
+#, python-format
+msgid "%(count)s block"
+msgid_plural "%(count)s blocks"
+msgstr[0] "%(count)s bloc"
+msgstr[1] "%(count)s blocs"
+
+msgid "Edit the default configuration"
+msgstr "Modifier la configuration par défaut"
+
+msgid "Create for a role"
+msgstr "Créer pour un rôle"
+
+#, python-format
+msgid "Default configuration for «%(ctype)s»"
+msgstr "Configuration par défaut pour «%(ctype)s»"
+
+msgid "(uses the default blocks configuration)"
+msgstr "(utilise la configuration par défaut des blocs)"
+
+#, python-brace-format
+msgid "{count} Configured home"
+msgstr "{count} Accueil configuré"
+
+#, python-brace-format
+msgid "{count} Configured homes"
+msgstr "{count} Accueils configurés"
+
+msgid "Add a home configuration for a role"
+msgstr "Ajouter une configuration d'accueil pour un rôle"
+
+# Already in creme_core
+msgid "Statistics"
+msgstr ""
+
+msgid "No block"
+msgstr "Pas de bloc"
+
+msgid "Edit this configuration"
+msgstr "Modifier cette configuration"
+
+msgid "Delete this configuration"
+msgstr "Supprimer cette configuration"
+
+msgid "No configuration for the moment"
+msgstr "Aucune configuration pour le moment"
+
+#, python-brace-format
+msgid "{count} Block on default «My page»"
+msgstr "{count} Bloc sur «Ma page» par défaut"
+
+#, python-brace-format
+msgid "{count} Blocks on default «My page»"
+msgstr "{count} Blocs sur «Ma page» par défaut"
+
+msgid "Edit blocks configuration"
+msgstr "Modifier la configuration de blocs"
+
+msgid ""
+"Each user has its own view «My Page», which can be configured in «My "
+"settings» (see the menu entry «Creme»). Here you set the blocks used when a "
+"user did not set its own configuration."
+msgstr ""
+"Chaque utilisateur a sa propre vue «Ma Page», qui peut être configuré dans "
+"«Ma configuration» (voir l'entrée de menu «Creme»). Ici vous indiquez les "
+"blocs utilisés quand un utilisateur n'a pas fait sa propre configuration."
+
+msgid "Remove this block"
+msgstr "Enlever ce bloc"
+
+#, python-brace-format
+msgid "{count} Block on «My page»"
+msgstr "{count} Bloc sur «Ma page»"
+
+#, python-brace-format
+msgid "{count} Blocks on «My page»"
+msgstr "{count} Blocs sur «Ma page»"
+
+msgid "Edit the configuration"
+msgstr "Modifier la configuration"
+
+msgid "Delete the configuration"
+msgstr "Supprimer la configuration"
+
+#, python-brace-format
+msgid "Configuration of buttons — {count} role is configured"
+msgstr "Configuration des boutons— {count} rôle est configuré"
+
+#, python-brace-format
+msgid "Configuration of buttons — {count} roles are configured"
+msgstr "Configuration des boutons— {count} rôles sont configurés"
+
+msgid "Configuration of buttons"
+msgstr "Configuration des boutons"
+
+msgid "Base configuration"
+msgstr "Configuration de base"
+
+msgid "Used when no role configuration is available for a user"
+msgstr ""
+"Utilisée quand aucune configuration de rôle n'est disponible pour un "
+"utilisateur"
+
+msgid "Configure the buttons for a new type of entity"
+msgstr "Configurer les boutons pour un nouveau type de fiche"
+
+msgid "Clone the base configuration for a role"
+msgstr "Cloner la configuration de base pour un rôle"
+
+msgid "No button"
+msgstr "Pas de bouton"
+
+msgid "Configuration for superusers"
+msgstr "Configuration pour les super-utilisateurs"
+
+msgid "Delete the whole configuration for superusers"
+msgstr "Supprimer la configuration complète pour les super-utilisateurs"
+
+msgid "Are you sure you want to delete the whole configuration for superusers?"
+msgstr ""
+"Êtes vous sûr de vouloir supprimer la configuration complète pour les super-"
+"utilisateurs ?"
+
+msgid "Clone this configuration for another role"
+msgstr "Cloner cette configuration pour un autre rôle"
+
+#, python-format
+msgid "Configuration for role «%(role)s»"
+msgstr "Configuration pour le rôle «%(role)s»"
+
+msgid "Delete the whole configuration for this role"
+msgstr "Supprimer la configuration complète pour ce rôle"
+
+msgid "Are you sure you want to delete the whole configuration this role?"
+msgstr ""
+"Êtes vous sûr de vouloir supprimer la configuration complète pour ce rôle ?"
+
+msgid "New value"
+msgstr "Nouvelle valeur"
+
+#, python-format
+msgid "Drag and drop to re-order this «%(type)s»"
+msgstr "Glissez-déposez pour réordonner ce(tte) «%(type)s»"
+
+msgid "No value for the moment"
+msgstr "Aucune valeur enregistrée pour le moment"
+
+#, python-brace-format
+msgid "{count} Configurable type"
+msgstr "{count} Type configurable"
+
+#, python-brace-format
+msgid "{count} Configurable types"
+msgstr "{count} Types configurables"
+
+msgid "Configurable types"
+msgstr "Types configurables"
+
+msgid "No type requires configuration"
+msgstr "Aucun type ne nécessite de configuration"
+
+#, python-brace-format
+msgid "{count} Type of entity"
+msgstr "{count} Type de fiche"
+
+#, python-brace-format
+msgid "{count} Types of entity"
+msgstr "{count} Types de fiche"
+
+msgid "Type of entity"
+msgstr "Type de fiche"
+
+msgid "New custom type"
+msgstr "Nouveau type personnalisé"
+
+msgid "You have reached the maximum number of custom types."
+msgstr "Vous avez atteint le nombre maximum de types personnalisés."
+
+msgid "You cannot edit a deleted custom type"
+msgstr "Vous en pouvez pas modifier un type personnalisé supprimé"
+
+msgid "Edit this custom type"
+msgstr "Modifier ce type personnalisé"
+
+msgid "Restore this custom type"
+msgstr "Restaurer ce type personnalisé"
+
+msgid "Delete this custom type definitively"
+msgstr "Supprimer ce type personnalisé définitivement"
+
+msgid "Delete this custom type"
+msgstr "Restaurer ce type personnalisé"
+
+msgid "No custom type for the moment"
+msgstr "Aucun type personnalisé pour le moment"
+
+#, python-brace-format
+msgid "{count} Choice"
+msgstr "{count} Choix"
+
+#, python-brace-format
+msgid "{count} Choices"
+msgstr "{count} Choix"
+
+msgid "Choices"
+msgstr "Choix"
+
+msgid "New choices"
+msgstr "Nouveaux choix"
+
+msgid "Edit this choice"
+msgstr "Modifier ce choix"
+
+msgid "Delete this choice"
+msgstr "Supprimer ce choix"
+
+msgid "No choice for this custom field"
+msgstr "Aucun choix pour ce champ personnalisé"
+
+#, python-brace-format
+msgid "{count} Configured type of resource"
+msgstr "{count} Type de ressource configuré"
+
+#, python-brace-format
+msgid "{count} Configured types of resource"
+msgstr "{count} Types de ressource configurés"
+
+msgid "Configured types of resource"
+msgstr "Types de ressource configurés"
+
+msgid "New custom field configuration"
+msgstr "Nouvelle configuration de champ personnalisé"
+
+msgid "Create a custom field"
+msgstr "Créer un champ personnalisé"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "(required)"
+msgstr "(obligatoire)"
+
+#, python-format
+msgid "See the choices (currently %(count)s)"
+msgstr "Voir les choix (actuellement %(count)s)"
+
+#, python-format
+msgid "See & manage the choices (currently %(count)s)"
+msgstr "Voir & gérer les choix (actuellement %(count)s)"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Restore this custom field"
+msgstr "Restaurer ce champ personnalisé"
+
+msgid "Edit this custom field"
+msgstr "Modifier ce champ personnalisé"
+
+msgid "Delete this custom field definitely"
+msgstr "Supprimer ce champ personnalisé définitivement"
+
+msgid "Delete this custom field"
+msgstr "Supprimer ce champ personnalisé"
+
+msgid "No type of entity has custom field for the moment"
+msgstr "Aucun type de fiche n'a de champ personnalisé pour le moment"
+
+msgid "Show details"
+msgstr "Montrer les détails"
+
+msgid "Hide details"
+msgstr "Cacher les détails"
+
+msgid "Drag and drop the groups to order them."
+msgstr "Glissez-déposez les groupes pour les réordonner."
+
+msgid "Add a form for a role"
+msgstr "Ajouter un formulaire pour un rôle"
+
+msgid "Show this form"
+msgstr "Montrer ce formulaire"
+
+msgid "Hide this form"
+msgstr "Cacher ce formulaire"
+
+msgid "Reset this form"
+msgstr "Réinitialiser ce formulaire"
+
+msgid "Set the configuration the form gets after a fresh installation"
+msgstr ""
+"Remettre la configuration que le formulaire a après une nouvelle installation"
+
+msgid "Delete this form"
+msgstr "Supprimer ce formulaire"
+
+msgid "Delete this configuration of the form"
+msgstr "Supprimer cette configuration du formulaire"
+
+msgid "Display this group on the second half only"
+msgstr "Afficher ce groupe sur la seconde moitié seulement"
+
+msgid "Display this group on the whole width"
+msgstr "Afficher ce groupe sur la toute la largeur"
+
+msgid "Edit this group"
+msgstr "Modifier ce groupe"
+
+msgid "Delete this group"
+msgstr "Supprimer ce groupe"
+
+msgid "Display this group on the first half only"
+msgstr "Afficher ce groupe sur la première moitié seulement"
+
+msgid "Delete this field"
+msgstr "Supprimer ce champ"
+
+msgid "Add a group"
+msgstr "Ajouter un groupe"
+
+msgid "Add a special group"
+msgstr "Ajouter un groupe spécial"
+
+msgid "No custom form"
+msgstr "Pas de formulaire personnalisé"
+
+#, python-brace-format
+msgid "{count} Custom block"
+msgstr "{count} Bloc personnalisé"
+
+#, python-brace-format
+msgid "{count} Custom blocks"
+msgstr "{count} Blocs personnalisés"
+
+msgid "New custom block"
+msgstr "Nouveau bloc personnalisé"
+
+msgid ""
+"This kind of block can display information (fields, custom fields, "
+"relationships…) about the current entity. Once a type is created, it is "
+"available in the configuration of the corresponding detailed view."
+msgstr ""
+"Ce type de bloc peut afficher des informations (champs, champs "
+"personnalisés, relations…) à propos de la fiche courante. Une fois qu'un "
+"type a été créé, il est disponible dans la configuration de la vue détaillée "
+"correspondante."
+
+#, python-brace-format
+msgid "{count} fields"
+msgstr "{count} champs"
+
+msgid "Edit this type of block"
+msgstr "Modifier ce type de bloc"
+
+msgid "Delete this type of block"
+msgstr "Supprimer ce type de bloc"
+
+msgid "No custom block for the moment"
+msgstr "Aucun bloc personnalisé pour le moment"
+
+#, python-brace-format
+msgid "{count} Configurable type of resource"
+msgstr "{count} Type de ressource configurable"
+
+#, python-brace-format
+msgid "{count} Configurable types of resource"
+msgstr "{count} Types de ressource configurables"
+
+msgid "Create a filter"
+msgstr "Créer un filtre"
+
+msgid "Filters belonging to all users"
+msgstr "Filtres de tous les utilisateurs"
+
+#, python-format
+msgid "Filters belonging to %(owner)s"
+msgstr "Filtres appartenant à %(owner)s"
+
+msgid "(private)"
+msgstr "(privé)"
+
+msgid "No filter for this type of resource"
+msgstr "Pas de filtre pour ce type de ressource"
+
+msgid "No filter for the moment"
+msgstr "Aucun filtre pour le moment"
+
+msgid "New fields configuration"
+msgstr "Nouvelle configuration de champs"
+
+msgid "Hidden fields:"
+msgstr "Champs cachés:"
+
+msgid "Required fields:"
+msgstr "Champs obligatoires:"
+
+msgid ""
+"This type of resource cannot be configured; please contact your "
+"administrator."
+msgstr ""
+"Ce type de ressource ne peut pas être configuré ; veuillez contacter votre "
+"administrateur."
+
+msgid "No fields configuration for the moment"
+msgstr "Aucune configuration de champs pour le moment"
+
+#, python-brace-format
+msgid "{count} Temporary file"
+msgstr "{count} Fichier temporaire"
+
+#, python-brace-format
+msgid "{count} Temporary files"
+msgstr "{count} Fichiers temporaires"
+
+# Already in creme_core
+msgid "Download"
+msgstr ""
+
+msgid "No file for the moment"
+msgstr "Aucun fichier pour le moment"
+
+msgid "No property constraint"
+msgstr "Pas de contrainte de propriété"
+
+msgid "No mandatory property type"
+msgstr "Pas de type de propriété obligatoire"
+
+#, python-brace-format
+msgid "{count} mandatory type(s) of property"
+msgstr "{count} type(s) de propriété obligatoire(s)"
+
+msgid "No forbidden property type"
+msgstr "Pas de type de propriété interdite"
+
+#, python-brace-format
+msgid "{count} forbidden type(s) of property"
+msgstr "{count} type(s) de propriété interdit(s)"
+
+msgid "Create a view"
+msgstr "Créer une vue"
+
+msgid "Views belonging to all users"
+msgstr "Vues de tous les utilisateurs"
+
+#, python-format
+msgid "Views belonging to %(user)s"
+msgstr "Vues appartenant à %(user)s"
+
+msgid "No view for this type of resource"
+msgstr "Pas de vue pour ce type de ressource"
+
+msgid "No view"
+msgstr "Pas de vue"
+
+#, python-brace-format
+msgid "{count} Used relation type"
+msgstr "{count} Type de relation utilisé"
+
+#, python-brace-format
+msgid "{count} Used relation types"
+msgstr "{count} Types de relation utilisés"
+
+msgid "Used relation types"
+msgstr "Types de relation utilisés"
+
+msgid "Add some relationship types"
+msgstr "Ajouter des types de relation utilisés"
+
+msgid "Remove this relationship type"
+msgstr "Enlever ce type de relation"
+
+msgid "No relationship type for the moment"
+msgstr "Aucun type de relation pour le moment"
+
+#, python-brace-format
+msgid "{count} Instance's block created"
+msgstr "{count} Bloc d'instance créé"
+
+#, python-brace-format
+msgid "{count} Instances' blocks created"
+msgstr "{count} Blocs d'instance créés"
+
+msgid ""
+"This kind of block is created by specific apps (like «Reports») & can be "
+"placed on detailed views or home."
+msgstr ""
+"Ce type de bloc est créé par des apps spécifiques (comme «Rapports») & peut "
+"être placé sur les vues détaillées ou l'accueil."
+
+msgid "Can be displayed on"
+msgstr "Peut être affiché sur"
+
+msgid "Errors"
+msgstr "Erreurs"
+
+msgid "Home & «My page»"
+msgstr "Accueil & «Ma page»"
+
+msgid "Detail views:"
+msgstr "Vue détaillée :"
+
+msgid "All types of entity"
+msgstr "Tous les types de fiche"
+
+#, python-brace-format
+msgid "{count} types of entity"
+msgstr "{count} types de fiche"
+
+msgid "No type of instance block created for the moment"
+msgstr "Aucun bloc d'instance créé pour le moment"
+
+#, python-brace-format
+msgid "{count} Configured menu"
+msgstr "{count} Menu configuré"
+
+#, python-brace-format
+msgid "{count} Configured menus"
+msgstr "{count} Menus configurés"
+
+msgid "New menu for a role"
+msgstr "Nouveau menu pour un rôle"
+
+msgid "Drag and drop the containers (columns) to order them."
+msgstr "Glissez-déposez les conteneurs (colonnes) pour les réordonner."
+
+msgid "Edit this container"
+msgstr "Modifier ce conteneur"
+
+msgid "Delete this container"
+msgstr "Supprimer ce conteneur"
+
+msgid "Add a container"
+msgstr "Ajouter un conteneur"
+
+msgid "Add a special root entry"
+msgstr "Ajouter une entrée racine spéciale"
+
+msgid "Delete this menu"
+msgstr "Supprimer ce menu"
+
+#, python-brace-format
+msgid "{count} Channel"
+msgstr "{count} Canal"
+
+#, python-brace-format
+msgid "{count} Channels"
+msgstr "{count} Canaux"
+
+msgid "Receive notifications on"
+msgstr "Recevoir les notifications sur"
+
+#, python-brace-format
+msgid "{count} outputs"
+msgstr "{count} sorties"
+
+msgid "No output"
+msgstr "Pas de sortie"
+
+msgid "Configure this channel"
+msgstr "Configurer ce canal"
+
+msgid ""
+"The notifications are sent on a channel which defines where the "
+"notifications will appear (currently: in-app and/or emails) by default.\n"
+"Each user can get its own configuration for a channel.\n"
+msgstr ""
+"Les notifications sont envoyées sur un canal qui définit où elles vont "
+"apparaître (actuellement : dans l'app et/ou par e-mail) par défaut.\n"
+"Chaque utilisateur peut avoir sa propre configuration pour un canal.\n"
+
+msgid "Set this channel required (or not)"
+msgstr "Rendre ce canal obligatoire (ou optionnel)"
+
+msgid "Edit this channel"
+msgstr "Modifier ce canal"
+
+msgid "Delete this channel"
+msgstr "Supprimer ce canal"
+
+msgid "Delete this channel definitively"
+msgstr "Supprimer ce canal définitivement"
+
+msgid "No channel for the moment"
+msgstr "Aucun canal pour le moment"
+
+#, python-brace-format
+msgid "{count} Type of property"
+msgstr "{count} Type de propriété"
+
+#, python-brace-format
+msgid "{count} Types of property"
+msgstr "{count} Types de propriété"
+
+msgid "New custom type of property"
+msgstr "Nouveau type de propriété personnalisé"
+
+msgid "No related type of resource"
+msgstr "Pas de type de ressource associé"
+
+#, python-brace-format
+msgid "{count} types of resource"
+msgstr "{count} types de ressource"
+
+# Already in creme_core
+#, python-format
+msgid "%(count)s entity with this property"
+msgid_plural "%(count)s entities with this property"
+msgstr[0] ""
+msgstr[1] ""
+
+# Already in creme_core
+msgid "Disable"
+msgstr ""
+
+# Already in creme_core
+msgid "Enable"
+msgstr ""
+
+# Already in core
+msgid "You are not allowed to edit this property type"
+msgstr ""
+
+# Already in core
+msgid "This property type cannot be edited"
+msgstr ""
+
+# Already in core
+msgid "Edit this property type"
+msgstr ""
+
+# Already in core
+msgid "You are not allowed to delete this property type"
+msgstr ""
+
+# Already in core
+msgid "This property type cannot be deleted"
+msgstr ""
+
+# Already in core
+msgid "This property type cannot be deleted because it is used"
+msgstr ""
+
+# Already in core
+msgid "Delete this property type"
+msgstr ""
+
+msgid "No type of property for the moment"
+msgstr "Aucun type de propriété enregistré pour le moment"
+
+#, python-brace-format
+msgid "{count} Custom type of relation"
+msgstr "{count} Type de relation personnalisé"
+
+#, python-brace-format
+msgid "{count} Custom types of relation"
+msgstr "{count} Types de relation personnalisés"
+
+#, python-brace-format
+msgid "{count} Standard type of relation"
+msgstr "{count} Type de relation standard"
+
+#, python-brace-format
+msgid "{count} Standard types of relation"
+msgstr "{count} Types de relation standard"
+
+msgid "Subject(s)"
+msgstr "Sujet(s)"
+
+msgid "Predicate"
+msgstr "Prédicat"
+
+msgid "Object(s)"
+msgstr "Objet(s)"
+
+msgid "No type"
+msgstr "Pas de type"
+
+msgid "The relationships are not copied when the subject entity is cloned"
+msgstr "Les relations ne sont pas copiées quand la fiche sujet est clonée"
+
+msgid "No copy"
+msgstr "Pas de copie"
+
+msgid ""
+"The relationships are not displayed in the «Relationships» block (detail-"
+"view of subject) when they are already displayed by another block."
+msgstr ""
+"Les relations ne sont pas affichées dans le bloc «Relations» (vue détaillée "
+"du sujet) quand quand elles sont déjà affichées par un autre bloc."
+
+msgid "Display once"
+msgstr "Afficher une seule fois"
+
+msgid "The relationships are not copied when the object entity is cloned"
+msgstr "Les relations ne sont pas copiées quand la fiche objet est clonée"
+
+msgid ""
+"The relationships are not displayed in the «Relationships» block (detail-"
+"view of object) when they are already displayed by another block."
+msgstr ""
+"Les relations ne sont pas affichées dans le bloc «Relations» (vue détaillée "
+"de l'objet) quand quand elles sont déjà affichées par un autre bloc."
+
+msgid "View details"
+msgstr "Voir les détails"
+
+msgid "You cannot disable an internal type"
+msgstr "Vous ne pouvez pas désactiver un type interne"
+
+msgid "Edit this relation type"
+msgstr "Modifier ce type de relation"
+
+msgid "You cannot edit a disabled relation type"
+msgstr "Vous en pouvez pas modifier un type de relation désactivé"
+
+msgid "Delete this relation type"
+msgstr "Supprimer ce type de relation"
+
+msgid "No custom type of relation for the moment"
+msgstr "Aucun type de relation personnalisé n'existe pour le moment"
+
+#, python-brace-format
+msgid "{count} Type of relation block created"
+msgstr "{count} Type de bloc de relation créé"
+
+#, python-brace-format
+msgid "{count} Types of relation block created"
+msgstr "{count} Types de bloc de relation créés"
+
+msgid "Types of relation block created"
+msgstr "Types de bloc de relation créés"
+
+msgid "New type of block"
+msgstr "Nouveau type de bloc"
+
+msgid ""
+"This kind of block displays the entities linked to the current entity with a "
+"given Relationship type.\n"
+"Once a type is created, it is available in the configuration of detailed "
+"views (depending on the constraints of the Relationship type)."
+msgstr ""
+"Ce type de bloc affiche les fiches reliées à la fiche courante avec un type "
+"donné de Relation.\n"
+"Une fois qu'un type a été créé, il est disponible dans la configuration des "
+"vues détaillées (en fonction des contraintes du type de Relation)."
+
+msgid "Available on detail views for:"
+msgstr "Disponible sur les vues détaillées pour :"
+
+msgid "All types are configured"
+msgstr "Tous les types sont configurés"
+
+msgid "New customised type"
+msgstr "Nouveau type personnalisé"
+
+msgid "Configure the fields displayed for a given type of entity"
+msgstr "Configurer les champs affichés pour un type de fiche donné"
+
+msgid "not configured yet"
+msgstr "pas encore configuré"
+
+#, python-format
+msgid "Edit the configuration for «%(ctype)s»"
+msgstr "Modifier la configuration pour «%(ctype)s»"
+
+#, python-format
+msgid "Delete the configuration for «%(ctype)s»"
+msgstr "Supprimer la configuration pour «%(ctype)s»"
+
+msgid "No type of relation block created for the moment"
+msgstr "Aucun type de bloc de relation créé pour le moment"
+
+msgid "Search is disabled"
+msgstr "Recherche désactivée"
+
+msgid "All fields"
+msgstr "Tous les champs"
+
+msgid "No search configuration for the moment"
+msgstr "Aucune configuration de recherche enregistrée pour le moment"
+
+#, python-brace-format
+msgid "{count} Semi-fixed type of relationship"
+msgstr "{count} Type de relation semi-fixé"
+
+#, python-brace-format
+msgid "{count} Semi-fixed types of relationship"
+msgstr "{count} Types de relation semi-fixés"
+
+msgid "New semi-fixed type"
+msgstr "Nouveau type semi-fixé"
+
+msgid ""
+"If you often manually create Relationships with the same type and object "
+"entity, semi-fixed types create a shortcut"
+msgstr ""
+"Si vous créez souvent manuellement des Relations avec les mêmes type et "
+"fiche objet, les types semi-fixés créent un raccourci"
+
+msgid "Type of relationship"
+msgstr "Type de relation"
+
+msgid "Edit this type"
+msgstr "Modifier ce type"
+
+msgid "You cannot edit because the relationship type is disabled"
+msgstr "Vous ne pouvez pas modifier car le type de relation est désactivé"
+
+msgid "Delete this type"
+msgstr "Supprimer ce type"
+
+msgid "No semi-fixed type of relationship for the moment"
+msgstr "Aucun type de relation semi-fixé n'existe pour le moment"
+
+#, python-brace-format
+msgid "{count} Setting value"
+msgstr "{count} Valeur de réglage"
+
+#, python-brace-format
+msgid "{count} Setting values"
+msgstr "{count} Valeurs de réglage"
+
+msgid "Edit this value"
+msgstr "Modifier cette valeur"
+
+msgid "No setting value for this app"
+msgstr "Aucune valeur de réglage pour cette application"
+
+#, python-brace-format
+msgid "{count} Team"
+msgstr "{count} Équipe"
+
+#, python-brace-format
+msgid "{count} Teams"
+msgstr "{count} Équipes"
+
+msgid "New team"
+msgstr "Nouvelle équipe"
+
+msgid ""
+"A team is a user which can owns entities, but which cannot be logged in.\n"
+"A team contains some teammates, which must be real users, not teams.\n"
+"When an entity belongs to a team, each teammate has the same permissions on "
+"this entity as if it belonged to him."
+msgstr ""
+"Une équipe est un utilisateur qui peut posséder des fiches, mais qui ne peut "
+"pas être connecté.\n"
+"Une équipe contient des coéquipiers, qui doivent être de vrais utilisateurs "
+"pas des équipes.\n"
+"Quand une fiche appartient à une équipe, chaque coéquipier a les mêmes "
+"permissions que si elle lui appartenait."
+
+msgid "No teammate"
+msgstr "Aucun Coéquipier"
+
+#, python-brace-format
+msgid "{count} users"
+msgstr "{count} utilisateurs"
+
+msgid "Edit this team"
+msgstr "Modifier cette équipe"
+
+msgid "Delete this team"
+msgstr "Supprimer cette équipe"
+
+msgid "No team for the moment"
+msgstr "Aucune équipe pour le moment"
+
+msgid ""
+"Export the configuration (as a JSON file) & import it in another instance of "
+"Creme. The following data are concerned:"
+msgstr ""
+"Exporter la configuration (en tant que fichier JSON) & l'importer dans une "
+"autre instance de Creme. Les données suivantes sont concernées :"
+
+msgid "Roles."
+msgstr "Rôles."
+
+msgid "Blocks locations for detail-views, home & default «My page»."
+msgstr ""
+"Emplacements des blocs pour les vues détaillées, l'accueil et «Ma page» par "
+"défaut."
+
+msgid "Buttons configuration."
+msgstr "Configuration des boutons."
+
+msgid "Search configuration."
+msgstr "Configuration de recherche."
+
+msgid "Property & Relationship types."
+msgstr "Types de propriété et de relation."
+
+msgid "Custom fields."
+msgstr "Champs personnalisés."
+
+msgid "Notification channels."
+msgstr "Canaux de notification."
+
+msgid ""
+"Views of list (NB: views related to a user are kept, but ignored at import "
+"if the user-name does not exist)."
+msgstr ""
+"Vues de liste (NB: les vues relatives à un utilisateur sont gardées, mais "
+"ignorées si le nom d'utilisateur n'existe pas)."
+
+msgid ""
+"Filters (NB: filters related to a user are kept, but ignored at import if "
+"the user-name does not exist)."
+msgstr ""
+"Filtres (NB: les filtres relatifs à un utilisateur sont gardés, mais ignorés "
+"si le nom d'utilisateur n'existe pas)."
+
+msgid "Export"
+msgstr "Exporter"
+
+msgid "Export the configuration"
+msgstr "Exporter la configuration"
+
+msgid "Import a configuration"
+msgstr "Importer une configuration"
+
+#, python-brace-format
+msgid "{count} Role"
+msgstr "{count} Rôle"
+
+#, python-brace-format
+msgid "{count} Roles"
+msgstr "{count} Rôles"
+
+msgid "New role"
+msgstr "Nouveau rôle"
+
+msgid "Creation credentials"
+msgstr "Droits de création"
+
+msgid "List credentials"
+msgstr "Droits de lister"
+
+msgid "Export credentials"
+msgstr "Droits d'export"
+
+msgid "Entities credentials"
+msgstr "Droits des fiches"
+
+#, python-brace-format
+msgid "{count} applications"
+msgstr "{count} applications"
+
+msgid "No allowed application"
+msgstr "Pas d'application autorisée"
+
+msgid "No administrated application"
+msgstr "Pas d'application administrée"
+
+msgid "No creation credential"
+msgstr "Pas de droit de création"
+
+msgid "No list credential"
+msgstr "Pas de droit de liste"
+
+msgid "No export credential"
+msgstr "Pas de droit d'export"
+
+#, python-brace-format
+msgid "{count} permissions"
+msgstr "{count} permissions"
+
+msgid "No special permission"
+msgstr "Pas de permission spéciale"
+
+msgid "Edit these credentials"
+msgstr "Modifier ces droits"
+
+msgid "Delete these credentials"
+msgstr "Supprimer ces droits"
+
+#, python-format
+msgid "Filter «%(efilter)s»"
+msgstr "Filtre «%(efilter)s»"
+
+#, python-format
+msgid "Conditions of «%(efilter)s»"
+msgstr "Conditions de «%(efilter)s»"
+
+# Already in creme_core
+msgid "Information on the current filter"
+msgstr ""
+
+msgid "New credentials"
+msgstr "Nouveaux droits"
+
+msgid "Activate"
+msgstr "Activer"
+
+msgid "Deactivate"
+msgstr "Désactiver"
+
+msgid "Edit this role"
+msgstr "Modifier ce rôle"
+
+msgid "Clone this role"
+msgstr "Cloner ce rôle"
+
+msgid "No role for the moment"
+msgstr "Aucun rôle pour le moment"
+
+msgid "N/A"
+msgstr "NC"
+
+msgid "Filter the users"
+msgstr "Filtrer les utilisateurs"
+
+#, python-format
+msgid "Filter the displayed users. Fields used: %(fields)s."
+msgstr "Filtrer les utilisateurs affichés. Champs utilisés : %(fields)s."
+
+#, python-brace-format
+msgid "{count} User"
+msgstr "{count} Utilisateur"
+
+#, python-brace-format
+msgid "{count} Users"
+msgstr "{count} Utilisateurs"
+
+msgid "New user"
+msgstr "Nouvel utilisateur"
+
+msgid "Staff"
+msgstr "Administrateur"
+
+msgid "Yes,No"
+msgstr "Oui,Non"
+
+msgid "Change the password"
+msgstr "Changer le mot de passe"
+
+msgid "Edit this user"
+msgstr "Modifier cette utilisateur"
+
+msgid "You can't delete the current user."
+msgstr "Vous ne pouvez pas supprimer l'utilisateur courant."
+
+msgid "Delete this user"
+msgstr "Supprimer cet utilisateur"
+
+msgid "No user found"
+msgstr "Aucun utilisateur trouvé"
+
+msgid "Configurable types of resource"
+msgstr "Types de ressource configurés"
+
+#, python-format
+msgid "Create a Workflow for «%(ctype)s»"
+msgstr "Créer un Processus pour «%(ctype)s»"
+
+msgid "Rename"
+msgstr "Renommer"
+
+msgid "Edit the conditions"
+msgstr "Modifier les conditions"
+
+msgid "No condition"
+msgstr "Pas de condition"
+
+#, python-format
+msgid "%(counter)s Action"
+msgid_plural "%(counter)s Actions"
+msgstr[0] "%(counter)s Action"
+msgstr[1] "%(counter)s Actions"
+
+msgid "Add an action"
+msgstr "Ajouter une action"
+
+msgid "Edit this action"
+msgstr "Modifier cette action"
+
+msgid "Delete this action"
+msgstr "Supprimer cette action"
+
+msgid "No Workflow for this type of resource"
+msgstr "Pas de Processus automatisé pour ce type de ressource"
+
+msgid "No Workflow for the moment"
+msgstr "Aucun Processus automatisé pour le moment"
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "Menu icon"
+msgstr "Icône du menu"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Default icon"
+msgstr "Icône par défaut"
+
+msgid "Users can change their password"
+msgstr "Les utilisateurs peuvent modifier leur mot de passe"
+
+msgid "Users cannot change their password"
+msgstr "Les utilisateurs ne peuvent pas modifier leur mot de passe"
+
+msgid "Users can reset their lost password"
+msgstr "Les utilisateurs peuvent réinitialiser leur mot de passe perdu"
+
+msgid "Users cannot reset their lost password"
+msgstr "Les utilisateurs ne peuvent pas réinitialiser leur mot de passe perdu"
+
+msgid "Displayed name change"
+msgstr "Changement de nom affiché"
+
+msgid "Users can change their own displayed name"
+msgstr "Les utilisateurs peuvent modifier leur propre nom affiché"
+
+msgid "Users cannot change their own displayed name"
+msgstr "Les utilisateurs ne peuvent pas modifier leur propre nom affiché"
+
+#, python-format
+msgid "Configuration of «%(object)s»"
+msgstr "Configuration de «%(object)s»"
+
+msgid "Custom fields"
+msgstr "Champs personnalisés"
+
+msgid "Configuration of custom fields"
+msgstr "Configuration des champs personnalisés"
+
+msgid ""
+"Here you can add fields to each entity types.\n"
+"Beware: this kind of field is less efficient for searching/filtering of big "
+"number of entities.\n"
+"Notice: if you just want simple markers, Properties could be used instead."
+msgstr ""
+"Ici vous pouvez ajouter des champs à chaque type de fiche.\n"
+"Attention : ce type de champ est moins performant pour la recherche/filtrage "
+"avec un grand nombre de fiches.\n"
+"Remarque: si vous voulez juste de simples marqueurs, les Propriétés peuvent "
+"être utilisées à la place."
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Finish"
+msgstr "Terminer"
+
+msgid "Top of page"
+msgstr "Haut de page"
+
+msgid "Left"
+msgstr "Gauche"
+
+msgid "Right"
+msgstr "Droite"
+
+msgid "Bottom of page"
+msgstr "Bas de page"
+
+msgid "Available buttons"
+msgstr "Boutons disponibles"
+
+msgid "Selected buttons"
+msgstr "Boutons sélectionnés"
+
+msgid "Additional fields"
+msgstr "Champs supplémentaires"
+
+msgid "Special fields"
+msgstr "Champs spéciaux"
+
+msgid "No available special field."
+msgstr "Pas de champ spécial disponible."
+
+msgid "Drag and drop the entries to order them"
+msgstr "Glissez-déposez les entrées pour les réordonner."
+
+msgid "Add regular entries"
+msgstr "Ajouter des entrées normales"
+
+msgid "Application"
+msgstr "Application"
+
+#, python-format
+msgid "Type: %(model_name)s"
+msgstr "Type : %(model_name)s"
+
+msgid "Creme configuration portal"
+msgstr "Portail de Configuration de Creme"
+
+msgid "General"
+msgstr "Général"
+
+msgid "Some global settings, like menu icon"
+msgstr "De la configuration globale, comme l'icône du menu"
+
+msgid "Relationship types settings"
+msgstr "Gestion des types de Relation"
+
+msgid "See existing Relationship types, create customised ones"
+msgstr "Voir des types de Relation existants, créer-en des personnalisés"
+
+msgid "Property types settings"
+msgstr "Gestion des types de Propriété"
+
+msgid "See existing Property types, create new ones"
+msgstr "Voir des types de Propriété existants, créer-en de nouveaux"
+
+msgid "Fields settings"
+msgstr "Gestion des champs"
+
+msgid "Hide or mark as required the existing fields of entities"
+msgstr "Cacher ou rendre obligatoires des champs existants des fiches"
+
+msgid "Custom fields settings"
+msgstr "Gestion des champs personnalisés"
+
+msgid "Add new fields to entities"
+msgstr "Ajouter de nouveaux champs aux fiches"
+
+msgid "Custom entity types settings"
+msgstr "Gestion des types de fiche personnalisées"
+
+msgid "Add new types of entity"
+msgstr "Ajouter de nouveaux types de fiche"
+
+msgid "Custom forms settings"
+msgstr "Gestion des formulaires personnalisés"
+
+msgid "Customise the forms (which fields, their order…) of entities"
+msgstr "Personnaliser les formulaires (quels champs, leur ordre…) des fiches"
+
+msgid "Workflow rules settings"
+msgstr "Gestion des règles de Processus automatisé"
+
+msgid "Define automatic actions (adding properties, sending emails…)"
+msgstr ""
+"Définir des actions automatiques (ajout de propriété, envoi d'e-mails…)"
+
+msgid "Blocks settings"
+msgstr "Gestion des blocs"
+
+msgid ""
+"Customise the blocks' locations on detailed views, homes & default «My page»"
+msgstr ""
+"Personnaliser l'emplacement des blocs pour les vues détaillées, les accueils "
+"et «Ma page» par défaut"
+
+msgid "Menu settings"
+msgstr "Gestion du menu"
+
+msgid "Customise the entries of the main menu"
+msgstr "Personnaliser les entrées du menu principal"
+
+msgid "Notifications settings"
+msgstr "Gestion des notifications"
+
+msgid "Customise the notification channels"
+msgstr "Personnaliser les canaux de notification"
+
+msgid "Button menu settings"
+msgstr "Gestion du menu bouton"
+
+msgid "Customise the buttons of detailed views"
+msgstr "Personnaliser les boutons des vues détaillées"
+
+msgid "Search settings"
+msgstr "Gestion de la recherche"
+
+msgid "Set the fields which are inspected by the global search"
+msgstr "Configurer les champs qui sont inspectés par la recherche globale"
+
+msgid "History settings"
+msgstr "Gestion de l'historique"
+
+msgid "Set the Relationship types used to generate related history lines"
+msgstr ""
+"Configurer les types de Relation utilisés pour générer des lignes "
+"d'historique relatives"
+
+msgid "Users settings"
+msgstr "Gestion des utilisateurs"
+
+msgid "Roles and credentials settings"
+msgstr "Gestion des rôles et des droits"
+
+msgid "Filters settings"
+msgstr "Gestion des filtres"
+
+msgid ""
+"Customise the filters which control the entities displayed in the list-views"
+msgstr ""
+"Personnaliser les filtres qui contrôlent les fiches affichées dans les vues "
+"en liste"
+
+msgid "Views settings"
+msgstr "Gestion des vues"
+
+msgid ""
+"Customise the views which indicate the columns displayed in the list-views"
+msgstr ""
+"Personnaliser les vues qui indiquent les colonnes affichées dans les vues en "
+"liste"
+
+msgid "Applications portals"
+msgstr "Portails des applications"
+
+#, python-format
+msgid "%(app_name)s configuration portal"
+msgstr "Portail configuration %(app_name)s"
+
+msgid "No application requires configuration"
+msgstr "Aucune application ne nécessite de configuration"
+
+msgid "Configuration of blocks"
+msgstr "Configuration des blocs"
+
+msgid ""
+"Here you can configure the buttons displayed on detailed views, just below "
+"the header block.\n"
+"Notice: the buttons of the default configuration are always placed at the "
+"beginning, before the buttons specific to a type of entity."
+msgstr ""
+"Ici vous pouvez configurer les boutons affichés dans les vues détaillées, "
+"juste en dessous du bloc entête.\n"
+"Remarque : les boutons de la configuration par défaut sont toujours placés "
+"au début, avant les boutons spécifiques à un type de fiche."
+
+msgid "Configuration of custom entities"
+msgstr "Configuration des fiches personnalisés"
+
+#, python-format
+msgid ""
+"Here you can create your own types of entity.\n"
+"Notice: the number of types is limited to %(max_count)s."
+msgstr ""
+"Ici vous pouvez créer vos propres types de fiche.\n"
+"Remarque : le nombre de types est limité à %(max_count)s."
+
+msgid "Configuration of custom forms"
+msgstr "Configuration des formulaires personnalisés"
+
+msgid "Configuration of filters"
+msgstr "Configuration des filtres"
+
+msgid ""
+"Filters allow to choose which entities to show in list-views (and so which "
+"entities are hidden). You can create/edit/delete them directly from list-"
+"views. This portal displays all of them at once, and is useful to fix a "
+"broken filter."
+msgstr ""
+"Les filtres permettent de choisir quelles fiches montrer dans les vues en "
+"liste (et donc quelles fiches sont cachées). Vous pouvez les créer/modifier/"
+"supprimer directement depuis les vues en liste. Ce portail les affiche tous "
+"en une fois, et il est utile pour réparer un filtre cassé."
+
+msgid "Configuration of fields"
+msgstr "Configuration des champs"
+
+msgid ""
+"Here you can HIDE existing fields which are optional. Hidden fields "
+"disappear everywhere (blocks on detailed views, forms, list-views…) as if "
+"they do not exist anymore.\n"
+"Notice: if you just want to hide them in some places but not all of them, "
+"you should use another way (e.g. custom block, custom form, view of list…)."
+msgstr ""
+"Ici vous pouvez CACHER des champs existants qui sont optionnels. Les champs "
+"cachés disparaissent de partout (blocs des vues détaillées, formulaires, "
+"vues de liste…) comme s'ils n'existaient plus.\n"
+"Remarque : si vous voulez juste les cacher à certains endroits mais pas "
+"tous, vous devriez utiliser une autre méthode (ex: bloc personnalisé, "
+"formulaire personnalisé, vue de liste…)."
+
+msgid ""
+"Here you can MARK AS REQUIRED fields which are normally not required.\n"
+"Notice: setting a field as required is not retroactive; existing entities "
+"will not be modified, but users will be obliged to set the given field the "
+"next time they edit an entity with an empty value."
+msgstr ""
+"Ici vous pouvez MARQUER COMME OBLIGATOIRE des champs qui ne le sont "
+"normalement pas.\n"
+"Remarque: rendre un champ obligatoire n'est pas rétroactif ; les fiches "
+"existantes ne seront pas modifiées, mais les utilisateurs seront obligés de "
+"remplir ce champ la prochaine fois qu'ils modifieront une fiche avec une "
+"valeur vide."
+
+msgid "Monitoring of temporary files"
+msgstr "Surveillance des fichiers temporaires"
+
+msgid "Configuration of views"
+msgstr "Configuration des vues"
+
+msgid ""
+"Views allow to choose which columns to show in list-views. You can create/"
+"edit/delete them directly from list-views. This portal displays all of them "
+"at once."
+msgstr ""
+"Les vues permettent de choisir quelles colonnes montrer dans les vues en "
+"liste. Vous pouvez les créer/modifier/supprimer directement depuis les vues "
+"en liste. Ce portail les affiche toutes en une fois."
+
+msgid "Configuration of history"
+msgstr "Configuration de l'historique"
+
+msgid ""
+"When an entity is modified, if it has some relationships (the entity is the "
+"subject) with a type from the configured ones, the related entities get a "
+"line in their history which indicates this modification."
+msgstr ""
+"Quand une fiche est modifiée, si elle a des relations (la fiche étant sujet) "
+"avec un des types configurés, alors les fiches reliées reçoivent une ligne "
+"d'historique qui indique la modification."
+
+msgid "Configuration of menu"
+msgstr "Configuration du menu"
+
+msgid ""
+"Here you can configure the main menu, placed on top of this page for example."
+msgstr ""
+"Ici vous pouvez configurer le menu principal, placé en haut de cette page "
+"par exemple."
+
+msgid "Configuration of notifications"
+msgstr "Configuration des notifications"
+
+msgid "Configuration of properties"
+msgstr "Configuration des propriétés"
+
+msgid ""
+"Properties are kind of markers (e.g. \"likes Open Source\") you set on "
+"entities, & which are useful in several cases (filtering, Relationships "
+"constraints…).\n"
+"Create new types here to make them available for entities.\n"
+"\n"
+"BEWARE: deleting a Property type will delete the associated properties."
+msgstr ""
+"Les Propriétés sont des sortes de marqueurs (ex: \"aime l'Open Source\") que "
+"vous mettez sur les fiches, & qui sont utiles dans plusieurs cas (filtrage, "
+"contraintes de Relations…).\n"
+"Créez de nouveaux types ici pour les rendre disponibles pour les fiches.\n"
+"\n"
+"ATTENTION : supprimer un type de propriété supprimera les propriétés "
+"associées."
+
+msgid "Configuration of relationships"
+msgstr "Configuration des relations"
+
+msgid "Types of relationship"
+msgstr "Types de relation"
+
+msgid "Configuration of search"
+msgstr "Configuration de la recherche"
+
+msgid "Search in Creme"
+msgstr "Recherche dans Creme"
+
+msgid ""
+"Create search settings in order to make the global search (see right side of "
+"the main menu) faster.\n"
+"Notice: limit the number of fields per type for better performance and "
+"better results visibility."
+msgstr ""
+"Créez des configurations de recherche afin de rendre la recherche globale "
+"(voir à droite du menu principal) plus rapide. Remarque : limitez le nombre "
+"de champs par type pour de meilleures performances et une meilleure "
+"visibilité des résultats."
+
+msgid "Configuration of roles"
+msgstr "Configuration des rôles"
+
+msgid ""
+"The users which are not super-users must have a role. It limits what the "
+"concerned users can see, edit, delete…\n"
+"If you have many users, it's a good practice to use roles."
+msgstr ""
+"Les utilisateurs qui ne sont pas super-utilisateurs doivent avoir un rôle. "
+"Il limite ce que les utilisateurs concernés peuvent voir, modifier, "
+"supprimer…\n"
+"Si vous avez plusieurs utilisateurs, c'est une bonne pratique d'utiliser les "
+"rôles."
+
+msgid "Configuration of users"
+msgstr "Configuration des utilisateurs"
+
+msgid "Configuration of the Workflow engine"
+msgstr "Configuration du moteur de Processus"
+
+msgid "Workflow rules"
+msgstr "Règles de Processus automatisé"
+
+msgid ""
+"You can define how and when some automatic actions (like relationship adding "
+"or email sending) are performed, in order to avoid some manual work.\n"
+"Notice than Workflows which <strong>have just been created are disabled</"
+"strong>; so you can add as much as actions you want before you enable them."
+msgstr ""
+"Vous pouvez définir comment et quand des actions automatiques (comme l'ajout "
+"de relation ou l'envoi d'e-mail) sont effectuées, afin d'éviter du travail "
+"manuel.\n"
+"Notez que les Processus automatisés qui <strong>viennent d'être créés sont "
+"désactivés</strong> ; vous pouvez donc ajouter autant d'actions que vous "
+"voulez avant de les activer."
+
+msgid "Configuration of the instance"
+msgstr "Configuration de l'instance"
+
+msgid "View your settings"
+msgstr "Voir vos réglages"
+
+msgid "View and edit your Creme settings"
+msgstr "Voir et modifier vos réglages Creme"
+
+# Already in creme_core
+msgid "Save"
+msgstr ""
+
+msgid "Hide inactive users"
+msgstr "Cacher les utilisateurs désactivés"
+
+msgid "Show inactive users"
+msgstr "Montrer les utilisateurs désactivés"
+
+msgid "Hide deleted custom fields"
+msgstr "Cacher les champ personnalisés supprimés"
+
+msgid "Show deleted custom fields"
+msgstr "Montrer les champ personnalisés supprimés"
+
+msgid "Save the configuration"
+msgstr "Enregistrer la configuration"
+
+#, python-brace-format
+msgid "New block configuration for «{model}»"
+msgstr "Nouvelle configuration de bloc pour «{model}»"
+
+msgid "Create the configuration"
+msgstr "Créer la configuration"
+
+msgctxt "creme_config-verb"
+msgid "Select"
+msgstr "Sélectionner"
+
+#, python-brace-format
+msgid "New custom block for «{model}»"
+msgstr "Nouveau bloc personnalisé pour «{model}»"
+
+msgid "Save the block"
+msgstr "Enregistrer le bloc"
+
+#, python-brace-format
+msgid "Edit configuration of super-users for «{model}»"
+msgstr "Modifier la configuration des super-utilisateurs pour «{model}»"
+
+#, python-brace-format
+msgid "Edit configuration of «{role}» for «{model}»"
+msgstr "Modifier la configuration de «{role}» pour «{model}»"
+
+#, python-brace-format
+msgid "Edit default configuration for «{model}»"
+msgstr "Modifier la configuration par défaut pour «{model}»"
+
+msgid "Edit default configuration"
+msgstr "Modifier la configuration par défaut"
+
+msgid "Create home configuration for a role"
+msgstr "Créer la configuration de l'accueil d'un rôle"
+
+msgid "Edit home configuration"
+msgstr "Modifier la configuration de l'accueil"
+
+msgid "Edit default \"My page\""
+msgstr "Modifier le \"Ma page\" par défaut"
+
+msgid "Edit \"My page\""
+msgstr "Modifier \"Ma page\""
+
+#, python-brace-format
+msgid "New customised type for «{object}»"
+msgstr "Nouveau type personnalisé pour «{object}»"
+
+#, python-brace-format
+msgid "Edit «{model}» configuration"
+msgstr "Modifier la configuration de «{model}»"
+
+#, python-brace-format
+msgid "Edit the block «{object}»"
+msgstr "Modifier le bloc «{object}»"
+
+msgid "This role has no button configuration."
+msgstr "Ce rôle n'a pas de configuration de bouton."
+
+#, python-brace-format
+msgid "New buttons configuration for «{model}»"
+msgstr "Nouvelle configuration de boutons pour «{model}»"
+
+msgid "New buttons base configuration"
+msgstr "Nouvelle configuration de base des boutons"
+
+#, python-brace-format
+msgid "New buttons configuration for role «{role}»"
+msgstr "Nouvelle configuration de boutons pour le rôle «{role}»"
+
+msgid "New buttons configuration for superusers"
+msgstr "Nouvelle configuration de boutons pour les super-utilisateurs"
+
+msgid "Superusers have no button configuration."
+msgstr "Les super-utilisateurs n'ont pas configuration de bouton."
+
+#, python-brace-format
+msgid "Edit base configuration for «{model}»"
+msgstr "Modifier la configuration de base pour «{model}»"
+
+msgid "Edit default base configuration"
+msgstr "Modifier la configuration de base par défaut"
+
+#, python-brace-format
+msgid "Edit configuration of role «{role}» for «{model}»"
+msgstr "Modifier la configuration du rôle «{role}» pour «{model}»"
+
+#, python-brace-format
+msgid "Edit default configuration of role «{role}»"
+msgstr "Modifier la configuration par défaut du rôle «{role}»"
+
+#, python-brace-format
+msgid "Edit configuration of superusers for «{model}»"
+msgstr "Modifier la configuration des super-utilisateurs pour «{model}»"
+
+msgid "Edit default configuration of superusers"
+msgstr "Modifier la configuration par défaut des super-utilisateurs"
+
+# Already in creme_core
+msgid "Clone"
+msgstr ""
+
+msgid "Clone the base configuration"
+msgstr "Cloner la configuration de base"
+
+#, python-brace-format
+msgid "Clone the configuration of «{role}»"
+msgstr "Cloner la configuration de «{role}»"
+
+msgid "Clone the configuration of superusers"
+msgstr "Cloner la configuration des super-utilisateurs"
+
+#, python-brace-format
+msgctxt "creme_config-property"
+msgid "Edit the type «{object}»"
+msgstr "Modifier le type «{object}»"
+
+msgid "New custom type of entity"
+msgstr "Nouveau type de fiche personnalisé"
+
+msgid "This custom type does not exist anymore."
+msgstr "Ce type personnalisé n'existe plus."
+
+msgid "This custom type cannot be edited because it is going to be deleted."
+msgstr ""
+"Ce type personnalisé ne peut pas être modifié car il est sur le point d'être "
+"supprimé."
+
+# Already in creme_core
+#, python-brace-format
+msgid "{count} not viewable entity"
+msgid_plural "{count} not viewable entities"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "This custom type cannot be deleted because {count} entity uses it."
+msgid_plural ""
+"This custom type cannot be deleted because {count} entities use it."
+msgstr[0] ""
+"Ce type personnalisé ne peut pas être supprimé car {count} fiche l'utilise."
+msgstr[1] ""
+"Ce type personnalisé ne peut pas être supprimé car {count} fiches "
+"l'utilisent."
+
+msgid ""
+"This custom type cannot be deleted because of its links with some entities:"
+msgstr ""
+"Ce type personnalisé ne peut pas être supprimé à cause de ses liens avec des "
+"fiches :"
+
+#, python-brace-format
+msgid "New custom field for «{model}»"
+msgstr "Nouveau champ personnalisé pour «{model}»"
+
+msgid "This custom field is deleted."
+msgstr "Ce champ personnalisé est supprimé."
+
+#, python-brace-format
+msgid ""
+"This custom field is still used by {count} entity, so it cannot be deleted."
+msgid_plural ""
+"This custom field is still used by {count} entities, so it cannot be deleted."
+msgstr[0] ""
+"Ce champ personnalisé est encore utilisé par {count} fiche, donc il ne peut "
+"pas être supprimé."
+msgstr[1] ""
+"Ce champ personnalisé est encore utilisé par {count} fiches, donc il ne peut "
+"pas être supprimé."
+
+#, python-brace-format
+msgid ""
+"The custom field cannot be deleted because it is used in filter conditions: "
+"{filters}"
+msgstr ""
+"Le champ personnalisé ne peut pas être supprimé car il est utilisé dans des "
+"conditions de filtre : {filters}"
+
+#, python-brace-format
+msgid ""
+"The custom field cannot be deleted because it is used by conditions of "
+"Workflow: {workflows}"
+msgstr ""
+"Le champ personnalisé ne peut pas être supprimé car il est utilisé par des "
+"conditions de Processus automatisé : {workflows}"
+
+#, python-brace-format
+msgid ""
+"The custom field cannot be deleted because of its dependencies: "
+"{dependencies}"
+msgstr ""
+"Le champ personnalisé ne peut pas être supprimé à cause de ses dépendances : "
+"{dependencies}"
+
+msgid "Add this new choice"
+msgstr "Ajouter ce nouveau choix"
+
+msgid "Add these new choices"
+msgstr "Ajouter ces nouveaux choix"
+
+#, python-brace-format
+msgid "Replace & delete «{object}»"
+msgstr "Remplacer & supprimer «{object}»"
+
+msgid "Delete the choice"
+msgstr "Supprimer le choix"
+
+msgid "A deletion process for a choice already exists."
+msgstr "Il y a déjà un processus de suppression pour un choix."
+
+#, python-brace-format
+msgid "Add a configuration to «{descriptor.verbose_name}» for a role"
+msgstr "Ajouter une configuration à «{descriptor.verbose_name}» pour un rôle"
+
+#, python-brace-format
+msgid "Add a group to «{form}»"
+msgstr "Ajouter un groupe à «{form}»"
+
+#, python-brace-format
+msgid "Add an extra group to «{form}»"
+msgstr "Ajouter un groupe spécial à «{form}»"
+
+#, python-brace-format
+msgid "Edit the group «{group}»"
+msgstr "Modifier le groupe «{group}»"
+
+#, python-brace-format
+msgid "Create a filter for «{model}»"
+msgstr "Créer un filtre pour «{model}»"
+
+msgid "Save the filter"
+msgstr "Enregistrer le filtre"
+
+#, python-brace-format
+msgid "Create a fields configuration for «{model}»"
+msgstr "Créer une configuration de champs pour «{model}»"
+
+#, python-brace-format
+msgid "New value: {model}"
+msgstr "Nouvelle valeur : {model}"
+
+msgid "Edition is disabled for this instance."
+msgstr "La modification est désactivée pour cette instance."
+
+msgid ""
+"The deleted value can be replaced in existing entities by another value. If "
+"a field cannot be empty, you must chose a replacing value."
+msgstr ""
+"La valeur supprimée peut être remplacée dans les fiches existantes par une "
+"autre valeur. Si un champ ne peut être vide, vous devez choisir une valeur "
+"de remplacement."
+
+#, python-brace-format
+msgid "A deletion process for an instance of «{model}» already exists."
+msgstr ""
+"Il y a déjà un processus de suppression pour une instance de «{model}»."
+
+msgid "Deletion is disabled for this instance."
+msgstr "La suppression est désactivée pour cette instance."
+
+msgid "Error. Please contact your administrator."
+msgstr "Erreur. Veuillez contacter votre administrateur."
+
+#, python-brace-format
+msgid "Create a view for «{model}»"
+msgstr "Créer une vue pour «{model}»"
+
+msgid "Save the view"
+msgstr "Enregistrer la vue"
+
+msgid "New relation types"
+msgstr "Nouveaux types de relation"
+
+msgid "Add a container of entries"
+msgstr "Ajouter un conteneur d'entrées"
+
+msgid "Add this entry"
+msgstr "Ajouter cette entrée"
+
+#, python-brace-format
+msgid "Edit the container «{object}»"
+msgstr "Modifier le conteneur «{object}»"
+
+msgid "Clone the menu for a role"
+msgstr "Cloner le menu pour un rôle"
+
+msgid "Create the menu"
+msgstr "Créer le menu"
+
+#, python-brace-format
+msgid "Edit the channel «{object}»"
+msgstr "Modifier le canal «{object}»"
+
+#, python-brace-format
+msgid "Is the channel «{object}» required?"
+msgstr "Le canal «{object}» est-il obligatoire ?"
+
+msgid "Only staff users can change a system channel"
+msgstr "Seuls les super administrateur peuvent modifier un canal système"
+
+#, python-brace-format
+msgid ""
+"This channel is still used by {count} notification, so it cannot be deleted."
+msgid_plural ""
+"This channel is still used by {count} notifications, so it cannot be deleted."
+msgstr[0] ""
+"Ce canal est encore utilisé par {count} notification, donc il ne peut pas "
+"être supprimé."
+msgstr[1] ""
+"Ce canal est encore utilisé par {count} notifications, donc il ne peut pas "
+"être supprimé."
+
+#, python-brace-format
+msgid "Configure the channel «{object}»"
+msgstr "Configurer le canal «{object}»"
+
+#, python-brace-format
+msgctxt "creme_config-relationship"
+msgid "Edit the standard type «{object}»"
+msgstr "Modifier le type standard «{object}»"
+
+#, python-brace-format
+msgctxt "creme_config-relationship"
+msgid "Edit the type «{object}»"
+msgstr "Modifier le type «{object}»"
+
+#, python-brace-format
+msgid ""
+"The relationship type cannot be deleted because it is used in filter "
+"conditions: {filters}"
+msgstr ""
+"Le type de relation ne peut pas être supprimé car il est utilisé dans des "
+"conditions de filtre : {filters}"
+
+#, python-brace-format
+msgid ""
+"The relationship type cannot be deleted because it is used by triggers of "
+"Workflow: {workflows}"
+msgstr ""
+"Le type de relation ne peut pas être supprimé car il est utilisé par des "
+"déclenchements de Processus automatisé : {workflows}"
+
+#, python-brace-format
+msgid ""
+"The relationship type cannot be deleted because of its dependencies: "
+"{dependencies}"
+msgstr ""
+"Le type de relation ne peut pas être supprimé à cause de ses dépendances :"
+"{dependencies}"
+
+#, python-brace-format
+msgid "New search configuration for «{model}»"
+msgstr "Nouvelle configuration de recherche pour «{model}»"
+
+#, python-brace-format
+msgid "Edit «{key}»"
+msgstr "Modifier «{key}»"
+
+msgid "Import"
+msgstr "Importer"
+
+#, python-brace-format
+msgid "Change password for «{object}»"
+msgstr "Changer le mot de passe pour «{object}»"
+
+msgid "Change your password"
+msgstr "Modifier votre mot de passe"
+
+msgid "Save the team"
+msgstr "Enregistrer l'équipe"
+
+#, python-brace-format
+msgid "Delete «{object}» and assign his entities to user"
+msgstr "Supprimer «{object}» et réassigner ses fiches"
+
+msgid "Delete the user"
+msgstr "Supprimer l'utilisateur"
+
+msgid "You cannot delete this user. [original error: {}]"
+msgstr "Vous ne pouvez pas supprimer cet utilisateur. [erreur d'origine : {}]"
+
+msgid "You can't deactivate the current user."
+msgstr "Vous ne pouvez pas désactiver l'utilisateur courant."
+
+msgid "You can't deactivate a staff user."
+msgstr "Vous ne pouvez pas désactiver un super administrateur."
+
+msgid "You can't activate a staff user."
+msgstr "Vous ne pouvez pas activer un super administrateur."
+
+#, python-brace-format
+msgid "Add credentials to «{object}»"
+msgstr "Ajouter des droits à «{object}»"
+
+msgid "Add the credentials"
+msgstr "Ajouter les droits"
+
+#, python-brace-format
+msgid "Edit credentials for «{role}»"
+msgstr "Modifier les droits de «{role}»"
+
+msgid "You can't deactivate the role of the current user."
+msgstr "Vous ne pouvez pas désactiver le rôle de l'utilisateur courant."
+
+#, python-brace-format
+msgid ""
+"This role cannot be deactivated because it is used by {count} user without "
+"secondary active role to switch on: {users}."
+msgid_plural ""
+"This role cannot be deactivated because it is used by {count} users without "
+"secondary active role to switch on: {users}."
+msgstr[0] ""
+"Le rôle ne peut pas être désactivé car il est utilisé par {count} "
+"utilisateur sans rôle secondaire activé sur lequel basculer : {users}"
+msgstr[1] ""
+"Le rôle ne peut pas être désactivé car il est utilisé par {count} "
+"utilisateurs sans rôle secondaire activé sur lequel basculer : {users}"
+
+#, python-brace-format
+msgid "Clone the role «{object}»"
+msgstr "Cloner le rôle «{object}»"
+
+#, python-brace-format
+msgid "Delete role «{object}»"
+msgstr "Supprimer le rôle «{object}»"
+
+msgid "Delete the role"
+msgstr "Supprimer le rôle"
+
+msgid "A deletion process for a role already exists."
+msgstr "Il y a déjà un processus de suppression pour un rôle."
+
+msgid "Your are not allowed to change your displayed name"
+msgstr "Vous n'avez pas la permission de modifier votre nom affiché"
+
+#, python-brace-format
+msgid "Create a Workflow for «{model}»"
+msgstr "Créer un Processus automatisé pour «{model}»"
+
+#, python-brace-format
+msgid "Rename «{object}»"
+msgstr "Renommer «{object}»"
+
+msgid "This Workflow cannot be deleted"
+msgstr "Ce Processus automatisé ne peut pas être supprimé"
+
+#. Translators: 'object' is a Workflow
+#, python-brace-format
+msgid "Add an action to «{object}»"
+msgstr "Ajouter une action à «{object}»"
+
+msgid "This Workflow cannot be edited"
+msgstr "Ce Processus automatisé ne peut pas être modifié"
+
+#. Translators: 'object' is a Workflow
+#, python-brace-format
+msgid "Edit the conditions of «{object}»"
+msgstr "Modifier les conditions de «{object}»"
+
+#, python-brace-format
+msgid "Edit the action «{action}»"
+msgstr "Modifier l'action «{action}»"
+
+msgid "This action does not exist anymore"
+msgstr "Cette action n'existe plus"
+
+msgid "This action is invalid (refresh your page)"
+msgstr "Cette action est invalide (rafraîchissez votre page)"
+
+msgid "Edit the instance's settings"
+msgstr "Modifier la configuration de l'instance"
+
+#~ msgid "Properties constraint"
+#~ msgstr "Contrainte sur les propriétés"
+
+#~ msgid "The password must contain at least %(min_length)d character."
+#~ msgid_plural "The password must contain at least %(min_length)d characters."
+#~ msgstr[0] ""
+#~ "Le mot de passe doit contenir au minimum %(min_length)d caractère."
+#~ msgstr[1] ""
+#~ "Le mot de passe doit contenir au minimum %(min_length)d caractères."
+
+#~ msgid "The password can’t be too similar to the other personal information."
+#~ msgstr ""
+#~ "Le mot de passe ne peut pas trop ressembler aux autres informations "
+#~ "personnelles."
+
+#~ msgid "The password can’t be a commonly used password."
+#~ msgstr ""
+#~ "Le mot de passe ne peut pas être un mot de passe couramment utilisé."
+
+#~ msgid "The password can’t be entirely numeric."
+#~ msgstr "Le mot de passe ne peut pas être entièrement numérique."
+
+#~ msgid "New channel"
+#~ msgstr "Nouveau canal"
+
+#~ msgid "Text"
+#~ msgstr "Texte"
+
+#~ msgid "Is copiable"
+#~ msgstr "Est copiable"
+
+#~ msgid "Are the properties with this type copied when an entity is cloned?"
+#~ msgstr ""
+#~ "Est-ce que les propriétés avec ce type sont copiées quand une fiche est "
+#~ "clonée ?"
+
+#~ msgid "There is already a fields configuration for the model «{}»."
+#~ msgstr "Il y a déjà une configuration de champs pour le modèle «{}»"
+
+#~ msgid "No filter"
+#~ msgstr "Pas de filtre"
+
+#~ msgid "Blocks to display on top"
+#~ msgstr "Blocs à afficher en haut"
+
+#~ msgid "Blocks to display on left side"
+#~ msgstr "Blocs à afficher à gauche"
+
+#~ msgid "Blocks to display on right side"
+#~ msgstr "Blocs à afficher à droite"
+
+#~ msgid "Blocks to display on bottom"
+#~ msgstr "Blocs à afficher en bas"
+
+#~ msgid "Property types configuration"
+#~ msgstr "Configuration des types de propriété"
+
+#~ msgid "List of standard relation types"
+#~ msgstr "Liste des types de relation standard"
+
+#~ msgid "Custom relation types configuration"
+#~ msgstr "Configuration des types de relation personnalisés"
+
+#~ msgid "List of semi-fixed relation types"
+#~ msgstr "Liste des types de relation semi-fixés"
+
+#~ msgid "Existing choices of the list"
+#~ msgstr "Choix existants de la liste"
+
+#~ msgid "Uncheck the choices you want to delete."
+#~ msgstr "Décochez les choix que vous voulez supprimer."
+
+#~ msgid "You cannot delete this role. [original error: {}]"
+#~ msgstr "Vous ne pouvez pas supprimer ce rôle. [erreur d'origine : {}]"
+
+#~ msgid "Can delete"
+#~ msgstr "Peut supprimer"
+
+#~ msgid "Can unlink"
+#~ msgstr "Peut délier"
+
+#~ msgid "{count} Blocks on home"
+#~ msgstr "{count} Blocs sur l'accueil"
+
+#~ msgid "Related entity"
+#~ msgstr "Fiche concernée"
+
+#~ msgid "Portal of general configuration"
+#~ msgstr "Portail de la configuration générale"
+
+#~ msgid "Related application"
+#~ msgstr "Application associée"
+
+#~ msgid "New blocks configuration"
+#~ msgstr "Nouvelle configuration de blocs"
+
+#~ msgid "No configured portal for the moment"
+#~ msgstr "Aucun portail configuré pour le moment"
+
+#~ msgid "Order"
+#~ msgstr "Ordre"
+
+#~ msgid "Resource"
+#~ msgstr "Ressource"
+
+#~ msgid "Edit"
+#~ msgstr "Modifier"
+
+#~ msgid "Buttons"
+#~ msgstr "Boutons"
+
+#~ msgid "Move up"
+#~ msgstr "Monter"
+
+#~ msgid "Move down"
+#~ msgstr "Descendre"
+
+#~ msgid "(no deletable)"
+#~ msgstr "(non supprimable)"
+
+#~ msgid "Type of property"
+#~ msgstr "Type de propriété"
+
+#~ msgid "Applies on entities with following types"
+#~ msgstr "S'applique aux fiches des types suivants"
+
+#~ msgid "Related type of relation"
+#~ msgstr "Type de relation associé"
+
+#~ msgid "Can't delete"
+#~ msgstr "Suppression interdite"
+
+#~ msgid "Email address"
+#~ msgstr "Adresse e-mail"
+
+#~ msgid "Active?"
+#~ msgstr "Actif ?"
+
+#~ msgid "Last login"
+#~ msgstr "Dernière connexion"
+
+#~ msgid "No"
+#~ msgstr "Non"
+
+#~ msgid "Can't add"
+#~ msgstr "Création interdite"
+
+#~ msgid "Save the type of property"
+#~ msgstr "Enregistrer le type de propriété"
+
+#~ msgid "Save the type"
+#~ msgstr "Enregistrer le type"
+
+#~ msgid "New semi-fixed type of relationship"
+#~ msgstr "Nouveau type de relation semi-fixé"
+
+#~ msgid "All users"
+#~ msgstr "Tous les utilisateurs"
+
+#~ msgid "Title"
+#~ msgstr "Intitulé"
+
+#~ msgid "Can view entity"
+#~ msgstr "Peut voir la fiche"
+
+#~ msgid "Can edit entity"
+#~ msgstr "Peut modifier la fiche"
+
+#~ msgid "Can delete entity"
+#~ msgstr "Peut supprimer la fiche"
+
+#~ msgid "Can link entity"
+#~ msgstr "Peut relier la fiche"
+
+#~ msgid "Can unlink entity"
+#~ msgstr "Peut délier la fiche"
+
+#~ msgid "All"
+#~ msgstr "Tous"
+
+#~ msgid "Edit default credentials"
+#~ msgstr "Modifier les droits par défaut"
+
+#~ msgid "You have to select a team."
+#~ msgstr "Vous devez choisir une équipe."
+
+#~ msgid "Semi-fixed relation types"
+#~ msgstr "Types de relation semi-semi-fixés"
+
+#~ msgid "Relation blocks configuration"
+#~ msgstr "Configuration des blocs de relation"
+
+#~ msgid "Instance blocks configuration"
+#~ msgstr "Configuration des blocs d'instance"
+
+#~ msgid "Button menu configuration"
+#~ msgstr "Configuration du menu bouton"
+
+#~ msgid "User roles configuration"
+#~ msgstr "Configuration des rôles utilisateurs"
+
+#~ msgid "Default credentials"
+#~ msgstr "Droits par défaut"
+
+#~ msgid "Block to display"
+#~ msgstr "Blocs à afficher"
+
+#~ msgid "Portal"
+#~ msgstr "Portail"
+
+#~ msgid "Login"
+#~ msgstr "Nom d'utilisateur"
+
+#~ msgid "Profiles"
+#~ msgstr "Profils"
+
+#~ msgid "New profile"
+#~ msgstr "Nouveau profil"
+
+#~ msgid "Applications credentials settings"
+#~ msgstr "Gestion des droits des applications"
+
+#~ msgid "Creme applications credentials"
+#~ msgstr "Droits des applications Creme"
+
+#~ msgid "Superiors"
+#~ msgstr "Supérieurs"
+
+#~ msgid "Subordinates"
+#~ msgstr "Subordonnés"
+
+#~ msgid "Own credentials"
+#~ msgstr "Droits propres"
+
+#~ msgid "Inherited credentials"
+#~ msgstr "Droits hérités"
+
+#~ msgid "Inherited allowed applications"
+#~ msgstr "Applications autorisées héritées"
+
+#~ msgid "New credential"
+#~ msgstr "Nouveau droit"
+
+#~ msgid "Credential type"
+#~ msgstr "Type de droit"

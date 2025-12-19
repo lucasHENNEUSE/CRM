@@ -1,0 +1,145 @@
+{% extends 'creme_core/bricks/base/paginated-list.html' %}
+{% load i18n creme_bricks creme_cells creme_ctype creme_perms creme_widgets %}
+{% load and_op inner_edition_uri is_plural templatize url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_core-specific-relations-brick{% endblock %}
+
+{% block brick_menu_actions %}
+    {{block.super}}
+    {% if relation_type.enabled %}
+     {% with config_perm=user|has_perm_to_admin:'creme_core' %}
+      <hr/>
+      {% for ctype, cells in config_item.iter_cells %}{% url 'creme_config__edit_cells_of_rtype_brick' config_item.id ctype.id as edit_cells_url %}{% blocktranslate asvar edit_label %}Configure the fields for «{{ctype}}»'{% endblocktranslate %}
+        {% brick_menu_action id='edit' url=edit_cells_url icon='config' label=edit_label enabled=config_perm %}
+      {% endfor %}
+
+      {% if not config_item.all_ctypes_configured %}
+        {% brick_menu_action id='edit' url='creme_config__add_cells_to_rtype_brick'|url:config_item.id label=_('Configure the fields of a new type') enabled=config_perm %}
+      {% endif %}
+     {% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_header_title %}
+{% with predicate=relation_type.predicate %}
+    {% if page.paginator.count|is_plural %}{% translate '{count} Entities' as first_part %}{% else %}{% translate '{count} Entity' as first_part %}{% endif %}
+    {% templatize '{{first_part}} — {{predicate}}' as title_fmt %}
+    {% brick_header_title title=title_fmt empty=predicate icon='relations' %}
+{% endwith %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% if relation_type.is_internal %}
+      {% brick_header_action id='link' label=_('New relationships') help_text=_('This relation type is internal, so you cannot create a relationship with this generic block') enabled=False %}
+    {% elif relation_type.enabled %}
+      {% url 'creme_core__create_relations' object.id relation_type.id as create_url %}
+      {% brick_header_action id='link' url=create_url label=_('New relationships') enabled=user|has_perm_to_link:object %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_before_content %}
+    {% if not relation_type.enabled %}
+      <div class="global-error">
+        {% blocktranslate with predicate=relation_type.predicate %}Beware: the relationship type «{{predicate}}» is disabled. You should re-enable it if it's still useful, or remove this block{% endblocktranslate %}
+      </div>
+    {% endif %}
+{% endblock %}
+
+{% block brick_list_content %}
+ {% with subject_unlink_perm=user|has_perm_to_unlink:object delete_url='creme_core__delete_relation'|url %}
+  {% for entities, cells in groups %}
+   {% with counter=entities|length %}
+    {% if counter %}
+    <div class="brick-list-item relation-item">
+        {% if cells %}
+        <div class="relation-group relation-summary-group">
+            <div class="relation-group-key">{{entities.0.entity_type|ctype_counted_label:counter}}</div>
+        </div>
+        {% elif groups|length > 1 %}
+        <div class="relation-group relation-summary-group">
+            <div class="relation-group-key">
+                {% blocktranslate count count=counter %}{{count}} Entity{% plural %}{{count}} Entities{% endblocktranslate %}
+            </div>
+        </div>
+        {% endif %}
+        <div class="relation-group relation-info-group brick-table">
+            <table class="relation-group-value brick-table-content">
+            {% if cells %}
+                <thead>
+                    <tr>
+                    {% for cell in cells %}
+                        {% if forloop.first %}
+                            {% brick_table_column title=cell.title status='primary' %}
+                        {% else %}
+                            {% brick_table_column title=cell.title %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if relation_type.is_internal %}
+                        {% brick_table_column title=_('Action') status='action' %}
+                    {% else %}
+                        {% brick_table_column title=_('Action') status='action' colspan=2 %}
+                    {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for entity_obj in entities %}
+                    <tr>
+                    {% if user|has_perm_to_view:entity_obj %}
+                      {% for cell in cells %}
+                          {% if forloop.first %}
+                          <td {% brick_table_data_status primary %} {% if cell.data_type %}data-type="{{cell.data_type}}"{% endif %}>
+                              {% cell_render cell=cell instance=entity_obj user=user as cell_content %}
+                              <a href="{{entity_obj.get_absolute_url}}"{% if entity_obj.is_deleted %} class="is_deleted"{% endif %}>{% if cell_content %}{{cell_content}}{% else %}<span class="empty-field">{% translate '(empty)' %}</span>{% endif %}</a>
+                          {% else %}
+                          <td {% if cell.data_type %}data-type="{{cell.data_type}}"{% endif %}>
+                              {% cell_render cell=cell instance=entity_obj user=user as cell_content %}
+                              {% if cell_content %}{{cell_content}}{% else %}<span class="empty-field">—</span>{% endif %}
+                          {% endif %}
+                          </td>
+                      {% endfor %}
+                    {% else %}
+                      {% for cell in cells %}
+                        <td>{{HIDDEN_VALUE}}</td>
+                      {% endfor %}
+                    {% endif %}
+                        <td  {% brick_table_data_status action %}>{% inner_edition_uri instance=entity_obj cells=cells as edition_uri %}
+                            {% blocktranslate with object=entity_obj asvar edition_label %}Edit «{{object}}»{% endblocktranslate %}
+                            {% brick_table_action id='edit' url=edition_uri label=edition_label enabled=user|has_perm_to_change:entity_obj comeback=True %}
+                        </td>
+                      {% if not relation_type.is_internal %}
+                        <td  {% brick_table_data_status action %}>
+                          {% with object_unlink_perm=user|has_perm_to_unlink:entity_obj %}
+                            {% brick_table_action id='delete' url=delete_url __id=entity_obj.srb_relation_cache.id label=_('Delete this relationship') icon='unlink' enabled=subject_unlink_perm|and_op:object_unlink_perm %}
+                          {% endwith %}
+                        </td>
+                      {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tbody>
+                  {% for entity_obj in entities %}
+                    <tr>
+                        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink entity_obj user %}</td>
+                        <td {% brick_table_data_status action %}>
+                         {% if not relation_type.is_internal %}
+                           {% with object_unlink_perm=user|has_perm_to_unlink:entity_obj %}
+                            {% brick_table_action id='delete' url=delete_url __id=entity_obj.srb_relation_cache.id label=_('Delete this relationship') icon='unlink' enabled=subject_unlink_perm|and_op:object_unlink_perm %}
+                           {% endwith %}
+                         {% endif %}
+                        </td>
+                    </tr>
+                  {% endfor %}
+            {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+   {% endwith %}
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_list_empty %}
+    {% translate 'No related entity for the moment' %}
+{% endblock %}

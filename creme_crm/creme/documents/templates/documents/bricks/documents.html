@@ -1,0 +1,50 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url url_join from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} documents-documents-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Contained document') plural=_('{count} Contained documents') empty=verbose_name icon='document' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+{% url_join 'creme_core__listview_popup'|url ct_id=objects_ctype.id q_filter=q_filter selection='none' as action_uri %}
+    {% brick_header_action id='view' url=action_uri label=_('List of documents') icon='search' %} {# class='contained-doc-search' #}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='title' status='primary' %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+  {% for doc in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink doc user %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='redirect' url=doc.get_edit_absolute_url label=_('Edit this document') icon='edit' enabled=user|has_perm_to_change:doc %}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% if not doc.is_deleted %}
+            {% brick_table_delete_entity_action entity=doc user=user label=_('Send this document to the trash') %}
+          {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No document in this folder for the moment' %}
+{% endblock %}
+
+{% comment %} TODO: improve style (creme_core VS documents)
+{% block brick_script %}
+<style>
+    .documents-documents-brick .brick-header-button.contained-doc-search,
+    .documents-documents-brick .brick-header-button.contained-doc-search:hover {
+        color: orange;
+    }
+</style>
+{% endblock %}
+{% endcomment %}

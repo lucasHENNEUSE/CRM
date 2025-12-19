@@ -1,0 +1,155 @@
+{% load i18n media %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html class="about" xmlns="http://www.w3.org/1999/xhtml" lang="{{LANGUAGE_CODE}}" xml:lang="{{LANGUAGE_CODE}}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="robots" content="noindex">
+    <title>{% translate 'About CremeCRM' %}</title>
+    <link rel="shortcut icon" href="{% media_url 'common/images/favicon.ico' %}" type="image/x-icon" />
+</head>
+<style type="text/css">
+    {% block style %}
+        @font-face {
+          font-family: 'Open Sans';
+          font-style: normal;
+          font-weight: 400;
+{% comment %}
+          src: url('{% media_url "common/fonts/OpenSans-Regular-400.woff" %}') format('woff'), /* Modern Browsers */
+               url('{% media_url "common/fonts/OpenSans-Regular.ttf" %}') format('truetype'); /* Safari, Android, iOS */
+{% endcomment %}
+          src: url('{% media_url "common/fonts/OpenSans-Regular-400.woff" %}') format('woff');
+        }
+
+        @font-face {
+          font-family: 'Open Sans';
+          font-style: normal;
+          font-weight: 600;
+{% comment %}
+          src: url('{% media_url "common/fonts/OpenSans-Semibold-600.woff" %}') format('woff'), /* Modern Browsers */
+               url('{% media_url "common/fonts/OpenSans-Semibold.ttf" %}') format('truetype'); /* Safari, Android, iOS */
+{% endcomment %}
+          src: url('{% media_url "common/fonts/OpenSans-Semibold-600.woff" %}') format('woff');
+        }
+
+        html, body {
+            height: 100%;
+
+            margin: 0;
+            padding: 0;
+
+            color: black;
+
+            font-family: 'Open Sans', 'Verdana', sans-serif;
+            font-size: 14px;
+        }
+
+        body {
+            background-color: #333;
+            background-image: url({% media_url 'common/images/creme-pattern.png' %});
+            background-repeat: repeat-x;
+        }
+
+        .about a {
+            color: #167ee7;
+            text-decoration: none;
+        }
+
+        .about .containers {
+            height: 100%;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .about .about-container {
+            background: linear-gradient(#fff, rgba(245, 245, 245, 0.8));
+
+            width: 512px;
+
+            margin-right: auto;
+            margin-left: auto;
+
+            border: 1px solid #000;
+            border-radius: 2px;
+
+            box-sizing: border-box;
+
+            padding-top: 20px;
+        }
+
+        .about .about-container .about-icon {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .about .about-container .about-icon img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .about .main-content {
+            width: 420px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        .about .main-content .title {
+            padding-bottom: 10px;
+            /* padding-left: 20px; */
+
+            color: #444;
+            font-size: 16px;
+            font-weight: 600;
+
+            border-bottom: 1px solid #999;
+        }
+
+        .about .main-content .message {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .about .main-content .version {
+            margin-bottom: 30px;
+        }
+
+        .about .main-content .links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+    {% endblock %}
+    </style>
+<body>
+    <div class="containers">
+        <div class="about-container">
+            <div class="about-icon">{% block icon %}<img src="{% media_url 'common/images/creme_200.png' %}"/>{% endblock %}</div>
+            <div class="main-content">
+                <div class="title">
+                    {% block title %}{% translate 'About CremeCRM' %}{% endblock %}
+                </div>
+                <div class="message">
+                    {% block message %}
+                        <p>{% blocktranslate with software='<a href="https://cremecrm.com">Crème</a>' creator='<a href="https://hybird.org">Hybird</a>' %}<strong>{{software}}</strong> is a <a href="https://en.wikipedia.org/wiki/Free_software">free</a> <a href="https://en.wikipedia.org/wiki/Customer_relationship_management"><abbr title="Customer relationship management">CRM</abbr></a>, cooked in France since 2008, by <strong>{{creator}}</strong>.{% endblocktranslate %}</p>
+                        <p>{% blocktranslate with python='<a href="https://www.python.org">Python</a>' django='<a href="https://www.djangoproject.com">Django</a>' jquery='<a href="https://jquery.com/">jQuery</a>' %}Its recipe uses delicious & free ingredients like the {{python}} language, the web framework {{django}} or the library {{jquery}}.{% endblocktranslate %}</p>
+                    {% endblock %}
+                </div>
+                <div class="version">
+                  {% if user.is_authenticated %}
+                    {% block version %}{% blocktranslate %}Version {{creme_version}}{% endblocktranslate %}{% endblock %}
+                  {% endif %}
+                </div>
+                <div class="links">
+                    {% block links %}
+                        {% block creme_source_code %}<div><a href="{{REPOSITORY}}">{% translate 'Source code' %}</a></div>{% endblock %}
+                        {% block creme_forum %}<div><a href="https://www.cremecrm.com/forum/">{% translate 'Ask questions' %}</a></div>{% endblock %}
+                        {% block creme_irc %}<div><a href="https://web.libera.chat/#cremecrm">{% translate 'Talk with us' %}</a></div>{% endblock %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_cells creme_perms creme_widgets %}
+{% load and_op inner_edition_uri url from creme_core_tags %}
+
+{% block brick_header_actions %}
+ {% if relation_type.enabled %}
+  {% with obj_link_perm=user|has_perm_to_link:object contact_link_perm=user|has_perm_to_link:objects_ctype creation_perm=user|has_perm_to_create:objects_ctype %}
+    {% url 'persons__create_related_contact' object.id relation_type.id as people_creation_url %}
+    {% brick_header_action id='add-relationships' label=_('Link to contacts') icon='link' enabled=obj_link_perm|and_op:contact_link_perm __subject_id=object.id __rtype_id=relation_type.id __ctype_id=objects_ctype.id __multiple=True %}
+    {% brick_header_action id='redirect' url=people_creation_url comeback=True type='add' label=add_title enabled=creation_perm %}
+  {% endwith %}
+ {% endif %}
+{% endblock %}
+
+{% block brick_before_content %}
+  {% if not relation_type.enabled %}
+    <div class="global-error">
+      {% blocktranslate with predicate=relation_type.predicate %}Beware: the relationship type «{{predicate}}» is disabled. You should re-enable it if it's still useful, or remove this block{% endblocktranslate %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Name') status='primary nowrap' %}{# {% brick_table_column_for_field ctype=objects_ctype field='headerfilter_search... #}
+
+    {% for cell in cells %}
+    {% brick_table_column_for_cell cell=cell %}
+    {% endfor %}
+
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with del_rel_url='creme_core__delete_similar_relations'|url %}
+  {% for people in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink people user %}</td>
+         {% if user|has_perm_to_view:people %}
+          {% for cell in cells %}
+            <td {% if cell.data_type %}data-type="{{cell.data_type}}"{% endif %}>{% cell_render cell=cell instance=people user=user as cell_content %}
+                {% if cell_content %}{{cell_content}}{% else %}<span class="empty-field">—</span>{% endif %}
+            </td>
+          {% endfor %}
+         {% else %}
+            {% for cell in cells %}<td>{{HIDDEN_VALUE}}</td>{% endfor %}
+         {% endif %}
+        <td {% brick_table_data_status action %}>
+          {% if cells %}{% inner_edition_uri instance=people cells=cells as edition_uri %}
+            {% brick_table_action id='edit' url=edition_uri comeback=True label=_('Edit this contact') enabled=user|has_perm_to_change:people %}
+          {% else %}
+            {% brick_table_action id='redirect' url=people.get_edit_absolute_url label=_('Edit this contact') icon='edit' enabled=user|has_perm_to_change:people comeback=True %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=del_rel_url __subject_id=object.id __type=relation_type.id __object_id=people.pk label=_('Unlink this contact') icon='unlink' enabled=user|has_perm_to_unlink:people %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No related contact for the moment' %}
+{% endblock %}
+

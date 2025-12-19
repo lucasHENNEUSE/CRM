@@ -1,0 +1,79 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}{% load print_field from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_core-history-brick{% endblock %}
+
+{% block brick_script %}
+    <script type="text/javascript">
+        $('.brick[data-brick-id="{{brick_id}}"]').on('brick-ready', function() {
+            $('.toggle-icon-container').on('click', function(e) {
+                e.stopPropagation();
+
+                var expand = $(this).is('.toggle-icon-expand');
+
+                $(this).parents('.history-line-collapsable').toggleClass('history-line-collapsed', !expand);
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=verbose_name icon='history' %}
+{% endblock %}
+
+{% block brick_header_actions %}{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='id' status='primary' title=_('Date') %}
+
+    {% if not object %}
+    {% brick_table_column title=_('Concerned entity') %}
+    {% endif %}
+
+    {% brick_table_column_for_field ctype=objects_ctype field='type' %}
+    {% brick_table_column title=_('Modifications') %}
+    {% brick_table_column title=_('By') %}
+{% endblock %}
+
+{% block brick_table_rows %}
+  {% for line in page.object_list %}{% with concerned_entity=line.entity %}
+    <tr>
+        <td {% brick_table_data_status primary %} data-type="date">
+            {% print_field object=line field='date' %}
+        </td>
+        {% if not object %}
+        <td>
+          {% if concerned_entity %}
+            {% widget_icon instance=concerned_entity size='brick-table' class='ctype-icon' %}
+            {% widget_entity_hyperlink concerned_entity user %}
+          {% else %}
+            {% widget_icon ctype=line.entity_ctype size='brick-table' class='ctype-icon' %}
+            {{line.entity_repr}}{# TODO: improve credentials here !! #}
+          {% endif %}
+        </td>
+        {% endif %}
+        <td>{{line.get_type_str}}</td>
+        <td data-type="list">
+          {% if concerned_entity %}
+            {% if user|has_perm_to_view:concerned_entity %}{{line.explainer.render}}{% else %}{{HIDDEN_VALUE}}{% endif %}
+          {% else %}
+            {{line.explainer.render}}{# TODO: improve credentials here !! #}
+          {% endif %}
+        </td>
+        <td>
+          {% if line.by_wf_engine %}
+            <span class="history-line-workflow"
+                  title="{% blocktranslate with user=line.user|default:line.username|default:'?' %}This action has been performed by the Workflow engine, which has been triggered by another action of the user «{{user}}»{% endblocktranslate %}">
+                {% translate 'Workflow' %}
+            </span>
+          {% else %}
+            {% if line.user is not None %}{% widget_hyperlink line.user %}{% else %}{{line.username}}{% endif %}
+          {% endif %}
+        </td>
+    </tr>
+  {% endwith %}{% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No history for the moment' %}
+{% endblock %}

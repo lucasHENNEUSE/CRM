@@ -1,0 +1,234 @@
+# FR LOCALISATION OF 'GEOLOCATION' APP
+# Copyright (C) 2024 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Geolocation 2.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-07 14:39+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Geolocation"
+msgstr "Géolocalisation"
+
+msgid "Addresses on Google Maps ®"
+msgstr "Adresses sur Google Maps ®"
+
+msgid ""
+"Display the addresses of the Contact/Organisation on Google Maps ®.\n"
+"App: Geolocation"
+msgstr ""
+"Affiche les adresses du Contact/Société sur Google Maps ®.\n"
+"App: Géolocalisation"
+
+msgid "Addresses on OpenStreetMap ®"
+msgstr "Adresses sur OpenStreetMap ®"
+
+msgid ""
+"Display the addresses of the Contact/Organisation on OpenStreetMap ®.\n"
+"App: Geolocation"
+msgstr ""
+"Affiche les adresses du Contact/Société sur OpenStreetMap ®.\n"
+"App: Géolocalisation"
+
+msgid "Filtered addresses on Google Maps ®"
+msgstr "Adresses filtrées sur Google Maps ®"
+
+msgid ""
+"Display on Google Maps ® the addresses of the Contacts/Organisations "
+"corresponding to a filter.\n"
+"App: Geolocation"
+msgstr ""
+"Affiche sur Google Maps ® les adresses des Contacts/Sociétés qui "
+"correspondent à un filtre.\n"
+"App: Géolocalisation"
+
+msgid "Filtered addresses on OpenStreetMap ®"
+msgstr "Adresses filtrées sur OpenStreetMap ®"
+
+msgid ""
+"Display on OpenStreetMap ® the addresses of the Contacts/Organisations "
+"corresponding to a filter.\n"
+"App: Geolocation"
+msgstr ""
+"Affiche sur OpenStreetMap ® les adresses des Contacts/Sociétés qui "
+"correspondent à un filtre.\n"
+"App: Géolocalisation"
+
+msgid "Neighbours on Google Maps ®"
+msgstr "Voisins sur Google Maps ®"
+
+msgid ""
+"Display on Google Maps ® the addresses of the neighbours of the Contact/"
+"Organisation. The neighbours are Contacts/Organisations and can be "
+"filtered.\n"
+"App: Geolocation"
+msgstr ""
+"Affiche sur Google Maps ® les adresses des voisins du Contact/Société. Les "
+"voisins sont des Contacts/Sociétés et peuvent être filtrés.\n"
+"App: Géolocalisation"
+
+msgid "Neighbours on OpenStreetMap ©"
+msgstr "Voisins sur OpenStreetMap ®"
+
+msgid ""
+"Display on OpenStreetMap ® the addresses of the neighbours of the Contact/"
+"Organisation. The neighbours are Contacts/Organisations and can be "
+"filtered.\n"
+"App: Geolocation"
+msgstr ""
+"Affiche sur OpenStreetMap ® les adresses des voisins du Contact/Société. Les "
+"voisins sont des Contacts/Sociétés et peuvent être filtrés.\n"
+"App: Géolocalisation"
+
+msgid "Not localized"
+msgstr "Non localisé"
+
+msgid "Manual location"
+msgstr "Localisation manuelle"
+
+msgid "Partially matching location"
+msgstr "Localisation incomplète"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Latitude"
+msgstr "Latitude"
+
+msgid "Longitude"
+msgstr "Longitude"
+
+msgid "Is this marker draggable in maps?"
+msgstr "Ce curseur peut-il être déplacé ?"
+
+msgid "Geocoded from address?"
+msgstr "Géolocalisé à partir de l'adresse ?"
+
+msgctxt "geolocation"
+msgid "Status"
+msgstr "Statut"
+
+msgctxt "geolocation-address"
+msgid "Create an address"
+msgstr "Créer une adresse"
+
+msgctxt "geolocation-address"
+msgid "Address"
+msgstr "Adresse"
+
+msgctxt "geolocation-address"
+msgid "Addresses"
+msgstr "Adresses"
+
+msgid "Name of the town"
+msgstr "Nom de la ville"
+
+msgid "Slugified name of the town"
+msgstr "Nom normalisé de la ville"
+
+msgid "Zip code"
+msgstr "Code postal"
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Create a town"
+msgstr "Créer une ville"
+
+msgid "Town"
+msgstr "Ville"
+
+msgid "Towns"
+msgstr "Villes"
+
+msgid "Maximum distance to find neighbours in meters"
+msgstr "Distance maximale pour trouver des voisins en mètres"
+
+msgid "Google Maps ® API key (optional)"
+msgstr "Clé API Google Maps ® (optionnelle)"
+
+msgid "Show customizable marker icon of address related entity"
+msgstr "Afficher le marqueur personnalisable de l'entité liée à l'adresse"
+
+msgid "Map"
+msgstr "Carte"
+
+msgid "The geolocation feature is disabled for the entities in the trash"
+msgstr "La géolocalisation est désactivée pour les fiches dans la corbeille"
+
+msgid "No address defined for now"
+msgstr "Aucune adresse enregistrée pour le moment"
+
+msgid "Retrieve location"
+msgstr "Localiser"
+
+msgid "Maps By Filter"
+msgstr "Cartes par filtre"
+
+msgid "No address from"
+msgstr "Aucune adresse de"
+
+msgid "Around this place"
+msgstr "Autour de ce lieu"
+
+msgid "None of"
+msgstr "Aucune adresse de"
+
+msgid "All the contacts and organisations"
+msgstr "Tous les contacts et sociétés"
+
+msgid "around"
+msgstr "autour de"
+
+msgid "No geolocated address for now"
+msgstr "Aucune adresse géolocalisée pour le moment"
+
+#, python-format
+msgid "within a radius of %(radius_distance)s."
+msgstr "dans un rayon de %(radius_distance)s."
+
+msgid ""
+"Google API key may be missing or invalid. Please try to configure it or "
+"contact your administrator."
+msgstr ""
+"La clé de l'API Google semble être manquante ou invalide. Essayez de la "
+"configurer ou contactez votre administrateur."
+
+#, python-brace-format
+msgid "{distance} meter"
+msgid_plural "{distance} meters"
+msgstr[0] "{distance} mètre"
+msgstr[1] "{distance} mètres"
+
+#, python-brace-format
+msgid "{distance:.1f} Km"
+msgid_plural "{distance:.1f} Km"
+msgstr[0] "{distance:.1f} km"
+msgstr[1] "{distance:.1f} km"
+
+msgid "Billing address"
+msgstr "Adresse de facturation"
+
+msgid "Shipping address"
+msgstr "Adresse de livraison"
+
+#~ msgid "All the Contacts and Organisations"
+#~ msgstr "Tous les contacts et sociétés"
+
+#~ msgid "Maps"
+#~ msgstr "Cartes"
+
+#~ msgid "Around this address"
+#~ msgstr "Autour de cette adresse"
+
+#~ msgid "No matching location"
+#~ msgstr "Non localisé"

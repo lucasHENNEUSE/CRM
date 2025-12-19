@@ -1,0 +1,42 @@
+syntax: glob
+
+*~
+*.blend1
+*.pyc
+
+# Still useful?
+.project*
+#.settings*
+
+# Python package
+*.egg-info
+build/*
+sdist/*
+dist/*
+
+# NetBeans
+nbproject/*
+
+# PyCharm
+.idea/*
+
+# PyDev
+.pydev*
+
+# coverage.py
+.coverage
+.coverage.*
+htmlcov/*
+artifacts/*
+
+# mypy
+.mypy_cache/*
+
+# nodejs
+node_modules/
+.coverage-karma/
+.eslint.*
+
+# environment variables
+.env
+/.mypy_cache/

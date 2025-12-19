@@ -1,0 +1,37 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} graphs-orbital-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Peripheral type of relationship') plural=_('{count} Peripheral types of relationship') empty=verbose_name icon='graph' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='link' url='graphs__add_rtypes'|url:object.id label=_('Add some types of relationship') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Type of relation') status='primary' %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with edit_perm=user|has_perm_to_change:object remove_rtype_url='graphs__remove_rtype'|url:object.id %}
+  {% for rtype in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>
+            <span class="orbital-rtype{% if not rtype.enabled %} orbital-rtype-disabled{% endif %}">{{rtype}}</span>
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=remove_rtype_url __id=rtype.pk label=_('Remove this type') icon='unlink' enabled=edit_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate "No type of relation for the moment" %}
+{% endblock %}

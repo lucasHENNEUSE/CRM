@@ -1,0 +1,38 @@
+{% extends 'creme_core/bricks/jobs-all.html' %}
+{% load i18n creme_bricks %}
+
+{% block brick_extra_class %}{{block.super}} creme_core-my-jobs-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('My job') plural=_('My jobs ({count})') empty=verbose_name %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('App') class='job-app' %}
+    {% brick_table_column title=_('Type') class='job-type' %}
+    {% brick_table_column title=_('Status') class='job-status' %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+    {% for job in page.object_list %}
+    <tr>
+        <td class="job-app">{{job.type.app_config.verbose_name|default:'?'}}</td>
+        <td class="job-type">{{job.type|default:'?'}}</td>
+        <td class="job-status" data-job-id="{{job.id}}" data-job-status="{{job.status}}" data-job-ack-errors="{{job.ack_errors}}">
+            {{job.get_status_display}}
+            {% if not job.is_finished %}{{job.progress.render}}{% endif %}
+        </td>
+        <td {% brick_table_data_status action %} >
+        {% if job.type %}
+            {% brick_table_action id='redirect' url=job.get_absolute_url label=_('View this job') type='view' %}
+        {% endif %}
+        </td>
+        <td {% brick_table_data_status action %} >
+        {% if job.type and job.is_finished and job.user_id %}
+            {% brick_table_action id='delete' url=job.get_delete_absolute_url label=_('Delete this job') %}
+        {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock %}

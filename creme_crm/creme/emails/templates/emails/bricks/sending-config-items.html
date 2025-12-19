@@ -1,0 +1,55 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms %}
+{% load print_field url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} emails-sending_config_items-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Configured server for campaigns') plural=_('{count} Configured servers for campaigns') empty=_('Configured servers for campaigns') icon='email' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% translate 'New server configuration' context 'emails' as new_label %}
+    {% brick_header_action id='add' url='emails__create_sending_config_item'|url label=new_label enabled=user|has_perm_to_admin:'emails' %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='name' status='primary nowrap' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='host' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='username' %}
+{# NOPE    {% brick_table_column_for_field ctype=objects_ctype field='password' %} #}
+    {% brick_table_column_for_field ctype=objects_ctype field='port' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='use_tls' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='default_sender' %}
+
+    {% brick_table_column title=_('Actions') status='action' colspan=3 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% translate 'Edit this configuration' context 'emails' as edit_label %}{% translate 'Delete this configuration' context 'emails' as del_label %}
+ {% with admin_perm=user|has_perm_to_admin:'emails' delete_url='emails__delete_sending_config_item'|url %}
+  {% for item in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{{item.name}}</td>
+        <td>{{item.host}}</td>
+        <td>{{item.username}}</td>
+        <td>{% if item.port %}{% print_field object=item field='port' %}{% else %}<span class="emails-campaign-default">{% translate 'Default port' %}</span>{% endif %}</td>
+        <td>{% print_field object=item field='use_tls' %}</td>
+        <td>{{item.default_sender|default:'—'}}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='emails__set_sending_config_item_password'|url:item.id label=_('Change the password') icon='security' enabled=admin_perm %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url=item.get_edit_absolute_url label=edit_label enabled=admin_perm %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_url __id=item.id label=del_label enabled=admin_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No server for the moment' context 'emails' %}
+{% endblock %}

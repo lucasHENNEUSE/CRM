@@ -1,0 +1,57 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load print_field url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} assistants-messages-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} User message') plural=_('{count} User messages') empty=verbose_name icon='message' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if object %}
+    {% brick_header_action id='add' url='assistants__create_related_message'|url:object.id label=_('Send a new message') enabled=user|has_perm_to_change:object %}
+  {% else %}
+    {% brick_header_action id='add' url='assistants__create_message'|url label=_('New message') %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% if not object %}
+    {% brick_table_column title=_('Concerned entity') %}
+    {% endif %}
+
+{% translate 'Created on' context 'assistants-message' as creation_label %}
+    {% brick_table_column_for_field ctype=objects_ctype field='sender'        status='primary' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='creation_date' title=creation_label data_type='date' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='title' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='body'          title=_('Body') %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}{% url 'assistants__delete_message' as delete_url %}
+  {% for message in page.object_list %}
+    <tr>
+        {% if not object %}
+          {% with entity=message.real_entity %}
+            {% if entity %}
+              <td>{% widget_entity_hyperlink entity user %}</td>
+            {% else %}
+              <td>{% translate '(None)' %}</td>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+        <td {% brick_table_data_status primary %}>{% print_field object=message field='sender' %}</td>
+        <td data-type="date">{{message.creation_date|date:"DATE_FORMAT"}}</td>
+        <td>{% print_field object=message field='title' %}</td>
+        <td>{% print_field object=message field='body' %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_url __id=message.pk label=_('Delete this message') enabled=1 %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No received message for the moment' %}
+{% endblock %}

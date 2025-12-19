@@ -1,0 +1,9 @@
+{% extends '409.html' %}
+
+{% block error_message %}
+    {% if error_message %}
+        {{error_message}}
+    {% else %}
+        {{block.super}}
+    {% endif %}
+{% endblock %}

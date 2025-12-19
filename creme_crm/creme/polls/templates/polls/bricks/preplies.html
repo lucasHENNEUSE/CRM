@@ -1,0 +1,40 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load and_op url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} polls-replies-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Reply') plural=_('{count} Replies') empty=_('Replies') icon='poll' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if propose_creation %}
+   {% with link_perm=user|has_perm_to_change:object creation_perm=user|has_perm_to_create:objects_ctype %}
+    {% brick_header_action id='add' url='polls__create_replies_from_pform'|url:object.id label=_('Create replies') enabled=link_perm|and_op:creation_perm %}
+   {% endwith %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='name' status='primary' %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+  {% for preply in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink preply user %}</td>
+        <td {% brick_table_data_status action %}>
+        {% if not preply.is_complete %}
+            {% brick_table_action id='redirect' url='polls__fill_reply'|url:preply.id label=_('Fill') icon='edit' enabled=user|has_perm_to_change:preply %}
+        {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No related reply for the moment' %}
+{% endblock %}
+

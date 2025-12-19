@@ -1,0 +1,10 @@
+{% if button.permission_error %}
+<span class="menu_button menu-button-icon forbidden" title="{{button.permission_error}}">
+    {{button.icon.render}}{{button.verbose_name}}
+</span>
+{% else %}
+<a class="menu_button menu-button-icon" title="{{button.description}}" data-action="redirect"
+   href="{% url 'activities__create_related_activity' object.id %}?callback_url=${location}{% if button.type_uuid %}&activity_type={{button.type_uuid}}{% endif %}">
+    {{button.icon.render}}{{button.verbose_name}}
+</a>
+{% endif %}

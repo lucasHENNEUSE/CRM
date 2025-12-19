@@ -1,0 +1,908 @@
+# FR LOCALISATION OF 'OPPORTUNITIES' APP
+# Copyright (C) 2025 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i "tests/*" --no-location
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Opportunities 2.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-12 15:40+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Opportunities"
+msgstr "Opportunités"
+
+msgid "Commercial"
+msgstr "Commercial"
+
+msgid "Card header block"
+msgstr "Bloc «carte de visite»"
+
+msgid "Information on the opportunity"
+msgstr "Informations sur l'opportunité"
+
+msgid "Linked Contacts"
+msgstr "Contacts liés"
+
+msgid ""
+"Displays Contacts linked to the current Opportunity with a relationship "
+"«involves in the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Contacts liés à l'Opportunité courante avec une relation "
+"«intervient dans l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Related products"
+msgstr "Produits associés"
+
+msgid ""
+"Displays Products linked to the current Opportunity with a relationship "
+"(Product) «is linked to the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Produits liés à l'Opportunité courante avec une relation "
+"(Produit) «est lié à l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Related services"
+msgstr "Services concernés"
+
+msgid ""
+"Displays Services linked to the current Opportunity with a relationship "
+"(Service) «is linked to the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Services liés à l'Opportunité courante avec une relation "
+"(Service) «est lié à l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Business managers"
+msgstr "Responsables"
+
+msgid ""
+"Displays Contacts linked to the current Opportunity with a relationship «is "
+"responsible for».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Contacts liés à l'Opportunité courante avec une relation «est "
+"chargé de l'affaire».\n"
+"App : Opportunités"
+
+msgid "Opportunities which target the Organisation / Contact"
+msgstr "Opportunités qui ciblent la Société / le Contact"
+
+msgid ""
+"Displays the Opportunities linked to the current Organisation / Contact with "
+"a relationship «targets the organisation/contact».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Opportunités reliées au Contact courant / à la Société courante "
+"avec une relation «cible la société/le contact».\n"
+"App : Opportunités"
+
+msgid "Totals"
+msgstr "Totaux"
+
+msgid ""
+"Displays the totals (exclusive of tax & inclusive of tax) of the current "
+"Opportunity.\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les totaux (HT & TTC) de l'Opportunité courante.\n"
+"App : Opportunités"
+
+msgid "Target and source"
+msgstr "Cible et source"
+
+msgid ""
+"Displays the target & the source of the current Opportunity.\n"
+"They are Contacts or Organisations, linked with the relationships «targeted "
+"by the opportunity» & «has generated the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche la cible et la source de l'Opportunité courante.\n"
+"Ce sont des Contacts ou Sociétés, reliés avec les relations «est ciblé par "
+"l'opportunité» & «a généré l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Quotes linked to the opportunity"
+msgstr "Devis liés à l'opportunité"
+
+msgid ""
+"Displays Quotes linked to the current Opportunity with a relationship "
+"(Quote) «generated for the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Devis liés à l'Opportunité courante avec une relation (Devis) «a "
+"été généré pour l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Salesorders linked to the opportunity"
+msgstr "Bons de commande liés à l'opportunité"
+
+msgid ""
+"Displays Salesorders linked to the current Opportunity with a relationship "
+"(Salesorder) «generated for the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Bons de commande liés à l'Opportunité courante avec une relation "
+"(Bon) «a été généré pour l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Invoices linked to the opportunity"
+msgstr "Factures liées à l'opportunité"
+
+msgid ""
+"Displays Invoices linked to the current Opportunity with a relationship "
+"(Invoice) «generated for the opportunity».\n"
+"App: Opportunities"
+msgstr ""
+"Affiche les Factures liées à l'Opportunité courante avec une relation "
+"(Facture) «a été générée pour l'opportunité».\n"
+"App : Opportunités"
+
+msgid "Create a linked opportunity"
+msgstr "Créer une opportunité liée"
+
+msgid ""
+"This button displays the creation form for opportunities. The current entity "
+"is pre-selected to be the target of the created opportunity.\n"
+"App: Opportunities"
+msgstr ""
+"Ce bouton affiche le formulaire de création des opportunités. La fiche "
+"courante est pré-sélectionnée pour être la cible de l'opportunité créé.\n"
+"App : Opportunités"
+
+# Already in 'activities'
+msgid "Create an unsuccessful phone call"
+msgstr ""
+
+msgid ""
+"This button creates a short phone call (kind of activity) which was not "
+"successful (in order to keep an history).\n"
+"All the contacts linked to the current Opportunity participate in the "
+"created call, & you too.\n"
+"The fields values can be set in the configuration of «Activities».\n"
+"App: Opportunities"
+msgstr ""
+"Ce bouton crée un court appel téléphonique (sorte d'activité) qui n'a pas "
+"été fructueux (afin de garder quand même un historique).\n"
+"Tous les contacts liés à l'Opportunité courante participent à l'appel créé, "
+"et vous aussi.\n"
+"Les valeurs des champs peuvent être réglées dans la configuration de "
+"«Activités».\n"
+"App: Opportunités"
+
+msgid "Creation form for opportunity"
+msgstr "Formulaire de création d'opportunité"
+
+msgid "Edition form for opportunity"
+msgstr "Formulaire de modification d'opportunité"
+
+msgid "Is employed by «{}»?"
+msgstr "Est salarié chez «{}» ?"
+
+msgid "Target"
+msgstr "Cible"
+
+msgid "Concerned organisation"
+msgstr "Société concernée"
+
+msgid "Target organisation / contact"
+msgstr "Société / contact cible"
+
+msgid "Weighted sales"
+msgstr "CA pondéré"
+
+msgid "Error: «Estimated sales» is hidden"
+msgstr "Erreur: «CA estimé» est caché"
+
+#, python-format
+msgid "Error: «% of chance to win» is hidden"
+msgstr "Erreur: «% de chance d'obtention»"
+
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "opportunities-sales_phase"
+msgid "Won"
+msgstr "Gagnée"
+
+msgctxt "opportunities-sales_phase"
+msgid "Lost"
+msgstr "Perdue"
+
+msgctxt "opportunities-sales_phase"
+msgid "Create a phase"
+msgstr "Créer une phase"
+
+msgid "Sale phase"
+msgstr "Phase de vente"
+
+msgid "Sale phases"
+msgstr "Phases de vente"
+
+msgid "A phase can not be won and lost at the same time."
+msgstr "Une phase ne peut pas être gagnée et perdu à la fois."
+
+msgid "Origin"
+msgstr "Origine"
+
+msgctxt "opportunities-origin"
+msgid "Create an origin"
+msgstr "Créer une origine"
+
+msgid "Origin of opportunity"
+msgstr "Origine d'opportunité"
+
+msgid "Origins of opportunity"
+msgstr "Origines d'opportunité"
+
+msgid "Name of the opportunity"
+msgstr "Nom de l'opportunité"
+
+msgid "Reference"
+msgstr "Référence"
+
+msgid "Estimated sales"
+msgstr "CA estimé"
+
+msgid "Made sales"
+msgstr "CA final"
+
+msgid "Currency"
+msgstr "Devise"
+
+msgid "Sales phase"
+msgstr "Phase de vente"
+
+msgid "Chance to win"
+msgstr "Chances d'obtention"
+
+msgid "Expected closing date"
+msgstr "Date de signature prévue"
+
+msgid "Actual closing date"
+msgstr "Date de signature réelle"
+
+msgid "Date of the first action"
+msgstr "Date de la première action"
+
+msgid "Create an opportunity"
+msgstr "Créer une opportunité"
+
+msgid "Save the opportunity"
+msgstr "Enregistrer l'opportunité"
+
+msgid "Opportunity"
+msgstr "Opportunité"
+
+msgid "Emitter is required."
+msgstr "L'émetteur est requis."
+
+msgid "Target is required."
+msgstr "La cible est requise."
+
+msgid "Forthcoming"
+msgstr "À venir"
+
+msgid "In progress"
+msgstr "En cours"
+
+msgid "Under negotiation"
+msgstr "En négociation"
+
+msgctxt "opportunities-sales_phase"
+msgid "Abandoned"
+msgstr "Abandonnée"
+
+msgctxt "opportunities-origin"
+msgid "None"
+msgstr "Aucune"
+
+msgid "Web site"
+msgstr "Site Web"
+
+msgid "Mouth"
+msgstr "Bouche à oreille"
+
+msgid "Show"
+msgstr "Salon"
+
+msgid "Direct email"
+msgstr "E-mail direct"
+
+msgid "Direct phone call"
+msgstr "Appel direct"
+
+# Already in persons
+msgid "Employee"
+msgstr ""
+
+msgid "Partner"
+msgstr "Partenaire"
+
+msgctxt "opportunities-origin"
+msgid "Other"
+msgstr "Autre"
+
+msgid "targets the organisation/contact"
+msgstr "cible la société/le contact"
+
+msgid "targeted by the opportunity"
+msgstr "est ciblé par l'opportunité"
+
+msgid "has generated the opportunity"
+msgstr "a généré l'opportunité"
+
+msgid "has been generated by"
+msgstr "a été généré par"
+
+msgid "is linked to the opportunity"
+msgstr "est lié à l'opportunité"
+
+msgid "concerns the product"
+msgstr "concerne le produit"
+
+msgid "concerns the service"
+msgstr "concerne le service"
+
+msgid "involves in the opportunity"
+msgstr "intervient dans l'opportunité"
+
+msgid "stages"
+msgstr "met en scène"
+
+msgid "is responsible for"
+msgstr "est chargé de l'affaire"
+
+msgid "has as responsible contact"
+msgstr "a comme responsable d'affaire"
+
+msgid "is associated with the opportunity"
+msgstr "est associé à l'opportunité"
+
+msgid "has generated the salesorder"
+msgstr "a généré le bon de commande"
+
+msgctxt "opportunities-invoice"
+msgid "generated for the opportunity"
+msgstr "a été générée pour l'opportunité"
+
+msgid "has resulted in the invoice"
+msgstr "a donné lieu à la facture"
+
+msgctxt "opportunities-quote"
+msgid "generated for the opportunity"
+msgstr "a été généré pour l'opportunité"
+
+msgid "has resulted in the quote"
+msgstr "a donné lieu au devis"
+
+msgid "is the current accounting document of"
+msgstr "est le document comptable courant de"
+
+msgid "has as current accounting document"
+msgstr "a comme document comptable courant"
+
+msgid "The target Organisation becomes a prospect"
+msgstr "La Société cible devient un prospect"
+
+msgid "The target Contact becomes a prospect"
+msgstr "Le Contact cible devient un prospect"
+
+msgid "The target of a won Opportunity becomes a customer"
+msgstr "La cible d'une Opportunité gagnée devient un client"
+
+msgid "Opportunities won"
+msgstr "Opportunités gagnées"
+
+msgid "Opportunities lost"
+msgstr "Opportunités perdues"
+
+msgid "Neither won nor lost opportunities"
+msgstr "Opportunités ni gagnées ni perdues"
+
+msgid "Opportunity view"
+msgstr "Vue d'Opportunité"
+
+msgid "+ Creation"
+msgstr ""
+
+msgid "Opportunity complementary information"
+msgstr "Informations complémentaires sur l'opportunité"
+
+#, python-brace-format
+msgid "Sum {estimated_sales} / {sales_phase}"
+msgstr "Somme {estimated_sales} / {sales_phase}"
+
+#, python-brace-format
+msgid "Sum {estimated_sales} / Quarter (90 days on {closing_date})"
+msgstr "Somme {estimated_sales} / Trimestre (90 jours sur {closing_date})"
+
+msgid ""
+"Use current associated quote to determine an estimation of the opportunity's "
+"turnover"
+msgstr ""
+"Utiliser le devis courant lié à une opportunité pour avoir une estimation du "
+"chiffre d'affaire de celle-ci ?"
+
+msgid ""
+"When selecting an Invoice/Quote/Sales order to link, only the ones which "
+"have the same target than the Opportunity are proposed."
+msgstr ""
+"Quand on sélectionne un Devis/Bon de commande/Facture pour le relier, seuls "
+"ceux qui ont la même cible que l'Opportunité sont proposés."
+
+msgid ""
+"When selecting an Invoice/Quote/Sales order to link, only the ones which "
+"have the same emitter than the Opportunity are proposed."
+msgstr ""
+"Quand on sélectionne un Devis/Bon de commande/Facture pour le relier, seuls "
+"ceux qui ont le même émetteur que l'Opportunité sont proposés."
+
+msgid ""
+"In the block «Linked Contacts», display a button for each Contact to create "
+"an unsuccessful phone call (see the configuration of «Activities»)."
+msgstr ""
+"Dans le bloc «Contacts liés», afficher pour chaque Contact un bouton pouvant "
+"créer un appel téléphonique non abouti (voir la configuration de "
+"«Activités»)."
+
+msgid "Opportunities (current year)"
+msgstr "Opportunités (année courante)"
+
+msgid ""
+"The field «Actual closing date» is hidden; these statistics are not "
+"available."
+msgstr ""
+"Le champ «Date de signature réelle» est caché ; ces statistiques ne sont pas "
+"disponibles."
+
+#, python-brace-format
+msgid "For {organisation}: {won_stats} / {lost_stats}"
+msgstr "Pour {organisation} : {won_stats} / {lost_stats}"
+
+#, python-brace-format
+msgid "{count} won opportunity"
+msgid_plural "{count} won opportunities"
+msgstr[0] "{count} opportunité gagnée"
+msgstr[1] "{count} opportunités gagnées"
+
+#, python-brace-format
+msgid "{count} lost opportunity"
+msgid_plural "{count} lost opportunities"
+msgstr[0] "{count} opportunité perdue"
+msgstr[1] "{count} opportunités perdus"
+
+#, python-brace-format
+msgid "{count} Contact linked to this opportunity"
+msgstr "{count} Contact lié à cette opportunité"
+
+#, python-brace-format
+msgid "{count} Contacts linked to this opportunity"
+msgstr "{count} Contacts liés à cette opportunité"
+
+msgid "Contacts linked to this opportunity"
+msgstr "Contacts liés à cette opportunité"
+
+# Already in 'persons'
+msgid "Create a contact"
+msgstr ""
+
+msgid "Link to contacts"
+msgstr "Lier à des contacts"
+
+# Already in creme_core
+#, python-format
+msgid ""
+"Beware: the relationship type «%(predicate)s» is disabled. You should re-"
+"enable it if it's still useful, or remove this block"
+msgstr ""
+
+# Already in creme_core
+msgid "Actions"
+msgstr ""
+
+msgid "Create an unsuccessful phone call with this contact"
+msgstr "Créer un appel téléphonique non abouti avec ce contact"
+
+msgid "Edit this contact"
+msgstr "Modifier ce contact"
+
+msgid "Unlink this contact"
+msgstr "Délier ce contact"
+
+msgid "No linked contact for the moment"
+msgstr "Aucun contact lié pour le moment"
+
+msgid "Linked contacts"
+msgstr "Contacts liés"
+
+#, python-format
+msgid "%(count)s Linked contact"
+msgid_plural "%(count)s Linked contacts"
+msgstr[0] "%(count)s Contact lié"
+msgstr[1] "%(count)s Contacts liés"
+
+#, python-brace-format
+msgid "{count} Generated invoice"
+msgstr "{count} Facture générée"
+
+#, python-brace-format
+msgid "{count} Generated invoices"
+msgstr "{count} Factures générées"
+
+msgid "Generated invoices"
+msgstr "Factures générées"
+
+msgid "Generate an invoice"
+msgstr "Générer une facture"
+
+msgid "Link to an invoice"
+msgstr "Lier à une facture"
+
+msgid "Edit this invoice"
+msgstr "Modifier cette facture"
+
+msgid "Unlink this invoice"
+msgstr "Délier cette facture"
+
+msgid "No linked invoice for the moment"
+msgstr "Aucune facture liée pour le moment"
+
+#, python-brace-format
+msgid "{count} Business manager"
+msgstr "{count} Responsable"
+
+#, python-brace-format
+msgid "{count} Business managers"
+msgstr "{count} Responsables"
+
+msgid "Link to a contact"
+msgstr "Lier à un contact"
+
+msgid "No business manager for the moment"
+msgstr "Aucun responsable pour le moment"
+
+#, python-brace-format
+msgid "{count} Opportunity which targets the organisation"
+msgstr "{count} Opportunité qui cible la société"
+
+#, python-brace-format
+msgid "{count} Opportunities which target the organisation"
+msgstr "{count} Opportunités qui ciblent la société"
+
+#, python-brace-format
+msgid "{count} Opportunity which targets the contact"
+msgstr "{count} Opportunité qui cible le contact"
+
+#, python-brace-format
+msgid "{count} Opportunities which target the contact"
+msgstr "{count} Opportunités qui ciblent le contact"
+
+#, python-brace-format
+msgid "{count} Opportunity which targets the entity"
+msgstr "{count} Opportunité qui cible la fiche"
+
+#, python-brace-format
+msgid "{count} Opportunities which target the entity"
+msgstr "{count} Opportunités qui ciblent la fiche"
+
+msgid "Edit this opportunity"
+msgstr "Modifier cette opportunité"
+
+msgid "No opportunity for the moment"
+msgstr "Aucune opportunité pour le moment"
+
+msgid "Meeting, phone call…"
+msgstr "Rendez-vous, appel téléphonique…"
+
+msgid "No activity since 30 days"
+msgstr "Pas d'activité depuis 30j"
+
+msgid "Targets the organisation"
+msgstr "Cible la société"
+
+msgid "Targets the contact"
+msgstr "cible le contact"
+
+msgid "manager of the organisation"
+msgstr "responsable de la société"
+
+msgid "employee of the organisation"
+msgstr "salarié de la société"
+
+msgctxt "opportunities"
+msgid "Details"
+msgstr "Détails"
+
+#, python-brace-format
+msgid "{count} Related product"
+msgstr "{count} Produit associé"
+
+#, python-brace-format
+msgid "{count} Related products"
+msgstr "{count} Produits associés"
+
+msgid "Link to a product"
+msgstr "Lier à un produit"
+
+msgid "Edit this product"
+msgstr "Modifier ce produit"
+
+msgid "Unlink this product"
+msgstr "Délier ce produit"
+
+msgid "No related product for the moment"
+msgstr "Aucun produit concerné pour le moment"
+
+#, python-brace-format
+msgid "{count} Proposed quote"
+msgstr "{count} Devis proposé"
+
+#, python-brace-format
+msgid "{count} Proposed quotes"
+msgstr "{count} Devis proposés"
+
+msgid "Proposed quotes"
+msgstr "Devis proposés"
+
+msgid "Generate a current quote"
+msgstr "Générer un devis courant"
+
+msgid "Link to a quote"
+msgstr "Lier à un devis"
+
+msgid "Current quote?"
+msgstr "Devis courant ?"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Edit this quote"
+msgstr "Modifier ce devis"
+
+msgid "Unlink this quote"
+msgstr "Délier ce devis"
+
+msgid "No linked quote for the moment"
+msgstr "Aucun devis lié pour le moment"
+
+#, python-brace-format
+msgid "{count} Related salesorder"
+msgstr "{count} Bon de commande associé"
+
+#, python-brace-format
+msgid "{count} Related salesorders"
+msgstr "{count} Bons de commande associés"
+
+msgid "Related salesorders"
+msgstr "Bons de commande associés"
+
+msgid "Generate a salesorder"
+msgstr "Générer un bon de commande"
+
+msgid "Link to a salesorder"
+msgstr "Lier à un bon"
+
+msgid "Edit this salesorder"
+msgstr "Modifier ce bon"
+
+msgid "Unlink this salesorder"
+msgstr "Délier ce bon"
+
+msgid "No salesorder for the moment"
+msgstr "Aucun bon enregistré pour le moment"
+
+#, python-brace-format
+msgid "{count} Related service"
+msgstr "{count} Service concerné"
+
+#, python-brace-format
+msgid "{count} Related services"
+msgstr "{count} Services concernés"
+
+msgid "Link to a service"
+msgstr "Lier à un service"
+
+msgid "Edit this service"
+msgstr "Modifier ce service"
+
+msgid "Unlink this service"
+msgstr "Délier ce service"
+
+msgid "No related service for the moment"
+msgstr "Aucun service concerné pour le moment"
+
+msgctxt "opportunities"
+msgid "Target organisation"
+msgstr "Société réceptrice"
+
+msgctxt "opportunities"
+msgid "Target contact"
+msgstr "Contact récepteur"
+
+msgctxt "opportunities"
+msgid "Source organisation"
+msgstr "Société émettrice"
+
+msgid "Total (exclusive of tax)"
+msgstr "Total HT"
+
+msgid "Total (inclusive of tax)"
+msgstr "Total TTC"
+
+# Already in 'activities'
+msgid "Phone call"
+msgstr ""
+
+#, python-format
+msgid "Create an opportunity which targets «%(object)s»."
+msgstr "Créer une opportunité qui cible «%(object)s»."
+
+msgctxt "opportunities-breadcrumbs"
+msgid "List of"
+msgstr "Liste des"
+
+#, python-format
+msgid "%(count)s opportunity"
+msgid_plural "%(count)s opportunities"
+msgstr[0] "%(count)s opportunité"
+msgstr[1] "%(count)s opportunités"
+
+msgid ""
+"The phone call cannot be created because no other participant than you has "
+"been found (notice that deleted contact are ignored)."
+msgstr ""
+"L'appel téléphonique ne peut pas être créé car aucun autre participant à "
+"part vous n'a été trouvé (notez que les contacts dans la corbeille sont "
+"ignorés)."
+
+#, python-brace-format
+msgid "List of {models} issued by {emitter} and received by {target}"
+msgstr "Liste des {models} émis par {emitter} et reçus par {target}"
+
+#, python-brace-format
+msgid "List of {models} received by {target}"
+msgstr "Liste des {models} reçus par {target}"
+
+#, python-brace-format
+msgid "List of {models} issued by {emitter}"
+msgstr "Liste des {models} émis par {emitter}"
+
+#, python-brace-format
+msgid "Create a contact linked to «{opportunity}»"
+msgstr "Créer un contact lié à «{opportunity}»"
+
+#, python-brace-format
+msgid "New opportunity targeting «{entity}»"
+msgstr "Nouvelle opportunité ciblant «{entity}»"
+
+#~ msgid "Action"
+#~ msgstr "Action"
+
+#~ msgid "Unlink"
+#~ msgstr "Délier"
+
+#~ msgid "You are not allowed to link this entity"
+#~ msgstr "Vous n'avez pas la permission de relier cette fiche"
+
+#~ msgid "forbidden"
+#~ msgstr "interdit"
+
+#~ msgid "Order"
+#~ msgstr "Ordre"
+
+#~ msgid "Linked Products"
+#~ msgstr "Produits liés"
+
+#~ msgid "Linked Services"
+#~ msgstr "Services liés"
+
+#~ msgid "Invoices"
+#~ msgstr "Factures"
+
+#~ msgid "Total"
+#~ msgstr "Total"
+
+#~ msgid "New opportunity related to «%s»"
+#~ msgstr "Nouvelle opportunité liée à «%s»"
+
+#~ msgctxt "opportunities-stats"
+#~ msgid "{count} won"
+#~ msgid_plural "{count} won"
+#~ msgstr[0] "{count} gagnée"
+#~ msgstr[1] "{count} gagnées"
+
+#~ msgctxt "opportunities-stats"
+#~ msgid "{count} in all"
+#~ msgstr "{count} en tout"
+
+#~ msgid "All opportunities"
+#~ msgstr "Lister les opportunités"
+
+#~ msgid "List of opportunities"
+#~ msgstr "Liste des opportunités"
+
+#~ msgid "Number of opportunities"
+#~ msgstr "Nombre d'opportunité(s)"
+
+#~ msgid "Contacts"
+#~ msgstr "Contacts"
+
+#~ msgid "Link to an existing contact"
+#~ msgstr "Lier à un contact existant"
+
+#~ msgid "Link to an existing invoice"
+#~ msgstr "Lier à une facture existante"
+
+#~ msgid "Number"
+#~ msgstr "Numéro"
+
+#~ msgid "No invoice for the moment"
+#~ msgstr "Aucune facture enregistrée pour le moment"
+
+#~ msgid "Can't add"
+#~ msgstr "Création interdite"
+
+#~ msgid "Link to an existing product"
+#~ msgstr "Lier à un produit existant"
+
+#~ msgid "Link to an existing quote"
+#~ msgstr "Lier à un devis existant"
+
+#~ msgid "Generate a new current quote"
+#~ msgstr "Générer un nouveau devis courant"
+
+#~ msgid "No quote for the moment"
+#~ msgstr "Aucun devis enregistré pour le moment"
+
+#~ msgid "Sales orders"
+#~ msgstr "Bons de commande"
+
+#~ msgid "Link to an existing salesorder"
+#~ msgstr "Lier à un bon existant"
+
+#~ msgid "Link to an existing service"
+#~ msgstr "Lier à un service existant"
+
+#~ msgid "Target & source"
+#~ msgstr "Cible et source"
+
+#~ msgid "Add a linked opportunity"
+#~ msgstr "Ajouter une opportunité liée"
+
+#~ msgid "Add an opportunity linked to an organisation"
+#~ msgstr "Ajouter une opportunité liée à une société"
+
+#~ msgid "Default value"
+#~ msgstr "Valeur par défaut"
+
+#~ msgid "Opportunities generated by a Creme managed organisation"
+#~ msgstr "Opportunités générées par une société gérée par Creme"
+
+#~ msgid "Generated by a Creme managed organisation"
+#~ msgstr "Généré par une société gérée par Creme"
+
+#~ msgid "Generated from the opportunity «%s»"
+#~ msgstr "Générée depuis l'opportunité «%s»"
+
+#~ msgid "Become"
+#~ msgstr "Le devenir"
+
+#~ msgid "Use Product and Service lines"
+#~ msgstr "Utiliser les lignes Produit et Service"
+
+#~ msgid "Closing date"
+#~ msgstr "Date de signature"

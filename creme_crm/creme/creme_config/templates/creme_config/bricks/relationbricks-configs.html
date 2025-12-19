@@ -1,0 +1,77 @@
+{% extends 'creme_core/bricks/base/paginated-list.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load uca_sort url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-rtypebricks-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Type of relation block created') plural=_('{count} Types of relation block created') empty=_('Types of relation block created') icon='config' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='creme_config__create_rtype_brick'|url label=_('New type of block') enabled=user|has_perm_to_admin:'creme_core' %}
+{% endblock %}
+
+{% block brick_before_content %}
+    <div class="help">
+        {% blocktranslate %}This kind of block displays the entities linked to the current entity with a given Relationship type.
+Once a type is created, it is available in the configuration of detailed views (depending on the constraints of the Relationship type).{% endblocktranslate %}
+    </div>
+{% endblock %}
+
+{% block brick_list_content %}
+ {% with admin_perm=user|has_perm_to_admin:'creme_core' delete_url='creme_config__delete_rtype_brick'|url %}
+  {% for brick_type in page.object_list %}
+    <div class="brick-list-item rtypebrick-config-item">
+        <div class="rtypebrick-config-group rtypebrick-config-summary-group">
+            <div class="rtypebrick-config-group-title{% if not brick_type.relation_type.enabled %} rtypebrick-config-group-title-disabled{% endif %}">
+                {% widget_hyperlink brick_type.relation_type %}
+            </div>
+            <div class="rtypebrick-config-group-constraints">
+                {% translate 'Available on detail views for:' %}&nbsp;{% widget_enumerator brick_type.relation_type.subject_ctypes.all|uca_sort threshold=10 empty=_('All types of entity') summary=_('{count} types of entity') %}
+            </div>
+            <div class="rtypebrick-config-group-action">
+             {% if brick_type.relation_type.enabled %}
+              {% if brick_type.all_ctypes_configured %}
+                {% translate 'All types are configured' %}
+              {% else %}
+                {% brick_action id='add' url='creme_config__add_cells_to_rtype_brick'|url:brick_type.id label=_('New customised type') help_text=_('Configure the fields displayed for a given type of entity') enabled=admin_perm display='text' %}
+              {% endif %}
+             {% endif %}
+            </div>
+            <div class="rtypebrick-config-group-action">
+                {% brick_action id='delete' url=delete_url __id=brick_type.id label=_('Delete this type of block') enabled=admin_perm %}
+            </div>
+        </div>
+        <div class="rtypebrick-config-group brick-table">
+          {% if brick_type.relation_type.enabled %}
+            <table class="brick-table-content">
+                <tbody>
+                  {% for ctype, cells in brick_type.iter_cells %}
+                    <tr>
+                        <td {% brick_table_data_status primary %} class="rtypebrick-config-relation-label">
+                            {% widget_icon ctype=ctype size='brick-table' class='rtypebrick-config-type-icon' %} {{ctype}}
+                        </td>
+                        <td>
+                            {% for cell in cells %}{% widget_join %}<span class="rtypebrick-cell-item">{{cell}}</span>{% end_widget_join %}{% empty %}{% translate 'not configured yet' %}{% endfor %}
+                        </td>
+                        <td {% brick_table_data_status action %}>{% url 'creme_config__edit_cells_of_rtype_brick' brick_type.id ctype.id as edit_cells_url %}{% blocktranslate asvar edit_label %}Edit the configuration for «{{ctype}}»{% endblocktranslate %}
+                            {% brick_table_action id='edit' url=edit_cells_url label=edit_label enabled=admin_perm %}
+                        </td>
+                        <td {% brick_table_data_status action %}>{% blocktranslate asvar delete_label %}Delete the configuration for «{{ctype}}»{% endblocktranslate %}
+                            {% brick_table_action id='delete' url='creme_config__delete_cells_of_rtype_brick'|url:brick_type.id __id=ctype.id label=delete_label enabled=admin_perm %}
+                        </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+          {% endif %}
+        </div>
+    </div>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_list_empty %}
+    {% translate 'No type of relation block created for the moment' %}
+{% endblock %}

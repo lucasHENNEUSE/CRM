@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+creme/dev_settings.py  # Optionnel : garde tes accès secrets pour toi
+
+# MongoDB & Logs
+*.log
+.DS_Store

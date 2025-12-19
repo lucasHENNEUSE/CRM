@@ -1,0 +1,6 @@
+{% load i18n creme_perms creme_widgets %}
+{% if button.show %}
+<a {% if user|has_perm_to_create:button.content_type %}class="with-icon" href="{% url 'creme_core__mass_import' button.content_type.id %}" title="{% translate 'Import entities from a file (.csv, .xls)' %}"{% else %}class="with-icon forbidden" title="{% translate 'Forbidden' %}"{% endif %}>
+    {% translate 'Import' as label %}{% widget_icon name='document_csv' label=label size='listview-button' %}{{label}}
+</a>
+{% endif %}

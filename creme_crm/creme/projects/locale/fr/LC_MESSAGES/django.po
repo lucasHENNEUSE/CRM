@@ -1,0 +1,585 @@
+# FR LOCALISATION OF 'PROJECTS' APP
+# Copyright (C) 2024 Hybird
+# This file is distributed under the same license as the Creme package.
+#
+# > django-admin makemessages -l fr -i tests.py --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme Projects 2.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-07 14:39+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Close project"
+msgstr "Clôturer le projet"
+
+msgid "Project is already closed."
+msgstr "Le projet est déjà fermé."
+
+msgid "Projects"
+msgstr "Projets"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "Extra project information"
+msgstr "Informations supplémentaires sur un projet"
+
+msgid ""
+"Displays cost & total overtime for a project.\n"
+"App: Projects"
+msgstr ""
+"Affiche le coût et le total d'heure(s) supplémentaire(s) pour un projet.\n"
+"App : Projets"
+
+msgid "Extra project task information"
+msgstr "Informations supplémentaires sur une tâche de projet"
+
+msgid ""
+"Displays effective duration & additional/remaining hours for a task.\n"
+"App: Projects"
+msgstr ""
+"Affiche la durée effective & les heures supplémentaires/restantes pour une "
+"tâche.\n"
+"App : Projets"
+
+msgid "Parents of a task"
+msgstr "Parents d'une tâche"
+
+msgid "Tasks of a project"
+msgstr "Tâches d'un projet"
+
+msgid "Resources assigned to a task"
+msgstr "Ressource(s) affectée(s) à une tâche"
+
+msgid "Activities for a task"
+msgstr "Activités pour une tâche"
+
+msgid "Creation form for project"
+msgstr "Formulaire de création de projet"
+
+msgid "Edition form for project"
+msgstr "Formulaire de modification de projet"
+
+msgctxt "projects"
+msgid "Creation form for task"
+msgstr "Formulaire de création de tâche"
+
+msgctxt "projects"
+msgid "Edition form for task"
+msgstr "Formulaire de modification de tâche"
+
+msgid "Project leaders"
+msgstr "Responsable(s) du projet"
+
+msgid "Contact to be assigned to this task"
+msgstr "Contact à affecter à cette tâche"
+
+msgid ""
+"If the contact changes, the old one keeps participating to the activities."
+msgstr ""
+"Si le contact change, l'ancien contact continue de participer aux activités."
+
+msgid "Parent tasks"
+msgstr "Tâche(s) parente(s)"
+
+msgid "Allocated resource"
+msgstr "Ressource affectée"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Name of the project"
+msgstr "Nom du projet"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Estimated start"
+msgstr "Début prévisionnel"
+
+msgid "Estimated end"
+msgstr "Fin prévisionnelle"
+
+msgid "Effective end date"
+msgstr "Fin effective"
+
+# Already in creme_core
+msgid "Currency"
+msgstr ""
+
+msgid "Create a project"
+msgstr "Créer un projet"
+
+msgid "Save the project"
+msgstr "Enregistrer le projet"
+
+msgid "Project"
+msgstr "Projet"
+
+#, python-brace-format
+msgid "Start ({start}) must be before end ({end})."
+msgstr "Le début ({start}) doit être avant la fin ({end})."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "Description"
+msgstr "Description"
+
+msgctxt "projects-project_status"
+msgid "Create a status"
+msgstr "Créer un statut"
+
+msgctxt "projects-singular"
+msgid "Status of project"
+msgstr "Statut de projet"
+
+msgctxt "projects-plural"
+msgid "Status of project"
+msgstr "Statuts de projet"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Hourly cost"
+msgstr "Coût horaire"
+
+msgid "Task"
+msgstr "Tâche"
+
+msgid "Create a resource"
+msgstr "Créer une ressource"
+
+msgid "Save the resource"
+msgstr "Enregistrer la ressource"
+
+msgid "Resource of project"
+msgstr "Ressource de projet"
+
+msgid "Resources of project"
+msgstr "Ressources de projet"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Order"
+msgstr "Ordre"
+
+msgid "Start"
+msgstr "Début"
+
+msgid "End"
+msgstr "Fin"
+
+msgid "Duration (in hours)"
+msgstr "Durée (en heures)"
+
+msgid "Task situation"
+msgstr "Situation de la tâche"
+
+msgid "Create a task"
+msgstr "Créer une tâche"
+
+msgid "Save the task"
+msgstr "Enregistrer la tâche"
+
+msgid "Task of project"
+msgstr "Tâche d'un projet"
+
+msgid "Tasks of project"
+msgstr "Tâches d'un projet"
+
+msgctxt "projects-task_status"
+msgid "Create a status"
+msgstr "Créer un statut"
+
+msgctxt "projects-singular"
+msgid "Status of task"
+msgstr "Statut de tâche"
+
+msgctxt "projects-plural"
+msgid "Status of task"
+msgstr "Statut de tâche"
+
+msgid "Invitation to tender"
+msgstr "Appel d'offre"
+
+msgid "Response to an invitation to tender"
+msgstr "Un appel d'offre a été lancé"
+
+msgid "Initialization"
+msgstr "Initialisation"
+
+msgid "The project is starting"
+msgstr "Le projet démarre"
+
+msgid "Preliminary phase"
+msgstr "Avant-phase"
+
+msgid "The project is in the process of analysis and design"
+msgstr "Le projet est en phase d'analyse et de conception"
+
+msgid "Achievement"
+msgstr "Réalisation"
+
+msgid "The project is being implemented"
+msgstr "Le projet est en phase de réalisation"
+
+msgid "Tests"
+msgstr "Tests"
+
+msgid "The project is in the testing process (unit / integration / functional)"
+msgstr ""
+"Le projet est en phase de tests (unitaires / intégration / fonctionnels)"
+
+msgid "User acceptance tests"
+msgstr "Recette"
+
+msgid "The project is in the user acceptance testing process"
+msgstr "Le projet est en recette"
+
+msgid "Finished"
+msgstr "Terminé"
+
+msgid "The project is finished"
+msgstr "Le projet est terminé"
+
+msgid "Not started"
+msgstr "Non commencée"
+
+msgid "The task as not started yet"
+msgstr "La tâche n'a pas encore démarrée"
+
+msgid "In progress"
+msgstr "En cours"
+
+msgid "The task is in progress"
+msgstr "La tâche est en cours"
+
+msgid "Canceled"
+msgstr "Annulée"
+
+msgid "The task has been canceled"
+msgstr "La tâche a été annulée"
+
+msgid "Restarted"
+msgstr "Redémarrée"
+
+msgid "The task has been restarted"
+msgstr "La tâche a été redémarrée"
+
+msgid "Completed"
+msgstr "Terminée"
+
+msgid "The task is finished"
+msgstr "La tâche est terminée"
+
+msgid "is one of the leaders of this project"
+msgstr "est un des responsables du projet"
+
+msgid "has as leader"
+msgstr "a pour responsable"
+
+msgid "is related to the task of project"
+msgstr "est lié à la tâche de projet"
+
+msgid "includes the activity"
+msgstr "inclut l'activité"
+
+msgid "is a resource of"
+msgstr "est une ressource de"
+
+msgid "has as a resource"
+msgstr "a en tant que ressource"
+
+msgid "Project view"
+msgstr "Vue de Projet"
+
+msgid "Task view"
+msgstr "Vue de Tâche"
+
+#, python-brace-format
+msgid "{count} Related activity"
+msgstr "{count} Activité liée"
+
+#, python-brace-format
+msgid "{count} Related activities"
+msgstr "{count} Activités liées"
+
+msgid "Related activities"
+msgstr "Activités liées"
+
+msgid "New activity"
+msgstr "Nouvelle activité"
+
+msgid "When"
+msgstr "Quand"
+
+msgid "Duration (hours)"
+msgstr "Durée (heures)"
+
+msgid "Concerned resource(s)"
+msgstr "Ressource(s) concernée(s)"
+
+msgid "Actions"
+msgstr "Actions"
+
+#, python-format
+msgid ""
+"On <span class=\"start-date\">%(start_date)s</span> from <span class=\"start-"
+"hour\">%(start_hour)s</span> to <span class=\"end-hour\">%(end_hour)s</span>"
+msgstr ""
+"Le <span class=\"start-date\">%(start_date)s</span> de <span class=\"start-"
+"hour\">%(start_hour)s</span> à <span class=\"end-hour\">%(end_hour)s</span>"
+
+#, python-format
+msgid ""
+"From <span class=\"start-date\">%(start_date)s</span> at <span class=\"start-"
+"hour\">%(start_hour)s</span> to <span class=\"end-date\">%(end_date)s</span> "
+"at <span class=\"end-hour\">%(end_hour)s</span>"
+msgstr ""
+"De <span class=\"start-date\">%(start_date)s</span> à <span class=\"start-"
+"hour\">%(start_hour)s</span> jusqu'à <span class=\"end-date\">%(end_date)s</"
+"span> à <span class=\"end-hour\">%(end_hour)s</span>"
+
+msgid "Edit this activity"
+msgstr "Modifier l'activité"
+
+msgid "Delete this activity"
+msgstr "Supprimer l'activité"
+
+#, python-format
+msgid "You can't add a working period because this task is %(status)s"
+msgstr ""
+"Vous ne pouvez pas ajouter de période travaillée car cette tâche est "
+"%(status)s"
+
+msgid "No related activity for this task"
+msgstr "Pas d'activité lié à cette tâche"
+
+#, python-brace-format
+msgid "{count} Parent Task"
+msgstr "{count} Tâche parente"
+
+#, python-brace-format
+msgid "{count} Parent Tasks"
+msgstr "{count} Tâches parentes"
+
+msgid "Parent Tasks"
+msgstr "Tâches parentes"
+
+msgid "Add parent tasks"
+msgstr "Ajouter des tâches parentes"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Remove this parent"
+msgstr "Enlever ce parent"
+
+msgid "No parent task for the moment"
+msgstr "Aucune tâche parente pour le moment"
+
+msgid "Other information"
+msgstr "Informations Supplémentaires"
+
+msgid "Total cost of the project"
+msgstr "Coût total du projet"
+
+msgid "Total overtime (in hours)"
+msgstr "Heure(s) supplémentaire(s) totale(s)"
+
+#, python-brace-format
+msgid "{count} Resource assigned to this task"
+msgstr "{count} Ressource affectée à cette tâche"
+
+#, python-brace-format
+msgid "{count} Resources assigned to this task"
+msgstr "{count} Ressources affectées à cette tâche"
+
+msgid "Resources assigned to this task"
+msgstr "Ressources affectées à cette tâche"
+
+#, python-format
+msgid "%(cost)s / hour"
+msgstr "%(cost)s / heure"
+
+msgid "Edit this resource"
+msgstr "Modifier cette ressource"
+
+msgid "Delete this resource"
+msgstr "Supprimer cette ressource"
+
+msgid "No resource assigned to this task"
+msgstr "Aucune ressource n'est affectée à cette tâche"
+
+msgid "Effective duration (in hours)"
+msgstr "Durée effective (en heures)"
+
+msgid "Additional or remaining hours"
+msgstr "Heure(s) supplémentaire(s) ou restante(s)"
+
+#, python-format
+msgid "%(duration)sh: overtime of %(delay)sh"
+msgstr "%(duration)sh: hors délais %(delay)sh"
+
+#, python-format
+msgid "%(duration)sh: remaining time of %(abs_delay)sh"
+msgstr "%(duration)sh: temps restant %(abs_delay)sh"
+
+#, python-brace-format
+msgid "{count} Related task"
+msgstr "{count} Tâche associée"
+
+#, python-brace-format
+msgid "{count} Related tasks"
+msgstr "{count} Tâches associées"
+
+msgid "Related tasks"
+msgstr "Tâche associée"
+
+msgid "New task"
+msgstr "Nouvelle tâche"
+
+msgid "Estimated duration (hours)"
+msgstr "Durée prévue (heures)"
+
+msgid "Effective duration (hours)"
+msgstr "Durée effective (heures)"
+
+msgid "Cost"
+msgstr "Coût"
+
+msgid "No parent task"
+msgstr "Aucune tâche parente"
+
+msgid "Edit this task"
+msgstr "Modifier cette tâche"
+
+msgid "Delete this task"
+msgstr "Supprimer cette tâche"
+
+msgid "No task in this project for the moment"
+msgstr "Aucune tâche dans ce projet pour le moment"
+
+msgid "Do you really want to close this project?"
+msgstr "Voulez vous vraiment fermer ce projet ?"
+
+msgid "Back to the project"
+msgstr "Retour au projet"
+
+msgid "Allocation of a new resource"
+msgstr "Affectation d'une nouvelle ressource"
+
+msgid ""
+"You can't add a resource or a working period to a task which has status «{}»"
+msgstr ""
+"Vous ne pouvez pas ajouter de ressource ou de période travaillée à une tâche "
+"en statut «{}»"
+
+#, python-brace-format
+msgid "Resource for «{entity}»"
+msgstr "Ressource pour «{entity}»"
+
+msgid "This resource cannot be deleted, because it is linked to activities."
+msgstr ""
+"Cette ressource ne peut pas être supprimée, car elle est liée à des "
+"activités."
+
+#, python-brace-format
+msgid "Create a task for «{entity}»"
+msgstr "Créer une tâche à «{entity}»"
+
+#, python-brace-format
+msgid "Adding parents to «{object}»"
+msgstr "Ajouter des tâches parentes à «{object}»"
+
+#, python-brace-format
+msgid "New activity related to «{entity}»"
+msgstr "Nouvelle activité liée à «{entity}»"
+
+# Already in creme_core
+msgid "The definitive deletion has been disabled by the administrator."
+msgstr ""
+
+#~ msgid "Start date"
+#~ msgstr "Date de début"
+
+#~ msgid "End date"
+#~ msgstr "Date de fin"
+
+#~ msgid "Resource view"
+#~ msgstr "Vue de Ressource"
+
+#~ msgid "Create a task for «%s»"
+#~ msgstr "Créer une tâche à «%s»"
+
+#~ msgid "forbidden"
+#~ msgstr "interdit"
+
+#~ msgid "Number of projects"
+#~ msgstr "Nombre de projet(s)"
+
+#~ msgid "Activities"
+#~ msgstr "Activités"
+
+#~ msgid "Between"
+#~ msgstr "Entre"
+
+#~ msgid "And"
+#~ msgstr "Et"
+
+#~ msgid "Tasks"
+#~ msgstr "Tâches"
+
+#~ msgid "Information"
+#~ msgstr "Informations"
+
+#~ msgid "Resource"
+#~ msgstr "Ressource"
+
+#~ msgid "Statuses of task"
+#~ msgstr "Statuts de tâche"
+
+#~ msgid "Periods"
+#~ msgstr "Périodes"
+
+#~ msgid "New working period"
+#~ msgstr "Nouvelle période travaillée"
+
+#~ msgid "Period duration"
+#~ msgstr "Durée de la période"
+
+#~ msgid "Working period"
+#~ msgstr "Période de travail"
+
+#~ msgid "Working periods"
+#~ msgstr "Périodes de travail"
+
+#~ msgid "Estimated duration (in hours)"
+#~ msgstr "Durée prévue (en heures)"
+
+#~ msgid "Description of the task"
+#~ msgstr "Description de la tâche"
+
+#~ msgid "A task can't be its own parent"
+#~ msgstr "Une tâche ne peut pas être parente d'elle même"
+
+#~ msgid "Parent task(s)"
+#~ msgstr "Tâche(s) parente(s)"
+
+#~ msgid "This task has no parent"
+#~ msgstr "Cette tâche n'a aucun parent"
+
+#~ msgid "This resource is already assigned to this task"
+#~ msgstr "Cette ressource est déjà affectée à la tâche"

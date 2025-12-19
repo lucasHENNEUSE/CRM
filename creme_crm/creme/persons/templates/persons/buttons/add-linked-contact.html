@@ -1,0 +1,13 @@
+{% load creme_widgets %}
+{% if button.permission_error %}
+<span class="menu_button menu-button-icon forbidden" title="{{button.permission_error}}">
+    {% widget_icon name='contact' size='instance-button' label=_('Linked contact') %}
+    {{button.verbose_name}}
+</span>
+{% else %}
+<a class="menu_button menu-button-icon" title="{{button.description}}" data-action="redirect"
+   href="{% url 'persons__create_related_contact' object.id %}?callback_url=${location}">
+    {% widget_icon name='contact' size='instance-button' label=_('Linked contact') %}
+    {{button.verbose_name}}
+</a>
+{% endif %}

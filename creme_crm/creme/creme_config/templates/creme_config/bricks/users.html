@@ -1,0 +1,147 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets creme_config_tags %}
+{% load is_ajax url from creme_core_tags %}
+
+{% comment %}
+    TODO: build a clean/generic system integrated to bricks instead.
+    Here we use an <input> outside of the brick in order to avoid create a new
+    brick 'action' (with a consistent state after a reloading), & so it's an
+    easier way to get a first working version.
+{% endcomment %}
+{% block brick_before %}
+  {% if search_fields and not request|is_ajax %}
+    <div class="creme_config-users-brick-search">{% translate 'Filter the users' as search_label %}
+        {% widget_icon name='search' size='form-widget' label=search_label %}
+        <input type="search" class="creme_config-users-brick-search-input" placeholder="{{search_label}}" title="{% blocktranslate with fields=search_fields|join:', ' %}Filter the displayed users. Fields used: {{fields}}.{% endblocktranslate %}" />
+    </div>
+    <script type="text/javascript">{# TODO: use debounce & launch the search after a given delay #}
+        $(document).ready(function() {
+            $('.creme_config-users-brick-search-input').each(function() {
+                var input = $(this);
+                var previousSearch = null;
+
+                /* "search" event triggered when Enter is typed, or the input cleared with the X button.
+                   This event is not triggered on FireFox (experienced with FF v115, july 2023), so
+                   we use "keydown" too.
+                */
+                /* input.on('search', function(e) { */
+                input.on('search keydown', function(e) {
+                    e.stopPropagation();
+
+                    /* NB: 13 is ENTER */
+                    if (e.type === 'keydown' && e.keyCode !== 13) {
+                        return e;
+                    }
+
+                    var newSearch = input.val();
+                    if (newSearch !== previousSearch) {
+                        $('.brick.creme_config-users-brick').each(function() {
+                            var brick_element = $(this);
+                            /* TODO: in brick's API? */
+                            brick_element.attr('data-brick-reloading-info', JSON.stringify({search: newSearch}));
+                            brick_element.creme().widget().brick().refresh();
+                        });
+
+                        previousSearch = newSearch;
+                    }
+                });
+            });
+        });
+    </script>
+  {% endif %}
+{% endblock %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-users-brick{% endblock %}
+
+{% block brick_menu_actions %}
+    {{block.super}}
+    <hr/>
+    {% config_brick_menu_hide_inactive_users_action url='creme_config__users_brick_hide_inactive'|url hidden=hide_inactive %}
+{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} User') plural=_('{count} Users') empty=verbose_name icon='contact' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+{#    {% brick_header_action id='add' url='creme_config__create_user'|url label=_('New user') enabled=user.is_superuser %} #}
+    {% brick_header_action id='add' url='creme_config__create_user'|url label=_('New user') enabled=user|has_special_perm:user_config_perm %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='username' status='primary' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='last_name' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='first_name' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='role__name' title=_('Roles') %}
+    {% brick_table_column_for_field ctype=objects_ctype field='email' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='displayed_name' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='is_active' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='last_login' %}
+    {% brick_table_column_for_field ctype=objects_ctype field='date_joined' %}
+
+    {% if display_tz %}
+    {% brick_table_column_for_field ctype=objects_ctype field='time_zone' %}
+    {% endif %}
+
+    {% brick_table_column_for_field ctype=objects_ctype field='deactivated_on' %}
+
+    {% brick_table_column title=_('Actions') status='action' colspan=4 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+{# {% with admin_perm=user.is_superuser %}{% translate 'Superuser' as superuser_label %} #}
+{% with admin_perm=user|has_special_perm:user_config_perm %}{% translate 'Superuser' as superuser_label %}
+  {% for user in page.object_list %}
+    <tr{% if not user.is_active %} class="user-disabled"{% endif %}>
+        <td class="user-username" {% brick_table_data_status primary %}>{{user.username}}</td>
+        <td class="user-lastname" >{{user.last_name}}</td>
+        <td class="user-firstname" >{{user.first_name}}</td>
+{#        <td class="user-role">{% if user.role %}{{user.role}}{% else %}<em>{% if user.is_staff %}{% translate 'Staff' %}{% else %}{{superuser_label}}{% endif %}</em>{% endif %}</td> #}
+        <td class="user-role">
+         {% if user.role %}
+          {% with roles=user.roles.all %}
+           {% if roles|length == 1 %}
+            {{user.role}}
+           {% else %}
+            <ul>{% for role in roles %}<li class="{% if role == user.role %}active-role {% endif %}{% if role.deactivated_on %}disabled-role {% endif %}">{{role}}</li>{% endfor %}</ul>
+           {% endif %}
+          {% endwith %}
+         {% else %}
+            <em>{% if user.is_staff %}{% translate 'Staff' %}{% else %}{{superuser_label}}{% endif %}</em>
+         {% endif %}
+        </td>
+        <td class="user-email">{{user.email}}</td>
+        <td class="user-displayed">{{user.displayed_name|default:'—'}}</td>
+        <td class="user-active">{{user.is_active|yesno:_('Yes,No')}}</td>
+        <td class="user-last-login" data-type="datetime">{{user.last_login|default:'—'}}</td>
+        <td class="user-joined" data-type="datetime">{{user.date_joined}}</td>
+        {% if display_tz %}<td class="user-timezone">{{user.time_zone}}</td>{% endif %}
+        <td class="user-joined" data-type="datetime">{{user.deactivated_on|default:'—'}}</td>
+        <td {% brick_table_data_status action %} class="user-activate">
+          {% if user.is_active %}
+            {% brick_table_action id='update' url='creme_config__deactivate_user'|url:user.id label=_('Deactivate') display='text' enabled=admin_perm %}
+          {% else %}
+            {% brick_table_action id='update' url='creme_config__activate_user'|url:user.id   label=_('Activate')   display='text' enabled=admin_perm %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %} class="user-password">
+            {% brick_table_action id='edit' url='creme_config__change_user_password'|url:user.id label=_('Change the password') icon='security' enabled=admin_perm %}
+        </td>
+        <td {% brick_table_data_status action %} class="user-edit">
+            {% brick_table_action id='edit' url='creme_config__edit_user'|url:user.id label=_('Edit this user') enabled=admin_perm %}
+        </td>
+        <td {% brick_table_data_status action %} class="user-delete">
+          {% if user == request.user %}
+            {% brick_table_action id='edit' label=_("You can't delete the current user.") icon='delete' enabled=False %}
+          {% else %}
+            {% brick_table_action id='edit' url='creme_config__delete_user'|url:user.id label=_('Delete this user') icon='delete' enabled=admin_perm %}
+          {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No user found' %}
+{% endblock %}

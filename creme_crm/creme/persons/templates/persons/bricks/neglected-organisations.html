@@ -1,0 +1,22 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_widgets  %}
+
+{% block brick_extra_class %}{{block.super}} persons-neglected-organisations-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Neglected organisation') plural=_('{count} Neglected organisations') empty=verbose_name icon='organisation' %}
+{% endblock %}
+
+{% block brick_table_head %}{% endblock %}
+
+{% block brick_table_rows %}
+    {% for orga in page.object_list %}
+        <tr>
+            <td>{% widget_entity_hyperlink orga user %}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No neglected organisation for the moment' %}
+{% endblock %}

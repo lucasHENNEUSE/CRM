@@ -1,0 +1,48 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} graphs-root-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Root node') plural=_('{count} Root nodes') empty=verbose_name icon='graph' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='link' url='graphs__add_roots'|url:object.id label=_('Add some entities') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Entity') status='primary' %}
+    {% brick_table_column title=_('Types of relation') %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with edit_perm=user|has_perm_to_change:object remove_root_url='graphs__remove_root'|url %}
+  {% for rnode in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink rnode.real_entity user %}</td>
+        <td>
+            {% widget_enumerator rnode.rtypes_list threshold=4 summary=_('{count} types of relationship') empty=_('No type of relationship') %}
+            {% if rnode.disabled_rtypes_list %}
+            <div class="root_node-rtypes-disabled">
+                <span class="root_node-rtypes-title">{% translate 'Disabled types:' %}</span>
+                {% widget_enumerator rnode.disabled_rtypes_list threshold=4 summary=_('{count} types of relationship') %}
+            </div>
+            {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url=rnode.get_edit_absolute_url label=_('Edit this node') enabled=edit_perm %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=remove_root_url __id=rnode.pk label=_('Remove this node') icon='unlink' enabled=edit_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No root node for the moment' %}
+{% endblock %}

@@ -1,0 +1,243 @@
+/* Brick card contact */
+
+.persons-contact-card-brick .card-position {
+    margin-left: 10px;
+    margin-bottom: 5px;
+
+    font-style: italic;
+    color: #888;
+}
+
+.persons-contact-card-brick .card-job {
+    font-size: 14px;
+}
+
+.persons-contact-card-brick .card-job a {
+    text-decoration: underline;
+}
+
+.brick-hat-card .contact-is-user {
+    display: inline-block;
+    color: #888;
+    font-size: 11px;
+    vertical-align: top;
+}
+
+/* Brick card contact [end] */
+
+/* Hat bar organisation */
+
+.content-detail-view-persons-organisation .brick-hat-bar .persons-organisation-logo {
+    max-width: 64px;
+    max-height: 64px;
+}
+
+/* Hat bar organisation [end] */
+
+/* Brick card organisation */
+
+.persons-organisation-card-brick .card-job,
+.persons-organisation-card-brick .card-employees {
+    font-size: 14px;
+}
+
+.persons-organisation-card-brick .card-employees {
+    margin-top: 3px;
+}
+
+.persons-organisation-card-brick .card-employees a {
+    text-decoration: underline;
+}
+
+.persons-organisation-card-brick .card-main.has-indicators + .card-employees-wide {
+    margin-top: 10px;
+}
+
+/* Brick card organisation [end] */
+
+/* Brick - Address */
+
+.persons-addresses-brick .brick-content {
+    padding-top: 15px;
+    padding-bottom: 17px;
+}
+
+/* address "group" (row/column depending on the flex direction) */
+.persons-addresses-brick .address-group {
+    display: flex;
+}
+
+.persons-addresses-brick .address-group + .address-group {
+    margin-top: 15px;
+    border-top: 1px solid #dedede;
+    padding-top: 15px;
+}
+
+.persons-addresses-brick .address-map {
+    display: inline-flex;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.persons-addresses-brick .address-map + .address-map {
+    margin: 0;
+    border-top: 0;
+    padding-top: 0;
+
+    border-left: 1px solid #dedede;
+    padding-left: 20px;
+}
+
+.persons-addresses-brick .address-container {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.persons-addresses-brick .address-title {
+    display: inline-block;
+    text-transform: uppercase;
+    vertical-align: top;
+
+    position: relative;
+    top: -1px;
+
+    color: hsla(199, 9%, 50%, 1); /* see .brick-tiles .brick-tile-name */
+}
+
+.persons-addresses-brick .address-map a.brick-action {
+    visibility: hidden;
+}
+
+.persons-addresses-brick .address-map:hover a.brick-action {
+    visibility: visible;
+}
+
+.persons-addresses-brick .address {
+    font-size: 13px;
+}
+
+/* variant - optional fields */
+.persons-addresses-brick .address-options {
+    margin-top: 10px;
+}
+
+.persons-addresses-brick .address-option + .address-option {
+    margin-top: 5px;
+}
+
+.persons-addresses-brick .address-option-key {
+    text-transform: uppercase;
+    color: hsla(197, 15%, 50%, 1); /* see .brick-tiles .brick-tile-name */
+}
+
+.persons-addresses-brick .address-option-value {
+    display: block;
+    font-size: 13px;
+}
+
+.persons-addresses-brick .brick-action {
+    display: inline-block;
+    margin-left: 25px;
+    max-height: 16px;
+    padding: 0px 7px 0px 5px;
+
+    background: #fafafa;
+    outline: 1px solid #ccc;
+
+    text-transform: none;
+    color: #444;
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: all 0.1s ease-in;
+}
+
+.persons-addresses-brick .brick-action + .brick-action {
+    margin-left: 15px;
+}
+
+.persons-addresses-brick .brick-action .brick-action-icon {
+    margin-bottom: -1px;
+    height: 10px;
+    min-width: 10px;
+    max-width: 10px;
+}
+
+/* states - empty state */
+.persons-addresses-brick .is-empty {
+    padding: 5px 10px;
+
+    cursor: default;
+}
+
+.persons-addresses-brick .brick-scrollable-container {
+    max-height: 300px;
+}
+
+.persons-addresses-brick .address-option-value p {
+    margin: 0;
+}
+
+/* Brick - Address [end] */
+
+/* Address in forms */
+
+.persons-form_block-addresses .persons-form_block-addresses-inner-headers,
+.persons-form_block-addresses .persons-form_block-addresses-buttons-container,
+.persons-form_block-addresses .persons-form_block-addresses-fields-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.persons-form_block-addresses .persons-form_block-addresses-inner-header {
+    flex: 1;
+    margin: 5px;
+
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #5b8394;
+}
+
+.persons-form_block-addresses .persons-form_block-addresses-buttons {
+    flex-grow: 1;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+/* TODO: factorise ? */
+.persons-form_block-addresses .persons-form_block-addresses-buttons button {
+    padding: 5px 15px;
+
+    background: linear-gradient(#f6fcff, #e0f1f7);
+
+    border: 1px solid #bdd3dc;
+    border-bottom: 1px solid #9db2bb;
+
+    border-radius: 3px;
+
+    box-shadow: 0 1px 4px -2px rgba(21, 86, 119, 0.43), inset 0 1px 0px white;
+
+    text-align: center;
+    text-decoration: none;
+    color: #34687e;
+
+    cursor: pointer;
+}
+
+.persons-form_block-addresses .persons-form_block-addresses-buttons button:hover {
+    background: linear-gradient(#ffffff, #f3f3f3);
+}
+
+.persons-form_block-addresses .persons-form_block-addresses-buttons .addresses-copy_to_left {
+    float: left;
+}
+
+.persons-form_block-addresses .persons-form_block-addresses-buttons .addresses-copy_to_right {
+    float: right;
+}
+
+.persons-form_block-addresses .form-block-fields {
+    flex-grow: 1;
+}
+
+/* Address in forms - [end] */

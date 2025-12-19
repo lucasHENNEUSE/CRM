@@ -1,0 +1,64 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_cells creme_perms creme_widgets %}
+{% load and_op inner_edition_uri url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} opportunities-services-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Related service') plural=_('{count} Related services') empty=verbose_name icon='service' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if relation_type.enabled %}
+    {% brick_header_action id='add-relationships' label=_('Link to a service') icon='link' enabled=user|has_perm_to_link:object __subject_id=object.id __rtype_id=relation_type.id __ctype_id=objects_ctype.id __multiple=True %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_before_content %}
+  {% if not relation_type.enabled %}
+    <div class="global-error">
+        {% blocktranslate with predicate=relation_type.predicate %}Beware: the relationship type «{{predicate}}» is disabled. You should re-enable it if it's still useful, or remove this block{% endblocktranslate %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='name' status='primary nowrap' %}
+    {% for cell in cells %}{% brick_table_column_for_cell cell=cell %}{% endfor %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+ {% with unlink_perm=user|has_perm_to_unlink:object delete_relation_url='creme_core__delete_similar_relations'|url %}
+  {% for service in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink service user %}</td>
+        {% if user|has_perm_to_view:service %}
+          {% for cell in cells %}
+            <td {% if cell.data_type %}data-type="{{cell.data_type}}"{% endif %}>{% cell_render cell=cell instance=service user=user as cell_content %}
+                {% if cell_content %}{{cell_content}}{% else %}<span class="empty-field">—</span>{% endif %}
+            </td>
+          {% endfor %}
+        {% else %}
+            {% for cell in cells %}<td>{{HIDDEN_VALUE}}</td>{% endfor %}
+        {% endif %}
+        <td {% brick_table_data_status action %}>
+          {% if cells %}{% inner_edition_uri instance=service cells=cells as edition_uri %}
+            {% brick_table_action id='edit' url=edition_uri label=_('Edit this service') enabled=user|has_perm_to_change:service comeback=True %}
+          {% else %}
+            {% brick_table_action id='redirect' url=service.get_edit_absolute_url label=_('Edit this service') icon='edit' enabled=user|has_perm_to_change:service comeback=True %}
+          {% endif %}
+        </td>
+        <td {% brick_table_data_status action %}>
+          {% with service_unlink_perm=user|has_perm_to_unlink:service %}
+            {% brick_table_action id='delete' url=delete_relation_url __subject_id=object.id __type=relation_type.id __object_id=service.pk label=_('Unlink this service') icon='unlink' enabled=unlink_perm|and_op:service_unlink_perm %}
+          {% endwith %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No related service for the moment' %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'creme_core/bricks/base/table.html' %}
+{% load i18n media creme_bricks %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} billing-exporters-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=verbose_name icon='config' %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column title=_('Type') status='primary' %}
+    {% brick_table_column title=_('Exporter') %}
+    {% brick_table_column title=_('Action') status='action' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+  {% for config_item in config_items %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{{config_item.content_type}}</td>
+        <td>
+         {% with exporter=config_item.exporter %}
+          {% if not config_item.engine_id %}
+            <span class="billing-exporter-empty">{% translate 'Not configured' %}</span>
+          {% elif exporter is None %}
+            <span class="billing-exporter-error">{% translate 'Invalid configuration' %}</span>
+          {% else %}
+            <span class="billing-exporter-name">{{exporter.verbose_name}}</span>
+            <div class="billing-exporter-screenshots">
+              {% for img_src in exporter.screenshots %}
+                <a onclick="creme.dialogs.image('{% media_url img_src %}').open();">
+                    <img style="max-width:200px;max-height:200px;" src="{% media_url img_src %}"/>
+                </a>
+              {% endfor %}
+            </div>
+          {% endif %}
+         {% endwith %}
+        </td>
+
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='billing__edit_exporter_config'|url:config_item.content_type_id label=_('Edit this configuration') %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No model configured for export; see with your administrator if you want to add one.' %}
+{% endblock %}

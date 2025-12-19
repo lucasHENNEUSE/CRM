@@ -1,0 +1,49 @@
+{% extends 'creme_core/bricks/base/base.html' %}
+{% load i18n creme_bricks geolocation_tags %}
+
+{% block brick_extra_class %}geolocation-brick geolocation-neighbours-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('Around this place') %}
+{% endblock %}
+
+{% block brick_script %}
+    {% if ref_addresses and not object.is_deleted %}
+        {% block brick_geolocation_script %}{% endblock %}
+    {% endif %}
+{% endblock %}
+
+{% block brick_content %}
+    {% if object.is_deleted %}
+    <div class="geolocation-empty-brick">{% translate 'The geolocation feature is disabled for the entities in the trash' %}</div>
+    {% elif not ref_addresses %}
+    <div class="geolocation-empty-brick">{% translate 'No address defined for now' %}</div>
+    {% else %}
+    <div class="geolocation-brick-header">
+        <span class="brick-geoaddress-counter">{% translate 'None of' %}</span>&nbsp;
+        <select class="brick-geoaddress-filter">
+            <option value="">{% translate 'All the contacts and organisations' %}</option>
+            {% for groupname, choices in address_filters %}
+                <optgroup label="{{groupname}}">
+                    {% for value, label in choices %}
+                        <option value="{{value}}">{{label}}</option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+        </select>
+        &nbsp;{% translate 'around' %}&nbsp;
+        <select class="brick-geoaddress-origin">
+            {% for address in ref_addresses %}
+                <option value="{{address.id}}">{% if address.title %}{{address.title}}{% else %}{{address.content}}{% endif %}</option>
+            {% empty %}
+                <option value="" disabled>{% translate 'No geolocated address for now' %}</option>
+            {% endfor %}
+        </select>&nbsp;
+        {% blocktranslate with radius_distance=radius|geolocation_distance %}within a radius of {{radius_distance}}.{% endblocktranslate %}
+    </div>
+    <div class="brick-geoaddress-error">
+        {% block brick_geomap_error %}{% endblock %}
+    </div>
+    <div class="brick-geoaddress-canvas"></div>
+    {% endif %}
+{% endblock %}

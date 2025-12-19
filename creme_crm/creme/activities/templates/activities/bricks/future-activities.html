@@ -1,0 +1,16 @@
+{% extends 'activities/bricks/base/activities.html' %}
+{% load i18n creme_bricks %}
+
+{% block brick_extra_class %}{{block.super}} activities-future-brick{% endblock %}
+
+{% block brick_header_title %}
+  {% if object %}
+    {% brick_header_title title=_('{count} Future related activity') plural=_('{count} Future related activities') empty=verbose_name icon='calendar' %}
+  {% else %}
+    {% brick_header_title title=_('{count} Future activity for me') plural=_('{count} Future activities for me') empty=_('Future activities for me') icon='calendar' %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_list_empty %}
+    {% translate 'No future related activity for the moment' %}
+{% endblock %}

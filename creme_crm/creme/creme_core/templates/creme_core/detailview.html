@@ -1,0 +1,73 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks creme_ctype creme_widgets %}
+
+{% block page_title %}{{object}} - {% endblock %}
+
+{% block content_extra_class %}content-detail-view {% with ctype=object|ctype_for_instance %}content-detail-view-{{ctype.app_label}}-{{ctype.model}}{% endwith %}{% endblock %}
+
+{% block content %}
+    {% block global_buttons_container %}
+        <div class="buttons-list global-buttons">
+            <ul>
+             {% block global_buttons %}
+{% comment %}
+              {% block listview_button %}
+               {% if object.get_lv_absolute_url %}
+                <li>
+                    <a class="menu_button menu-button-icon" href="{{object.get_lv_absolute_url}}">{% translate 'Back to the list' as back_label %}
+                        {% widget_icon name='listview' size='global-button' label=back_label %}
+                        {{back_label}}
+                    </a>
+                </li>
+               {% endif %}
+              {% endblock %}
+{% endcomment %}
+             {% endblock %}
+            </ul>
+        </div>
+    {% endblock %}
+
+    {% block view_title %}
+        <div class="hat-bar-container ui-creme-widget ui-creme-hatmenubar widget-auto" widget="ui-creme-hatmenubar">
+            <div class="hat-bar">
+                <div class="bar-icon">{% block logo %}{% widget_icon instance=object size='brick-hat-bar' %}{% endblock %}</div>
+                <div class="bar-title">
+                    <h1>{% block title %}{{object|ctype_for_instance|capfirst}} : {{object|capfirst}}{% endblock %}</h1>
+                </div>
+                <div class="bar-actions">{% block title_buttons %}{% endblock %}</div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block instance_buttons_container %}
+        <div class="buttons-list instance-buttons ui-creme-hatmenubar ui-creme-widget widget-auto" widget="ui-creme-hatmenubar">
+            <ul>
+              {% block instance_buttons %}{% endblock %}
+            </ul>
+        </div>
+    {% endblock %}
+
+    {% block main_content %}
+      {% spaceless %}{# NB: we use "spaceless" in order to use ':empty' selector in CSS #}
+        <div class="north">
+          {% block detail_view_top %}{% endblock %}
+        </div>
+
+        <div class="column west">
+          {% block detail_view_left %}{% endblock %}
+        </div>
+
+        <div class="column east last">
+          {% block detail_view_right %}{% endblock %}
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="south">
+          {% block detail_view_bottom %}{% endblock %}
+        </div>
+      {% endspaceless %}
+
+      {% brick_end %}
+    {% endblock %}
+{% endblock %}

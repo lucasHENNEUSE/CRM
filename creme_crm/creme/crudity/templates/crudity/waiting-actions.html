@@ -1,0 +1,40 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block page_title %}{% translate 'Waiting actions' %} - {% endblock %}
+
+{% block head %}
+    {{block.super}}
+{# TODO: the 'refresh' button should be disabled when the page it loaded, & be enabled after the first automatic refreshing #}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            new creme.crudity.CrudityHatController().bind($('.crudity-hat-bar')).refresh(1000);
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="hat-bar-container crudity-hat-bar">
+        <div class="hat-bar">{% translate 'Waiting actions' as title %}
+            <div class="bar-icon">{% widget_icon name='email' size='brick-hat-bar' label=title %}</div>
+            <div class="bar-title"><h1>{{title}}</h1></div>
+            <div class="bar-actions">
+               <div class='bar-action'>
+                    {% brick_bar_button action='crudity-hatbar-refresh' label=_('Refresh') url='crudity__refresh_actions'|url icon='refresh' %}
+               </div>
+            </div>
+        </div>
+    </div>
+
+    {% if bricks %}
+{#        {% brick_declare bricks %} #}
+        {% brick_declare bricks.main %}
+{#        {% brick_display bricks %} #}
+        {% brick_display bricks.main %}
+
+        {% brick_end %}
+    {% else %}
+        {% widget_help_sign message=_('No external data source is configured. Please contact your administrator (settings.CRUDITY_BACKENDS).') %}
+    {% endif %}
+{% endblock %}

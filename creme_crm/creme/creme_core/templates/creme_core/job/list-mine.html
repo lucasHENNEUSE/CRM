@@ -1,0 +1,10 @@
+{% extends BASE_HTML %}
+{% load i18n creme_bricks %}
+
+{% block page_title %}{% translate 'My jobs' %} - {% endblock %}
+
+{% block content %}
+    {% brick_import app='creme_core' name='my_jobs' as jobs_brick %}
+    {% brick_display jobs_brick %}
+    {% brick_end %}
+{% endblock %}

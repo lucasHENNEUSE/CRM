@@ -1,0 +1,80 @@
+# FR LOCALISATION OF 'CTI' APP
+# Copyright (C) 2024 Hybird
+# This file is distributed under the same license as the PACKAGE package.
+#
+# > django-admin makemessages -l fr -i "tests.py" --no-location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Creme CTI 2.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-14 17:20+0100\n"
+"Last-Translator: Hybird <contact@hybird.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Computer Telephony Integration"
+msgstr "Couplage Téléphonique Informatique"
+
+msgid "Potential callers"
+msgstr "Appelants possibles"
+
+msgid "All phone fields are hidden; please contact your administrator."
+msgstr ""
+"Tous les champs téléphoniques sont cachés ; veuillez contacter votre "
+"administrateur."
+
+#, python-brace-format
+msgid "{count} Potential caller"
+msgstr "{count} Appelant possible"
+
+#, python-brace-format
+msgid "{count} Potential callers"
+msgstr "{count} Appelants possibles"
+
+msgid "Entity"
+msgstr "Fiche"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Create a phone call"
+msgstr "Créer un appel téléphonique"
+
+#, python-format
+msgid "No contact/organisation corresponds to this number: %(number)s"
+msgstr "Aucun contact/société ne correspond à ce numéro : %(number)s"
+
+msgid "Call"
+msgstr "Appeler"
+
+#, python-brace-format
+msgid "Call to {entity}"
+msgstr "Appel à {entity}"
+
+msgid "Automatically created by CTI"
+msgstr "Créé automatiquement par CTI"
+
+msgid "Staff users cannot create phone call"
+msgstr "Les super administrateurs ne peuvent pas créer d'appel téléphonique"
+
+msgid "Phone call successfully created."
+msgstr "Appel téléphonique créé avec succès."
+
+#~ msgid "Call from {entity}"
+#~ msgstr "Appel de {entity}"
+
+#~ msgid "Caller"
+#~ msgstr "Appelant"
+
+#~ msgid "Create a contact"
+#~ msgstr "Créer un contact"
+
+#~ msgid "Create an organisation"
+#~ msgstr "Créer une société"
+
+#~ msgid "Phone call"
+#~ msgstr "Appel téléphonique"

@@ -1,0 +1,56 @@
+{% extends 'creme_core/bricks/base/table.html' %}
+{% load i18n creme_bricks creme_ctype creme_perms %}
+{% load mult url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} commercial-components-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Objective') plural=_('{count} Objectives') empty=_('Objectives') count=components|length %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% brick_header_action id='add' url='commercial__create_component'|url:object.id label=_('New objective') enabled=user|has_perm_to_change:object %}
+{% endblock %}
+
+{% block brick_content %}
+    <table class="brick-table-content">
+     {% if components %}
+      {% with comp_ctype=components.0|ctype_for_instance %}
+       {% with edit_perm=user|has_perm_to_change:object delete_url='creme_core__delete_related_to_entity'|url:comp_ctype.id %}
+        <tbody>
+          {% for component in components %}
+            <tr>
+                <td {% brick_table_data_status primary %}>
+                  {% if component.deep > 0 %}
+                    <span style="display:inline-block;width:{{component.deep|mult:30}}px;text-align:right;">&nbsp;➘</span>&nbsp;{{component}}
+                  {% else %}
+                    {{component}}
+                  {% endif %}
+                </td>
+                <td class="component-description">
+                    <span>{% translate "Success rate" %} : {{component.success_rate}}%</span>
+                    {% if component.ctype %}
+                     <span>({{component.ctype}}{% if component.filter %} / {{component.filter}}{% endif %})</span>
+                    {% endif %}
+                </td>
+                <td {% brick_table_data_status textaction %}>
+                    {% brick_table_action id='add' url='commercial__create_child_component'|url:component.id label=_('New sub-objective') enabled=edit_perm %}
+                </td>
+                <td {% brick_table_data_status textaction %}>
+                    {% brick_table_action id='add' url='commercial__create_parent_component'|url:component.id label=_('New parent objective') enabled=edit_perm %}
+                </td>
+                <td {% brick_table_data_status action %}>
+                    {% brick_table_action id='delete' url=delete_url __id=component.id enabled=edit_perm %}
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+       {% endwith %}
+      {% endwith %}
+     {% else %}
+        <thead>
+            <tr><th>{% translate 'No objective for the moment' %}</th></tr>
+        </thead>
+     {% endif %}
+    </table>
+{% endblock %}

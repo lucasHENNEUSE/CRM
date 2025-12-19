@@ -1,0 +1,20 @@
+{% extends 'geolocation/bricks/base/neighbours-map.html' %}
+{% load i18n creme_bricks %}
+
+{% block brick_extra_class %}{{block.super}} geolocation-leaflet{% endblock %}
+
+{% block brick_geolocation_script %}
+    <script type="text/javascript">
+         $('.brick[data-brick-id="{{brick_id}}"]').on('brick-ready', function(event, brick) {
+             return new creme.geolocation.PersonsNeighborhoodBrick(brick, {
+                 mapController: new creme.geolocation.LeafletMapController({
+                     nominatimUrl: '{{nominatim_url}}',
+                     tileMapUrl: '{{tilemap_url}}',
+                     tileMapAttribution: '&copy; <a href="{{copyright_url}}">{{copyright_title}}</a>'
+                 }),
+                 radius: {{radius}},
+                 neighboursUrl: '{{neighbours_url}}'
+             });
+         });
+    </script>
+{% endblock %}

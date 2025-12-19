@@ -1,0 +1,33 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load and_op print_field url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} documents-child-folders-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Child Folder') plural=_('{count} Child Folders') empty=verbose_name icon='document' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% with creation_perm=user|has_perm_to_create:objects_ctype link_perm=user|has_perm_to_link:object %}
+    {% brick_header_action id='add' url='documents__create_child_folder'|url:object.id label=_('Create a child folder') enabled=creation_perm|and_op:link_perm %}
+  {% endwith %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='title' status='primary'%}
+    {% brick_table_column_for_field ctype=objects_ctype field='category' %}
+{% endblock %}
+
+{% block brick_table_rows %}
+  {% for folder in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>{% widget_entity_hyperlink folder user %}</td>
+        <td>{% print_field object=folder field='category' %}</td>
+    </tr>
+  {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No child folder' %}
+{% endblock %}

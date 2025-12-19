@@ -1,0 +1,24 @@
+{% extends 'polls/bricks/preplies.html' %}
+{% load i18n creme_bricks creme_perms %}
+{% load and_op url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} polls-campaigns-replies-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Filled form reply') plural=_('{count} Filled form replies') empty=_('Filled form replies') icon='poll' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% with link_perm=user|has_perm_to_link:object creation_perm=user|has_perm_to_create:objects_ctype %}
+    {% brick_header_action id='add' url='polls__create_replies_from_campaign'|url:object.id label=_('Create replies') enabled=link_perm|and_op:creation_perm %}
+  {% endwith %}
+{% endblock %}
+
+{% block brick_table_rows %}
+    {{block.super}}
+    {% with count=page.paginator.count expected=object.expected_count %}
+    <tr>
+        <td colspan="2" class="{% if count >= expected %}brick-table-data-valid{% else %}brick-table-data-error{% endif %}"><strong>{% translate 'Goal' %} :</strong> {{count}} / {{expected}} </td>
+    </tr>
+    {% endwith %}
+{% endblock %}

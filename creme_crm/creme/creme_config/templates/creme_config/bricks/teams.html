@@ -1,0 +1,50 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_perms creme_widgets %}
+{% load uca_sort url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} creme_config-teams-brick{% endblock %}
+
+{% block brick_header_title %}
+    {% brick_header_title title=_('{count} Team') plural=_('{count} Teams') empty=verbose_name icon='contact' %}
+{% endblock %}
+
+{% block brick_header_actions %}
+{#    {% brick_header_action id='add' url='creme_config__create_team'|url label=_('New team') enabled=user.is_superuser %} #}
+    {% brick_header_action id='add' url='creme_config__create_team'|url label=_('New team') enabled=user|has_special_perm:user_config_perm %}
+{% endblock %}
+
+{% block brick_before_content %}
+    <div class="help">
+        {% blocktranslate %}A team is a user which can owns entities, but which cannot be logged in.
+A team contains some teammates, which must be real users, not teams.
+When an entity belongs to a team, each teammate has the same permissions on this entity as if it belonged to him.{% endblocktranslate %}
+    </div>
+{% endblock %}
+
+{% block brick_table_columns %}
+    {% brick_table_column_for_field ctype=objects_ctype field='username' title=_('Name') status='primary' %}
+    {% brick_table_column title=_('Teammates') %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+{# {% with admin_perm=user.is_superuser %} #}
+{% with admin_perm=user|has_special_perm:user_config_perm %}
+  {% for team in page.object_list %}
+    <tr>
+        <td>{{team.username}}</td>
+        <td>{% widget_enumerator team.teammates.values|uca_sort threshold=10 empty=_('No teammate') summary=_('{count} users') %}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='creme_config__edit_team'|url:team.id label=_('Edit this team') enabled=admin_perm %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='edit' url='creme_config__delete_user'|url:team.id label=_('Delete this team') icon='delete' enabled=admin_perm %}
+        </td>
+    </tr>
+  {% endfor %}
+{% endwith %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% translate 'No team for the moment' %}
+{% endblock %}

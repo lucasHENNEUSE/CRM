@@ -1,0 +1,10 @@
+{% extends '403.html' %}
+{% load i18n %}
+
+{% block error_message %}
+    {% if error_message %}
+        {{error_message}}
+    {% else %}
+        {% translate 'You do not have access to this page, please contact your administrator.' %}
+    {% endif %}
+{% endblock %}

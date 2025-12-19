@@ -1,0 +1,76 @@
+{% extends BASE_HTML %}
+{% load i18n creme_widgets creme_bricks creme_search %}
+
+{% block page_title %}{% translate 'Search results' %} - {% endblock %}
+
+{% block head %}
+    {{block.super}}
+{% translate 'Search results: %d entity' as singular_msg %}{% translate 'Search results: %d entities' as plural_msg %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var total = 0;
+        $('.brick.creme_core-search-brick[search-count]').each(function() {
+            total += parseInt($(this).attr('search-count'));
+        });
+
+        var titleFmt = pluralidx(total) ? '{{plural_msg|escapejs}}' : '{{singular_msg|escapejs}}';
+
+        $('#search_results_title').text(titleFmt.format(total));
+    });
+
+    var SEARCH = '{{searched|escapejs|lower}}';
+
+    $(document).on('brick-ready', '.brick.creme_core-search-brick:not(.is-empty)', function(e, brick, options) {
+        brick._element.find('.advanced-search-result').each(function() {
+            var results = $(this);
+            results.addClass('marked');
+
+            var _wrap = function() {
+                var result = $(this);
+
+                if (result.prop('tagName')) {
+                    result.contents().each(_wrap);
+                } else {
+                    if (result.text().toLowerCase().indexOf(SEARCH) >= 0) {
+                        result.wrap($('<mark/>'));
+                    }
+                }
+            };
+
+            results.contents().each(_wrap);
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="search_results">
+    <div class="hat-bar-container">
+        <div class="hat-bar">{% translate 'Search' context 'creme_core-noun' as title %}
+            <div class="bar-icon">{% widget_icon name='search' size='brick-hat-bar' label=title %}</div>
+            <div class="bar-title"><h1 id="search_results_title">Search results</h1></div>{# The title is updated by JavaScript #}
+        </div>
+    </div>
+
+    {% search_form models=models selected_ct_id=selected_ct_id search_terms=searched %}
+
+    {% if searched or verbose_names %}
+        {% blocktranslate with types=verbose_names|join:', ' asvar help_msg %}Your search: {{searched}}
+
+Concerned types: {{types}}{% endblocktranslate %}
+        {% widget_help_sign message=help_msg %}
+    {% endif %}
+
+    {% if error_message %}
+        <ul class="errorlist">
+            <li>{{error_message}}</li>
+        </ul>
+    {% endif %}
+
+{#    {% brick_declare bricks %} #}
+    {% brick_declare bricks.main %}
+{#    {% brick_display bricks %} #}
+    {% brick_display bricks.main %}
+    {% brick_end %}
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}{{block.super}} brick-selectable crudity-actions-brick{% endblock %}
+
+{% block brick_extra_attributes %}data-crudity-backend="{{backend.get_id}}"{% endblock %}
+
+{% block brick_header_title %}
+    {% widget_icon ctype=waiting_ct size='brick-header' as ct_icon %}{% translate '%s Action selected' as sel_fmt %}{% translate '%s Actions selected' as sel_plural_fmt %}
+    {% with count=page.paginator.count %}
+    {% if count %}
+        {% blocktranslate count count=count with model=waiting_ct source=backend.verbose_source asvar title %}{{count}} Waiting action - {{model}} - {{source}}{% plural %}{{count}} Waiting actions - {{model}} - {{source}}{% endblocktranslate %}
+    {% else %}
+        {% blocktranslate with model=waiting_ct source=backend.verbose_source asvar title %}Waiting actions - {{model}} - {{source}}{% endblocktranslate %}
+    {% endif %}
+
+    {% brick_header_title title=title icon=ct_icon selection_title=sel_fmt selection_plural=sel_plural_fmt %}
+    {% endwith %}
+{% endblock %}
+
+{% block brick_header_actions %}
+    {% for action in extra_header_actions %}{{action}}{% endfor %}
+
+    {% brick_header_action id='crudity-validate' url='crudity__validate_actions'|url type='add'    label=_('Validate') icon='ok' %}
+    {% brick_header_action id='crudity-delete'   url='crudity__delete_actions'|url   type='delete' label=_('Delete')   icon='cancel' %}
+{% endblock %}
+
+{% block brick_table_columns %}
+    <th data-selectable-selector-column>
+        <input class="row-selector-all" type="checkbox" title="{% translate 'Select all' %}"/>
+    </th>
+    {% brick_table_column title=_('Data') %}
+    {% brick_table_column title=_('Type') %}
+    {% brick_table_column title=_('Actions') status='action' colspan=2 %}
+{% endblock %}
+
+{% block brick_table_rows %}
+{% url 'crudity__validate_actions' as validate_url %}{% url 'crudity__delete_actions' as delete_url %}
+    {% for waiting_action in page.object_list %}
+    <tr>
+        <td data-selectable-selector-column>
+            <input class="row-selector" value="{{waiting_action.pk}}" title="{% translate 'Select this line' %}" type="checkbox"/>
+        </td>
+        <td>
+        {% for k, v in waiting_action.data.items %}
+            {% if forloop.counter0|divisibleby:4 %}
+            <p>
+            {% else %}
+             /
+            {% endif %}
+            {{k}} : {{v|truncatewords:50|truncatechars:500}}
+            {% if forloop.counter|divisibleby:4 %}
+            </p>
+            {% endif %}
+        {% endfor %}
+        </td>
+        <td>{{backend.verbose_method}}</td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='crudity-validate-row' url=validate_url __id=waiting_action.pk label=_('Validate') icon='ok' %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=delete_url __ids=waiting_action.pk %}
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block brick_table_empty %}
+    {% blocktranslate with ctype=waiting_ct backend=backend.verbose_source %}No waiting action for «{{ctype}}» from «{{backend}}»{% endblocktranslate %}
+{% endblock %}

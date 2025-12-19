@@ -1,0 +1,41 @@
+{% extends 'creme_core/bricks/base/paginated-table.html' %}
+{% load i18n creme_bricks creme_ctype creme_perms creme_widgets %}
+{% load url from creme_core_tags %}
+
+{% block brick_extra_class %}
+{{block.super}} creme_core-tagged-entities-brick{% if page.paginator.count == 0 %} is-empty{% endif %}
+{% endblock %}
+
+{% block brick_header_title %}
+  {% if ctype %}
+    {% widget_icon ctype=ctype size='brick-table' as ct_icon %}
+    {% brick_header_title title=ctype|ctype_counted_label:page.paginator.count icon=ct_icon %}
+  {% else %}
+    {% brick_header_title title=_('{count} Other entity') plural=_('{count} Other entities') %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_header_actions %}
+  {% if ctype %}
+    {% blocktranslate with models=ctype|ctype_verbose_name_plural asvar help_text %}Remove all the properties related to the «{{models}}» which you are allowed to edit{% endblocktranslate %}
+    {% brick_header_action id='delete' url='creme_core__remove_properties'|url __ptype_id=object.id __ct_id=ctype.id label=_('Remove these properties') help_text=help_text %}
+  {% endif %}
+{% endblock %}
+
+{% block brick_table_head %}{% endblock %}
+
+{% block brick_table_rows %}
+ {% with rm_url='creme_core__remove_property'|url %}
+  {% for entity in page.object_list %}
+    <tr>
+        <td {% brick_table_data_status primary %}>
+          {% if not ctype %}{% widget_icon ctype=entity.entity_type size='brick-table' %}{% endif %}
+          {% widget_entity_hyperlink entity user %}
+        </td>
+        <td {% brick_table_data_status action %}>
+            {% brick_table_action id='delete' url=rm_url __ptype_id=object.id __entity_id=entity.id label=_('Remove the property') icon='unlink' enabled=user|has_perm_to_change:entity %}
+        </td>
+    </tr>
+  {% endfor %}
+ {% endwith %}
+{% endblock %}

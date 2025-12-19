@@ -1,0 +1,27 @@
+{% extends "creme_core/tests/testbase.html" %}
+{% load creme_bricks  %}
+
+{% block test_title %}Creme Block List{% endblock %}
+
+{% block test_header %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('button#test-blocklist-refresh').on('click', function() {
+                var options = creme.tests.context;
+                window.location = options.view +
+                                  '?theme=' + options.theme +
+                                  '&screen=' + options.screen.join('x') +
+                                  '&refresh=1' +
+                                  '&count=' + $('#test-blocklist-count').val();
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block test_content %}
+    <button id="test-blocklist-refresh">Refresh</button>
+    <label for="test-blocklist-count">Item count</label>
+    <input type="number" id="test-blocklist-count" value="{{request.GET.count|default:10}}" min="0" max="1000" />
+    {% brick_import app='creme_core' name='test_dummy_list' as test_dummy_list_brick %}
+    {% brick_display test_dummy_list_brick %}
+{% endblock %}

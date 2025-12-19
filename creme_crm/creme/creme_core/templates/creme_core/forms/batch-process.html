@@ -1,0 +1,6 @@
+{% extends BASE_HTML %}
+{% load i18n %}
+
+{% block content %}
+    {% include 'creme_core/generics/blockform/base.html' with icon_name='batch_process' title=_('Batch process') %}
+{% endblock %}
