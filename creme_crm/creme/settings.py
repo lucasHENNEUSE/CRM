@@ -206,7 +206,7 @@ STATIC_ROOT = join(CREME_ROOT, 'media', 'static')
 # Make this unique, and don't share it with anybody.
 # Use the command 'build_secret_key' to generate it.
 # e.g. SECRET_KEY = '1&7rbnl7u#+j-2#@5=7@Z0^9v@y_Q!*y^krWS)r)39^M)9(+6('
-SECRET_KEY = ''
+SECRET_KEY = 'zd8qowfu-8^a6!q5cv_st474ywn4wtav!yzhte14wfdkwi(ok!'
 
 # A list of strings representing the host/domain names that this Django site can serve.
 # You should set this list for security purposes.
