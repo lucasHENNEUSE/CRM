@@ -15,7 +15,7 @@ def run_cmd(args):
         sys.exit(1)
 
 def main():
-    # 1. Installation des dépendances (si nécessaire)
+    # 1. Installation des dépendances
     if os.path.exists("requirements.txt"):
         print("---  Vérification des dépendances ---")
         run_cmd([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])

@@ -9,10 +9,12 @@ cryptography==46.0.3
 csscompressor==0.9.5
 cssselect2==0.8.0
 Django==6.0
+django-extensions==4.1
 django-formtools==2.5.1
 django-mediagenerator==1.12
 dnspython==2.8.0
 et_xmlfile==2.0.0
+Faker==39.0.0
 freetype-py==2.5.1
 html5lib==1.1
 idna==3.11
@@ -39,6 +41,7 @@ six==1.17.0
 sqlparse==0.5.5
 svglib==1.6.0
 tinycss2==1.5.1
+tzdata==2025.3
 tzlocal==5.3.1
 uritools==5.0.0
 urllib3==2.6.2

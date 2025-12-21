@@ -307,13 +307,12 @@ MIDDLEWARE = [
 ]
 
 INSTALLED_DJANGO_APPS = [
-    'creme.creme_core.apps.ContentTypesConfig',  # Replaces 'django.contrib.contenttypes',
+    'creme.creme_core.apps.ContentTypesConfig',
     'django.contrib.auth',
     'django.contrib.sessions',
-
-    # EXTERNAL APPS
+    'django_extensions',  # <--- Ajoute cette ligne ici
     'formtools',
-    'creme.creme_core.apps.MediaGeneratorConfig',  # It manages JS, CSS & static images
+    'creme.creme_core.apps.MediaGeneratorConfig',
 ]
 INSTALLED_CREME_APPS = [
     # ----------------------
