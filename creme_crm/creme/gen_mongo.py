@@ -4,8 +4,8 @@ from faker import Faker
 fake = Faker('fr_FR')
 
 def generate_demo_data(count=10):
-    # Connexion à ta base spécifique
-    client = pymongo.MongoClient("mongodb://localhost:27018/") # Port 27018 selon ta capture
+    # Connexion à la base spécifique
+    client = pymongo.MongoClient("mongodb://localhost:27018/") 
     db = client["poc_aggregation"]
     collection = db["prospects_bruts"]
 
@@ -17,7 +17,9 @@ def generate_demo_data(count=10):
             "prenom": fake.first_name(),
             "nom": fake.last_name(),
             "email": fake.ascii_free_email(),
-            "status": "new"  # Important pour ton script d'import !
+            "numero_telephone": fake.phone_number(),
+            "adresse": fake.address(),
+            "status": "new"  
         }
         prospects.append(prospect)
 

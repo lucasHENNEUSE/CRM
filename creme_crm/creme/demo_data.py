@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 def run_cmd(args, label):
-    print(f"\n--- 🔄 {label} ---")
+    print(f"\n---  {label} ---")
     env = os.environ.copy()
     # On s'assure que le PYTHONPATH inclut le dossier parent pour Crème
     env["PYTHONPATH"] = f"{os.getcwd()}/..:{env.get('PYTHONPATH', '')}"

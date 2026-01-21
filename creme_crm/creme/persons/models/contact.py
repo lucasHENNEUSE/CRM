@@ -5,7 +5,7 @@
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,7 +20,6 @@ from __future__ import annotations
 
 # import warnings
 import logging
-
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -70,6 +69,11 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     url_site = core_fields.CremeURLField(
         _('Web Site'), max_length=500, blank=True,
     ).set_tags(optional=True)
+
+    entity_code = models.CharField(_('Code entité'), max_length=100, blank=True).set_tags(optional=True)
+    entity_label = models.CharField(_('Libellé entité'), max_length=255, blank=True).set_tags(optional=True)
+    entity_type_code = models.CharField(_('Code type entité'), max_length=100, blank=True).set_tags(optional=True)
+    is_entity_subject = models.BooleanField(_('Assujetti entité'), default=False).set_tags(optional=True)
 
     position = models.ForeignKey(
         other_models.Position,

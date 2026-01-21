@@ -5,7 +5,7 @@
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,10 +17,13 @@
 ################################################################################
 
 from django import forms
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.shortcuts import get_object_or_404
+from django.core.mail import EmailMessage
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
@@ -235,7 +238,7 @@ class ContactDetail(generic.EntityDetail):
 class ContactEdition(generic.EntityEdition):
     model = Contact
     form_class: type[forms.BaseForm] | CustomFormDescriptor = \
-        custom_forms.CONTACT_EDITION_CFORM
+        custom_forms.CONTACT_CREATION_CFORM
     pk_url_kwarg = 'contact_id'
 
 
@@ -264,3 +267,37 @@ class TransformationIntoUser(generic.EntityEdition):
         del kwargs['instance']
 
         return kwargs
+
+
+def email_mass_send(request):
+    contacts = Contact.objects.filter(is_deleted=False).exclude(email='')
+
+    if request.method == 'POST':
+        selected_emails = request.POST.getlist('selected_contacts')
+        subject = request.POST.get('subject')
+        message_body = request.POST.get('message')
+        attachment = request.FILES.get('attachment')
+
+        if selected_emails:
+            try:
+                email = EmailMessage(
+                    subject=subject,
+                    body=message_body,
+                    from_email=None,
+                    bcc=selected_emails,
+                )
+
+                if attachment:
+                    email.attach(attachment.name, attachment.read(), attachment.content_type)
+
+                email.send()
+                messages.success(request, _('Le message a été envoyé avec succès à %d contacts.') % len(selected_emails))
+                return HttpResponseRedirect(request.path)
+            except Exception as e:
+                messages.error(request, _('Erreur lors de l\'envoi : %s') % str(e))
+        else:
+            messages.warning(request, _('Veuillez sélectionner au moins un destinataire.'))
+
+    return render(request, 'persons/email_mass_send.html', {
+        'contacts': contacts,
+    })
