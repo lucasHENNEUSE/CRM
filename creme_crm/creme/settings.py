@@ -6,7 +6,7 @@ from sys import argv
 
 from django.utils.translation import gettext_lazy as _
 
-DEBUG = False
+DEBUG = True
 
 TESTS_ON = len(argv) > 1 and argv[1] == 'test'
 FORCE_JS_TESTVIEW = False
@@ -521,33 +521,25 @@ EXPORT_BACKENDS = [
 # Emails sent to the users of Creme
 # (reminders, assistants.user_message, commercial.commercial_approach...)
 
-# This is a Creme parameter which specifies from_email (sender) when sending email.
-EMAIL_SENDER = 'sender@domain.org'
+# EMAILS [internal] ############################################################
 
-# Following values are from Django :
-#  See https://docs.djangoproject.com/en/5.2/ref/settings/#email-host
-#  or the file "django/conf/global_settings.py"
-#  for a complete documentation.
-#  BEWARE: the Django's names for secure parameters may be misleading.
-#    EMAIL_USE_TLS is for startTLS (often with port 587) ; for communication
-#    with TLS use EMAIL_USE_SSL. See :
-#     - https://docs.djangoproject.com/fr/5.2/ref/settings/#email-use-tls
-#     - https://docs.djangoproject.com/fr/5.2/ref/settings/#email-use-ssl
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-# EMAIL_PORT = 25
-# EMAIL_SSL_CERTFILE = None
-# EMAIL_SSL_KEYFILE = None
-# EMAIL_TIMEOUT = None
-# ...
+# Adresse de l'expéditeur par défaut
+EMAIL_SENDER = 'lucas.henneuse22@gmail.com'
 
-# Tip: _development_ SMTP server
-# => python -m smtpd -n -c DebuggingServer localhost:1025
+# Configuration SMTP pour Gmail
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'lucas.henneuse22@gmail.com'
+EMAIL_HOST_PASSWORD = 'bpvchbiviqljkfmw'  
+EMAIL_USE_TLS = True
 
-# Email address used in case the user doesn't have filled his one.
+# Paramètre Django standard pour l'expéditeur
+DEFAULT_FROM_EMAIL = EMAIL_SENDER
+
+# Adresse de secours
 DEFAULT_USER_EMAIL = ''
+
+# EMAILS [END] #################################################################
 
 
 # EMAILS [END] #################################################################

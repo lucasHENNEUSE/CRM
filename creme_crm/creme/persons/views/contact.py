@@ -270,16 +270,28 @@ class TransformationIntoUser(generic.EntityEdition):
 
 
 def email_mass_send(request):
+    # On récupère les contacts de la base de données ayant un email
     contacts = Contact.objects.filter(is_deleted=False).exclude(email='')
 
     if request.method == 'POST':
+        # Récupération des emails cochés dans le tableau
         selected_emails = request.POST.getlist('selected_contacts')
+        
+        # Récupération des informations saisies manuellement
+        manual_name = request.POST.get('manual_name')
+        manual_email = request.POST.get('manual_email')
+        
         subject = request.POST.get('subject')
         message_body = request.POST.get('message')
         attachment = request.FILES.get('attachment')
 
+        # Si un email manuel est saisi, on l'ajoute à la liste des destinataires
+        if manual_email:
+            selected_emails.append(manual_email)
+
         if selected_emails:
             try:
+                # Création de l'email avec la liste combinée en BCC
                 email = EmailMessage(
                     subject=subject,
                     body=message_body,
@@ -296,7 +308,7 @@ def email_mass_send(request):
             except Exception as e:
                 messages.error(request, _('Erreur lors de l\'envoi : %s') % str(e))
         else:
-            messages.warning(request, _('Veuillez sélectionner au moins un destinataire.'))
+            messages.warning(request, _('Veuillez sélectionner au moins un destinataire ou saisir un email manuel.'))
 
     return render(request, 'persons/email_mass_send.html', {
         'contacts': contacts,
