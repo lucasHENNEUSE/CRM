@@ -278,7 +278,6 @@ def email_mass_send(request):
         selected_emails = request.POST.getlist('selected_contacts')
         
         # Récupération des informations saisies manuellement
-        manual_name = request.POST.get('manual_name')
         manual_email = request.POST.get('manual_email')
         
         subject = request.POST.get('subject')

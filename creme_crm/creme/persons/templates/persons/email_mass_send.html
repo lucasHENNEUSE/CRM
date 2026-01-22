@@ -13,15 +13,39 @@
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-md-6" style="padding-right: 15px;">
-                
+        <div class="row" style="display: flex; gap: 20px;">
+            
+            <div class="col-md-6" style="flex: 1;">
+                <div style="background: #fff; padding: 25px; border: 1px solid #d1d1d1; border-radius: 4px; height: 750px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 16px;"><strong>1. {% trans "Objet du message :" %}</strong></label>
+                        <input type="text" name="subject" required style="width: 100%; padding: 7px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
+                    </div>
+
+                    <div style="background: #fdfdfd; border: 2px dashed #007bff; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                        <label style="font-size: 15px; color: #007bff;"><strong>2. <i class="fa fa-paperclip"></i> {% trans "Joindre un fichier (PDF, Image...)" %}</strong></label><br>
+                        <input type="file" name="attachment" style="margin-top: 15px; font-size: 16px;">
+                    </div>
+                    
+                    <div style="flex-grow: 1; display: flex; flex-direction: column; margin-bottom: 20px;">
+                        <label style="font-size: 16px;"><strong>3. {% trans "Votre message :" %}</strong></label>
+                        <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 7px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
+                    </div>
+
+                    <button type="submit" style="background: #28a745; color: white; border: none; padding: 20px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; text-transform: uppercase; letter-spacing: 2px;">
+                        <i class="fa fa-share-alt"></i> {% trans "PARTAGER L'E-MAILING" %}
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="flex: 1;">
                 <div style="background: #f0f7ff; padding: 20px; border: 1px solid #b3d7ff; border-radius: 4px; margin-bottom: 20px;">
                     <strong style="font-size: 18px;">{% trans "Ajouter un destinataire" %}</strong>
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
                         <input type="text" id="input-name" placeholder="Nom" style="width: 40%; padding: 10px; font-size: 16px;">
                         <input type="email" id="input-email" placeholder="E-mail" style="width: 40%; padding: 10px; font-size: 16px;">
-                        <button type="button" id="btn-add-manual" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer; font-weight: bold; font-size: 14px;">
+                        <button type="button" id="btn-add-manual" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer; font-weight: bold;">
                             {% trans "VALIDER" %}
                         </button>
                     </div>
@@ -29,12 +53,12 @@
 
                 <div style="background: white; border: 1px solid #ccc; border-radius: 4px; height: 600px; overflow-y: auto;">
                     <table class="table" style="width: 100%; font-size: 15px; border-collapse: collapse;"> 
-                        <thead style="background: #e2e2e2;">
+                        <thead style="background: #e2e2e2; position: sticky; top: 0;">
                             <tr>
                                 <th style="width: 30px; border: 1px solid #aaa; text-align: center;"><input type="checkbox" id="select-all" checked></th>
                                 <th style="padding: 12px; border: 1px solid #aaa;">{% trans "Nom & Prénom" %}</th>
                                 <th style="padding: 12px; border: 1px solid #aaa;">{% trans "Courriel" %}</th>
-                                <th style="width: 120px; text-align: center; padding: 12px; border: 1px solid #aaa;">Action</th>
+                                <th style="width: 100px; text-align: center; padding: 12px; border: 1px solid #aaa;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="email-tbody">
@@ -42,7 +66,7 @@
                             <tr>
                                 <td style="padding: 12px; border: 1px solid #ccc; text-align: center;"><input type="checkbox" name="selected_contacts" value="{{ contact.email }}" class="contact-checkbox" checked></td>
                                 <td style="padding: 12px; border: 1px solid #ccc;">{{ contact.last_name }} {{ contact.first_name }}</td>
-                                <td style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px; background: none; border: none;">{{ contact.email }}</code></td>
+                                <td style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
                                 <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
                                     <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">
                                         {% trans "SUPPRIMER" %}
@@ -55,28 +79,6 @@
                 </div>
             </div>
 
-            <div class="col-md-6" style="padding-left: 15px;">
-                <div style="background: #fff; padding: 25px; border: 1px solid #d1d1d1; border-radius: 4px; height: 750px; display: flex; flex-direction: column;">
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-size: 16px;"><strong>{% trans "Objet du message :" %}</strong></label>
-                        <input type="text" name="subject" required style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;">
-                    </div>
-                    
-                    <div style="flex-grow: 1; display: flex; flex-direction: column; margin-bottom: 20px;">
-                        <label style="font-size: 16px;"><strong>{% trans "Votre message :" %}</strong></label>
-                        <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 15px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
-                    </div>
-
-                    <div style="background: #f9f9f9; border: 1px dashed #bbb; padding: 20px; margin-bottom: 25px;">
-                        <label style="font-size: 15px;"><strong>{% trans "Télécharger un fichier externe :" %}</strong></label><br>
-                        <input type="file" name="attachment" style="margin-top: 12px; font-size: 14px;">
-                    </div>
-
-                    <button type="submit" style="background: #28a745; color: white; border: none; padding: 20px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">
-                        {% trans "PARTAGER E-MAILING" %}
-                    </button>
-                </div>
-            </div>
         </div>
     </form>
 </div>
@@ -96,28 +98,22 @@
         if (name && email) {
             const tbody = document.getElementById('email-tbody');
             const row = document.createElement('tr');
-            
             row.innerHTML = `
                 <td style="padding: 12px; border: 1px solid #ccc; text-align: center;"><input type="checkbox" name="selected_contacts" value="${email}" class="contact-checkbox" checked></td>
                 <td style="padding: 12px; border: 1px solid #ccc;">${name}</td>
-                <td style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px; background: none; border: none;">${email}</code></td>
+                <td style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">${email}</code></td>
                 <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
-                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">
-                        SUPPRIMER
-                    </button>
+                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">SUPPRIMER</button>
                 </td>
             `;
-            
             tbody.prepend(row);
             nameInput.value = '';
             emailInput.value = '';
-        } else {
-            alert("Veuillez remplir le nom et l'email.");
         }
     }
 
     function removeRow(btn) {
-        if(confirm("Retirer ce contact de la liste d'envoi ?")) {
+        if(confirm("Retirer ce contact ?")) {
             btn.closest('tr').remove();
         }
     }
