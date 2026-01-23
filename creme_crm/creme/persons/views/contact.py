@@ -19,6 +19,7 @@
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
@@ -311,4 +312,13 @@ def email_mass_send(request):
 
     return render(request, 'persons/email_mass_send.html', {
         'contacts': contacts,
+    })
+
+
+@login_required
+def taxe_view(request):
+    # On force une erreur pour voir si Django passe par ici
+    raise Exception("OUI, JE PASSE PAR LA VUE TAXE")
+    return render(request, 'persons/taxe.html', {
+        'title': 'Gestion des Taxes',
     })

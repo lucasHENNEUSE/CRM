@@ -179,7 +179,7 @@ DEFAULT_ENCODING = 'UTF8'
 # NB3: it's called "domain" but it MUST include the protocol (e.g. http).
 # NB4: it's a legacy from the contrib app "site", which is not installed by
 #      Creme since years & uses now 'SITE_ID'.
-SITE_DOMAIN = 'http://mydomain'
+SITE_DOMAIN = 'http://127.0.0.1:8000'
 
 APPEND_SLASH = False
 
@@ -528,7 +528,7 @@ EMAIL_SENDER = 'lucas.henneuse22@gmail.com'
 
 # Configuration SMTP pour Gmail
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
+EMAIL_PORT = 365
 EMAIL_HOST_USER = 'lucas.henneuse22@gmail.com'
 EMAIL_HOST_PASSWORD = 'bpvchbiviqljkfmw'  
 EMAIL_USE_SSL = False
@@ -1553,3 +1553,4 @@ GEOLOCATION_OSM_COPYRIGHT_URL = 'https://www.openstreetmap.org/copyright'
 GEOLOCATION_OSM_COPYRIGHT_TITLE = 'OpenStreetMap contributors'
 
 # APPS CONFIGURATION [END]######################################################
+MEDIA_DEV_MODE = True

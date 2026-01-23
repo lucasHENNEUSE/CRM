@@ -28,7 +28,15 @@ urlpatterns = [
         r'^contact/email-mass-send[/]?$',
         contact.email_mass_send,
         name='persons__email_mass_send',
+
     ),
+
+    re_path(
+        r'^contact/taxe[/]?$',
+        contact.taxe_view,
+        name='persons__taxe',
+    ),
+
     re_path(
         r'^organisation/managed[/]?$',
         organisation.ManagedOrganisationsAdding.as_view(),
