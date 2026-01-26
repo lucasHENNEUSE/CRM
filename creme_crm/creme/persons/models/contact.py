@@ -18,11 +18,10 @@
 
 from __future__ import annotations
 
-# import warnings
 import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, FieldDoesNotExist
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext
@@ -48,13 +47,9 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
         verbose_name=_('Civility'),
         blank=True, null=True, on_delete=CREME_REPLACE_NULL,
     )
-    # NB: same max_length than CremeUser.last_name
     last_name = models.CharField(_('Last name'), max_length=100)
-    # NB: same max_length than CremeUser.first_name
     first_name = models.CharField(_('First name'), max_length=100, blank=True)
 
-    # NB: the historical name "skype" has been kept to avoid a hard data-migration
-    #     (HeaderFilter, EntityFilter, Reports etc...)
     skype = models.CharField(
         _('Videoconference'), max_length=100, blank=True,
     ).set_tags(optional=True)
@@ -69,6 +64,9 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     url_site = core_fields.CremeURLField(
         _('Web Site'), max_length=500, blank=True,
     ).set_tags(optional=True)
+
+    is_in_mailing = models.BooleanField(_("Inclus dans l'e-mailing"), default=False).set_tags(optional=True)
+    is_in_taxe = models.BooleanField(_("Inclus dans la taxe"), default=False).set_tags(optional=True)
 
     entity_code = models.CharField(_('Code entité'), max_length=100, blank=True).set_tags(optional=True)
     entity_label = models.CharField(_('Libellé entité'), max_length=255, blank=True).set_tags(optional=True)
@@ -108,7 +106,6 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     ).set_tags(optional=True)
 
     search_score = 101
-
     creation_label = _('Create a contact')
     save_label     = _('Save the contact')
 
@@ -119,76 +116,50 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
         indexes = [
-            models.Index(
-                fields=['last_name', 'first_name', 'cremeentity_ptr'],
-                name='persons__contact__default_lv',
-            ),
+            models.Index(fields=['last_name', 'first_name', 'cremeentity_ptr'], name='persons__contact__default_lv'),
         ]
+
+    # --- CORRECTIF : RENOMMAGE SÉCURISÉ DES ADRESSES ---
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Liste des renommages souhaités
+        translations = {
+            'billing_address': _('Adresse 1'),
+            'billing_city': _('Ville 1'),
+            'billing_zipcode': _('Code Postal 1'),
+            'shipping_address': _('Adresse complémentaire'),
+            'shipping_city': _('Ville complémentaire'),
+            'shipping_zipcode': _('Code Postal complémentaire'),
+        }
+
+        for field_name, new_label in translations.items():
+            try:
+                self._meta.get_field(field_name).verbose_name = new_label
+            except FieldDoesNotExist:
+                continue
 
     def __str__(self):
         civ = self.civility
-
         if civ and civ.shortcut:
-            return gettext('{civility} {first_name} {last_name}').format(
-                civility=civ.shortcut,
-                first_name=self.first_name,
-                last_name=self.last_name,
-            )
-
+            return gettext('{civility} {first_name} {last_name}').format(civility=civ.shortcut, first_name=self.first_name, last_name=self.last_name)
         if self.first_name:
-            return gettext('{first_name} {last_name}').format(
-                first_name=self.first_name,
-                last_name=self.last_name,
-            )
-
+            return gettext('{first_name} {last_name}').format(first_name=self.first_name, last_name=self.last_name)
         return self.last_name or ''
 
     def _check_deletion(self):
         if self.is_user is not None:
-            raise SpecificProtectedError(
-                gettext('A user is associated with this contact.'),
-                [self]
-            )
+            raise SpecificProtectedError(gettext('A user is associated with this contact.'), [self])
 
     def clean(self):
         if self.is_user_id:
             if not self.first_name:
-                raise ValidationError({
-                    'first_name': ValidationError(
-                        gettext('This Contact is related to a user and must have a first name.'),
-                        # code='TODO',
-                    ),
-                })
-
+                raise ValidationError({'first_name': ValidationError(gettext('This Contact is related to a user and must have a first name.'))})
             if not self.email:
-                raise ValidationError({
-                    'email': ValidationError(
-                        gettext(
-                            'This Contact is related to a user and must have an email address.'
-                        ),
-                        # code='TODO',
-                    ),
-                })
-
-            # TODO: should we limit the edition of email? (it could be used to
-            #       reset the password -- but happily the History shows who
-            #       changed the field).
-
-            if get_user_model()._default_manager.filter(
-                is_active=True, email=self.email,
-            ).exclude(id=self.is_user_id).exists():
-                raise ValidationError({
-                    'email': ValidationError(
-                        gettext(
-                            'This Contact is related to a user and an active '
-                            'user already uses this email address.'
-                        ),
-                        # code='TODO',
-                    ),
-                })
+                raise ValidationError({'email': ValidationError(gettext('This Contact is related to a user and must have an email address.'))})
 
     def delete(self, *args, **kwargs):
-        self._check_deletion()  # Should not be useful (trashing should be blocked too)
+        self._check_deletion()
         super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -205,35 +176,15 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     def get_lv_absolute_url():
         return reverse('persons__list_contacts')
 
-    # TODO: use FilteredRelation ?
     def get_employers(self) -> models.QuerySet:
-        return get_organisation_model().objects.filter(
-            is_deleted=False,
-            relations__type__in=(constants.REL_OBJ_EMPLOYED_BY, constants.REL_OBJ_MANAGES),
-            relations__object_entity=self.id,
-        )
-
-    # def _post_save_clone(self, source):
-    #     warnings.warn(
-    #         'The method Contact._post_save_clone() is deprecated.',
-    #         DeprecationWarning,
-    #     )
-    #
-    #     self._aux_post_save_clone(source)
+        return get_organisation_model().objects.filter(is_deleted=False, relations__type__in=(constants.REL_OBJ_EMPLOYED_BY, constants.REL_OBJ_MANAGES), relations__object_entity=self.id)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
         rel_user = self.is_user
         if rel_user:
             rel_user._disable_sync_with_contact = True
-
-            update_model_instance(
-                rel_user,
-                last_name=self.last_name,
-                first_name=self.first_name or '',
-                email=self.email or '',
-            )
+            update_model_instance(rel_user, last_name=self.last_name, first_name=self.first_name or '', email=self.email or '')
 
     def trash(self):
         self._check_deletion()
@@ -241,41 +192,16 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
 
     @classmethod
     def _create_linked_contact(cls, user, **kwargs) -> AbstractContact:
-        # TODO: assert user is not a team + enforce non team clean() ?
         owner = user
-
         if user.is_staff:
-            superuser = type(user)._default_manager.filter(
-                is_superuser=True, is_staff=False,
-            ).order_by('id').first()
-
-            if superuser is None:
-                logger.critical(
-                    'No existing super-user found to assign the staff Contact '
-                    '(creme_populate has not been run?!) ; you should create a '
-                    'super-user & change the owner of this staff Contact in '
-                    'order to avoid some broken behaviours (e.g. inner-edition '
-                    'fails).'
-                )
-            else:
-                owner = superuser
-
-        return cls.objects.create(
-            user=owner,
-            is_user=user,
-            last_name=user.last_name or user.username.title(),
-            first_name=user.first_name or _('N/A'),
-            email=user.email or _('complete@Me.com'),
-            **kwargs
-        )
+            superuser = type(user)._default_manager.filter(is_superuser=True, is_staff=False).order_by('id').first()
+            if superuser: owner = superuser
+        return cls.objects.create(user=owner, is_user=user, last_name=user.last_name or user.username.title(), first_name=user.first_name or _('N/A'), email=user.email or _('complete@Me.com'), **kwargs)
 
 
 class Contact(AbstractContact):
     class Meta(AbstractContact.Meta):
         swappable = 'PERSONS_CONTACT_MODEL'
-
-
-# Manage the related User ------------------------------------------------------
 
 def _get_linked_contact(self):
     if self.is_team or self.is_staff:
@@ -288,21 +214,12 @@ def _get_linked_contact(self):
         contacts = model.objects.filter(is_user=self)[:2]
 
         if not contacts:
-            logger.critical(
-                'User "%s" has no related Contact => we create it',
-                self.username,
-            )
+            logger.critical('User "%s" has no related Contact => we create it', self.username)
             contact = model._create_linked_contact(self)
         else:
             if len(contacts) > 1:
-                # TODO: repair? (beware of race condition)
-                logger.critical(
-                    'User "%s" has several related Contacts !',
-                    self.username,
-                )
-
+                logger.critical('User "%s" has several related Contacts !', self.username)
             contact = contacts[0]
 
     self._linked_contact_cache = contact
-
     return contact

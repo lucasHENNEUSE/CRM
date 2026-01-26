@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -270,28 +270,26 @@ class TransformationIntoUser(generic.EntityEdition):
         return kwargs
 
 
+@login_required
 def email_mass_send(request):
-    # On récupère les contacts de la base de données ayant un email
-    contacts = Contact.objects.filter(is_deleted=False).exclude(email='')
+    # La variable contacts est définie ici pour être accessible en GET et en POST
+    contacts = Contact.objects.filter(
+        is_deleted=False, 
+        is_in_mailing=True
+    ).exclude(email='')
 
     if request.method == 'POST':
-        # Récupération des emails cochés dans le tableau
         selected_emails = request.POST.getlist('selected_contacts')
-        
-        # Récupération des informations saisies manuellement
         manual_email = request.POST.get('manual_email')
-        
         subject = request.POST.get('subject')
         message_body = request.POST.get('message')
         attachment = request.FILES.get('attachment')
 
-        # Si un email manuel est saisi, on l'ajoute à la liste des destinataires
         if manual_email:
             selected_emails.append(manual_email)
 
         if selected_emails:
             try:
-                # Création de l'email avec la liste combinée en BCC
                 email = EmailMessage(
                     subject=subject,
                     body=message_body,
@@ -317,8 +315,11 @@ def email_mass_send(request):
 
 @login_required
 def taxe_view(request):
-    # On force une erreur pour voir si Django passe par ici
-    raise Exception("OUI, JE PASSE PAR LA VUE TAXE")
+    contacts = Contact.objects.filter(
+        is_deleted=False, 
+        is_in_taxe=True
+    ).exclude(email='')
+
     return render(request, 'persons/taxe.html', {
-        'title': 'Gestion des Taxes',
+        'contacts': contacts,
     })
