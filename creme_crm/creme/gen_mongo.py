@@ -19,6 +19,7 @@ def generate_demo_data(count=10):
             "email": fake.ascii_free_email(),
             "numero_telephone": fake.phone_number(),
             "adresse": fake.address(),
+            
             "status": "new"  
         }
         prospects.append(prospect)

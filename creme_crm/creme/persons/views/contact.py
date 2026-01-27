@@ -272,10 +272,9 @@ class TransformationIntoUser(generic.EntityEdition):
 
 @login_required
 def email_mass_send(request):
-    # La variable contacts est définie ici pour être accessible en GET et en POST
     contacts = Contact.objects.filter(
         is_deleted=False, 
-        is_in_mailing=True
+        is_in_mailing='OUI'  # On cherche la valeur texte 'OUI'
     ).exclude(email='')
 
     if request.method == 'POST':
@@ -317,7 +316,7 @@ def email_mass_send(request):
 def taxe_view(request):
     contacts = Contact.objects.filter(
         is_deleted=False, 
-        is_in_taxe=True
+        is_in_taxe='OUI'
     ).exclude(email='')
 
     return render(request, 'persons/taxe.html', {
