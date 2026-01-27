@@ -5,7 +5,7 @@
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -26,6 +26,7 @@ from django.utils.translation import gettext_lazy as _
 
 # from creme.creme_core.models import UserRole
 from creme.creme_core.forms import CremeEntityForm, CremeModelForm
+from .. import get_contact_model # Import nécessaire pour la nouvelle classe
 
 
 class BaseContactCustomForm(CremeEntityForm):
@@ -174,3 +175,14 @@ class UserFromContactCreationForm(CremeModelForm):
         contact.save()
 
         return instance
+
+# --- AJOUT DE LA CLASSE POUR LE FORMULAIRE DE CONTACT ---
+class ContactForm(BaseContactCustomForm):
+    class Meta:
+        model = get_contact_model()
+        fields = (
+            'civility', 'last_name', 'first_name',
+            'entity_code', 'entity_label', 'entity_type_code', 'is_entity_subject',
+            'skype', 'phone', 'mobile', 'fax', 'email', 'url_site',
+            'position', 'full_position', 'sector', 'languages', 'birthday', 'image',
+        )

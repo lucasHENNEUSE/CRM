@@ -6,7 +6,7 @@ from sys import argv
 
 from django.utils.translation import gettext_lazy as _
 
-DEBUG = False
+DEBUG = True
 
 TESTS_ON = len(argv) > 1 and argv[1] == 'test'
 FORCE_JS_TESTVIEW = False
@@ -179,7 +179,7 @@ DEFAULT_ENCODING = 'UTF8'
 # NB3: it's called "domain" but it MUST include the protocol (e.g. http).
 # NB4: it's a legacy from the contrib app "site", which is not installed by
 #      Creme since years & uses now 'SITE_ID'.
-SITE_DOMAIN = 'http://mydomain'
+SITE_DOMAIN = 'http://127.0.0.1:8000'
 
 APPEND_SLASH = False
 
@@ -521,33 +521,27 @@ EXPORT_BACKENDS = [
 # Emails sent to the users of Creme
 # (reminders, assistants.user_message, commercial.commercial_approach...)
 
-# This is a Creme parameter which specifies from_email (sender) when sending email.
-EMAIL_SENDER = 'sender@domain.org'
+# EMAILS [internal] ############################################################
 
-# Following values are from Django :
-#  See https://docs.djangoproject.com/en/5.2/ref/settings/#email-host
-#  or the file "django/conf/global_settings.py"
-#  for a complete documentation.
-#  BEWARE: the Django's names for secure parameters may be misleading.
-#    EMAIL_USE_TLS is for startTLS (often with port 587) ; for communication
-#    with TLS use EMAIL_USE_SSL. See :
-#     - https://docs.djangoproject.com/fr/5.2/ref/settings/#email-use-tls
-#     - https://docs.djangoproject.com/fr/5.2/ref/settings/#email-use-ssl
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-# EMAIL_PORT = 25
-# EMAIL_SSL_CERTFILE = None
-# EMAIL_SSL_KEYFILE = None
-# EMAIL_TIMEOUT = None
-# ...
+# Adresse de l'expéditeur par défaut
+EMAIL_SENDER = 'lucas.henneuse22@gmail.com'
 
-# Tip: _development_ SMTP server
-# => python -m smtpd -n -c DebuggingServer localhost:1025
+# Configuration SMTP pour Gmail
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 365
+EMAIL_HOST_USER = 'lucas.henneuse22@gmail.com'
+EMAIL_HOST_PASSWORD = 'bpvchbiviqljkfmw'  
+EMAIL_USE_SSL = False
 
-# Email address used in case the user doesn't have filled his one.
+# Paramètre Django standard pour l'expéditeur
+DEFAULT_FROM_EMAIL = EMAIL_SENDER
+
+# Adresse de secours
 DEFAULT_USER_EMAIL = ''
+
+EMAIL_TIMEOUT = 30  # Attend 30 secondes maximum
+
+# EMAILS [END] #################################################################
 
 
 # EMAILS [END] #################################################################
@@ -1559,3 +1553,4 @@ GEOLOCATION_OSM_COPYRIGHT_URL = 'https://www.openstreetmap.org/copyright'
 GEOLOCATION_OSM_COPYRIGHT_TITLE = 'OpenStreetMap contributors'
 
 # APPS CONFIGURATION [END]######################################################
+MEDIA_DEV_MODE = True

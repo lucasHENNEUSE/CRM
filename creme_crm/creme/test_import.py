@@ -22,13 +22,13 @@ db = client['poc_aggregation']
 collection = db['prospects_bruts']
 
 def import_from_mongo_to_creme():
-    print("🚀 Début de l'importation massive...")
+    print(" Début de l'importation massive...")
 
     # Récupération de l'administrateur (nécessaire pour créer des fiches dans Crème)
     admin_user = User.objects.filter(is_superuser=True).first()
     
     if not admin_user:
-        print("❌ Erreur : Aucun administrateur trouvé dans la base SQLite.")
+        print(" Erreur : Aucun administrateur trouvé dans la base SQLite.")
         return
 
     # On récupère tous les prospects marqués comme "new" dans MongoDB
@@ -51,13 +51,13 @@ def import_from_mongo_to_creme():
                 {"$set": {"status": "imported"}}
             )
             
-            print(f"✅ Importé : {new_contact.first_name} {new_contact.last_name}")
+            print(f" Importé : {new_contact.first_name} {new_contact.last_name}")
             count += 1
             
         except Exception as e:
-            print(f"⚠️ Erreur sur le document {data.get('_id')} : {e}")
+            print(f" Erreur sur le document {data.get('_id')} : {e}")
 
-    print(f"\n✨ Terminé ! {count} contacts ont été transférés avec succès.")
+    print(f"\n Terminé ! {count} contacts ont été transférés avec succès.")
 
 if __name__ == "__main__":
     import_from_mongo_to_creme()

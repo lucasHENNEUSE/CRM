@@ -1,0 +1,202 @@
+{% extends 'creme_core/base.html' %}
+{% load i18n creme_widgets %}
+
+{% block title %}{% trans "Campagne E-mailing" %}{% endblock %}
+
+{% block content %}
+<div class="ui-layout-center" style="padding: 20px; font-size: 14px;">
+    <div class="creme-entity-header">
+        <h1 class="creme-entity-title" style="font-size: 28px;">
+            <i class="fa fa-envelope"></i> {% trans "E-mailing" %}
+        </h1>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row" style="display: flex; gap: 20px;">
+            
+            <div class="col-md-6" style="flex: 1;">
+                <div style="background: #fff; padding: 25px; border: 1px solid #d1d1d1; border-radius: 4px; height: 820px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 16px;"><strong>1. {% trans "Objet du message :" %}</strong></label>
+                        <input type="text" name="subject" required style="width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
+                    </div>
+
+                    <div style="background: #fdfdfd; border: 2px dashed #007bff; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                        <label style="font-size: 15px; color: #007bff;"><strong>2. <i class="fa fa-paperclip"></i> {% trans "Joindre un fichier (PDF, Image...)" %}</strong></label><br>
+                        <input type="file" name="attachment" style="margin-top: 15px; font-size: 16px;">
+                    </div>
+                    
+                    <div style="flex-grow: 1; display: flex; flex-direction: column; margin-bottom: 20px;">
+                        <label style="font-size: 16px;"><strong>3. {% trans "Votre message :" %}</strong></label>
+                        <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
+                    </div>
+
+                    <button type="submit" style="background: #28a745; color: white; border: none; padding: 20px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; text-transform: uppercase; letter-spacing: 2px;">
+                        <i class="fa fa-share-alt"></i> {% trans "PARTAGER L'E-MAILING" %}
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="flex: 1;">
+                
+                <div style="background: #f0f7ff; padding: 20px; border: 1px solid #b3d7ff; border-radius: 4px; margin-bottom: 10px;">
+                    <strong style="font-size: 18px;">{% trans "Ajouter un destinataire manuel" %}</strong>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <input type="text" id="input-name" placeholder="Nom" style="width: 40%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
+                        <input type="email" id="input-email" placeholder="E-mail" style="width: 40%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
+                        <button type="button" id="btn-add-manual" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer; font-weight: bold;">
+                            {% trans "VALIDER" %}
+                        </button>
+                    </div>
+                </div>
+
+                <div style="background: #f9f9f9; padding: 15px; border: 1px solid #ccc; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom: none;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="contact-search-bar" placeholder="{% trans 'Rechercher et sélectionner (Nom ou Email)...' %}" 
+                               style="flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
+                        <button type="button" id="btn-search-select" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="background: white; border: 1px solid #ccc; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; height: 615px; overflow-y: auto;">
+                    <table class="table" style="width: 100%; font-size: 15px; border-collapse: collapse;"> 
+                        <thead style="background: #e2e2e2; position: sticky; top: 0; z-index: 10;">
+                            <tr>
+                                <th style="width: 30px; border: 1px solid #aaa; text-align: center;"><input type="checkbox" id="select-all" checked></th>
+                                <th style="padding: 12px; border: 1px solid #aaa;">{% trans "Nom & Prénom" %}</th>
+                                <th style="padding: 12px; border: 1px solid #aaa;">{% trans "Courriel" %}</th>
+                                <th style="width: 100px; text-align: center; padding: 12px; border: 1px solid #aaa;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="email-tbody">
+                            {% for contact in contacts %}
+                            <tr class="contact-row">
+                                <td style="padding: 12px; border: 1px solid #ccc; text-align: center;">
+                                    <input type="checkbox" name="selected_contacts" value="{{ contact.email }}" class="contact-checkbox" checked>
+                                </td>
+                                <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">{{ contact.last_name }} {{ contact.first_name }}</td>
+                                <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
+                                <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
+                                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">
+                                        {% trans "SUPPRIMER" %}
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script>
+    // --- 1. FONCTION DE RECHERCHE ET SÉLECTION ---
+    function searchAndSelect() {
+        const searchTerm = document.getElementById('contact-search-bar').value.toLowerCase().trim();
+        const rows = document.querySelectorAll('.contact-row');
+        const tbody = document.getElementById('email-tbody');
+        let found = false;
+
+        if (!searchTerm) return;
+
+        rows.forEach(row => {
+            const name = row.querySelector('.contact-name').textContent.toLowerCase();
+            const email = row.querySelector('.contact-email').textContent.toLowerCase();
+            
+            if (name.includes(searchTerm) || email.includes(searchTerm)) {
+                const checkbox = row.querySelector('.contact-checkbox');
+                checkbox.checked = true; // Coche automatiquement
+                
+                tbody.prepend(row); // Remonte en haut
+                
+                // Effet visuel jaune temporaire
+                row.style.backgroundColor = "#fff3cd";
+                setTimeout(() => { row.style.backgroundColor = ""; }, 2500);
+                
+                row.style.display = ""; // S'assure qu'il est visible
+                found = true;
+            }
+        });
+
+        if (!found) {
+            alert("{% trans 'Aucun contact trouvé pour :' %} " + searchTerm);
+        } else {
+            document.getElementById('contact-search-bar').value = ''; // Vide la barre
+            // Réaffiche tout le monde (enlève le filtre visuel)
+            rows.forEach(r => { if(r.style.display === "none") r.style.display = ""; });
+        }
+    }
+
+    // Clic sur bouton loupe
+    document.getElementById('btn-search-select').onclick = searchAndSelect;
+
+    // Touche Entrée
+    document.getElementById('contact-search-bar').onkeypress = function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            searchAndSelect();
+        }
+    };
+
+    // --- 2. FILTRAGE VISUEL (pendant la frappe) ---
+    document.getElementById('contact-search-bar').oninput = function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.contact-row');
+
+        rows.forEach(row => {
+            const name = row.querySelector('.contact-name').textContent.toLowerCase();
+            const email = row.querySelector('.contact-email').textContent.toLowerCase();
+            row.style.display = (name.includes(searchTerm) || email.includes(searchTerm)) ? "" : "none";
+        });
+    };
+
+    // --- 3. SÉLECTIONNER TOUT ---
+    document.getElementById('select-all').onclick = function() {
+        var checkboxes = document.querySelectorAll('.contact-checkbox');
+        for (var checkbox of checkboxes) { 
+            if (checkbox.closest('tr').style.display !== 'none') {
+                checkbox.checked = this.checked; 
+            }
+        }
+    }
+
+    // --- 4. AJOUT MANUEL ---
+    document.getElementById('btn-add-manual').onclick = function() {
+        const nameInput = document.getElementById('input-name');
+        const emailInput = document.getElementById('input-email');
+        const name = nameInput.value;
+        const email = emailInput.value;
+
+        if (name && email) {
+            const tbody = document.getElementById('email-tbody');
+            const row = document.createElement('tr');
+            row.className = "contact-row";
+            row.innerHTML = `
+                <td style="padding: 12px; border: 1px solid #ccc; text-align: center;"><input type="checkbox" name="selected_contacts" value="${email}" class="contact-checkbox" checked></td>
+                <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">${name}</td>
+                <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">${email}</code></td>
+                <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
+                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">SUPPRIMER</button>
+                </td>
+            `;
+            tbody.prepend(row);
+            nameInput.value = '';
+            emailInput.value = '';
+        }
+    }
+
+    // --- 5. SUPPRESSION ---
+    function removeRow(btn) {
+        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) {
+            btn.closest('tr').remove();
+        }
+    }
+</script>
+{% endblock %}
