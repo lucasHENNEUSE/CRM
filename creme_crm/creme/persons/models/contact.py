@@ -69,7 +69,7 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
         _('Web Site'), max_length=500, blank=True,
     ).set_tags(optional=True)
 
-   
+    
     is_in_mailing = models.CharField(
         _("Inscrire à l'E-mailing ?"),
         max_length=3,
@@ -175,6 +175,39 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
             if not self.email:
                 raise ValidationError({'email': ValidationError(gettext('This Contact is related to a user and must have an email address.'))})
 
+        # --- NOUVEAU : VALIDATION STRICTE DES DONNÉES ---
+        errors = {}
+
+        # Validation des téléphones (uniquement chiffres, espaces, points, tirets ou +)
+        for field_name in ['phone', 'mobile', 'fax']:
+            value = getattr(self, field_name)
+            if value:
+                # On nettoie pour vérifier s'il reste autre chose que des chiffres/symboles autorisés
+                clean_val = value.replace(' ', '').replace('.', '').replace('-', '').replace('+', '')
+                if not clean_val.isdigit():
+                    errors[field_name] = _("Ce champ ne doit contenir que des chiffres.")
+
+        # Validation de l'email (interdiction des espaces et format basique)
+        if self.email:
+            if ' ' in self.email:
+                errors['email'] = _("L'adresse email ne peut pas contenir d'espaces.")
+            elif '@' not in self.email or '.' not in self.email.split('@')[-1]:
+                errors['email'] = _("Veuillez saisir une adresse email valide.")
+
+        # Validation des codes postaux (chiffres uniquement)
+        for field_name in ['billing_zipcode', 'shipping_zipcode']:
+            try:
+                zip_val = getattr(self, field_name)
+                if zip_val and not zip_val.strip().isdigit():
+                    errors[field_name] = _("Le code postal ne doit contenir que des chiffres.")
+            except AttributeError:
+                continue
+
+        # Si on a collecté des erreurs de format, on les balance maintenant
+        if errors:
+            raise ValidationError(errors)
+        # --- FIN DE LA VALIDATION STRICTE ---
+
         # 2. Ajout de la détection de doublons (uniquement à la création)
         if not self.id:  # On ne vérifie que si c'est un nouveau contact
             # On normalise les entrées pour la recherche
@@ -224,7 +257,7 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
 
     def save(self, *args, **kwargs):
         # --- NORMALISATION DES DONNÉES ---
-        # .strip() retire les espaces accidentels au début ou à la fin
+        # .strip() pour retire les espaces accidentels au début ou à la fin
         
         # Nom en MAJUSCULES (ex: martin -> MARTIN)
         if self.last_name:
@@ -237,6 +270,13 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
         # Email toujours en minuscules pour éviter les doublons
         if self.email:
             self.email = self.email.strip().lower()
+
+        # Suppression des espaces pour les autres champs de texte
+        if self.skype: self.skype = self.skype.strip()
+        if self.entity_code: self.entity_code = self.entity_code.strip()
+        if self.entity_label: self.entity_label = self.entity_label.strip()
+        if self.entity_type_code: self.entity_type_code = self.entity_type_code.strip()
+        if self.full_position: self.full_position = self.full_position.strip()
 
         # SAUVEGARDE
         super().save(*args, **kwargs)
