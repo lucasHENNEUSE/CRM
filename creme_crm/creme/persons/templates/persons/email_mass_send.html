@@ -30,7 +30,7 @@
                     
                     <div style="flex-grow: 1; display: flex; flex-direction: column; margin-bottom: 20px;">
                         <label style="font-size: 16px;"><strong>3. {% trans "Votre message :" %}</strong></label>
-                        <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
+                        <phone_widget style="display:none;"></phone_widget> <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
                     </div>
 
                     <button type="submit" style="background: #28a745; color: white; border: none; padding: 20px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; text-transform: uppercase; letter-spacing: 2px;">
@@ -97,83 +97,56 @@
 </div>
 
 <script>
-    // --- 1. FONCTION DE RECHERCHE ET SÉLECTION ---
     function searchAndSelect() {
         const searchTerm = document.getElementById('contact-search-bar').value.toLowerCase().trim();
         const rows = document.querySelectorAll('.contact-row');
         const tbody = document.getElementById('email-tbody');
         let found = false;
-
         if (!searchTerm) return;
-
         rows.forEach(row => {
             const name = row.querySelector('.contact-name').textContent.toLowerCase();
             const email = row.querySelector('.contact-email').textContent.toLowerCase();
-            
             if (name.includes(searchTerm) || email.includes(searchTerm)) {
                 const checkbox = row.querySelector('.contact-checkbox');
-                checkbox.checked = true; // Coche automatiquement
-                
-                tbody.prepend(row); // Remonte en haut
-                
-                // Effet visuel jaune temporaire
+                checkbox.checked = true;
+                tbody.prepend(row);
                 row.style.backgroundColor = "#fff3cd";
                 setTimeout(() => { row.style.backgroundColor = ""; }, 2500);
-                
-                row.style.display = ""; // S'assure qu'il est visible
+                row.style.display = "";
                 found = true;
             }
         });
-
         if (!found) {
             alert("{% trans 'Aucun contact trouvé pour :' %} " + searchTerm);
         } else {
-            document.getElementById('contact-search-bar').value = ''; // Vide la barre
-            // Réaffiche tout le monde (enlève le filtre visuel)
+            document.getElementById('contact-search-bar').value = '';
             rows.forEach(r => { if(r.style.display === "none") r.style.display = ""; });
         }
     }
-
-    // Clic sur bouton loupe
     document.getElementById('btn-search-select').onclick = searchAndSelect;
-
-    // Touche Entrée
     document.getElementById('contact-search-bar').onkeypress = function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            searchAndSelect();
-        }
+        if (e.key === 'Enter') { e.preventDefault(); searchAndSelect(); }
     };
-
-    // --- 2. FILTRAGE VISUEL (pendant la frappe) ---
     document.getElementById('contact-search-bar').oninput = function() {
         const searchTerm = this.value.toLowerCase();
         const rows = document.querySelectorAll('.contact-row');
-
         rows.forEach(row => {
             const name = row.querySelector('.contact-name').textContent.toLowerCase();
             const email = row.querySelector('.contact-email').textContent.toLowerCase();
             row.style.display = (name.includes(searchTerm) || email.includes(searchTerm)) ? "" : "none";
         });
     };
-
-    // --- 3. SÉLECTIONNER TOUT ---
     document.getElementById('select-all').onclick = function() {
         var checkboxes = document.querySelectorAll('.contact-checkbox');
         for (var checkbox of checkboxes) { 
-            if (checkbox.closest('tr').style.display !== 'none') {
-                checkbox.checked = this.checked; 
-            }
+            if (checkbox.closest('tr').style.display !== 'none') { checkbox.checked = this.checked; }
         }
     }
-
-    // --- 4. AJOUT MANUEL ---
     document.getElementById('btn-add-manual').onclick = function() {
         const nameInput = document.getElementById('input-name');
         const emailInput = document.getElementById('input-email');
         const name = nameInput.value;
         const email = emailInput.value;
-
         if (name && email) {
             const tbody = document.getElementById('email-tbody');
             const row = document.createElement('tr');
@@ -191,12 +164,8 @@
             emailInput.value = '';
         }
     }
-
-    // --- 5. SUPPRESSION ---
     function removeRow(btn) {
-        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) {
-            btn.closest('tr').remove();
-        }
+        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) { btn.closest('tr').remove(); }
     }
 </script>
 {% endblock %}
