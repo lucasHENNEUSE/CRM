@@ -16,7 +16,7 @@ def force_display_contacts():
 
     def sync_collection(col_name, is_taxe, is_mail):
         docs = list(db[col_name].find())
-        print(f"🔄 Forçage de l'affichage pour {len(docs)} contacts ({col_name})...")
+        print(f" Forçage de l'affichage pour {len(docs)} contacts ({col_name})...")
         for p in docs:
             email = str(p.get("coordonnees", {}).get("email", "")).strip().lower()
             nom = str(p.get("contact", {}).get("nom", "SANS NOM")).strip().upper()
@@ -55,7 +55,7 @@ def force_display_contacts():
 
     conn.commit()
     conn.close()
-    print("🚀 TERMINÉ. Redémarre ton serveur Django !")
+    print(" TERMINÉ. Redémarre ton serveur Django !")
 
 if __name__ == "__main__":
     force_display_contacts()
