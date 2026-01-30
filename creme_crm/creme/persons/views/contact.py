@@ -13,7 +13,7 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  See <http://www.gnu.org/licenses/>.
 ################################################################################
 
 from django import forms
@@ -272,10 +272,8 @@ class TransformationIntoUser(generic.EntityEdition):
 
 @login_required
 def email_mass_send(request):
-    contacts = Contact.objects.filter(
-        is_deleted=False, 
-        is_in_mailing='OUI'  # On cherche la valeur texte 'OUI'
-    ).exclude(email='')
+    # MODIFICATION : On affiche tous les contacts pour tester la liaison HTML
+    contacts = Contact.objects.all().exclude(email='')
 
     if request.method == 'POST':
         selected_emails = request.POST.getlist('selected_contacts')
@@ -314,10 +312,8 @@ def email_mass_send(request):
 
 @login_required
 def taxe_view(request):
-    contacts = Contact.objects.filter(
-        is_deleted=False, 
-        is_in_taxe='OUI'
-    ).exclude(email='')
+    # MODIFICATION : On affiche tous les contacts pour tester la liaison HTML
+    contacts = Contact.objects.all().exclude(email='')
 
     return render(request, 'persons/taxe.html', {
         'contacts': contacts,
