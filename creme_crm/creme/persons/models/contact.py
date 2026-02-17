@@ -84,6 +84,20 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
         default='NON',
     ).set_tags(optional=True)
 
+# nouveau champs pour la gestion d'entité (ex: entreprise, association, etc.)
+
+    address_line1 = models.CharField(_('Adresse (Ligne 1)'), max_length=255, blank=True).set_tags(optional=True)
+    address_city = models.CharField(_('Ville'), max_length=100, blank=True).set_tags(optional=True)
+    address_zipcode = models.CharField(_('Code Postal'), max_length=20, blank=True).set_tags(optional=True)
+
+    education_nb_stagiaires = models.IntegerField(_('Nombre de stagiaire'), blank=True, null=True).set_tags(optional=True)
+    education_montant_taxe = models.CharField(_('Montant Taxe'), max_length=20, blank=True).set_tags(optional=True)
+
+    coordonnees_raw = models.TextField(_('Coordonnées (Raw)'), blank=True).set_tags(optional=True)
+    consent_data = models.TextField(_('Données Consentement'), blank=True).set_tags(optional=True)
+    import_status = models.CharField(_('Statut Import'), max_length=50, blank=True).set_tags(optional=True)
+
+
     entity_code = models.CharField(_('Code entité'), max_length=100, blank=True).set_tags(optional=True)
     entity_label = models.CharField(_('Libellé entité'), max_length=255, blank=True).set_tags(optional=True)
     entity_type_code = models.CharField(_('Code type entité'), max_length=100, blank=True).set_tags(optional=True)

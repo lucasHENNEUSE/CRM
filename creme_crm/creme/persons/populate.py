@@ -593,6 +593,15 @@ class Populator(BasePopulator):
                 build_cell(Contact, 'birthday'),
                 build_cell(Contact, 'image'),
                 build_cell(Contact, 'languages'),
+                # --- Nouveaux champs importés ---
+                build_cell(Contact, 'address_line1'),
+                build_cell(Contact, 'address_city'),
+                build_cell(Contact, 'address_zipcode'),
+                build_cell(Contact, 'education_nb_stagiaires'),
+                build_cell(Contact, 'education_montant_taxe'),
+                build_cell(Contact, 'coordonnees_raw'),
+                build_cell(Contact, 'consent_data'),
+                build_cell(Contact, 'import_status'),
                 # --
                 build_cell(Contact, 'description'),
                 # --

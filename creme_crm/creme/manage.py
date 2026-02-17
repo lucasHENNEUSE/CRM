@@ -27,6 +27,7 @@ def start_parallel_coverage():
 def execute():
     # Allow to define external django settings
     sys.path.append(os.getcwd())
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "creme.settings")
 
