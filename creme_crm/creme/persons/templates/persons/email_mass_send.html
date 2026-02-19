@@ -59,6 +59,9 @@
                         <button type="button" id="btn-search-select" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
                             <i class="fa fa-search"></i>
                         </button>
+                        <button type="button" id="btn-delete-selection" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;" title="{% trans 'Retirer de la liste' %}">
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -76,7 +79,7 @@
                             {% for contact in contacts %}
                             <tr class="contact-row">
                                 <td style="padding: 12px; border: 1px solid #ccc; text-align: center;">
-                                    <input type="checkbox" name="selected_contacts" value="{{ contact.email }}" class="contact-checkbox" checked>
+                                    <input type="checkbox" name="selected_contacts" value="{{ contact.email }}" data-contact-id="{{contact.id}}" class="contact-checkbox" checked>
                                 </td>
                                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">{{ contact.last_name }} {{ contact.first_name }}</td>
                                 <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
@@ -156,7 +159,7 @@
                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">${name}</td>
                 <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">${email}</code></td>
                 <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
-                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">SUPPRIMER</button>
+                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">RETIRER</button>
                 </td>
             `;
             tbody.prepend(row);
@@ -164,8 +167,73 @@
             emailInput.value = '';
         }
     }
+
+    // MODIFICATION : Suppression groupée avec contexte Emailing
+    document.getElementById('btn-delete-selection').onclick = function() {
+        const checkboxes = document.querySelectorAll('.contact-checkbox:checked');
+        const total = checkboxes.length;
+
+        if (total === 0) {
+            return alert("{% trans 'Aucun contact sélectionné.' %}");
+        }
+
+        if (confirm("{% trans 'Voulez-vous vraiment retirer la sélection de la liste d\'envoi ?' %}")) {
+            const emailList = Array.from(checkboxes).map(cb => cb.value);
+            const tbody = document.getElementById('email-tbody');
+            tbody.style.opacity = "0.5"; 
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                // ON PRÉCISE LE CONTEXTE EMAIL ENVOYÉ AU SERVEUR
+                body: JSON.stringify({ emails: emailList, context: 'emailing' })
+            })
+            .then(response => {
+                if (response.ok) {
+                    checkboxes.forEach(cb => {
+                        const row = cb.closest('tr');
+                        if (row) row.remove();
+                    });
+                    console.log(`[SUCCÈS] ${total} contacts retirés de l'emailing.`);
+                } else {
+                    alert("{% trans 'Erreur lors de la suppression groupée.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err))
+            .finally(() => {
+                tbody.style.opacity = "1";
+            });
+        }
+    }
+
+    // MODIFICATION : Suppression unique avec contexte Emailing
     function removeRow(btn) {
-        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) { btn.closest('tr').remove(); }
+        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) { 
+            const row = btn.closest('tr');
+            const email = row.querySelector('.contact-checkbox').value;
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                // ON PRÉCISE LE CONTEXTE EMAIL ENVOYÉ AU SERVEUR
+                body: JSON.stringify({ email: email, context: 'emailing' })
+            })
+            .then(response => {
+                if (response.ok) {
+                    row.remove();
+                    console.log("[LOG] Contact retiré de l'emailing avec succès.");
+                } else {
+                    alert("{% trans 'Erreur lors de la mise à jour de la liste.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err));
+        }
     }
 </script>
 {% endblock %}

@@ -32,6 +32,12 @@ urlpatterns = [
     ),
 
     re_path(
+        r'^contact/delete-ajax[/]?$',
+        contact.delete_contact_ajax,
+        name='persons__delete_contact_ajax',
+    ),
+
+    re_path(
         r'^contact/as_user/(?P<contact_id>\d+)[/]?$',
         contact.TransformationIntoUser.as_view(),
         name='persons__transform_contact_into_user',

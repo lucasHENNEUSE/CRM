@@ -59,6 +59,9 @@
                         <button type="button" id="btn-search-select" style="background: #423e3e; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
                             <i class="fa fa-search"></i>
                         </button>
+                        <button type="button" id="btn-delete-selection" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;" title="{% trans 'Retirer de la liste' %}">
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -97,6 +100,7 @@
 </div>
 
 <script>
+    // Logique de recherche (identique)
     function searchAndSelect() {
         const searchTerm = document.getElementById('contact-search-bar').value.toLowerCase().trim();
         const rows = document.querySelectorAll('.contact-row');
@@ -156,7 +160,7 @@
                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">${name}</td>
                 <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">${email}</code></td>
                 <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
-                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">SUPPRIMER</button>
+                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">RETIRER</button>
                 </td>
             `;
             tbody.prepend(row);
@@ -164,8 +168,70 @@
             emailInput.value = '';
         }
     }
+
+    // MODIFICATION : Suppression groupée synchronisée avec le contexte TAXE
+    document.getElementById('btn-delete-selection').onclick = function() {
+        const checkboxes = document.querySelectorAll('.contact-checkbox:checked');
+        const total = checkboxes.length;
+        if (total === 0) return alert("{% trans 'Aucun contact sélectionné.' %}");
+
+        if (confirm("{% trans 'Voulez-vous vraiment retirer la sélection de la liste ?' %}")) {
+            const emailList = Array.from(checkboxes).map(cb => cb.value);
+            const tbody = document.getElementById('email-tbody');
+            tbody.style.opacity = "0.5"; 
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    emails: emailList, 
+                    context: 'taxe'  // <--- INDÉPENDANCE ICI
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    checkboxes.forEach(cb => {
+                        const row = cb.closest('tr');
+                        if (row) row.remove();
+                    });
+                } else {
+                    alert("{% trans 'Erreur lors de la mise à jour.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err))
+            .finally(() => { tbody.style.opacity = "1"; });
+        }
+    }
+
+    // MODIFICATION : Suppression unique synchronisée avec le contexte TAXE
     function removeRow(btn) {
-        if(confirm("{% trans 'Retirer ce contact ?' %}")) { btn.closest('tr').remove(); }
+        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) { 
+            const row = btn.closest('tr');
+            const email = row.querySelector('.contact-checkbox').value;
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email: email, 
+                    context: 'taxe' // <--- INDÉPENDANCE ICI
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    row.remove();
+                } else {
+                    alert("{% trans 'Erreur lors de la suppression.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err));
+        }
     }
 </script>
 {% endblock %}

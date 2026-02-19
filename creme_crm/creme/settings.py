@@ -587,7 +587,7 @@ LOGGING_FORMATTERS = {
 LOGGING_FILTERS = {}
 
 LOGGING_CONSOLE_HANDLER = {
-    'level': 'WARNING',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
+    'level': 'INFO',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
     'class': 'logging.StreamHandler',
     'formatter': 'simple',
 }
@@ -613,7 +613,7 @@ LOGGING_FILE_HANDLER = {
 
 LOGGING_DEFAULT_LOGGER = {
     'handlers': ['console', 'file'],
-    'level': 'WARNING',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
+    'level': 'INFO',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
 }
 
 LOGGING = {

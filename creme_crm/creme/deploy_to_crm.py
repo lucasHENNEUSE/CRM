@@ -14,7 +14,17 @@ def force_display_contacts():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    def sync_collection(col_name, is_taxe, is_mail):
+    # --- CHARGEMENT PRÉALABLE DES EMAILS EXISTANTS ---
+    # On charge tout en mémoire pour éviter les problèmes de comparaison SQL (LOWER/TRIM)
+    print(" Chargement des emails existants dans le CRM...")
+    cursor.execute("SELECT email FROM persons_contact")
+    existing_emails = set()
+    for row in cursor.fetchall():
+        if row[0]:
+            existing_emails.add(str(row[0]).strip().lower())
+    print(f" {len(existing_emails)} emails uniques identifiés.")
+
+    def sync_collection(col_name):
         docs = list(db[col_name].find())
         print(f" Forçage de l'affichage pour {len(docs)} contacts ({col_name})...")
         for p in docs:
@@ -23,17 +33,18 @@ def force_display_contacts():
             prenom = str(p.get("contact", {}).get("prenom", "")).strip().title()
             if not email: continue
 
-            # 1. On cherche si le contact existe déjà
-            cursor.execute("SELECT cremeentity_ptr_id FROM persons_contact WHERE email = ?", (email,))
-            row = cursor.fetchone()
+            # On récupère les vrais statuts du document MongoDB
+            p_taxe = p.get("is_in_taxe", "NON")
+            p_mail = p.get("is_in_emailing", "NON")
 
-            if row:
+            # 1. Vérification Python (100% fiable)
+            if email in existing_emails:
                 # 2. Mise à jour : on force is_deleted=0 pour la visibilité
                 cursor.execute("""
                     UPDATE persons_contact 
                     SET is_in_taxe = ?, is_in_mailing = ?, is_deleted = 0 
-                    WHERE email = ?
-                """, (is_taxe, is_mail, email))
+                    WHERE LOWER(email) = ?
+                """, (p_taxe, p_mail, email))
             else:
                 # 3. Création complète avec ID d'entité
                 new_id = int(time.time() * 1000000) % 2000000000
@@ -47,11 +58,14 @@ def force_display_contacts():
                     cursor.execute("""
                         INSERT INTO persons_contact (cremeentity_ptr_id, last_name, first_name, email, is_in_taxe, is_in_mailing, is_deleted, user_id) 
                         VALUES (?, ?, ?, ?, ?, ?, 0, 1)
-                    """, (new_id, nom, prenom, email, is_taxe, is_mail))
+                    """, (new_id, nom, prenom, email, p_taxe, p_mail))
+                    
+                    # On ajoute le nouvel email à la liste connue pour ne pas le recréer si on le recroise
+                    existing_emails.add(email)
                 except: continue
 
-    sync_collection("prospects_taxe", "OUI", "NON")
-    sync_collection("prospects_emailing", "NON", "OUI")
+    sync_collection("prospects_taxe")
+    sync_collection("prospects_emailing")
 
     conn.commit()
     conn.close()
