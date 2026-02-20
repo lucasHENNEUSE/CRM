@@ -491,7 +491,7 @@ ALLOWED_EXTENSIONS = [
     'avi', 'mpeg', 'mpg', 'mp3', 'mp4', 'ogg', 'ogm',
     'rm', 'ram', 'wma', 'wmv', 'mov', 'm4v', 'm4a', '3gp', '3g2', 'qt',
     'swf',
-    'tga',
+    'tga', 'mongo'
 
     # Image editor
     'xcf', 'kra',

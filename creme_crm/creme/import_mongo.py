@@ -60,7 +60,8 @@ def transfer_to_creme():
 
             # Conversion booléen -> OUI/NON
             is_in_taxe = 'OUI' if data.get('is_in_taxe') in [True, 1, 'True', 'true', 'OUI', 'oui'] else 'NON'
-            is_in_mailing = 'OUI' if data.get('is_in_mailing') in [True, 1, 'True', 'true', 'OUI', 'oui'] else 'NON'
+            # CORRECTION : La clé dans MongoDB est 'is_in_emailing', pas 'is_in_mailing'
+            is_in_mailing = 'OUI' if data.get('is_in_emailing') in [True, 1, 'True', 'true', 'OUI', 'oui'] else 'NON'
 
             # Préparation des données d'adresse
             addr_kwargs = {
@@ -91,10 +92,12 @@ def transfer_to_creme():
             existing_contact = Contact.objects.filter(email=email, is_deleted=False).first() if email else None
 
             if existing_contact:
-                # --- MISE À JOUR DES STATUTS POUR LES PAGES DÉDIÉES ---
-                existing_contact.is_in_taxe = is_in_taxe
-                existing_contact.is_in_mailing = is_in_mailing
-                
+                # Mise à jour des statuts (Taxe / Mailing) si le contact existe déjà
+                if existing_contact.is_in_mailing != is_in_mailing or existing_contact.is_in_taxe != is_in_taxe:
+                    existing_contact.is_in_mailing = is_in_mailing
+                    existing_contact.is_in_taxe = is_in_taxe
+                    existing_contact.save()
+
                 # Mise à jour de l'adresse sur la fiche existante
                 if existing_contact.billing_address:
                     existing_contact.billing_address.address = addr_kwargs['address']
@@ -105,8 +108,7 @@ def transfer_to_creme():
                     addr_kwargs['object'] = existing_contact
                     addr_kwargs['content_type'] = ContentType.objects.get_for_model(existing_contact)
                     existing_contact.billing_address = Address.objects.create(**addr_kwargs)
-                
-                existing_contact.save()
+                    existing_contact.save()
                 count_updated += 1
             else:
                 # Création d'un nouveau contact
