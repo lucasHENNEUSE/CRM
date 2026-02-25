@@ -56,12 +56,42 @@
                     <div style="display: flex; gap: 8px;">
                         <input type="text" id="contact-search-bar" placeholder="{% trans 'Rechercher et sélectionner (Nom ou Email)...' %}" 
                                style="flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
-                        <button type="button" id="btn-search-select" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <button type="button" id="btn-delete-selection" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;" title="{% trans 'Retirer de la liste' %}">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                        <button type="button" id="btn-search-select" 
+    style="
+        background: white; 
+        color: #6c757d; 
+        border: 2px solid #6c757d; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        width: 34px; 
+        height: 34px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 18px;
+        padding: 0;
+    " 
+    title="{% trans 'Rechercher' %}">
+    &#128269; </button>
+                        <button type="button" id="btn-delete-selection" 
+    style="
+        background: white; 
+        color: #dc3545; 
+        border: 2px solid #dc3545; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        width: 34px; 
+        height: 34px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 24px; 
+        font-weight: bold;
+        padding: 0;
+        line-height: 0;
+    ">
+    &times;
+</button>
                     </div>
                 </div>
 
@@ -82,8 +112,8 @@
                                     <input type="checkbox" name="selected_contacts" value="{{ contact.email }}" data-contact-id="{{contact.id}}" class="contact-checkbox" checked>
                                 </td>
                                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">{{ contact.last_name }} {{ contact.first_name }}</td>
-                                <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
-                                <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
+                                <td class="contact-email" style="padding: 12px; border: 1px solid #cccccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
+                                <td style="text-align: center; padding: 12px; border: 1px solid #cccccc;">
                                     <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">
                                         {% trans "SUPPRIMER" %}
                                     </button>
