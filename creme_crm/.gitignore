@@ -40,3 +40,6 @@ node_modules/
 # environment variables
 .env
 /.mypy_cache/
+
+# fichier excel
+data/raw/
