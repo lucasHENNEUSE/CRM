@@ -491,7 +491,7 @@ ALLOWED_EXTENSIONS = [
     'avi', 'mpeg', 'mpg', 'mp3', 'mp4', 'ogg', 'ogm',
     'rm', 'ram', 'wma', 'wmv', 'mov', 'm4v', 'm4a', '3gp', '3g2', 'qt',
     'swf',
-    'tga',
+    'tga', 'mongo'
 
     # Image editor
     'xcf', 'kra',
@@ -587,7 +587,7 @@ LOGGING_FORMATTERS = {
 LOGGING_FILTERS = {}
 
 LOGGING_CONSOLE_HANDLER = {
-    'level': 'WARNING',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
+    'level': 'INFO',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
     'class': 'logging.StreamHandler',
     'formatter': 'simple',
 }
@@ -613,7 +613,7 @@ LOGGING_FILE_HANDLER = {
 
 LOGGING_DEFAULT_LOGGER = {
     'handlers': ['console', 'file'],
-    'level': 'WARNING',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
+    'level': 'INFO',  # Available levels : DEBUG < INFO < WARNING < ERROR < CRITICAL
 }
 
 LOGGING = {

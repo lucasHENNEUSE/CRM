@@ -1,6 +1,6 @@
 ################################################################################
 #    Creme is a free/open-source Customer Relationship Management software
-#    Copyright (C) 2009-2025  Hybird
+#    Copyright (C) 2009-2025    Hybird
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,12 @@ urlpatterns = [
         r'^contact/email-mass-send[/]?$',
         contact.email_mass_send,
         name='persons__email_mass_send',
+    ),
+
+    re_path(
+        r'^contact/delete-ajax[/]?$',
+        contact.delete_contact_ajax,
+        name='persons__delete_contact_ajax',
     ),
 
     re_path(

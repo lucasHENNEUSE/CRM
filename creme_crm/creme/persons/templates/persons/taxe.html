@@ -56,9 +56,42 @@
                     <div style="display: flex; gap: 8px;">
                         <input type="text" id="contact-search-bar" placeholder="{% trans 'Taper un nom ou un email pour sélectionner...' %}" 
                                style="flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
-                        <button type="button" id="btn-search-select" style="background: #423e3e; color: rgb(8, 8, 8); border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
-                            <i class="fa fa-search"></i>
-                        </button>
+                        <button type="button" id="btn-search-select" 
+    style="
+        background: white; 
+        color: #6c757d; 
+        border: 2px solid #6c757d; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        width: 34px; 
+        height: 34px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 18px;
+        padding: 0;
+    " 
+    title="{% trans 'Rechercher' %}">
+    &#128269; </button>
+                       <button type="button" id="btn-delete-selection" 
+    style="
+        background: white; 
+        color: #dc3545; 
+        border: 2px solid #dc3545; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        width: 34px; 
+        height: 34px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 24px; 
+        font-weight: bold;
+        padding: 0;
+        line-height: 0;
+    ">
+    &times;
+</button>
                     </div>
                 </div>
 
@@ -97,85 +130,57 @@
 </div>
 
 <script>
-    // --- 1. RECHERCHE ET SÉLECTION AUTOMATIQUE ---
+    // Logique de recherche (identique)
     function searchAndSelect() {
         const searchTerm = document.getElementById('contact-search-bar').value.toLowerCase().trim();
         const rows = document.querySelectorAll('.contact-row');
         const tbody = document.getElementById('email-tbody');
         let found = false;
-
         if (!searchTerm) return;
-
         rows.forEach(row => {
             const name = row.querySelector('.contact-name').textContent.toLowerCase();
             const email = row.querySelector('.contact-email').textContent.toLowerCase();
-            
-            // Si on trouve une correspondance
             if (name.includes(searchTerm) || email.includes(searchTerm)) {
                 const checkbox = row.querySelector('.contact-checkbox');
-                checkbox.checked = true; // Sélectionne
-                
-                // Remonte la ligne en haut
+                checkbox.checked = true;
                 tbody.prepend(row);
-                
-                // Petit effet visuel (jaune temporaire)
                 row.style.backgroundColor = "#fff3cd";
                 setTimeout(() => { row.style.backgroundColor = ""; }, 2000);
-                
-                row.style.display = ""; // S'assure qu'elle est visible
+                row.style.display = "";
                 found = true;
             }
         });
-
         if (!found) {
             alert("{% trans 'Aucun contact trouvé pour :' %} " + searchTerm);
         } else {
-            document.getElementById('contact-search-bar').value = ''; // Vide la barre
-            // Réinitialise l'affichage pour montrer tout le monde
+            document.getElementById('contact-search-bar').value = '';
             rows.forEach(r => { if(r.style.display === "none") r.style.display = ""; });
         }
     }
-
-    // Clic sur le bouton loupe
     document.getElementById('btn-search-select').onclick = searchAndSelect;
-
-    // Touche Entrée dans la barre
     document.getElementById('contact-search-bar').onkeypress = function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            searchAndSelect();
-        }
+        if (e.key === 'Enter') { e.preventDefault(); searchAndSelect(); }
     };
-
-    // --- 2. FILTRAGE VISUEL EN TEMPS RÉEL (Pendant la frappe) ---
     document.getElementById('contact-search-bar').oninput = function() {
         const searchTerm = this.value.toLowerCase();
         const rows = document.querySelectorAll('.contact-row');
-
         rows.forEach(row => {
             const name = row.querySelector('.contact-name').textContent.toLowerCase();
             const email = row.querySelector('.contact-email').textContent.toLowerCase();
             row.style.display = (name.includes(searchTerm) || email.includes(searchTerm)) ? "" : "none";
         });
     };
-
-    // --- 3. SÉLECTIONNER TOUT ---
     document.getElementById('select-all').onclick = function() {
         var checkboxes = document.querySelectorAll('.contact-checkbox');
         for (var checkbox of checkboxes) { 
-            if (checkbox.closest('tr').style.display !== 'none') {
-                checkbox.checked = this.checked; 
-            }
+            if (checkbox.closest('tr').style.display !== 'none') { checkbox.checked = this.checked; }
         }
     }
-
-    // --- 4. AJOUT MANUEL ---
     document.getElementById('btn-add-manual').onclick = function() {
         const nameInput = document.getElementById('input-name');
         const emailInput = document.getElementById('input-email');
         const name = nameInput.value;
         const email = emailInput.value;
-
         if (name && email) {
             const tbody = document.getElementById('email-tbody');
             const row = document.createElement('tr');
@@ -185,7 +190,7 @@
                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">${name}</td>
                 <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">${email}</code></td>
                 <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
-                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">SUPPRIMER</button>
+                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">RETIRER</button>
                 </td>
             `;
             tbody.prepend(row);
@@ -194,10 +199,68 @@
         }
     }
 
-    // --- 5. SUPPRESSION ---
+    // MODIFICATION : Suppression groupée synchronisée avec le contexte TAXE
+    document.getElementById('btn-delete-selection').onclick = function() {
+        const checkboxes = document.querySelectorAll('.contact-checkbox:checked');
+        const total = checkboxes.length;
+        if (total === 0) return alert("{% trans 'Aucun contact sélectionné.' %}");
+
+        if (confirm("{% trans 'Voulez-vous vraiment retirer la sélection de la liste ?' %}")) {
+            const emailList = Array.from(checkboxes).map(cb => cb.value);
+            const tbody = document.getElementById('email-tbody');
+            tbody.style.opacity = "0.5"; 
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    emails: emailList, 
+                    context: 'taxe'  // <--- INDÉPENDANCE ICI
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    checkboxes.forEach(cb => {
+                        const row = cb.closest('tr');
+                        if (row) row.remove();
+                    });
+                } else {
+                    alert("{% trans 'Erreur lors de la mise à jour.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err))
+            .finally(() => { tbody.style.opacity = "1"; });
+        }
+    }
+
+    // MODIFICATION : Suppression unique synchronisée avec le contexte TAXE
     function removeRow(btn) {
-        if(confirm("{% trans 'Retirer ce contact ?' %}")) {
-            btn.closest('tr').remove();
+        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) { 
+            const row = btn.closest('tr');
+            const email = row.querySelector('.contact-checkbox').value;
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email: email, 
+                    context: 'taxe' // <--- INDÉPENDANCE ICI
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    row.remove();
+                } else {
+                    alert("{% trans 'Erreur lors de la suppression.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err));
         }
     }
 </script>

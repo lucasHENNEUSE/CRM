@@ -20,7 +20,7 @@
                     
                     <div style="margin-bottom: 20px;">
                         <label style="font-size: 16px;"><strong>1. {% trans "Objet du message :" %}</strong></label>
-                        <input type="text" name="subject" required style="width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
+                        <input type="text" name="subject" required style="width: 100%; padding: 8px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
                     </div>
 
                     <div style="background: #fdfdfd; border: 2px dashed #007bff; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
@@ -30,7 +30,7 @@
                     
                     <div style="flex-grow: 1; display: flex; flex-direction: column; margin-bottom: 20px;">
                         <label style="font-size: 16px;"><strong>3. {% trans "Votre message :" %}</strong></label>
-                        <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
+                        <phone_widget style="display:none;"></phone_widget> <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
                     </div>
 
                     <button type="submit" style="background: #28a745; color: white; border: none; padding: 20px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; text-transform: uppercase; letter-spacing: 2px;">
@@ -56,9 +56,42 @@
                     <div style="display: flex; gap: 8px;">
                         <input type="text" id="contact-search-bar" placeholder="{% trans 'Rechercher et sélectionner (Nom ou Email)...' %}" 
                                style="flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
-                        <button type="button" id="btn-search-select" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px;">
-                            <i class="fa fa-search"></i>
-                        </button>
+                        <button type="button" id="btn-search-select" 
+    style="
+        background: white; 
+        color: #6c757d; 
+        border: 2px solid #6c757d; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        width: 34px; 
+        height: 34px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 18px;
+        padding: 0;
+    " 
+    title="{% trans 'Rechercher' %}">
+    &#128269; </button>
+                        <button type="button" id="btn-delete-selection" 
+    style="
+        background: white; 
+        color: #dc3545; 
+        border: 2px solid #dc3545; 
+        border-radius: 4px; 
+        cursor: pointer; 
+        width: 34px; 
+        height: 34px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 24px; 
+        font-weight: bold;
+        padding: 0;
+        line-height: 0;
+    ">
+    &times;
+</button>
                     </div>
                 </div>
 
@@ -76,11 +109,11 @@
                             {% for contact in contacts %}
                             <tr class="contact-row">
                                 <td style="padding: 12px; border: 1px solid #ccc; text-align: center;">
-                                    <input type="checkbox" name="selected_contacts" value="{{ contact.email }}" class="contact-checkbox" checked>
+                                    <input type="checkbox" name="selected_contacts" value="{{ contact.email }}" data-contact-id="{{contact.id}}" class="contact-checkbox" checked>
                                 </td>
                                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">{{ contact.last_name }} {{ contact.first_name }}</td>
-                                <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
-                                <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
+                                <td class="contact-email" style="padding: 12px; border: 1px solid #cccccc;"><code style="font-size: 14px;">{{ contact.email }}</code></td>
+                                <td style="text-align: center; padding: 12px; border: 1px solid #cccccc;">
                                     <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">
                                         {% trans "SUPPRIMER" %}
                                     </button>
@@ -97,83 +130,56 @@
 </div>
 
 <script>
-    // --- 1. FONCTION DE RECHERCHE ET SÉLECTION ---
     function searchAndSelect() {
         const searchTerm = document.getElementById('contact-search-bar').value.toLowerCase().trim();
         const rows = document.querySelectorAll('.contact-row');
         const tbody = document.getElementById('email-tbody');
         let found = false;
-
         if (!searchTerm) return;
-
         rows.forEach(row => {
             const name = row.querySelector('.contact-name').textContent.toLowerCase();
             const email = row.querySelector('.contact-email').textContent.toLowerCase();
-            
             if (name.includes(searchTerm) || email.includes(searchTerm)) {
                 const checkbox = row.querySelector('.contact-checkbox');
-                checkbox.checked = true; // Coche automatiquement
-                
-                tbody.prepend(row); // Remonte en haut
-                
-                // Effet visuel jaune temporaire
+                checkbox.checked = true;
+                tbody.prepend(row);
                 row.style.backgroundColor = "#fff3cd";
                 setTimeout(() => { row.style.backgroundColor = ""; }, 2500);
-                
-                row.style.display = ""; // S'assure qu'il est visible
+                row.style.display = "";
                 found = true;
             }
         });
-
         if (!found) {
             alert("{% trans 'Aucun contact trouvé pour :' %} " + searchTerm);
         } else {
-            document.getElementById('contact-search-bar').value = ''; // Vide la barre
-            // Réaffiche tout le monde (enlève le filtre visuel)
+            document.getElementById('contact-search-bar').value = '';
             rows.forEach(r => { if(r.style.display === "none") r.style.display = ""; });
         }
     }
-
-    // Clic sur bouton loupe
     document.getElementById('btn-search-select').onclick = searchAndSelect;
-
-    // Touche Entrée
     document.getElementById('contact-search-bar').onkeypress = function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            searchAndSelect();
-        }
+        if (e.key === 'Enter') { e.preventDefault(); searchAndSelect(); }
     };
-
-    // --- 2. FILTRAGE VISUEL (pendant la frappe) ---
     document.getElementById('contact-search-bar').oninput = function() {
         const searchTerm = this.value.toLowerCase();
         const rows = document.querySelectorAll('.contact-row');
-
         rows.forEach(row => {
             const name = row.querySelector('.contact-name').textContent.toLowerCase();
             const email = row.querySelector('.contact-email').textContent.toLowerCase();
             row.style.display = (name.includes(searchTerm) || email.includes(searchTerm)) ? "" : "none";
         });
     };
-
-    // --- 3. SÉLECTIONNER TOUT ---
     document.getElementById('select-all').onclick = function() {
         var checkboxes = document.querySelectorAll('.contact-checkbox');
         for (var checkbox of checkboxes) { 
-            if (checkbox.closest('tr').style.display !== 'none') {
-                checkbox.checked = this.checked; 
-            }
+            if (checkbox.closest('tr').style.display !== 'none') { checkbox.checked = this.checked; }
         }
     }
-
-    // --- 4. AJOUT MANUEL ---
     document.getElementById('btn-add-manual').onclick = function() {
         const nameInput = document.getElementById('input-name');
         const emailInput = document.getElementById('input-email');
         const name = nameInput.value;
         const email = emailInput.value;
-
         if (name && email) {
             const tbody = document.getElementById('email-tbody');
             const row = document.createElement('tr');
@@ -183,7 +189,7 @@
                 <td class="contact-name" style="padding: 12px; border: 1px solid #ccc;">${name}</td>
                 <td class="contact-email" style="padding: 12px; border: 1px solid #ccc;"><code style="font-size: 14px;">${email}</code></td>
                 <td style="text-align: center; padding: 12px; border: 1px solid #ccc;">
-                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">SUPPRIMER</button>
+                    <button type="button" onclick="removeRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold;">RETIRER</button>
                 </td>
             `;
             tbody.prepend(row);
@@ -192,10 +198,71 @@
         }
     }
 
-    // --- 5. SUPPRESSION ---
+    // MODIFICATION : Suppression groupée avec contexte Emailing
+    document.getElementById('btn-delete-selection').onclick = function() {
+        const checkboxes = document.querySelectorAll('.contact-checkbox:checked');
+        const total = checkboxes.length;
+
+        if (total === 0) {
+            return alert("{% trans 'Aucun contact sélectionné.' %}");
+        }
+
+        if (confirm("{% trans 'Voulez-vous vraiment retirer la sélection de la liste d\'envoi ?' %}")) {
+            const emailList = Array.from(checkboxes).map(cb => cb.value);
+            const tbody = document.getElementById('email-tbody');
+            tbody.style.opacity = "0.5"; 
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                // ON PRÉCISE LE CONTEXTE EMAIL ENVOYÉ AU SERVEUR
+                body: JSON.stringify({ emails: emailList, context: 'emailing' })
+            })
+            .then(response => {
+                if (response.ok) {
+                    checkboxes.forEach(cb => {
+                        const row = cb.closest('tr');
+                        if (row) row.remove();
+                    });
+                    console.log(`[SUCCÈS] ${total} contacts retirés de l'emailing.`);
+                } else {
+                    alert("{% trans 'Erreur lors de la suppression groupée.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err))
+            .finally(() => {
+                tbody.style.opacity = "1";
+            });
+        }
+    }
+
+    // MODIFICATION : Suppression unique avec contexte Emailing
     function removeRow(btn) {
-        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) {
-            btn.closest('tr').remove();
+        if(confirm("{% trans 'Retirer ce contact de la liste ?' %}")) { 
+            const row = btn.closest('tr');
+            const email = row.querySelector('.contact-checkbox').value;
+
+            fetch("{% url 'persons__delete_contact_ajax' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                // ON PRÉCISE LE CONTEXTE EMAIL ENVOYÉ AU SERVEUR
+                body: JSON.stringify({ email: email, context: 'emailing' })
+            })
+            .then(response => {
+                if (response.ok) {
+                    row.remove();
+                    console.log("[LOG] Contact retiré de l'emailing avec succès.");
+                } else {
+                    alert("{% trans 'Erreur lors de la mise à jour de la liste.' %}");
+                }
+            })
+            .catch(err => console.error("Erreur réseau :", err));
         }
     }
 </script>
