@@ -17,7 +17,13 @@ db.sqlite3
 # =========================
 # Data (EDA / exports / ETL)
 # =========================
-data/
+
+# Ignore raw data files but keep folder structure
+creme_crm/data/raw/*
+!creme_crm/data/raw/
+!creme_crm/data/raw/README.md
+
+# Ignore generated data files everywhere
 *.json
 *.jsonl
 *.csv
