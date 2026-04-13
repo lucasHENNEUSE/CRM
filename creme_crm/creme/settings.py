@@ -524,13 +524,13 @@ EXPORT_BACKENDS = [
 # EMAILS [internal] ############################################################
 
 # Adresse de l'expéditeur par défaut
-EMAIL_SENDER = 'lucas.henneuse22@gmail.com'
+EMAIL_SENDER = ''
 
 # Configuration SMTP pour Gmail
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 365
-EMAIL_HOST_USER = 'lucas.henneuse22@gmail.com'
-EMAIL_HOST_PASSWORD = 'bpvchbiviqljkfmw'  
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''  
 EMAIL_USE_SSL = False
 
 # Paramètre Django standard pour l'expéditeur

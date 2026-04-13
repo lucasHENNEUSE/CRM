@@ -1,21 +1,23 @@
+from pathlib import Path
 import pymongo
 import json
-import os
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_ROOT = PROJECT_ROOT / "project_data"
+INTERMEDIATE_DATA_ROOT = DATA_ROOT / "intermediate"
+
 
 def dispatcher_contacts():
-    # 1. Chemins
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(base_dir, "contacts_mongo.json")
+    file_path = INTERMEDIATE_DATA_ROOT / "contacts_mongo.json"
 
-    # 2. Connexion MongoDB
-    client = pymongo.MongoClient("mongodb://localhost:27018/") 
+    client = pymongo.MongoClient("mongodb://localhost:27018/")
     db = client["poc_aggregation"]
-    
-    # On définit les deux collections séparées
+
     col_taxe = db["prospects_taxe"]
     col_emailing = db["prospects_emailing"]
 
-    if not os.path.exists(file_path):
+    if not file_path.exists():
         print(f"Erreur : Le fichier {file_path} n'existe pas.")
         return
 
@@ -26,11 +28,9 @@ def dispatcher_contacts():
     list_emailing = []
 
     for doc in data:
-        # --- LOGIQUE TAXE ---
         assujetti = doc.get("entite", {}).get("assujetti_taxe")
         doc["is_in_taxe"] = "OUI" if assujetti in [True, 1, "True", "true"] else "NON"
 
-        # --- LOGIQUE EMAILING ---
         consent = doc.get("consent")
         raw_text = str(doc.get("coordonnees", {}).get("raw", "")).upper()
         if (consent and consent.get("emailing") is False) or "PAS DE CAMPAGNE" in raw_text:
@@ -38,25 +38,22 @@ def dispatcher_contacts():
         else:
             doc["is_in_emailing"] = "OUI"
 
-        # --- DISPATCHING ---
-        # Si le contact est OUI pour la taxe, on l'ajoute à la liste taxe
         if doc["is_in_taxe"] == "OUI":
             list_taxe.append(doc)
-        
-        # Si le contact est OUI pour l'emailing, on l'ajoute à la liste emailing
+
         if doc["is_in_emailing"] == "OUI":
             list_emailing.append(doc)
 
-    # 3. Nettoyage des anciennes données et insertion des nouvelles
     if list_taxe:
         col_taxe.delete_many({})
         col_taxe.insert_many(list_taxe)
-        print(f" {len(list_taxe)} contacts triés dans 'prospects_taxe'")
+        print(f"{len(list_taxe)} contacts triés dans 'prospects_taxe'")
 
     if list_emailing:
         col_emailing.delete_many({})
         col_emailing.insert_many(list_emailing)
-        print(f" {len(list_emailing)} contacts triés dans 'prospects_emailing'")
+        print(f"{len(list_emailing)} contacts triés dans 'prospects_emailing'")
+
 
 if __name__ == "__main__":
     dispatcher_contacts()
