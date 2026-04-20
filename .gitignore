@@ -1,33 +1,15 @@
 .venv/
-__pycache__/
+venv/
 
-# =========================
-# Python
-# =========================
+__pycache__/
 *.py[cod]
 *$py.class
-venv/
 
 # =========================
 # SQLite (bases locales)
 # =========================
 db.sqlite3
 *.sqlite3
-
-# =========================
-# Data (EDA / exports / ETL)
-# =========================
-
-# Ignore raw data files but keep folder structure
-creme_crm/data/raw/*
-!creme_crm/data/raw/
-!creme_crm/data/raw/README.md
-
-# Ignore generated data files everywhere
-*.json
-*.jsonl
-*.csv
-*.xlsx
 
 # =========================
 # Fichiers générés / médias
