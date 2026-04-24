@@ -211,6 +211,8 @@ class PersonsConfig(CremeAppConfig):
             menu.ContactsEntry,
             menu.OrganisationsEntry,
             menu.CustomersEntry,
+            menu.MassEmailingEntry,
+            menu.TaxeEntry,
 
             menu.ContactCreationEntry,
             menu.OrganisationCreationEntry,

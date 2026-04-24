@@ -79,5 +79,10 @@ class OrganisationCreationEntry(menu.CreationEntry):
 
 class MassEmailingEntry(menu.FixedURLEntry):
     id = 'persons-mass-emailing'
-    label = _('E-mailing en masse')
+    label = _('E-mailing')
     url_name = 'persons__email_mass_send'
+
+class TaxeEntry(menu.FixedURLEntry):
+    id = 'persons-taxe'
+    label = _('Taxe')
+    url_name = 'persons__taxe'
