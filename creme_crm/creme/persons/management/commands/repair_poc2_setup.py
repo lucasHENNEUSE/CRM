@@ -128,8 +128,8 @@ class Command(BaseCommand):
             admin_user.first_name = "Admin"
             fields_to_update.append("first_name")
 
-        if admin_user.last_name != "Admin":
-            admin_user.last_name = "Admin"
+        if admin_user.last_name != "ADMIN":
+            admin_user.last_name = "ADMIN"
             fields_to_update.append("last_name")
 
         if admin_user.displayed_name != "Admin":
