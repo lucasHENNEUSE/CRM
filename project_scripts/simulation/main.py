@@ -222,6 +222,14 @@ def main():
     )
     data_log.info("Fin du peuplement des données")
 
+    data_log.info("--- Remise en état spécifique au POC 2 ---")
+    run_cmd(
+        [sys.executable, MANAGE_PY_PATH, "repair_poc2_setup"],
+        data_log,
+        cwd=CREME_APP_ROOT,
+    )
+    data_log.info("Fin de la remise en état POC 2")
+
     tech_log.info("--- Génération des médias ---")
     run_cmd(
         [sys.executable, MANAGE_PY_PATH, "generatemedia"],
