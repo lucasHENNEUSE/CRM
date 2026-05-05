@@ -1,0 +1,9 @@
+raw/**
+intermediate/**
+processed/**
+exports/**
+
+!raw/README.md
+!intermediate/README.md
+!processed/README.md
+!exports/README.md

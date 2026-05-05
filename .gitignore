@@ -1,2 +1,30 @@
 .venv/
+venv/
+
 __pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# SQLite (bases locales)
+# =========================
+db.sqlite3
+*.sqlite3
+
+# =========================
+# Fichiers générés / médias
+# =========================
+_generated_media/
+media/
+staticfiles/
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Logs / système
+# =========================
+*.log
+.DS_Store
