@@ -202,7 +202,7 @@ def main():
 
     tech_log.info("--- Génération des migrations ---")
     run_cmd(
-        [sys.executable, MANAGE_PY_PATH, "makemigrations"],
+        [sys.executable, MANAGE_PY_PATH, "makemigrations", "--skip-checks"],
         tech_log,
         cwd=CREME_APP_ROOT,
     )
