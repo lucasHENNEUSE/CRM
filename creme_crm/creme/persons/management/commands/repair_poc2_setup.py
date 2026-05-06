@@ -116,11 +116,13 @@ class Command(BaseCommand):
         actions = []
         User = get_user_model()
 
-        try:
-            admin_user = User.objects.get(username="admin")
-        except User.DoesNotExist:
-            actions.append("Utilisateur 'admin' introuvable : aucune correction utilisateur effectuée.")
-            return actions
+        admin_user = User.objects.filter(username="admin").first()
+        root_user = User.objects.filter(username="root").first()
+
+        admin_created = False
+        if admin_user is None:
+            admin_user = User(username="admin")
+            admin_created = True
 
         fields_to_update = []
 
@@ -136,21 +138,70 @@ class Command(BaseCommand):
             admin_user.displayed_name = "Admin"
             fields_to_update.append("displayed_name")
 
+        if admin_user.is_active is not True:
+            admin_user.is_active = True
+            fields_to_update.append("is_active")
+
         if admin_user.is_staff is not True:
             admin_user.is_staff = True
             fields_to_update.append("is_staff")
 
-        if fields_to_update and not dry_run:
-            admin_user.save(update_fields=fields_to_update)
+        if admin_user.is_superuser is not True:
+            admin_user.is_superuser = True
+            fields_to_update.append("is_superuser")
 
-        if fields_to_update:
+        password_updated = False
+        if not admin_created and not admin_user.check_password("admin"):
+            admin_user.set_password("admin")
+            password_updated = True
+        elif admin_created:
+            admin_user.set_password("admin")
+            password_updated = True
+
+        if (admin_created or fields_to_update or password_updated) and not dry_run:
+            admin_user.save()
+
+        if admin_created:
+            details = ["username", *fields_to_update]
+            if password_updated:
+                details.append("password")
+            actions.append(
+                "Utilisateur 'admin' créé et mis à jour : "
+                + ", ".join(details)
+                + "."
+            )
+        elif fields_to_update or password_updated:
+            details = [*fields_to_update]
+            if password_updated:
+                details.append("password")
             actions.append(
                 "Utilisateur 'admin' mis à jour : "
-                + ", ".join(fields_to_update)
+                + ", ".join(details)
                 + "."
             )
         else:
             actions.append("Utilisateur 'admin' déjà conforme.")
+
+        if root_user is not None:
+            root_fields_to_update = []
+
+            if root_user.is_active is not False:
+                root_user.is_active = False
+                root_fields_to_update.append("is_active")
+
+            if root_fields_to_update and not dry_run:
+                root_user.save(update_fields=root_fields_to_update)
+
+            if root_fields_to_update:
+                actions.append(
+                    "Utilisateur 'root' mis à jour : "
+                    + ", ".join(root_fields_to_update)
+                    + "."
+                )
+            else:
+                actions.append("Utilisateur 'root' déjà inactif.")
+        else:
+            actions.append("Utilisateur 'root' absent : aucune désactivation nécessaire.")
 
         return actions
 
