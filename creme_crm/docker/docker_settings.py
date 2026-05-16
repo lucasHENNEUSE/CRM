@@ -14,7 +14,8 @@ DATABASES = {
 
         # Name of the database, or path to the database file if using 'sqlite3'.
         'NAME': os.getenv('CREME_DATABASE_NAME', "/srv/creme/data/cremecrm.db"),
-
+        'HOST': os.getenv('CREME_DATABASE_HOST', 'mongodb'),
+        'PORT': os.getenv('CREME_DATABASE_PORT', '27018'),
         # Not used with sqlite3.
         'USER': os.getenv('CREME_DATABASE_USER', default=''),
 

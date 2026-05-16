@@ -16,6 +16,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+import json
+from contextlib import suppress
 from django.db.models import Q
 
 from ..models import BrickHomeLocation, BrickMypageLocation
@@ -28,6 +30,48 @@ class BaseHome(BricksView):
 
 class Home(BaseHome):
     template_name = 'creme_core/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        with suppress(Exception):
+            from creme.activities.models import ActivityType, Activity
+            from creme.persons import get_contact_model
+            
+            Contact = get_contact_model()
+            contacts = list(Contact.objects.filter(is_deleted=False))
+
+            # On cherche le type d'activité qui correspond à un Rendez-vous
+            meeting_type = ActivityType.objects.filter(name__icontains='Rendez-vous').first()
+            if meeting_type:
+                context['MEETING_TYPE_ID'] = meeting_type.id
+                
+            # On récupère les activités en base de données pour l'affichage
+            activities = []
+            for act in Activity.objects.order_by('-id')[:500]:
+                if getattr(act, 'is_deleted', False):
+                    continue
+                if getattr(act, 'start', None):
+                    title = getattr(act, 'name', None) or getattr(act, 'title', None) or str(act)
+                    title_lower = title.lower()
+                    
+                    matched_contact_id = None
+                    for c in contacts:
+                        fn = (getattr(c, 'first_name', '') or '').strip().lower()
+                        ln = (getattr(c, 'last_name', '') or '').strip().lower()
+                        if fn and ln and (f"{fn} {ln}" in title_lower or f"{ln} {fn}" in title_lower):
+                            matched_contact_id = c.id
+                            break
+                            
+                    activities.append({
+                        'id': act.id,
+                        'title': title,
+                        'start': act.start.strftime('%Y-%m-%d'),
+                        'time': act.start.strftime('%H:%M'),
+                        'type_name': act.type.name.lower() if getattr(act, 'type', None) else 'evenements',
+                        'contact_id': matched_contact_id,
+                    })
+            context['activities_json'] = json.dumps(activities)
+        return context
 
     def get_brick_ids(self):
         user = self.request.user
