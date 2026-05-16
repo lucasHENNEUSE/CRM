@@ -55,3 +55,28 @@ ENTRYPOINT ["/srv/creme/entrypoint.sh"]
 
 VOLUME /srv/creme/data
 EXPOSE 80
+
+FROM python:3.10-slim
+
+#Varibles d'environnement pour optimiser Python dans Docker
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app/creme_crm
+ENV DJANGO_SETTINGS_MODULE=creme.dev_settings
+WORKDIR /app
+
+# Installation des paquets système nécessaire pour compiler les dépendances (si besoin)
+
+RUN apt-get update && apt-get install -y\
+    gcc\
+    libpq-dev\
+    && rm -rf/var/lib/apt/lists/*
+
+#On copie uniquement le fichier requirements d'abord pour profiter du cache Docker
+COPY CRM/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip &&\
+    pip install --no-cache-dir-r requirements.txt
+
+COPY ./app/ /app/
+
+CMD ["python3","project_scripts/simulation/main.py"]
