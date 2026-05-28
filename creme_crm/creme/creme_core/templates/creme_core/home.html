@@ -12,14 +12,25 @@
     
     <div class="home-custom-container">
        
+        <!-- Conteneur pour les notifications (Toasts) -->
+        <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+       
         <div class="home-top-bar">
             <div class="top-bar-left">
                 <img src="{% media_url 'creme_core/creme.png' %}" alt="Logo Creme" class="home-logo">
             </div>
             <div class="top-bar-center">
-                <h2>Bonjour {{ user.first_name|default:user.username|title }} </h2>
+                <h2 id="dynamicGreeting">Bonjour {{ user.first_name|default:user.username|title }}</h2>
             </div>
-            <div class="top-bar-right"></div>
+            <div class="top-bar-right" style="text-align: right;">
+                <label class="theme-switch" title="Basculer le mode sombre">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider">
+                        <span class="icon"></span>
+                        <span class="icon"></span>
+                    </span>
+                </label>
+            </div>
         </div>
         
         <div class="home-grid">
@@ -28,15 +39,18 @@
                 <div class="calendar-header">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <span class="drag-handle" title="Déplacer la fenêtre">⠿</span>
-                        <button id="prevMonth">&lt;</button>
+                        <button id="prevBtn">&lt;</button>
+                    </div>
+                    <div class="view-switcher">
+                        <button id="monthViewBtn" class="active">Mois</button>
+                        <button id="weekViewBtn">Semaine</button>
                     </div>
                     <h3 id="monthYear"></h3>
-                    <button id="nextMonth">&gt;</button>
+                    <button id="nextBtn">&gt;</button>
                 </div>
-                <div class="calendar-days">
-                    <div>Lundi</div><div>Mardi</div><div>Mercredi</div><div>Jeudi</div><div>Vendredi</div><div>Samedi</div><div>Dimanche</div>
-                </div>
+                <div class="calendar-days" id="calendarDays"></div>
                 <div class="calendar-dates" id="calendarDates"></div>
+                <div class="calendar-week-view" id="calendarWeekView" style="display: none;"></div>
             </div>
             
             <!-- Widget Tâches (à droite) -->
@@ -47,6 +61,10 @@
                         <h3>Tâches du Jour</h3>
                     </div>
                     <button id="addTaskBtn" title="Ajouter une tâche">+</button>
+                </div>
+                <!-- Barre de recherche rapide -->
+                <div style="margin-bottom: 10px;">
+                    <input type="text" id="taskSearchInput" placeholder="Rechercher une tâche..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 0.9em;">
                 </div>
                 <!-- Jauge de progression -->
                 <div class="task-progress-container" id="taskProgressContainer" style="display: none;">
@@ -67,7 +85,9 @@
                         <option value="empty">-- Choisir une fenêtre --</option>
                         <option value="stats">Statistiques</option>
                         <option value="contacts">Derniers Contacts</option>
+                        <option value="feed">Fil d'actualité</option>
                         <option value="notes">Bloc-notes</option>
+                        <option value="alerts">Alertes et Relances</option>
                     </select>
                 </div>
                 <div class="custom-widget-content" id="customWidgetContent1">
@@ -83,7 +103,9 @@
                         <option value="empty">-- Choisir une fenêtre --</option>
                         <option value="stats">Statistiques</option>
                         <option value="contacts">Derniers Contacts</option>
+                        <option value="feed">Fil d'actualité</option>
                         <option value="notes">Bloc-notes</option>
+                        <option value="alerts">Alertes et Relances</option>
                     </select>
                 </div>
                 <div class="custom-widget-content" id="customWidgetContent2">
@@ -154,6 +176,7 @@
                         <div id="addressInputContainer" style="display: none;"><input type="text" id="eventAddress" class="modal-address-input" placeholder="Saisissez l'adresse du lieu..."></div>
                     </div>
                     <textarea id="eventInput" rows="4" placeholder="Saisissez vos rendez-vous, événements, échéances, actions prévues..."></textarea>
+                        <div id="eventDraftStatus" style="font-size: 0.8em; color: #4caf50; opacity: 0; transition: opacity 0.3s; margin-top: 5px; height: 15px;">✓ Brouillon sauvegardé</div>
                     <div class="modal-actions">
                         <button id="cancelCreateBtn" class="btn-cancel">Annuler</button>
                         <button id="saveEventBtn" class="btn-save">Enregistrer</button>
@@ -169,22 +192,127 @@
                 <div style="margin-bottom: 15px;">
                     <label for="taskInputText" style="font-weight: bold; display: block; margin-bottom: 5px;">Description :</label>
                     <input type="text" id="taskInputText" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;" placeholder="Que devez-vous faire ?">
+                    <div id="taskDraftStatus" style="font-size: 0.8em; color: #4caf50; opacity: 0; transition: opacity 0.3s; margin-top: 5px; height: 15px;">✓ Brouillon sauvegardé</div>
                 </div>
                 <div style="margin-bottom: 20px;">
                     <label for="taskInputDate" style="font-weight: bold; display: block; margin-bottom: 5px;">Date :</label>
                     <input type="date" id="taskInputDate" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">
                 </div>
+                                <div style="margin-bottom: 20px;">
+                    <label for="taskInputPriority" style="font-weight: bold; display: block; margin-bottom: 5px;">Priorité :</label>
+                    <select id="taskInputPriority" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">
+                        <option value="haute">🔴 Haute</option>
+                        <option value="moyenne" selected>🟠 Moyenne</option>
+                        <option value="basse">🟢 Basse</option>
+                    </select>
+                </div>
+
                 <div class="modal-actions">
                     <button id="cancelTaskBtn" class="btn-cancel" title="Annuler">Annuler</button>
                     <button id="saveTaskBtn" class="btn-save" title="Ajouter">Ajouter</button>
                 </div>
             </div>
         </div>
+
+        <!-- Modale (Popup) simulant la page de détail locale -->
+        <div id="globalAlertsModal" class="modal-overlay" style="display: none;">
+            <div class="modal-content" style="width: 500px;">
+                <h3 style="margin-top: 0; color: #333; border-bottom: 2px solid #2196f3; padding-bottom: 10px;">Vue Globale : Alertes & Tâches</h3>
+                <div id="globalAlertsContent" style="margin-bottom: 20px; line-height: 1.6;">
+                    <!-- Contenu injecté via JS -->
+                </div>
+                <div class="modal-actions">
+                    <button onclick="document.getElementById('globalAlertsModal').style.display='none'" class="btn-cancel" style="background-color: #2196f3; color: white;">Fermer la page</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+        <!-- Modale pour le fil d'actualité global -->
+
+        <div id="globalFeedModal" class="modal-overlay" style="display:none;">
+            <div class="modal-content" style="width: 500px;">
+                <h3 style="margin-top: 0; color: #333; border-bottom: 2px solid #4caf50; padding-bottom: 10px;">Vue Globale : Fil d'actualité</h3>
+                <div id="globalFeedContent" style="margin-bottom: 20px; line-height: 1.6; max-height: 60vh; overflow-y: auto;">
+                    <!--Le contenu sera injecté ici via JS -->
+                </div>
+                <div class="modal-actions">
+                    <button onclick="document.getElementById('globalFeedModal').style.display='none'" class="btn-cancel" style="background-color: #4caf50; color: white;">Fermer la page</button>
+                </div>
+            </div>
+        </div>
 
     <!-- Script pour faire fonctionner le calendrier dynamiquement -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Système de Notifications (Toasts) ---
+            window.showToast = function(message, type = 'error') {
+                const container = document.getElementById('toastContainer');
+                if (!container) return;
+
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                
+                let icon = type === 'error' ? '⚠️' : '✅';
+
+                toast.innerHTML = `<span style="font-size: 1.2em;">${icon}</span> <span>${message}</span>`;
+                container.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.classList.add('fade-out');
+                    toast.addEventListener('animationend', () => {
+                        toast.remove();
+                    });
+                }, 3000); // Disparaît après 3 secondes
+            };
+
+            // --- Mode Sombre (Dark Mode) ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const isDarkMode = localStorage.getItem('creme_dark_mode') === 'true';
+
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+
+            darkModeToggle.addEventListener('change', (e) => {
+                document.body.classList.toggle('dark-mode', e.target.checked);
+                localStorage.setItem('creme_dark_mode', e.target.checked);
+            });
+
+            // --- Salutation intelligente et dynamique ---
+            const userName = "{{ user.first_name|default:user.username|title|escapejs }}";
+            const currentHour = new Date().getHours();
+            let greeting = "";
+
+            if (currentHour >= 5 && currentHour < 12) {
+                greeting = `Bonjour ${userName}, prêt pour une nouvelle journée ?`;
+            } else if (currentHour >= 12 && currentHour < 14) {
+                greeting = `Bon appétit, ${userName} !`;
+            } else if (currentHour >= 14 && currentHour < 18) {
+                greeting = `Bon après-midi, ${userName} !`;
+            } else {
+                greeting = `Bonsoir ${userName}, belle fin de journée !`;
+            }
+            document.getElementById('dynamicGreeting').innerText = greeting;
+
+            // --- Données des derniers contacts ---
+            let latestContacts = [];
+            try {
+                // On suppose qu'une variable 'latest_contacts_json' est passée par la vue Django
+                latestContacts = JSON.parse("{{ latest_contacts_json|escapejs|default:'[]' }}");
+            } catch(e) {
+                console.error("Erreur de parsing des derniers contacts", e);
+            }
+
+            // --- Données pour les statistiques ---
+            let homeStats = {};
+            try {
+                homeStats = JSON.parse("{{ home_stats_json|escapejs|default:'{}' }}");
+            } catch(e) {
+                console.error("Erreur de parsing des statistiques", e);
+            }
+
             // --- Fonctionnalité Drag & Drop pour les widgets ---
             const homeGrid = document.querySelector('.home-grid');
             let draggedWidget = null;
@@ -242,10 +370,15 @@
             });
 
             const monthYear = document.getElementById('monthYear');
+            const calendarDays = document.getElementById('calendarDays');
             const calendarDates = document.getElementById('calendarDates');
-            const prevMonth = document.getElementById('prevMonth');
-            const nextMonth = document.getElementById('nextMonth');
+            const calendarWeekView = document.getElementById('calendarWeekView');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const monthViewBtn = document.getElementById('monthViewBtn');
+            const weekViewBtn = document.getElementById('weekViewBtn');
             
+            let currentView = 'month';
             // Variables pour la modale
             const eventModal = document.getElementById('eventModal');
             const modalTitle = document.getElementById('modalTitle');
@@ -256,6 +389,7 @@
 
             const modalCreateView = document.getElementById('modalCreateView');
             const eventInput = document.getElementById('eventInput');
+            const eventDraftStatus = document.getElementById('eventDraftStatus');
             const eventTime = document.getElementById('eventTime');
             const cancelCreateBtn = document.getElementById('cancelCreateBtn');
             const saveEventBtn = document.getElementById('saveEventBtn');
@@ -267,17 +401,36 @@
             // Variables pour la modale des tâches
             const taskModal = document.getElementById('taskModal');
             const taskInputText = document.getElementById('taskInputText');
+            const taskDraftStatus = document.getElementById('taskDraftStatus');
             const taskInputDate = document.getElementById('taskInputDate');
             const cancelTaskBtn = document.getElementById('cancelTaskBtn');
             const saveTaskBtn = document.getElementById('saveTaskBtn');
 
             const addTaskBtn = document.getElementById('addTaskBtn');
             const tasksList = document.getElementById('tasksList');
+            const taskSearchInput = document.getElementById('taskSearchInput');
 
             // Nouveaux éléments pour la jauge
             const taskProgressContainer = document.getElementById('taskProgressContainer');
             const taskProgressBar = document.getElementById('taskProgressBar');
             const taskProgressText = document.getElementById('taskProgressText');
+
+            // --- Auto-save (Brouillons) ---
+            let eventDraftTimeout;
+            eventInput.addEventListener('input', function() {
+                localStorage.setItem('creme_event_draft', this.value);
+                eventDraftStatus.style.opacity = '1';
+                clearTimeout(eventDraftTimeout);
+                eventDraftTimeout = setTimeout(() => { eventDraftStatus.style.opacity = '0'; }, 2000);
+            });
+
+            let taskDraftTimeout;
+            taskInputText.addEventListener('input', function() {
+                localStorage.setItem('creme_task_draft', this.value);
+                taskDraftStatus.style.opacity = '1';
+                clearTimeout(taskDraftTimeout);
+                taskDraftTimeout = setTimeout(() => { taskDraftStatus.style.opacity = '0'; }, 2000);
+            });
 
             function updateTaskProgress() {
                 const checkboxes = tasksList.querySelectorAll('input[type="checkbox"]');
@@ -303,6 +456,24 @@
                 } else {
                     taskProgressBar.style.backgroundColor = '#2196f3'; // Bleu en cours
                 }
+            }
+
+            // --- Filtre de recherche rapide pour les tâches ---
+            function applyTaskFilter() {
+                if (!taskSearchInput) return;
+                const searchTerm = taskSearchInput.value.toLowerCase();
+                const tasks = tasksList.querySelectorAll('.task-item');
+                tasks.forEach(task => {
+                    const label = task.querySelector('label');
+                    if (label && label.innerText.toLowerCase().includes(searchTerm)) {
+                        task.style.display = 'flex';
+                    } else {
+                        task.style.display = 'none';
+                    }
+                });
+            }
+            if (taskSearchInput) {
+                taskSearchInput.addEventListener('input', applyTaskFilter);
             }
 
             let currentEventsDiv = null;
@@ -399,7 +570,7 @@
             }
             backendActivities = backendActivities.concat(localActivities);
 
-            function renderCalendar() {
+            function renderMonthView() {
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth();
                 const today = new Date();
@@ -409,6 +580,12 @@
                     "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
                 ];
                 monthYear.innerText = `${monthNames[month]} ${year}`;
+
+                calendarDays.innerHTML = `
+                    <div>Lundi</div><div>Mardi</div><div>Mercredi</div><div>Jeudi</div><div>Vendredi</div><div>Samedi</div><div>Dimanche</div>
+                `;
+                calendarDays.style.gridTemplateColumns = 'repeat(7, 1fr)';
+
                 calendarDates.innerHTML = "";
 
                 const firstDay = new Date(year, month, 1).getDay();
@@ -473,7 +650,7 @@
                         eventItem.title = titleText; // Affiche le titre au survol
 
                         eventsDiv.appendChild(eventItem);
-                    });
+                    }); // Fin forEach dayActivities
                     // -----------------------------------------
 
                     // Ouverture de la modale au clic sur le jour
@@ -495,17 +672,167 @@
                 }
             }
 
-            prevMonth.addEventListener('click', () => {
-                currentDate.setMonth(currentDate.getMonth() - 1);
-                renderCalendar();
-            });
+            function renderWeekView() {
+                const year = currentDate.getFullYear();
+                const today = new Date();
 
-            nextMonth.addEventListener('click', () => {
-                currentDate.setMonth(currentDate.getMonth() + 1);
-                renderCalendar();
-            });
+                // 1. Calculer les dates de la semaine
+                const weekDates = [];
+                const currentDayOfWeek = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1; // 0=Lundi, 6=Dimanche
+                const weekStart = new Date(currentDate);
+                weekStart.setDate(currentDate.getDate() - currentDayOfWeek);
 
-            renderCalendar();
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(weekStart);
+                    date.setDate(weekStart.getDate() + i);
+                    weekDates.push(date);
+                }
+
+                // 2. Mettre à jour les en-têtes
+                const startMonthName = weekDates[0].toLocaleString('fr-FR', { month: 'long' });
+                const endMonthName = weekDates[6].toLocaleString('fr-FR', { month: 'long' });
+                monthYear.innerText = (startMonthName === endMonthName)
+                    ? `${startMonthName} ${year}`
+                    : `${startMonthName} - ${endMonthName}`;
+
+                calendarDays.innerHTML = `<div></div>`; // Vide pour la colonne des heures
+                calendarDays.style.gridTemplateColumns = '50px repeat(7, 1fr)';
+                weekDates.forEach(d => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.innerHTML = `${d.toLocaleString('fr-FR', { weekday: 'short' })} <span class="day-number">${d.getDate()}</span>`;
+                    if (d.toDateString() === today.toDateString()) {
+                        dayHeader.querySelector('.day-number').classList.add('today');
+                    }
+                    calendarDays.appendChild(dayHeader);
+                });
+
+                // 3. Construire la grille de la semaine
+                calendarWeekView.innerHTML = '';
+                const weekGrid = document.createElement('div');
+                weekGrid.className = 'week-grid-content';
+                
+                const timeCol = document.createElement('div');
+                timeCol.className = 'week-time-col';
+                
+                const dayCols = [];
+                for (let i = 0; i < 7; i++) {
+                    const dayCol = document.createElement('div');
+                    dayCol.className = 'week-day-col';
+                    dayCol.setAttribute('data-date', weekDates[i].toISOString().split('T')[0]);
+                    dayCols.push(dayCol);
+                }
+
+                for (let hour = 8; hour < 20; hour++) {
+                    const timeStr = `${String(hour).padStart(2, '0')}:00`;
+                    const timeSlot = document.createElement('div');
+                    timeSlot.className = 'week-hour-slot';
+                    timeSlot.setAttribute('data-time', timeStr);
+                    timeCol.appendChild(timeSlot);
+
+                    dayCols.forEach(col => {
+                        const slot = document.createElement('div');
+                        slot.className = 'week-hour-slot';
+                        slot.setAttribute('data-time', timeStr);
+                        col.appendChild(slot);
+                    });
+                }
+
+                weekGrid.appendChild(timeCol);
+                dayCols.forEach(col => weekGrid.appendChild(col));
+                calendarWeekView.appendChild(weekGrid);
+
+                // 4. Placer les événements
+                const weekStartStr = weekDates[0].toISOString().split('T')[0];
+                const weekEndStr = weekDates[6].toISOString().split('T')[0];
+                const weekActivities = backendActivities.filter(a => a.start >= weekStartStr && a.start <= weekEndStr);
+
+                weekActivities.forEach(act => {
+                    if (!act.time || act.time === "00:00") return;
+
+                    const [hour, minute] = act.time.split(':').map(Number);
+                    const topPosition = ((hour - 8) * 50) + (minute / 60 * 50); // 8h = début, 50px/heure
+
+                    const eventItem = document.createElement('div');
+                    eventItem.className = 'week-event-item';
+                    
+                    let cat = "evenements";
+                    if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
+                    else if (act.type_name.includes("échéance")) cat = "echeances";
+                    else if (act.type_name.includes("action")) cat = "actions";
+                    
+                    eventItem.setAttribute("data-category", cat);
+                    eventItem.setAttribute("data-id", act.id);
+                    eventItem.style.top = `${topPosition}px`;
+                    eventItem.innerText = act.title;
+                    eventItem.title = `${act.time} - ${act.title}`;
+
+                    eventItem.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (act.id && !String(act.id).startsWith('local_')) {
+                            window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                        } else {
+                            openDayModal(act.start.split('T')[0]);
+                        }
+                    });
+
+                    const targetCol = weekGrid.querySelector(`.week-day-col[data-date="${act.start.split('T')[0]}"]`);
+                    if (targetCol) targetCol.appendChild(eventItem);
+                });
+
+                // 5. Ajouter les gestionnaires de clics
+                function openDayModal(dateStr) {
+                    const dayActivities = backendActivities.filter(a => a.start.startsWith(dateStr));
+                    const tempEventsDiv = document.createElement('div');
+                    dayActivities.forEach(act => {
+                        const eventItem = document.createElement("div");
+                        let cat = "evenements";
+                        if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
+                        else if (act.type_name.includes("échéance")) cat = "echeances";
+                        else if (act.type_name.includes("action")) cat = "actions";
+                        eventItem.setAttribute("data-category", cat);
+                        eventItem.setAttribute("data-id", act.id);
+                        if (act.contact_id) eventItem.setAttribute("data-contact-id", act.contact_id);
+                        const timeStr = (act.time && act.time !== "00:00") ? act.time + " - " : "";
+                        eventItem.setAttribute("data-title", act.contact_id ? timeStr + act.title + " 👤" : timeStr + act.title);
+                        tempEventsDiv.appendChild(eventItem);
+                    });
+
+                    currentEventsDiv = tempEventsDiv;
+                    currentDayTitle = `Événements du ${new Date(dateStr+'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+                    selectedDateStr = dateStr;
+                    modalTitle.innerText = currentDayTitle;
+                    
+                    refreshModalList();
+                    modalListView.style.display = 'block';
+                    modalCreateView.style.display = 'none';
+                    eventModal.style.display = 'flex';
+                }
+
+                calendarWeekView.querySelectorAll('.week-day-col .week-hour-slot').forEach(slot => {
+                    slot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const dateStr = slot.parentElement.getAttribute('data-date');
+                        const timeStr = slot.getAttribute('data-time');
+                        
+                        openDayModal(dateStr);
+                        
+                        currentCategory = 'actions';
+                        modalTitle.innerText = `Nouvelle tâche à ${timeStr}`;
+                        modalListView.style.display = 'none';
+                        modalCreateView.style.display = 'block';
+                        
+                        eventInput.value = localStorage.getItem('creme_event_draft') || "";
+                        eventTime.value = timeStr;
+                        eventAddress.value = "";
+                        locationOptions.style.display = 'none';
+                        eventTime.focus();
+                    });
+                });
+
+                calendarWeekView.querySelectorAll('.week-day-col').forEach(col => {
+                    col.addEventListener('click', (e) => openDayModal(e.currentTarget.getAttribute('data-date')));
+                });
+            }
 
             // --- Script pour gérer les boutons de la modale ---
             closeModalBtn.addEventListener('click', () => {
@@ -534,7 +861,7 @@
                         modalListView.style.display = 'none';
                         modalCreateView.style.display = 'block';
                         
-                        eventInput.value = "";
+                        eventInput.value = localStorage.getItem('creme_event_draft') || "";
                         eventTime.value = "";
                         eventAddress.value = "";
                         locationOptions.style.display = 'none';
@@ -559,13 +886,13 @@
                 const timeValue = eventTime.value;
 
                 if (!timeValue) {
-                    alert("Veuillez imposer une heure pour valider l'activité.");
+                    showToast("Veuillez imposer une heure pour valider l'activité.", "error");
                     eventTime.focus();
                     return;
                 }
 
                 if (!eventText) {
-                    alert("Veuillez saisir une description pour votre activité.");
+                    showToast("Veuillez saisir une description pour votre activité.", "error");
                     eventInput.focus();
                     return;
                 }
@@ -576,7 +903,7 @@
                     if (selectedLocation === 'Déplacement') {
                         const address = eventAddress.value.trim();
                         if (!address) {
-                            alert("Veuillez saisir l'adresse du déplacement.");
+                            showToast("Veuillez saisir l'adresse du déplacement.", "error");
                             eventAddress.focus();
                             return;
                         }
@@ -599,12 +926,12 @@
                     };
                     backendActivities.push(localEvent);
                     
+                    localStorage.removeItem('creme_event_draft');
                     let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
                     savedLocalActivities.push(localEvent);
                     localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
                     
-                    // Retour immédiat à la liste à jour
-                    renderCalendar();
+                    render();
                     modalTitle.innerText = currentDayTitle;
                     refreshModalList();
                     modalCreateView.style.display = 'none';
@@ -639,9 +966,11 @@
                     if (this.checked) {
                         label.style.textDecoration = "line-through";
                         label.style.color = "#999";
+                        showToast("Tâche accomplie !", "success");
                     } else {
                         label.style.textDecoration = "none";
                         label.style.color = "#333";
+                        showToast("Tâche marquée comme non accomplie.", "error");
                     }
                     updateTaskProgress();
                 });
@@ -673,7 +1002,7 @@
                                 localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
                             }
                             
-                            renderCalendar();
+                            render();
                         }
                     }
                 });
@@ -692,7 +1021,7 @@
                         savedLocalActivities = savedLocalActivities.filter(a => a.id !== taskId);
                         localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
                         
-                        renderCalendar();
+                        render();
                         updateTaskProgress();
                     }
                 });
@@ -708,7 +1037,7 @@
 
             // --- Script pour les Tâches du jour (à droite de l'écran) ---
             addTaskBtn.addEventListener('click', () => {
-                taskInputText.value = "";
+                taskInputText.value = localStorage.getItem('creme_task_draft') || "";
                 const todayStr = new Date().toISOString().split('T')[0];
                 taskInputDate.value = todayStr; // Date d'aujourd'hui par défaut
                 taskModal.style.display = 'flex';
@@ -722,14 +1051,15 @@
             saveTaskBtn.addEventListener('click', () => {
                 const taskText = taskInputText.value.trim();
                 const taskDate = taskInputDate.value;
+                const taskPriority = document.getElementById('taskInputPriority').value;
 
                 if (!taskText) {
-                    alert("Veuillez saisir une description.");
+                    showToast("Veuillez saisir une description.", "error");
                     taskInputText.focus();
                     return;
                 }
                 if (!taskDate) {
-                    alert("Veuillez sélectionner une date.");
+                    showToast("Veuillez sélectionner une date.", "error");
                     taskInputDate.focus();
                     return;
                 }
@@ -742,35 +1072,47 @@
                     time: "",
                     type_name: "action", // Pour la couleur "Orange" (Actions prévues)
                     contact_id: null,
-                    is_local: true
+                    is_local: true,
+                    priority: taskPriority
                 };
                 backendActivities.push(localTask); // On intègre à la base commune pour l'affichage visuel
                 
+                localStorage.removeItem('creme_task_draft');
                 let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
                 savedLocalActivities.push(localTask);
                 localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
 
-                renderCalendar();
+                render();
 
                 // Si c'est pour aujourd'hui, on l'affiche sur le panneau de droite
                 const todayStr = new Date().toISOString().split('T')[0];
                 if (taskDate === todayStr) {
-                    appendLocalTaskToPanel(taskText, localTaskId);
+                    renderTasksList();
                 }
 
                 taskModal.style.display = 'none';
             });
             
             // --- Affichage automatique des tâches du CRM pour aujourd'hui ---
-            const todayDateStr = new Date().toISOString().split('T')[0];
-            const todayTasks = backendActivities.filter(a => a.start.startsWith(todayDateStr) && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance')));
-            
-            if (todayTasks.length > 0) {
+            function renderTasksList() {
+                const todayDateStr = new Date().toISOString().split('T')[0];
+                const todayTasks = backendActivities.filter(a => a.start.startsWith(todayDateStr) && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance')));
+
+                // Système de tri : Haute (1), Moyenne (2), Basse (3)
+                const priorityWeight = { "haute": 1, "moyenne": 2, "basse": 3 };
+                todayTasks.sort((a, b) => (priorityWeight[a.priority] || 2) - (priorityWeight[b.priority] || 2));
+                
                 tasksList.innerHTML = "";
+                if (todayTasks.length > 0) {
                 todayTasks.forEach(task => {
                     const taskDiv = document.createElement("div");
                     taskDiv.classList.add("task-item");
                     taskDiv.style.justifyContent = "space-between";
+                                        // Couleurs des bordures selon la priorité
+                    if (task.priority === 'haute') taskDiv.style.borderLeftColor = '#f44336';      // Rouge
+                    else if (task.priority === 'basse') taskDiv.style.borderLeftColor = '#4caf50'; // Vert
+                    else taskDiv.style.borderLeftColor = '#ff9800';                                // Orange (Moyenne/Défaut)
+
                     
                     const leftDiv = document.createElement("div");
                     leftDiv.style.display = "flex";
@@ -807,9 +1149,11 @@
                         if (this.checked) {
                             label.style.textDecoration = "line-through";
                             label.style.color = "#999";
+                            showToast("Tâche accomplie !", "success");
                         } else {
                             label.style.textDecoration = "none";
                             label.style.color = "#333";
+                            showToast("Tâche marquée comme non accomplie.", "error");
                         }
                         updateTaskProgress();
                     });
@@ -842,7 +1186,7 @@
                                         localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
                                     }
                                     
-                                    renderCalendar();
+                                    render();
                                 }
                             }
                         });
@@ -861,7 +1205,7 @@
                                 savedLocalActivities = savedLocalActivities.filter(a => a.id !== task.id);
                                 localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
                                 
-                                renderCalendar();
+                                render();
                                 updateTaskProgress();
                             }
                         });
@@ -882,10 +1226,188 @@
                     taskDiv.appendChild(actionsDiv);
                     tasksList.appendChild(taskDiv);
                 });
+                }
+                updateTaskProgress();
+                applyTaskFilter(); // On applique le filtre après avoir regénéré la liste
             }
-            updateTaskProgress();
+            renderTasksList(); // Appel pour afficher les tâches au chargement de la page
+
+            // --- Fonction pour afficher la fausse "page" (Modale) d'une activité locale ---
+            window.showLocalActivityDetails = function(actId) {
+                const act = backendActivities.find(a => a.id === actId);
+                if (!act) return;
+                
+                let html = `<div style="font-size: 1.1em;">`;
+                html += `<p><span style="color:#666; display:inline-block; width:80px;">Titre :</span> <strong>${act.title}</strong></p>`;
+                html += `<p><span style="color:#666; display:inline-block; width:80px;">Date :</span> <strong>${act.start.split('T')[0]}</strong></p>`;
+                html += `<p><span style="color:#666; display:inline-block; width:80px;">Heure :</span> <strong>${(act.time && act.time !== '00:00') ? act.time : 'Non spécifiée'}</strong></p>`;
+                html += `<p><span style="color:#666; display:inline-block; width:80px;">Type :</span> <span style="background: #e3f2fd; color: #1976d2; padding: 3px 8px; border-radius: 4px; font-weight:bold; font-size: 0.9em;">${act.type_name}</span></p>`;
+                html += `</div>`;
+                
+                document.getElementById('localDetailContent').innerHTML = html;
+                document.getElementById('localDetailModal').style.display = 'flex';
+            };
+            // --- Fonction pour afficher la vue globale des alertes---
+            window.showGlobalAlerts = function() {
+                const today = new Date().toISOString().split('T')[0];
+                let contentHTML = '<div style="display:flex; flex-direction:column; gap:10px;">';
+
+                // On filtre les tâches/actions/échéances, qu'elles soient en retard, du jours ou à venir
+                const allActivities = backendActivities.filter(a => {
+                    return a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance');
+                }).sort((a, b) => a.start.localeCompare(b.start)); // Tri chronologique
+
+                if(allActivities.length > 0) {
+                    allActivities.forEach(act => {
+                        const actDate = act.start.split('T')[0];
+                        const isOverdue = actDate < today;
+                        const isToday = actDate === today;
+
+                        let bgColor = '#f9fbfc';
+                        let borderColor = '#ccc';
+                        let titleColor = '#333';
+                        let titleText = `Prévu pour le : ${actDate}`;
+                        let btnColor = '#2196f3';
+
+                        if (isOverdue) {
+                            bgColor = '#ffebee'; borderColor = '#f44336'; titleColor = '#d32f2f'; titleText = '⚠️ En retard'; btnColor = '#f44336';
+                        }else if (isToday) {
+                            bgColor = '#fff3e0'; borderColor = '#ff9800'; titleColor = '#e65100'; titleText = "🔔 À faire aujourd'hui"; btnColor = '#ff9800';
+                        }
+
+                        const isLocal = String(act.id).startsWith('local_');
+                        let btnHtml = '';
+
+                        if(isLocal) {
+                            btnHtml = `
+                                <div style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
+                                    <button onclick="window.completeLocalActivity('${act.id}'); window.showGlobalAlerts();" style="background:#4caf50; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em;">Accomplir</button>
+                                    <button onclick="window.deleteLocalActivity('${act.id}'); window.showGlobalAlerts();" style="background:#f44336; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em;">Supprimer</button>
+                                </div>`;
+                        } else {
+                            const actUrl = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                            btnHtml = `<a href="${actUrl}" style="background:${btnColor}; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none;">Voir</a>`;
+                        }
+
+                        contentHTML += `
+                            <div style="background:${bgColor}; border-left:4px solid ${borderColor}; padding:8px 10px; border-radius:4px; font-size:0.9em; display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <div style="font-weight:bold; color:${titleColor};">${titleText}</div>
+                                    <div style="color:#333; margin-top:2px;">${act.title}</div>
+                                </div>
+                                ${btnHtml}
+                            </div>`;
+                    });
+                } else {
+                    contentHTML += `<div style="font-size:0.9em; color:#666; text-align:center;">Aucune tâche ou alerte à afficher.</div>`;
+                }
+                
+                contentHTML += '</div>';
+                
+                document.getElementById('globalAlertsContent').innerHTML = contentHTML;
+                document.getElementById('globalAlertsModal').style.display = 'flex';
+            };
+
+            // --- Fonction pour afficher la vue globale du fil d'actualité ---
+            window.showGlobalFeed = function() {
+                let contentHTML = '<div style="display:flex; flex-direction:column; gap:12px;">';
+                let hasContent = false;
+                
+                // 1. On boucle sur TOUS les derniers contacts
+                if (typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
+                    latestContacts.forEach(contact => {
+                        hasContent = true;
+                        contentHTML += `
+                            <div style="display:flex; gap:10px; align-items:flex-start; padding: 10px; background: #f9fbfc; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                <div style="width:30px; height:30px; border-radius:50%; background-color:#e3f2fd; color:#1976d2; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">👤</div>
+                                <div>
+                                    <div style="margin-bottom:2px;">Nouveau contact : <strong>${contact.name}</strong></div>
+                                    <div style="font-size:0.8em; color:#999;">Récemment ajouté</div>
+                                </div>
+                            </div>`;
+                    });
+                }
+
+                // 2. On boucle sur TOUTES les activités (triées par date, de la plus récente à la plus ancienne)
+                if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                    const allActivities = [...backendActivities].sort((a, b) => b.start.localeCompare(a.start));
+                    
+                    allActivities.forEach(act => {
+                        hasContent = true;
+                        let icon = ''; let bgColor = '#fff3e0'; let color = '#f57c00'; let action = 'Événement programmé';
+                        
+                        // On change l'icône si c'est une tâche
+                        if (act.type_name && (act.type_name.includes('action') || act.type_name.includes('task') || act.type_name.includes('échéance'))) {
+                            icon = '✓'; bgColor = '#e8f5e9'; color = '#388e3c'; action = 'Tâche ajoutée';
+                        }
+                        
+                        const dateObj = new Date(act.start);
+                        const dateFmt = dateObj.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
+                        const timeFmt = (act.time && act.time !== '00:00') ? ' à ' + act.time : '';
+
+                        contentHTML += `
+                            <div style="display:flex; gap:10px; align-items:flex-start; padding: 10px; background: #f9fbfc; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                <div style="width:30px; height:30px; border-radius:50%; background-color:${bgColor}; color:${color}; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">${icon}</div>
+                                <div>
+                                    <div style="margin-bottom:2px;">${action} : <strong>${act.title}</strong></div>
+                                    <div style="font-size:0.8em; color:#999;">Pour le ${dateFmt}${timeFmt}</div>
+                                </div>
+                            </div>`;
+                    });
+                }
+
+                if (!hasContent) {
+                    contentHTML += `<div style="font-size:0.9em; color:#666; text-align:center;">Aucune actualité à afficher.</div>`;
+                }
+
+                contentHTML += '</div>';
+                
+                // On injecte le HTML et on affiche la modale
+                document.getElementById('globalFeedContent').innerHTML = contentHTML;
+                document.getElementById('globalFeedModal').style.display = 'flex';
+            };
 
             // --- Script pour les Widgets Personnalisables ---
+
+            function refreshAlertWidgets() {
+                ['widgetSelector1', 'widgetSelector2'].forEach(selectorId => {
+                    const selector = document.getElementById(selectorId);
+                    if (selector && selector.value === 'alerts') {
+                        // On ne peut pas appeler renderWidgetContent directement,
+                        // alors on simule un changement pour forcer le rafraîchissement.
+                        selector.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+
+            window.deleteLocalActivity = function(actId) {
+                if (!confirm("Voulez-vous vraiment supprimer cette tâche ?")) return;
+
+                backendActivities = backendActivities.filter(a => a.id !== actId);
+
+                let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
+                savedLocalActivities = savedLocalActivities.filter(a => a.id !== actId);
+                localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
+
+                render();
+                renderTasksList();
+                refreshAlertWidgets();
+                showToast("Tâche supprimée.", "success");
+            };
+
+            window.completeLocalActivity = function(actId) {
+                backendActivities = backendActivities.filter(a => a.id !== actId);
+
+                let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
+                savedLocalActivities = savedLocalActivities.filter(a => a.id !== actId);
+                localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
+
+                render();
+                renderTasksList();
+                refreshAlertWidgets();
+                showToast("Tâche marquée comme accomplie !", "success");
+            };
+
             function setupCustomWidget(selectorId, contentId) {
                 const selector = document.getElementById(selectorId);
                 const content = document.getElementById(contentId);
@@ -907,33 +1429,121 @@
                         content.style.alignItems = 'center';
                         content.innerHTML = '<div class="widget-placeholder">Sélectionnez une fenêtre à afficher.</div>';
                     } else if (value === 'stats') {
+                        // 1. Récupérer les données réelles
+                        const newContactsCount = homeStats.new_contacts_last_7_days || 0;
+                        const completedTasksCount = tasksList.querySelectorAll('input[type="checkbox"]:checked').length;
+                        const todayStr = new Date().toISOString().split('T')[0];
+                        const upcomingActivitiesCount = backendActivities.filter(a => a.start.startsWith(todayStr) && a.time && a.time !== "00:00").length;
+
+                        // 2. Calculer les pourcentages pour le graphique
+                        const total = newContactsCount + completedTasksCount + upcomingActivitiesCount;
+                        let contactsPct = 0;
+                        let tasksPct = 0;
+
+                        if (total > 0) {
+                            contactsPct = (newContactsCount / total) * 100;
+                            tasksPct = (completedTasksCount / total) * 100;
+                        }
+
+                        // 3. Construire le HTML avec les vraies données
                         content.innerHTML = `
                             <div class="widget-inner-content">
-                                <h4 class="widget-title">Statistiques</h4>
-                                <p style="font-size: 0.9em; color: #666; margin-top: 0;">Vue d'ensemble de l'activité.</p>
+                                <h4 class="widget-title">Statistiques (7 derniers jours)</h4>
+                                <p style="font-size: 0.9em; color: #666; margin-top: 0;">Vue d'ensemble de votre activité.</p>
                                 <div style="display: flex; align-items: center; justify-content: space-around; margin-top: 15px;">
-                                    <!-- Graphique Camembert en CSS (conic-gradient) -->
-                                    <div style="width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#2196f3 0% 66%, #4caf50 66% 90%, #ff9800 90% 100%); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"></div>
-                                    
+                                    <div style="width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#4caf50 0% ${contactsPct}%, #ff9800 ${contactsPct}% ${contactsPct + tasksPct}%, #2196f3 ${contactsPct + tasksPct}% 100%); box-shadow: 0 2px 5px rgba(0,0,0,0.1);"></div>
                                     <ul style="margin: 0; padding-left: 0; font-size: 0.9em; line-height: 1.8; list-style-type: none;">
-                                        <li><span style="display:inline-block; width:12px; height:12px; background:#4caf50; border-radius:3px; margin-right:5px; vertical-align:middle;"></span> Nouveaux contacts : <strong>+12</strong></li>
-                                        <li><span style="display:inline-block; width:12px; height:12px; background:#ff9800; border-radius:3px; margin-right:5px; vertical-align:middle;"></span> Tâches terminées : <strong>5</strong></li>
-                                        <li><span style="display:inline-block; width:12px; height:12px; background:#2196f3; border-radius:3px; margin-right:5px; vertical-align:middle;"></span> Emails envoyés : <strong>34</strong></li>
+                                        <li><span style="display:inline-block; width:12px; height:12px; background:#4caf50; border-radius:3px; margin-right:5px; vertical-align:middle;"></span> Nouveaux contacts : <strong>+${newContactsCount}</strong></li>
+                                        <li><span style="display:inline-block; width:12px; height:12px; background:#ff9800; border-radius:3px; margin-right:5px; vertical-align:middle;"></span> Tâches terminées : <strong>${completedTasksCount}</strong></li>
+                                        <li><span style="display:inline-block; width:12px; height:12px; background:#2196f3; border-radius:3px; margin-right:5px; vertical-align:middle;"></span> Activités du jour : <strong>${upcomingActivitiesCount}</strong></li>
                                     </ul>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     } else if (value === 'contacts') {
-                        content.innerHTML = `
+                        let contactsHtml = `
                             <div class="widget-inner-content">
                                 <h4 class="widget-title">Derniers Contacts</h4>
-                                <div style="display:flex; flex-direction:column; gap:8px;">
-                                    <div style="background:#fff; padding:8px; border:1px solid #e0e0e0; border-radius:4px; font-size:0.9em;">👤 Jean Dupont - <span style="color:#2196f3; cursor:pointer;">Voir</span></div>
-                                    <div style="background:#fff; padding:8px; border:1px solid #e0e0e0; border-radius:4px; font-size:0.9em;">👤 Marie Curie - <span style="color:#2196f3; cursor:pointer;">Voir</span></div>
-                                    <div style="background:#fff; padding:8px; border:1px solid #e0e0e0; border-radius:4px; font-size:0.9em;">👤 Albert Einstein - <span style="color:#2196f3; cursor:pointer;">Voir</span></div>
-                                </div>
-                            </div>
-                        `;
+                                <div style="display:flex; flex-direction:column; gap:8px;">`;
+
+                        if (latestContacts.length > 0) {
+                            const viewUrlTemplate = `{% url 'persons__view_contact' 999999 %}`;
+                            latestContacts.forEach(contact => {
+                                const contactUrl = viewUrlTemplate.replace('999999', contact.id);
+                                contactsHtml += `
+                                    <div style="background:#fff; padding:8px; border:1px solid #e0e0e0; border-radius:4px; font-size:0.9em;">
+                                        👤 ${contact.name} - <a href="${contactUrl}" style="color:#2196f3; cursor:pointer; text-decoration:none;" title="Voir la fiche de ${contact.name}">Voir</a>
+                                    </div>`;
+                            });
+                        } else {
+                            contactsHtml += '<div style="font-size:0.9em; color:#666;">Aucun contact récent à afficher.</div>';
+                        }
+                        contactsHtml += `</div></div>`;
+                        content.innerHTML = contactsHtml;
+                    } else if (value === 'feed') {
+                        let feedHtml = `
+                            <div class="widget-inner-content">
+                                <h4 class="widget-title">Fil d'actualité</h4>
+                                <div style="display:flex; flex-direction:column; gap:12px; font-size:0.9em; color:#333; margin-top:5px; overflow-y:auto; max-height:220px; padding-right:5px;">`;
+                        
+                        let hasFeed = false;
+
+                        // On utilise les vraies données : les derniers contacts
+                        if (typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
+                            latestContacts.slice(0, 2).forEach(contact => {
+                                hasFeed = true;
+                                feedHtml += `
+                                    <div style="display:flex; gap:10px; align-items:flex-start;">
+                                        <div style="width:30px; height:30px; border-radius:50%; background-color:#e3f2fd; color:#1976d2; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">👤</div>
+                                        <div>
+                                            <div style="margin-bottom:2px;">Nouveau contact : <strong>${contact.name}</strong></div>
+                                            <div style="font-size:0.8em; color:#999;">Récemment ajouté</div>
+                                        </div>
+                                    </div>`;
+                            });
+                        }
+
+                        // On utilise les vraies données : les tâches et événements récents
+                        if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                            // Trier par date pour un affichage chronologique
+                            const recentActivities = [...backendActivities]
+                                .sort((a, b) => b.start.localeCompare(a.start))
+                                .slice(0, 4);
+                            
+                            recentActivities.forEach(act => {
+                                hasFeed = true;
+                                let bgColor = '#fff3e0'; let color = '#f57c00'; let action = 'Événement programmé';
+                                if (act.type_name && (act.type_name.includes('action') || act.type_name.includes('task') || act.type_name.includes('échéance'))) {
+                                    icon = '✓'; bgColor = '#e8f5e9'; color = '#388e3c'; action = 'Tâche ajoutée';
+                                }
+                                
+                                const dateObj = new Date(act.start);
+                                const dateFmt = dateObj.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
+                                const timeFmt = (act.time && act.time !== '00:00') ? ' à ' + act.time : '';
+
+                                feedHtml += `
+                                    <div style="display:flex; gap:10px; align-items:flex-start;">
+                                        <div style="width:30px; height:30px; border-radius:50%; background-color:${bgColor}; color:${color}; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">${icon}</div>
+                                        <div>
+                                            <div style="margin-bottom:2px;">${action} : <strong>${act.title}</strong></div>
+                                            <div style="font-size:0.8em; color:#999;">Pour le ${dateFmt}${timeFmt}</div>
+                                        </div>
+                                    </div>`;
+                            });
+                        }
+
+                        if (!hasFeed) {
+                            feedHtml += `<div style="font-size:0.9em; color:#666;">Aucune activité récente dans le CRM.</div>`;
+                        }
+
+                        if (hasFeed) {
+                            feedHtml += `
+                                <div style="text-align: center; margin-top: 10px;">
+                                    <button onclick="window.showGlobalFeed()" style="background: none; border: none; color: #2196f3; font-size: 0.9em; cursor: pointer; text-decoration: underline;">Voir tout le fil d'actualité</button>
+                                </div>`;
+                        }
+
+                        feedHtml += `</div></div>`;
+                        content.innerHTML = feedHtml;
                     } else if (value === 'notes') {
                         const noteContent = localStorage.getItem('creme_widget_note_' + selectorId) || '';
                         content.innerHTML = `
@@ -947,8 +1557,90 @@
                             localStorage.setItem('creme_widget_note_' + selectorId, this.value);
                         });
                     }
-                }
 
+                     else if (value === 'alerts') {
+                        let alertsHtml = `
+                            <div class="widget-inner-content">
+                                <h4 class="widget-title">Alertes & Relances</h4>
+                                <div style="display:flex; flex-direction:column; gap:10px; margin-top:5px; overflow-y:auto; max-height:220px; padding-right:5px;">`;
+
+                        let hasAlerts = false;
+                        
+                        // On récupère la date du jour (format YYYY-MM-DD)
+                        const today = new Date().toISOString().split('T')[0];
+
+                        // On vérifie si on a des activités qui viennent du CRM
+                        if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                            
+                            // On filtre pour ne garder que les tâches (actions, échéances) qui sont pour aujourd'hui ou en retard
+                            const urgentActivities = backendActivities.filter(a => {
+                                const actDate = a.start.split('T')[0];
+                                return actDate <= today && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance'));
+                            }).slice(0, 3); // On garde un maximum de 3 tâches urgentes
+
+                            // On construit l'affichage pour chaque tâche urgente
+                            urgentActivities.forEach(act => {
+                                hasAlerts = true;
+                                const isOverdue = act.start.split('T')[0] < today;
+                                
+                                // Si c'est en retard : rouge. Si c'est pour aujourd'hui : orange.
+                                const bgColor = isOverdue ? '#ffebee' : '#fff3e0';
+                                const borderColor = isOverdue ? '#f44336' : '#ff9800';
+                                const titleColor = isOverdue ? '#d32f2f' : '#e65100';
+                                const titleText = isOverdue ? '⚠️ En retard' : "🔔 À faire aujourd'hui";
+                                const btnColor = isOverdue ? '#f44336' : '#ff9800';
+
+                                // On gère le lien vers l'activité
+                                const isLocal = String(act.id).startsWith('local_');
+                                let btnHtml = '';
+
+                                if (isLocal) {
+                                    btnHtml = `
+                                        <div style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
+                                            <button onclick="window.completeLocalActivity('${act.id}')" style="background:#4caf50; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none; width: 80px;">Accomplir</button>
+                                            <button onclick="window.deleteLocalActivity('${act.id}')" style="background:#f44336; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none; width: 80px;">Supprimer</button>
+                                        </div>`;
+                                } else {
+                                    const actUrl = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                                    btnHtml = `<a href="${actUrl}" style="background:${btnColor}; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none;">Voir</a>`;
+                                }
+
+                                alertsHtml += `
+                                    <div style="background:${bgColor}; border-left:4px solid ${borderColor}; padding:8px 10px; border-radius:4px; font-size:0.9em; display:flex; justify-content:space-between; align-items:center;">
+                                        <div>
+                                            <div style="font-weight:bold; color:${titleColor};">${titleText}</div>
+                                            <div style="color:#333; margin-top:2px;">${act.title}</div>
+                                        </div>
+                                        ${btnHtml}
+                                    </div>`;
+                            });
+                        }
+
+                        // Si aucune alerte réelle n'a été trouvée, on affiche un exemple de facture pour montrer le concept
+                        if (!hasAlerts) {
+                            alertsHtml += `
+                                <div style="background:#ffebee; border-left:4px solid #f44336; padding:8px 10px; border-radius:4px; font-size:0.9em; display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <div style="font-weight:bold; color:#d32f2f;">⚠️ Facture impayée (Exemple)</div>
+                                        <div style="color:#333; margin-top:2px;">Client: ACME Corp (2 500€)</div>
+                                    </div>
+                                    <button onclick="showToast('Exemple de relance envoyée avec succès !', 'success')" style="background:#f44336; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em;">Relancer</button>
+                                </div>
+                                <div style="font-size:0.9em; color:#666; margin-top:10px;">Aucune tâche urgente réelle dans le CRM.</div>`;
+                        }
+
+                        if (hasAlerts) {
+                            alertsHtml += `
+                                <div style="text-align: center; margin-top: 10px;">
+                                    <button onclick="window.showGlobalAlerts()" style="background: none; border: none; color: #2196f3; font-size: 0.9em; cursor: pointer; text-decoration: underline;">Voir toutes les alertes</button>
+                                </div>`;
+                        }
+
+                        alertsHtml += `</div></div>`;
+                        content.innerHTML = alertsHtml;
+
+                }
+            }
                 renderWidgetContent();
 
                 selector.addEventListener('change', function() {
@@ -959,6 +1651,65 @@
 
             setupCustomWidget('widgetSelector1', 'customWidgetContent1');
             setupCustomWidget('widgetSelector2', 'customWidgetContent2');
+
+            // --- Initialisation et gestion des vues du calendrier ---
+            function switchView(view) {
+                currentView = view;
+                if (view === 'month') {
+                    monthViewBtn.classList.add('active');
+                    weekViewBtn.classList.remove('active');
+                    calendarDates.style.display = 'grid';
+                    calendarWeekView.style.display = 'none';
+                } else { // week
+                    monthViewBtn.classList.remove('active');
+                    weekViewBtn.classList.add('active');
+                    calendarDates.style.display = 'none';
+                    calendarWeekView.style.display = 'block';
+                }
+                render();
+            }
+
+            monthViewBtn.addEventListener('click', () => switchView('month'));
+            weekViewBtn.addEventListener('click', () => switchView('week'));
+
+            function render() {
+                (currentView === 'month') ? renderMonthView() : renderWeekView();
+            }
+
+            prevBtn.addEventListener('click', () => {
+                (currentView === 'month') ? currentDate.setMonth(currentDate.getMonth() - 1) : currentDate.setDate(currentDate.getDate() - 7);
+                render();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                (currentView === 'month') ? currentDate.setMonth(currentDate.getMonth() + 1) : currentDate.setDate(currentDate.getDate() + 7);
+                render();
+            });
+            render(); // Appel initial
+
+            // --- Rappel des tâches non accomplies au démarrage ---
+            setTimeout(() => {
+                const todayStr = new Date().toISOString().split('T')[0];
+
+                // 1. Tâches en retard (date < aujourd'hui)
+                const overdueTasksCount = backendActivities.filter(a => {
+                    const actDate = a.start.split('T')[0];
+                    return actDate < todayStr && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance'));
+                }).length;
+
+                if (overdueTasksCount > 0) {
+                    showToast(`Attention : Vous avez ${overdueTasksCount} tâche(s) en retard !`, 'error');
+                }
+
+                // 2. Tâches du jour non accomplies
+                const remainingTodayCount = tasksList.querySelectorAll('.task-item input[type="checkbox"]:not(:checked)').length;
+                
+                if (remainingTodayCount > 0) {
+                    showToast(`Rappel : Vous avez ${remainingTodayCount} tâche(s) non accomplie(s) pour aujourd'hui !`, 'error');
+                } else if (overdueTasksCount === 0) { // On affiche le succès seulement s'il n'y a pas de retard
+                    showToast(`Vous êtes à jour dans vos tâches pour aujourd'hui !`, 'success');
+                }
+            }, 1000); // Léger délai de 1 seconde pour l'animation
         });
     </script>
 
@@ -1034,6 +1785,7 @@
             font-weight: bold;
         }
         .calendar-header button:hover {
+            transition: background-color 0.2s;
             background-color: #e0e0e0;
         }
         .calendar-header h3 {
@@ -1048,6 +1800,7 @@
             color: #666;
             font-weight: bold;
             margin-bottom: 10px;
+            padding: 0 5px;
         }
         .calendar-dates {
             display: grid;
@@ -1119,7 +1872,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-            border-top: 4px solid #ff9800; /* Liseré orange */
+            border-top: 4px solid #ff9800;
             color: #333;
             display: flex;
             flex-direction: column;
@@ -1216,12 +1969,12 @@
             padding: 6px 10px;
             border-radius: 4px;
             border: 1px solid #f0f0f0;
-            border-left: 3px solid #ff9800; /* Rappel de couleur sur le côté */
+            border-left: 3px solid #ff9800; 
             font-size: 0.9em;
             transition: background-color 0.2s;
         }
         .task-item:hover {
-            background-color: #fff8e1; /* Léger orangé au survol */
+            background-color: #fff8e1; 
         }
         .task-item input {
             margin-right: 8px;
@@ -1322,6 +2075,7 @@
         .modal-event-item[data-category="echeances"] { border-left-color: #f44336; }
         .modal-event-item[data-category="actions"] { border-left-color: #ff9800; }
         .modal-event-item[data-category="evenements"] { border-left-color: #4caf50; }
+
         .empty-events-msg {
             color: #999;
             font-style: italic;
@@ -1402,6 +2156,22 @@
             font-family: inherit;
         }
         
+        /* --- Style pour la pastille (badge) de notification --- */
+        .widget-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.75em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            pointer-events: none;
+            z-index: 5;
+        }
+        
         /* --- Styles pour le Drag & Drop --- */
         .drag-handle {
             cursor: grab;
@@ -1422,6 +2192,301 @@
         }
         .draggable-widget {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* --- Styles pour le sélecteur de vue et la vue Semaine --- */
+        .view-switcher {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .view-switcher button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            border-left: 1px solid #ccc;
+        }
+        .view-switcher button:first-child {
+            border-left: none;
+        }
+        .view-switcher button.active {
+            background-color: #2196f3;
+            color: white;
+        }
+        .view-switcher button:not(.active):hover {
+            background-color: #e0e0e0;
+        }
+        .calendar-header {
+            position: relative; /* Pour le positionnement absolu du sélecteur */
+        }
+        .calendar-days .day-number.today {
+            background-color: #2196f3;
+            color: white;
+            border-radius: 50%;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        /* --- Vue Semaine --- */
+        .calendar-week-view {
+            height: 550px;
+            overflow-y: auto;
+            border-top: 1px solid #e0e6ed;
+        }
+        .week-grid-content {
+            display: grid;
+            grid-template-columns: 50px repeat(7, 1fr);
+        }
+        .week-time-col {
+            font-size: 0.8em;
+            color: #666;
+        }
+        .week-day-col {
+            border-left: 1px solid #e0e6ed;
+            position: relative;
+            min-height: 600px; 
+            cursor: pointer;
+        }
+        .week-day-col:hover {
+            background-color: #f9fbfc;
+        }
+        .week-hour-slot {
+            height: 50px;
+            border-top: 1px dotted #e0e6ed;
+            box-sizing: border-box;
+        }
+        .week-time-col .week-hour-slot {
+            border-top: 1px solid #e0e6ed;
+            text-align: right;
+            padding-right: 5px;
+            position: relative;
+        }
+        .week-time-col .week-hour-slot:first-child, .week-day-col .week-hour-slot:first-child {
+            border-top: none;
+        }
+        .week-time-col .week-hour-slot::before {
+            content: attr(data-time);
+            position: relative;
+            top: -0.6em;
+        }
+        .week-event-item {
+            position: absolute; left: 3px; right: 3px; height: 25px; color: white;
+            border-radius: 3px; padding: 2px 5px; font-size: 0.85em; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap; z-index: 1; box-sizing: border-box;
+            border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .week-event-item[data-category="rendezvous"] { background-color: #2196f3; }
+        .week-event-item[data-category="echeances"] { background-color: #f44336; }
+        .week-event-item[data-category="actions"] { background-color: #ff9800; }
+        .week-event-item[data-category="evenements"] { background-color: #4caf50; }
+
+        /* --- Styles pour les Toasts (Notifications) --- */
+        .toast {
+            background-color: #ffffff;
+            color: #333333;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #2196f3;
+            animation: slideInToast 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+        .toast.error { border-left-color: #f44336; }
+        .toast.success { border-left-color: #4caf50; }
+        .toast.fade-out { animation: fadeOutToast 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        
+        @keyframes slideInToast { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOutToast { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-20px); opacity: 0; } }
+
+        /* --- Styles pour le Mode Sombre --- */
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 64px;
+            height: 32px;
+        }
+        .theme-switch input { display: none; }
+        .theme-switch .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #2196f3; transition: .4s; border-radius: 34px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 7px; box-sizing: border-box;
+        }
+        .theme-switch .slider .icon { font-size: 14px; z-index: 1; user-select: none; }
+        .theme-switch .slider:before {
+            position: absolute; content: ""; height: 24px; width: 24px;
+            left: 4px; bottom: 4px; background-color: white;
+            transition: .4s; z-index: 2; border-radius: 50%;
+        }
+        .theme-switch input:checked + .slider { background-color: #333; border: 1px solid #555; }
+        .theme-switch input:checked + .slider:before { transform: translateX(32px); background-color: #90caf9; }
+
+        body.dark-mode .home-custom-container {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .top-bar-center h2 {
+            color: #90caf9;
+        }
+        body.dark-mode .calendar-widget,
+        body.dark-mode .tasks-widget,
+        body.dark-mode .custom-widget {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            box-shadow: 0 6px 16px rgba(255,255,255,0.05);
+        }
+        body.dark-mode .calendar-widget { border-top-color: #1565c0; }
+        body.dark-mode .tasks-widget { border-top-color: #e65100; }
+        body.dark-mode #customWidget1 { border-top-color: #2e7d32; }
+        body.dark-mode #customWidget2 { border-top-color: #6a1b9a; }
+        
+        body.dark-mode .calendar-header button,
+        body.dark-mode .view-switcher button,
+        body.dark-mode .btn-cancel,
+        body.dark-mode .tasks-header button {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+        body.dark-mode .calendar-header button:hover,
+        body.dark-mode .view-switcher button:hover,
+        body.dark-mode .btn-cancel:hover {
+            background-color: #444;
+        }
+        body.dark-mode .view-switcher button.active {
+            background-color: #616d7a;
+            color: white;
+        }
+        body.dark-mode .tasks-header button {
+            background-color: #5c646d;
+        }
+        body.dark-mode .calendar-dates {
+            background-color: #333;
+            border-color: #333;
+        }
+        body.dark-mode .calendar-day {
+            background-color: #1e1e1e;
+        }
+        body.dark-mode .calendar-day.other-month {
+            background-color: #121212;
+            color: #666;
+        }
+        body.dark-mode .calendar-day:hover:not(.other-month) {
+            background-color: #2a2a2a;
+        }
+        body.dark-mode .calendar-day.today {
+            background-color: #737a85;
+        }
+        body.dark-mode .calendar-day.today .day-number {
+            background-color: #687783;
+            color: #000;
+        }
+        body.dark-mode .task-item {
+            background-color: #2a2a2a;
+            border-color: #333;
+            color: #e0e0e0;
+        }
+        body.dark-mode .task-item:hover {
+            background-color: #3a3a3a;
+        }
+        body.dark-mode .activity-section {
+            background-color: #2a2a2a;
+            border-color: #444;
+        }
+        body.dark-mode .activity-header h4 {
+            color: #e0e0e0;
+        }
+        body.dark-mode .activity-header {
+            border-bottom-color: #444;
+        }
+        body.dark-mode .modal-content {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .modal-content h3 {
+            color: #5b6874;
+        }
+        body.dark-mode .modal-address-input,
+        body.dark-mode .modal-time-input,
+        body.dark-mode .modal-content textarea,
+        body.dark-mode #taskInputText,
+        body.dark-mode #taskSearchInput,
+        body.dark-mode #taskInputDate,
+        body.dark-mode .widget-selector,
+        body.dark-mode .widget-text-area {
+            background-color: #333;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+        body.dark-mode .widget-selector {
+            background-color: #333;
+        }
+        body.dark-mode .toast {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .modal-event-item {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+        body.dark-mode .custom-widget-header {
+            border-bottom-color: #444;
+        }
+        body.dark-mode .custom-widget-content {
+            background-color: #2a2a2a;
+            border-color: #444;
+        }
+        body.dark-mode .widget-title {
+            color: #e0e0e0;
+        }
+        body.dark-mode .calendar-week-view {
+            border-top-color: #333;
+        }
+        body.dark-mode .week-hour-slot {
+            border-top-color: #333;
+        }
+        body.dark-mode .week-day-col {
+            border-left-color: #333;
+        }
+        body.dark-mode .week-day-col:hover {
+            background-color: #2a2a2a;
+        }
+        
+        /* --- Ajustement des couleurs codées en dur pour le Mode Sombre --- */
+        body.dark-mode .widget-inner-content > div > div[style*="background:#fff"] {
+            background-color: #333 !important;
+            border-color: #444 !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode .widget-inner-content > div > div[style*="background:#ffebee"] {
+            background-color: #4a1c1c !important;
+            color: #e0e0e0;
+        }
+        body.dark-mode .widget-inner-content > div > div[style*="background:#fff3e0"] {
+            background-color: #4a2e10 !important;
+            color: #e0e0e0;
+        }
+        body.dark-mode span[style*="color:#666"], body.dark-mode div[style*="color:#666"] {
+            color: #aaa !important;
+        }
+        body.dark-mode span[style*="color:#333"], body.dark-mode div[style*="color:#333"] {
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode span[style*="background: #e3f2fd"] {
+            background: #616569 !important;
+            color: #bbdefb !important;
         }
     </style>
 {% endblock %}
