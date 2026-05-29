@@ -1,7 +1,7 @@
 """
-===============================================================================
+
                        CHÂINE DE TRAITEMENT DES DONNÉES (ETL)
-===============================================================================
+
 
 Ce script automatise la collecte, la mise au propre et le rangement des données 
 de prospection. Son objectif est de prendre des informations brutes issues d'un 
@@ -36,7 +36,7 @@ Le processus se déroule en 3 grandes étapes successives :
 Utilisation :
 Il suffit de lancer ce script pour que toute la chaîne s'exécute d'un coup, 
 depuis la lecture du fichier initial jusqu'au classement final en base de données.
-===============================================================================
+
 """
 
 import os  # Permet d'interagir avec le système d'exploitation (gestion des fichiers)
@@ -81,9 +81,9 @@ def run_pure_etl():
     """ Lance toute la chaîne automatique : Lecture -> Nettoyage -> Rangement. """
     print("=== DÉBUT DU PIPELINE PURE ETL ===")  # Affiche un message d'information dans la console
     
-    # ----------------------------------------------------
-    # 1. ÉTAPE DE LECTURE (EXTRACT)
-    # ----------------------------------------------------
+   
+    # 1. Extraction
+    
     source_excel = RAW_DATA_ROOT / "Classeur2.xlsx"  # Construit le chemin vers le fichier Excel source (dossier raw)
         
     if not source_excel.exists():  # Si le fichier est introuvable
@@ -111,9 +111,9 @@ def run_pure_etl():
     print(f" -> Lignes lues : {count_before} | Lignes conservées : {len(df)}")  # Affiche le bilan du dédoublonnage
 
 
-    # ----------------------------------------------------
-    # 2. ÉTAPE DE TRADUCTION ET TRI (TRANSFORM)
-    # ----------------------------------------------------
+  
+    # 2. Transformation
+    
     print("\n[2/3] TRI : Création des fiches clients et calcul des autorisations...")  # Informe du début du traitement des données
     documents = []  # Crée une liste vide destinée à recevoir toutes les futures fiches clients structurées
 
@@ -178,9 +178,9 @@ def run_pure_etl():
     print(f" -> Création en mémoire de {len(documents)} fiches clients.")  # Affiche le volume de fiches prêtes à l'envoi
 
 
-    # ----------------------------------------------------
-    # 3. ÉTAPE DE RANGEMENT (LOAD)
-    # ----------------------------------------------------
+   
+    # 3. Enregistrer
+    
     print("\n[3/3] RANGEMENT : Connexion à la base de données et répartition...")  # Alerte sur le début de la phase de stockage
     try:
         client = MongoClient("mongodb://localhost:27018/")  # Ouvre le tuyau de connexion vers le serveur de base de données (Port 27018)
