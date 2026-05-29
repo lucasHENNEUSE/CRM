@@ -222,3 +222,4 @@ def run_pure_etl():
 
 if __name__ == "__main__":
     run_pure_etl()  # Condition finale : si ce fichier est exécuté directement, il lance immédiatement l'action globale
+    run_pure_etl()  # Condition finale : si ce fichier est exécuté directement, il lance immédiatement l'action globale
