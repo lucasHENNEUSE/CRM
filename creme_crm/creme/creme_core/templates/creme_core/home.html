@@ -22,7 +22,8 @@
             <div class="top-bar-center">
                 <h2 id="dynamicGreeting">Bonjour {{ user.first_name|default:user.username|title }}</h2>
             </div>
-            <div class="top-bar-right" style="text-align: right;">
+            <div class="top-bar-right">
+                <span class="theme-label">Mode sombre</span>
                 <label class="theme-switch" title="Basculer le mode sombre">
                     <input type="checkbox" id="darkModeToggle">
                     <span class="slider">
@@ -40,17 +41,19 @@
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <span class="drag-handle" title="Déplacer la fenêtre">⠿</span>
                         <button id="prevBtn">&lt;</button>
+                        <button id="nextBtn">&gt;</button>
                     </div>
                     <div class="view-switcher">
                         <button id="monthViewBtn" class="active">Mois</button>
                         <button id="weekViewBtn">Semaine</button>
+                        <button id="dayViewBtn">Jour</button>
+                        <button id="todayBtn" class="today-date-box" title="Revenir à la date du jour"></button>
                     </div>
-                    <h3 id="monthYear"></h3>
-                    <button id="nextBtn">&gt;</button>
                 </div>
                 <div class="calendar-days" id="calendarDays"></div>
                 <div class="calendar-dates" id="calendarDates"></div>
                 <div class="calendar-week-view" id="calendarWeekView" style="display: none;"></div>
+                <div class="calendar-day-view" id="calendarDayView" style="display: none;"></div>
             </div>
             
             <!-- Widget Tâches (à droite) -->
@@ -58,14 +61,17 @@
                 <div class="tasks-header">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <span class="drag-handle" title="Déplacer la fenêtre">⠿</span>
-                        <h3>Tâches du Jour</h3>
+                        <h3>Gestion des tâches</h3>
                     </div>
-                    <button id="addTaskBtn" title="Ajouter une tâche">+</button>
+                    <div style="display: flex; gap: 5px;">
+                        <button id="addTaskBtn" title="Ajouter une tâche">+</button>
+                    </div>
                 </div>
                 <!-- Barre de recherche rapide -->
                 <div style="margin-bottom: 10px;">
                     <input type="text" id="taskSearchInput" placeholder="Rechercher une tâche..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 0.9em;">
                 </div>
+                <h4 class="tasks-list-title"> Tâches du jour</h4>
                 <!-- Jauge de progression -->
                 <div class="task-progress-container" id="taskProgressContainer" style="display: none;">
                     <div class="task-progress-bar" id="taskProgressBar"></div>
@@ -245,6 +251,36 @@
     <!-- Script pour faire fonctionner le calendrier dynamiquement -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Gestion des tâches accomplies ---
+            const COMPLETED_TASKS_KEY = 'creme_completed_tasks';
+
+            function getCompletedTasks() {
+                try {
+                    const tasks = JSON.parse(localStorage.getItem(COMPLETED_TASKS_KEY) || '{}');
+                    const timeLimit = new Date().getTime() - (365 * 24 * 60 * 60 * 1000);
+                    const filteredTasks = {};
+                    for (const taskId in tasks) {
+                        if (tasks[taskId] > timeLimit) {
+                            filteredTasks[taskId] = tasks[taskId];
+                        }
+                    }
+                    localStorage.setItem(COMPLETED_TASKS_KEY, JSON.stringify(filteredTasks));
+                    return Object.keys(filteredTasks);
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function toggleTaskCompletion(taskId, isCompleted) {
+                const tasks = JSON.parse(localStorage.getItem(COMPLETED_TASKS_KEY) || '{}');
+                if (isCompleted) {
+                    tasks[taskId] = new Date().getTime();
+                } else {
+                    delete tasks[taskId];
+                }
+                localStorage.setItem(COMPLETED_TASKS_KEY, JSON.stringify(tasks));
+            }
+
             // --- Système de Notifications (Toasts) ---
             window.showToast = function(message, type = 'error') {
                 const container = document.getElementById('toastContainer');
@@ -369,14 +405,16 @@
                 }
             });
 
-            const monthYear = document.getElementById('monthYear');
             const calendarDays = document.getElementById('calendarDays');
             const calendarDates = document.getElementById('calendarDates');
             const calendarWeekView = document.getElementById('calendarWeekView');
+            const calendarDayView = document.getElementById('calendarDayView');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const monthViewBtn = document.getElementById('monthViewBtn');
             const weekViewBtn = document.getElementById('weekViewBtn');
+            const dayViewBtn = document.getElementById('dayViewBtn');
+            const todayBtn = document.getElementById('todayBtn');
             
             let currentView = 'month';
             // Variables pour la modale
@@ -579,7 +617,7 @@
                     "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
                     "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
                 ];
-                monthYear.innerText = `${monthNames[month]} ${year}`;
+                todayBtn.innerText = `${monthNames[month]} ${year}`;
 
                 calendarDays.innerHTML = `
                     <div>Lundi</div><div>Mardi</div><div>Mercredi</div><div>Jeudi</div><div>Vendredi</div><div>Samedi</div><div>Dimanche</div>
@@ -691,9 +729,9 @@
                 // 2. Mettre à jour les en-têtes
                 const startMonthName = weekDates[0].toLocaleString('fr-FR', { month: 'long' });
                 const endMonthName = weekDates[6].toLocaleString('fr-FR', { month: 'long' });
-                monthYear.innerText = (startMonthName === endMonthName)
-                    ? `${startMonthName} ${year}`
-                    : `${startMonthName} - ${endMonthName}`;
+                todayBtn.innerText = (startMonthName === endMonthName)
+                    ? `Du ${weekDates[0].getDate()} au ${weekDates[6].getDate()} ${startMonthName} ${year}`
+                    : `Du ${weekDates[0].getDate()} ${startMonthName} au ${weekDates[6].getDate()} ${endMonthName} ${year}`;
 
                 calendarDays.innerHTML = `<div></div>`; // Vide pour la colonne des heures
                 calendarDays.style.gridTemplateColumns = '50px repeat(7, 1fr)';
@@ -834,6 +872,136 @@
                 });
             }
 
+            function renderDayView() {
+                const year = currentDate.getFullYear();
+                const dateStrFr = currentDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+                todayBtn.innerText = dateStrFr.charAt(0).toUpperCase() + dateStrFr.slice(1) + " " + year;
+
+                calendarDays.innerHTML = `<div></div>`;
+                calendarDays.style.gridTemplateColumns = '50px 1fr';
+
+                const dayHeader = document.createElement('div');
+                dayHeader.innerHTML = `${currentDate.toLocaleString('fr-FR', { weekday: 'long' })} <span class="day-number">${currentDate.getDate()}</span>`;
+                if (currentDate.toDateString() === new Date().toDateString()) {
+                    dayHeader.querySelector('.day-number').classList.add('today');
+                }
+                calendarDays.appendChild(dayHeader);
+
+                calendarDayView.innerHTML = '';
+                const dayGrid = document.createElement('div');
+                dayGrid.className = 'week-grid-content';
+                dayGrid.style.gridTemplateColumns = '50px 1fr';
+                
+                const timeCol = document.createElement('div');
+                timeCol.className = 'week-time-col';
+                
+                const dayCol = document.createElement('div');
+                dayCol.className = 'week-day-col';
+                const dateIso = `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+                dayCol.setAttribute('data-date', dateIso);
+
+                for (let hour = 8; hour < 20; hour++) {
+                    const timeStr = `${String(hour).padStart(2, '0')}:00`;
+                    const timeSlot = document.createElement('div');
+                    timeSlot.className = 'week-hour-slot';
+                    timeSlot.setAttribute('data-time', timeStr);
+                    timeCol.appendChild(timeSlot);
+
+                    const slot = document.createElement('div');
+                    slot.className = 'week-hour-slot';
+                    slot.setAttribute('data-time', timeStr);
+                    dayCol.appendChild(slot);
+                }
+
+                dayGrid.appendChild(timeCol);
+                dayGrid.appendChild(dayCol);
+                calendarDayView.appendChild(dayGrid);
+
+                const dayActivities = backendActivities.filter(a => a.start.startsWith(dateIso));
+
+                dayActivities.forEach(act => {
+                    if (!act.time || act.time === "00:00") return;
+
+                    const [hour, minute] = act.time.split(':').map(Number);
+                    const topPosition = ((hour - 8) * 50) + (minute / 60 * 50);
+
+                    const eventItem = document.createElement('div');
+                    eventItem.className = 'week-event-item';
+                    
+                    let cat = "evenements";
+                    if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
+                    else if (act.type_name.includes("échéance")) cat = "echeances";
+                    else if (act.type_name.includes("action")) cat = "actions";
+                    
+                    eventItem.setAttribute("data-category", cat);
+                    eventItem.setAttribute("data-id", act.id);
+                    eventItem.style.top = `${topPosition}px`;
+                    eventItem.innerText = act.title;
+                    eventItem.title = `${act.time} - ${act.title}`;
+
+                    eventItem.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (act.id && !String(act.id).startsWith('local_')) {
+                            window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                        } else {
+                            openDayModal(act.start.split('T')[0]);
+                        }
+                    });
+
+                    dayCol.appendChild(eventItem);
+                });
+
+                function openDayModal(dateStr) {
+                    const dayActs = backendActivities.filter(a => a.start.startsWith(dateStr));
+                    const tempEventsDiv = document.createElement('div');
+                    dayActs.forEach(act => {
+                        const eventItem = document.createElement("div");
+                        let cat = "evenements";
+                        if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
+                        else if (act.type_name.includes("échéance")) cat = "echeances";
+                        else if (act.type_name.includes("action")) cat = "actions";
+                        eventItem.setAttribute("data-category", cat);
+                        eventItem.setAttribute("data-id", act.id);
+                        if (act.contact_id) eventItem.setAttribute("data-contact-id", act.contact_id);
+                        const timeStr = (act.time && act.time !== "00:00") ? act.time + " - " : "";
+                        eventItem.setAttribute("data-title", act.contact_id ? timeStr + act.title + " 👤" : timeStr + act.title);
+                        tempEventsDiv.appendChild(eventItem);
+                    });
+
+                    currentEventsDiv = tempEventsDiv;
+                    currentDayTitle = `Événements du ${new Date(dateStr+'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+                    selectedDateStr = dateStr;
+                    modalTitle.innerText = currentDayTitle;
+                    
+                    refreshModalList();
+                    modalListView.style.display = 'block';
+                    modalCreateView.style.display = 'none';
+                    eventModal.style.display = 'flex';
+                }
+
+                dayCol.querySelectorAll('.week-hour-slot').forEach(slot => {
+                    slot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const timeStr = slot.getAttribute('data-time');
+                        
+                        openDayModal(dateIso);
+                        
+                        currentCategory = 'actions';
+                        modalTitle.innerText = `Nouvelle tâche à ${timeStr}`;
+                        modalListView.style.display = 'none';
+                        modalCreateView.style.display = 'block';
+                        
+                        eventInput.value = localStorage.getItem('creme_event_draft') || "";
+                        eventTime.value = timeStr;
+                        eventAddress.value = "";
+                        locationOptions.style.display = 'none';
+                        eventTime.focus();
+                    });
+                });
+
+                dayCol.addEventListener('click', (e) => openDayModal(dateIso));
+            }
+
             // --- Script pour gérer les boutons de la modale ---
             closeModalBtn.addEventListener('click', () => {
                 eventModal.style.display = 'none';
@@ -884,6 +1052,7 @@
             saveEventBtn.addEventListener('click', () => {
                 const eventText = eventInput.value.trim();
                 const timeValue = eventTime.value;
+                
 
                 if (!timeValue) {
                     showToast("Veuillez imposer une heure pour valider l'activité.", "error");
@@ -922,7 +1091,8 @@
                         time: timeValue,
                         type_name: currentCategory === 'rendezvous' ? 'rendez-vous' : currentCategory,
                         contact_id: null,
-                        is_local: true
+                        is_local: true,
+                        created_at: new Date().getTime(),
                     };
                     backendActivities.push(localEvent);
                     
@@ -963,6 +1133,7 @@
                 label.style.whiteSpace = "nowrap";
 
                 checkbox.addEventListener('change', function() {
+                    toggleTaskCompletion(String(taskId), this.checked);
                     if (this.checked) {
                         label.style.textDecoration = "line-through";
                         label.style.color = "#999";
@@ -1048,7 +1219,7 @@
                 taskModal.style.display = 'none';
             });
             
-            saveTaskBtn.addEventListener('click', () => {
+            saveTaskBtn.addEventListener('click', () => { 
                 const taskText = taskInputText.value.trim();
                 const taskDate = taskInputDate.value;
                 const taskPriority = document.getElementById('taskInputPriority').value;
@@ -1073,7 +1244,8 @@
                     type_name: "action", // Pour la couleur "Orange" (Actions prévues)
                     contact_id: null,
                     is_local: true,
-                    priority: taskPriority
+                    priority: taskPriority,
+                    created_at: new Date().getTime(),
                 };
                 backendActivities.push(localTask); // On intègre à la base commune pour l'affichage visuel
                 
@@ -1096,6 +1268,8 @@
             // --- Affichage automatique des tâches du CRM pour aujourd'hui ---
             function renderTasksList() {
                 const todayDateStr = new Date().toISOString().split('T')[0];
+                const completedTaskIds = getCompletedTasks();
+
                 const todayTasks = backendActivities.filter(a => a.start.startsWith(todayDateStr) && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance')));
 
                 // Système de tri : Haute (1), Moyenne (2), Basse (3)
@@ -1145,7 +1319,15 @@
                         });
                     }
                     
+                    // Appliquer l'état accompli si sauvegardé
+                    if (completedTaskIds.includes(String(task.id))) {
+                        checkbox.checked = true;
+                        label.style.textDecoration = "line-through";
+                        label.style.color = "#999";
+                    }
+
                     checkbox.addEventListener('change', function() {
+                        toggleTaskCompletion(String(task.id), this.checked);
                         if (this.checked) {
                             label.style.textDecoration = "line-through";
                             label.style.color = "#999";
@@ -1309,12 +1491,26 @@
             };
 
             // --- Fonction pour afficher la vue globale du fil d'actualité ---
-            window.showGlobalFeed = function() {
-                let contentHTML = '<div style="display:flex; flex-direction:column; gap:12px;">';
-                let hasContent = false;
+            window.showGlobalFeed = function(selectedMonth = null) {
+                if (!selectedMonth) {
+                    selectedMonth = localStorage.getItem('creme_global_feed_month') || new Date().toISOString().substring(0, 7);
+                } else {
+                    localStorage.setItem('creme_global_feed_month', selectedMonth);
+                }
+                    const completedTasks = JSON.parse(localStorage.getItem('creme_completed_tasks') || '{}');
+
+                let contentHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                        <span style="font-weight:bold;">Filtrer par mois :</span>
+                        <input type="month" id="globalFeedMonthInput" value="${selectedMonth}" class="widget-selector" style="padding: 5px;">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:12px;">`;
                 
-                // 1. On boucle sur TOUS les derniers contacts
-                if (typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
+                let hasContent = false;
+                const currentMonth = new Date().toISOString().substring(0, 7);
+                
+                // 1. On boucle sur TOUS les derniers contacts (seulement si mois en cours)
+                if (selectedMonth === currentMonth && typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
                     latestContacts.forEach(contact => {
                         hasContent = true;
                         contentHTML += `
@@ -1328,29 +1524,47 @@
                     });
                 }
 
-                // 2. On boucle sur TOUTES les activités (triées par date, de la plus récente à la plus ancienne)
                 if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
-                    const allActivities = [...backendActivities].sort((a, b) => b.start.localeCompare(a.start));
+                // 2. On boucle sur TOUTES les activités (filtrées par mois, triées par date)
+                    const filteredActivities = backendActivities.filter(a => a.start.startsWith(selectedMonth));
+                    const allActivities = [...filteredActivities].sort((a, b) => b.start.localeCompare(a.start));
                     
                     allActivities.forEach(act => {
                         hasContent = true;
                         let icon = ''; let bgColor = '#fff3e0'; let color = '#f57c00'; let action = 'Événement programmé';
+                        
+                        let creationText = "";
+                        let completionText = "";
                         
                         // On change l'icône si c'est une tâche
                         if (act.type_name && (act.type_name.includes('action') || act.type_name.includes('task') || act.type_name.includes('échéance'))) {
                             icon = '✓'; bgColor = '#e8f5e9'; color = '#388e3c'; action = 'Tâche ajoutée';
                         }
                         
-                        const dateObj = new Date(act.start);
-                        const dateFmt = dateObj.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
-                        const timeFmt = (act.time && act.time !== '00:00') ? ' à ' + act.time : '';
+                        if (act.created_at) {
+                            creationText = "Enregistré le " + new Date(act.created_at).toLocaleDateString('fr-FR');
+                        } else if (act.created) {
+                            creationText = "Enregistré le " + new Date(act.created).toLocaleDateString('fr-FR');
+                        } else {
+                            creationText = "Enregistré le " + new Date(act.start).toLocaleDateString('fr-FR');
+                        }
+                        
+                        if (completedTasks[act.id]) {
+                            completionText = "Finalisé le " + new Date(completedTasks[act.id]).toLocaleDateString('fr-FR');
+                            if (creationText !== "") {
+                                completionText = " | " + completionText;
+                            }
+                        }
+                        
+                        const timeFmt = (act.time && act.time !== '00:00') ? 'À ' + act.time : '';
 
                         contentHTML += `
                             <div style="display:flex; gap:10px; align-items:flex-start; padding: 10px; background: #f9fbfc; border-radius: 4px; border: 1px solid #e0e0e0;">
                                 <div style="width:30px; height:30px; border-radius:50%; background-color:${bgColor}; color:${color}; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">${icon}</div>
                                 <div>
                                     <div style="margin-bottom:2px;">${action} : <strong>${act.title}</strong></div>
-                                    <div style="font-size:0.8em; color:#999;">Pour le ${dateFmt}${timeFmt}</div>
+                                    ${timeFmt ? `<div style="font-size:0.8em; color:#999;">${timeFmt}</div>` : ''}
+                                    <div style="font-size:0.75em; color:#888;">${creationText}${completionText}</div>
                                 </div>
                             </div>`;
                     });
@@ -1358,6 +1572,9 @@
 
                 if (!hasContent) {
                     contentHTML += `<div style="font-size:0.9em; color:#666; text-align:center;">Aucune actualité à afficher.</div>`;
+                    const [year, month] = selectedMonth.split('-');
+                    const monthName = new Date(year, parseInt(month)-1, 1).toLocaleDateString('fr-FR', {month: 'long', year: 'numeric'});
+                    contentHTML += `<div style="font-size:0.9em; color:#666; text-align:center;">Aucune actualité en ${monthName}.</div>`;
                 }
 
                 contentHTML += '</div>';
@@ -1365,6 +1582,14 @@
                 // On injecte le HTML et on affiche la modale
                 document.getElementById('globalFeedContent').innerHTML = contentHTML;
                 document.getElementById('globalFeedModal').style.display = 'flex';
+
+                // Ajout de l'événement sur le sélecteur de mois
+                const monthInput = document.getElementById('globalFeedMonthInput');
+                if (monthInput) {
+                    monthInput.addEventListener('change', function() {
+                        window.showGlobalFeed(this.value);
+                    });
+                }
             };
 
             // --- Script pour les Widgets Personnalisables ---
@@ -1411,6 +1636,7 @@
             function setupCustomWidget(selectorId, contentId) {
                 const selector = document.getElementById(selectorId);
                 const content = document.getElementById(contentId);
+                const completedTasks = JSON.parse(localStorage.getItem('creme_completed_tasks') || '{}');
 
                 // Charger la sélection sauvegardée s'il y en a une
                 const savedSelection = localStorage.getItem('creme_widget_pref_' + selectorId);
@@ -1431,10 +1657,10 @@
                     } else if (value === 'stats') {
                         // 1. Récupérer les données réelles
                         const newContactsCount = homeStats.new_contacts_last_7_days || 0;
-                        const completedTasksCount = tasksList.querySelectorAll('input[type="checkbox"]:checked').length;
+                        const completedTasksCount = Object.keys(completedTasks).length;
                         const todayStr = new Date().toISOString().split('T')[0];
                         const upcomingActivitiesCount = backendActivities.filter(a => a.start.startsWith(todayStr) && a.time && a.time !== "00:00").length;
-
+                        
                         // 2. Calculer les pourcentages pour le graphique
                         const total = newContactsCount + completedTasksCount + upcomingActivitiesCount;
                         let contactsPct = 0;
@@ -1480,15 +1706,23 @@
                         contactsHtml += `</div></div>`;
                         content.innerHTML = contactsHtml;
                     } else if (value === 'feed') {
+                        const currentMonth = new Date().toISOString().substring(0, 7);
+                        const savedMonth = localStorage.getItem('creme_widget_feed_month_' + selectorId) || currentMonth;
+                        const completedTasks = JSON.parse(localStorage.getItem('creme_completed_tasks') || '{}');
+
                         let feedHtml = `
                             <div class="widget-inner-content">
                                 <h4 class="widget-title">Fil d'actualité</h4>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 5px;">
+                                    <h4 class="widget-title" style="margin-bottom:0;">Fil d'actualité</h4>
+                                    <input type="month" id="feedMonth_${selectorId}" value="${savedMonth}" class="widget-selector" style="padding: 2px 5px;">
+                                </div>
                                 <div style="display:flex; flex-direction:column; gap:12px; font-size:0.9em; color:#333; margin-top:5px; overflow-y:auto; max-height:220px; padding-right:5px;">`;
                         
                         let hasFeed = false;
 
-                        // On utilise les vraies données : les derniers contacts
-                        if (typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
+                        // On utilise les vraies données : les derniers contacts (seulement pour le mois en cours)
+                        if (savedMonth === currentMonth && typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
                             latestContacts.slice(0, 2).forEach(contact => {
                                 hasFeed = true;
                                 feedHtml += `
@@ -1502,30 +1736,49 @@
                             });
                         }
 
-                        // On utilise les vraies données : les tâches et événements récents
+                        // On utilise les vraies données : les tâches et événements du mois sélectionné
                         if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                            const filteredActivities = backendActivities.filter(a => a.start.startsWith(savedMonth));
+
                             // Trier par date pour un affichage chronologique
-                            const recentActivities = [...backendActivities]
+                            const recentActivities = [...filteredActivities]
                                 .sort((a, b) => b.start.localeCompare(a.start))
                                 .slice(0, 4);
                             
                             recentActivities.forEach(act => {
                                 hasFeed = true;
-                                let bgColor = '#fff3e0'; let color = '#f57c00'; let action = 'Événement programmé';
+                                let icon = ''; let bgColor = '#fff3e0'; let color = '#f57c00'; let action = 'Événement programmé';
+                                let creationText = "";
+                                let completionText = "";
+
                                 if (act.type_name && (act.type_name.includes('action') || act.type_name.includes('task') || act.type_name.includes('échéance'))) {
                                     icon = '✓'; bgColor = '#e8f5e9'; color = '#388e3c'; action = 'Tâche ajoutée';
                                 }
                                 
-                                const dateObj = new Date(act.start);
-                                const dateFmt = dateObj.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
-                                const timeFmt = (act.time && act.time !== '00:00') ? ' à ' + act.time : '';
+                                if (act.created_at) {
+                                    creationText = "Enregistré le " + new Date(act.created_at).toLocaleDateString('fr-FR');
+                                } else if (act.created) {
+                                    creationText = "Enregistré le " + new Date(act.created).toLocaleDateString('fr-FR');
+                                } else {
+                                    creationText = "Enregistré le " + new Date(act.start).toLocaleDateString('fr-FR');
+                                }
+                                
+                                if (completedTasks[act.id]) {
+                                    completionText = "Finalisé le " + new Date(completedTasks[act.id]).toLocaleDateString('fr-FR');
+                                    if (creationText !== "") {
+                                        completionText = " | " + completionText;
+                                    }
+                                }
+
+                                const timeFmt = (act.time && act.time !== '00:00') ? 'À ' + act.time : '';
 
                                 feedHtml += `
                                     <div style="display:flex; gap:10px; align-items:flex-start;">
                                         <div style="width:30px; height:30px; border-radius:50%; background-color:${bgColor}; color:${color}; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">${icon}</div>
                                         <div>
                                             <div style="margin-bottom:2px;">${action} : <strong>${act.title}</strong></div>
-                                            <div style="font-size:0.8em; color:#999;">Pour le ${dateFmt}${timeFmt}</div>
+                                            ${timeFmt ? `<div style="font-size:0.8em; color:#999;">${timeFmt}</div>` : ''}
+                                            <div style="font-size:0.75em; color:#888;">${creationText}${completionText}</div>
                                         </div>
                                     </div>`;
                             });
@@ -1533,17 +1786,28 @@
 
                         if (!hasFeed) {
                             feedHtml += `<div style="font-size:0.9em; color:#666;">Aucune activité récente dans le CRM.</div>`;
+                            const [year, month] = savedMonth.split('-');
+                            const monthName = new Date(year, parseInt(month)-1, 1).toLocaleDateString('fr-FR', {month: 'long', year: 'numeric'});
+                            feedHtml += `<div style="font-size:0.9em; color:#666;">Aucune actualité en ${monthName}.</div>`;
                         }
 
                         if (hasFeed) {
                             feedHtml += `
                                 <div style="text-align: center; margin-top: 10px;">
-                                    <button onclick="window.showGlobalFeed()" style="background: none; border: none; color: #2196f3; font-size: 0.9em; cursor: pointer; text-decoration: underline;">Voir tout le fil d'actualité</button>
+                                    <button onclick="window.showGlobalFeed('${savedMonth}')" style="background: none; border: none; color: #2196f3; font-size: 0.9em; cursor: pointer; text-decoration: underline;">Voir tout le fil d'actualité</button>
                                 </div>`;
                         }
 
                         feedHtml += `</div></div>`;
                         content.innerHTML = feedHtml;
+
+                        const monthInput = content.querySelector(`#feedMonth_${selectorId}`);
+                        if (monthInput) {
+                            monthInput.addEventListener('change', function() {
+                                localStorage.setItem('creme_widget_feed_month_' + selectorId, this.value);
+                                renderWidgetContent();
+                            });
+                        }
                     } else if (value === 'notes') {
                         const noteContent = localStorage.getItem('creme_widget_note_' + selectorId) || '';
                         content.innerHTML = `
@@ -1655,34 +1919,52 @@
             // --- Initialisation et gestion des vues du calendrier ---
             function switchView(view) {
                 currentView = view;
+                monthViewBtn.classList.remove('active');
+                weekViewBtn.classList.remove('active');
+                dayViewBtn.classList.remove('active');
+                calendarDates.style.display = 'none';
+                calendarWeekView.style.display = 'none';
+                calendarDayView.style.display = 'none';
+
                 if (view === 'month') {
                     monthViewBtn.classList.add('active');
-                    weekViewBtn.classList.remove('active');
                     calendarDates.style.display = 'grid';
-                    calendarWeekView.style.display = 'none';
-                } else { // week
-                    monthViewBtn.classList.remove('active');
+                } else if (view === 'week') {
                     weekViewBtn.classList.add('active');
-                    calendarDates.style.display = 'none';
                     calendarWeekView.style.display = 'block';
+                } else if (view === 'day') {
+                    dayViewBtn.classList.add('active');
+                    calendarDayView.style.display = 'block';
                 }
                 render();
             }
 
             monthViewBtn.addEventListener('click', () => switchView('month'));
             weekViewBtn.addEventListener('click', () => switchView('week'));
+            dayViewBtn.addEventListener('click', () => switchView('day'));
 
             function render() {
-                (currentView === 'month') ? renderMonthView() : renderWeekView();
+                if (currentView === 'month') renderMonthView();
+                else if (currentView === 'week') renderWeekView();
+                else if (currentView === 'day') renderDayView();
             }
 
+            todayBtn.addEventListener('click', () => {
+                currentDate = new Date();
+                render();
+            });
+
             prevBtn.addEventListener('click', () => {
-                (currentView === 'month') ? currentDate.setMonth(currentDate.getMonth() - 1) : currentDate.setDate(currentDate.getDate() - 7);
+                if (currentView === 'month') currentDate.setMonth(currentDate.getMonth() - 1);
+                else if (currentView === 'week') currentDate.setDate(currentDate.getDate() - 7);
+                else if (currentView === 'day') currentDate.setDate(currentDate.getDate() - 1);
                 render();
             });
 
             nextBtn.addEventListener('click', () => {
-                (currentView === 'month') ? currentDate.setMonth(currentDate.getMonth() + 1) : currentDate.setDate(currentDate.getDate() + 7);
+                if (currentView === 'month') currentDate.setMonth(currentDate.getMonth() + 1);
+                else if (currentView === 'week') currentDate.setDate(currentDate.getDate() + 7);
+                else if (currentView === 'day') currentDate.setDate(currentDate.getDate() + 1);
                 render();
             });
             render(); // Appel initial
@@ -1744,6 +2026,15 @@
         }
         .top-bar-right {
             flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+        .theme-label {
+            font-weight: bold;
+            color: #1976d2;
+            font-size: 1.1em;
         }
 
         .home-logo {
@@ -1961,6 +2252,15 @@
             display: flex;
             flex-direction: column;
             gap: 5px;
+        }
+
+        .tasks-list-title {
+            text-align: left;
+            margin: 10px 0;
+            color: #555;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            font-size: 1.1em;
         }
         .task-item {
             display: flex;
@@ -2222,6 +2522,15 @@
         .view-switcher button:not(.active):hover {
             background-color: #e0e0e0;
         }
+        .view-switcher button.today-date-box {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            font-weight: bold;
+            border-left: 2px solid #bbdefb;
+        }
+        .view-switcher button.today-date-box:hover {
+            background-color: #bbdefb;
+        }
         .calendar-header {
             position: relative; /* Pour le positionnement absolu du sélecteur */
         }
@@ -2235,8 +2544,8 @@
             line-height: 24px;
         }
 
-        /* --- Vue Semaine --- */
-        .calendar-week-view {
+        /* --- Vue Semaine & Jour --- */
+        .calendar-week-view, .calendar-day-view {
             height: 550px;
             overflow-y: auto;
             border-top: 1px solid #e0e6ed;
@@ -2337,7 +2646,12 @@
             background-color: #121212;
             color: #e0e0e0;
         }
-        body.dark-mode .top-bar-center h2 {
+        body.dark-mode.tasks-list-title{
+            color: #bbb;
+            border-bottom-color: #444;
+        }
+        body.dark-mode .top-bar-center h2,
+        body.dark-mode .theme-label {
             color: #90caf9;
         }
         body.dark-mode .calendar-widget,
@@ -2367,6 +2681,14 @@
         body.dark-mode .view-switcher button.active {
             background-color: #616d7a;
             color: white;
+        }
+        body.dark-mode .view-switcher button.today-date-box {
+            background-color: #1565c0;
+            color: #e3f2fd;
+            border-left-color: #0d47a1;
+        }
+        body.dark-mode .view-switcher button.today-date-box:hover {
+            background-color: #0d47a1;
         }
         body.dark-mode .tasks-header button {
             background-color: #5c646d;
@@ -2451,7 +2773,7 @@
         body.dark-mode .widget-title {
             color: #e0e0e0;
         }
-        body.dark-mode .calendar-week-view {
+        body.dark-mode .calendar-week-view, body.dark-mode .calendar-day-view {
             border-top-color: #333;
         }
         body.dark-mode .week-hour-slot {

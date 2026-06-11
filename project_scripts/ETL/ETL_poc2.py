@@ -29,7 +29,7 @@ import pandas as pd
 
 # Configurations des fichiers
 file_path = "../../project_data/raw/Entreprises entites stagiaires.csv"
-output_path = "../../project_data/exports/contacts_Poc2.json"
+output_path = "../../project_data/exports/contacts_poc2.json"
 
 
 # 1. Extraction
@@ -80,6 +80,7 @@ for _, row in df_cleaned.iterrows():
     # LIEN EDA : L'EDA a mis en évidence l'absence TOTALE de colonnes de coordonnées directes 
     # (pas de mail, pas de téléphone). L'ETL adapte le schéma cible de MongoDB en isolant 
     # les données pédagogiques/taxes et en initialisant les coordonnées à 'None' pour enrichissement.
+    
     doc = {
         "entite": {
             "code": row.get("Code.Entité"),
@@ -119,7 +120,6 @@ for _, row in df_cleaned.iterrows():
     documents_transformes.append(doc)
 
 print("[OK] Transformation des données au format Document validée.")
-
 
 # 3.Enregistrer
 
