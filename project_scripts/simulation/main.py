@@ -42,6 +42,7 @@ PROJECT_ROOT = next(parent for parent in CURRENT_FILE.parents if (parent / "crem
 CREME_ROOT = PROJECT_ROOT / "creme_crm"
 CREME_APP_ROOT = CREME_ROOT / "creme"
 LOGS_ROOT = PROJECT_ROOT / "logs"
+PROJECT_SCRIPTS_ROOT = PROJECT_ROOT / "project_scripts"
 
 REQUIREMENTS_PATH = CREME_APP_ROOT / "requirements.txt"
 MANAGE_PY_PATH = CREME_APP_ROOT / "manage.py"
@@ -202,7 +203,7 @@ def main():
 
     tech_log.info("--- Génération des migrations ---")
     run_cmd(
-        [sys.executable, MANAGE_PY_PATH, "makemigrations"],
+        [sys.executable, MANAGE_PY_PATH, "makemigrations", "--skip-checks"],
         tech_log,
         cwd=CREME_APP_ROOT,
     )
@@ -221,6 +222,22 @@ def main():
         cwd=CREME_APP_ROOT,
     )
     data_log.info("Fin du peuplement des données")
+
+    data_log.info("--- Remise en état spécifique au POC 2 ---")
+    run_cmd(
+        [sys.executable, MANAGE_PY_PATH, "repair_poc2_setup"],
+        data_log,
+        cwd=CREME_APP_ROOT,
+    )
+    data_log.info("Fin de la remise en état POC 2")
+
+    data_log.info("--- Import des données MongoDB vers le CRM ---")
+    run_cmd(
+        [sys.executable, PROJECT_SCRIPTS_ROOT / "imports" / "import_mongo.py"],
+        data_log,
+        cwd=PROJECT_ROOT,
+    )
+    data_log.info("Fin de l'import MongoDB vers le CRM")
 
     tech_log.info("--- Génération des médias ---")
     run_cmd(

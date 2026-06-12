@@ -8,6 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = True
 SECRET_KEY = 'cle-de-test-pour-poc-big-data'
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS=['127.0.0.1', 'localhost','0.0.0.0']
 
 # 3. Base de données SQL (Le squelette du CRM)
 DATABASES = {
@@ -18,8 +19,9 @@ DATABASES = {
 }
 
 # 4. Connexion MongoDB (Le réservoir Big Data)
-# On utilise le port 27017 pour ne pas toucher à ton projet sur le 27018
+# On utilise le port 27017 pour ne pas toucher au projet sur le 27018
 MONGO_URI = 'mongodb://localhost:27017/'
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
 MONGO_DB_NAME = 'poc_aggregation'
 
 # 5. Gestion des médias et statiques (Désactivation mode production)

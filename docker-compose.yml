@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - MONGO_URI=mongodb://mongodb:27018/
+      - DJANGO_SETTINGS_MODULE=docker_settings # Doit pointer sur votre fichier de config
+      # On aligne avec les noms attendus par votre docker_settings.py
+      - CREME_DATABASE_HOST=mongodb
+      - CREME_DATABASE_PORT=27018
+      - CREME_DATABASE_NAME=creme_db
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:6.0
+    # On force Mongo à écouter sur 27018 à l'intérieur du réseau Docker
+    command: ["--port", "27018"]
+    ports:
+      - "27018:27018"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
