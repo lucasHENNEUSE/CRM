@@ -4,16 +4,16 @@
 
 Ce dépôt correspond au travail mené dans le cadre du POC 2 du projet CRM.
 
-Après une première phase de mise en place réalisée dans le POC 1, ce second POC vise à poursuivre le travail engagé sur la chaîne de traitement des données et sur leur intégration dans l’environnement CRM. Le projet a vocation à s’appuyer sur un fichier de 100 contacts ainsi que sur plusieurs étapes de transformation permettant de préparer, structurer, importer et exploiter ces données.
+Le POC 2 s’appuie actuellement sur le fichier `Entreprises entites stagiaires.csv`, analysé dans un notebook EDA puis transformé par l’ETL POC 2 en plusieurs sorties JSON structurées.
 
 Le travail mené dans ce cadre couvre notamment :
 
 * la préparation des fichiers source ;
-* la transformation des données dans des formats intermédiaires ;
-* l’alimentation de MongoDB ;
-* l’intégration des données dans le CRM Django / CremeCRM ;
-* la vérification du bon fonctionnement global de cette chaîne ;
-* la structuration progressive des logs et des tests du projet.
+* l’analyse exploratoire des données ;
+* la transformation des données dans des formats structurés ;
+* l’alimentation de MongoDB comme zone de staging intermédiaire ;
+* la préparation de l’intégration progressive des données dans le CRM Django / CremeCRM ;
+* la stabilisation de cette chaîne de traitement pour la suite du projet.
 
 En amont, un travail de réorganisation du dépôt a été engagé afin de rendre le projet plus lisible, plus maintenable et plus simple à reprendre pour la suite.
 
@@ -23,8 +23,9 @@ Le POC 2 a pour objectifs de :
 
 * poursuivre la mise en place de la chaîne de traitement des données autour du CRM ;
 * valider les différentes étapes de transformation, d’import et d’export ;
-* vérifier l’intégration correcte des données dans l’environnement Django / CremeCRM ;
-* structurer les outils de suivi technique du projet, notamment les logs et les tests ;
+* préparer l’intégration progressive des données dans l’environnement Django / CremeCRM ;
+* intégrer les contacts dans la page Contacts d’origine de CremeCRM, avec des rôles ou champs permettant le filtrage métier ;
+* préparer une base de travail qui pourra accueillir des tests alignés avec la cible POC 2 ;
 * disposer d’une base de travail exploitable pour la suite du projet.
 
 ## Contenu du dépôt
@@ -34,9 +35,9 @@ Le dépôt est organisé autour de quatre ensembles principaux :
 * `creme_crm/`, qui contient le socle applicatif Django / CremeCRM ;
 * les dossiers `project_*`, qui regroupent les éléments propres au projet ;
 * `logs/`, qui contient les fichiers de logs générés localement ;
-* `pytest.ini`, qui centralise la configuration des tests du projet.
+* `pytest.ini`, qui conserve une configuration pytest du projet.
 
-Cette organisation permet de distinguer clairement le code applicatif, les scripts projet, les données, les notebooks, la documentation, les traces techniques d’exécution et la configuration des tests.
+Cette organisation permet de distinguer clairement le code applicatif, les scripts projet, les données, les notebooks, la documentation, les traces techniques d’exécution et la configuration pytest.
 
 ## Organisation du dépôt
 
@@ -47,6 +48,7 @@ CRM/
 ├── creme_crm/
 ├── project_scripts/
 │   ├── preparation/
+│   ├── ETL/
 │   ├── imports/
 │   ├── exports/
 │   ├── cleaning/
@@ -67,7 +69,7 @@ CRM/
 
 Ce dossier contient le code applicatif Django / CremeCRM.
 
-On y laisse :
+Il conserve notamment :
 
 * les apps Django ;
 * `manage.py` ;
@@ -82,7 +84,8 @@ Exemple :
 Ce dossier contient les scripts du projet, rangés par rôle.
 
 * `project_scripts/preparation/` : préparation et transformation des fichiers source ;
-* `project_scripts/imports/` : alimentation de MongoDB et du CRM ;
+* `project_scripts/ETL/` : scripts ETL du projet ;
+* `project_scripts/imports/` : alimentation de MongoDB et préparation de l’intégration CRM ;
 * `project_scripts/exports/` : extraction de données ;
 * `project_scripts/cleaning/` : nettoyage et correction de données ;
 * `project_scripts/simulation/` : orchestration, relance locale et scripts de pilotage.
@@ -94,7 +97,7 @@ Ce dossier contient les données du projet.
 * `project_data/raw/` : données brutes ;
 * `project_data/intermediate/` : données intermédiaires ;
 * `project_data/processed/` : données transformées ou prêtes à usage ;
-* `project_data/exports/` : fichiers produits par la chaîne de traitement.
+* `project_data/exports/` : fichiers produits par la chaîne de traitement lorsqu’un export est nécessaire.
 
 ### `project_notebooks/`
 
@@ -108,7 +111,7 @@ Ce dossier contient la documentation propre au projet : notes de travail, docume
 
 Ce dossier contient les fichiers de logs générés localement par les scripts du projet.
 
-On y retrouve notamment :
+Il peut contenir notamment :
 
 * les logs techniques ;
 * les logs liés aux traitements de données.
@@ -117,13 +120,9 @@ Les fichiers `.log` générés dans ce dossier ne sont pas destinés à être ve
 
 ### `pytest.ini`
 
-Ce fichier contient la configuration de `pytest` utilisée pour les tests du projet.
+Ce fichier contient une configuration `pytest` conservée dans le dépôt.
 
-Il permet notamment de définir :
-
-* les paramètres de journalisation des tests ;
-* le module de configuration Django utilisé ;
-* les conventions de détection des fichiers de test.
+Les tests spécifiques alignés avec la cible actuelle du POC 2 seront ajoutés ou réorganisés lorsque l’intégration dans la page Contacts sera stabilisée.
 
 ## Scripts réorganisés
 
@@ -139,7 +138,21 @@ Emplacement cible : `project_scripts/preparation/repare_csv.py`
 Transforme le fichier CSV préparé en JSON structuré, destiné à alimenter la suite de la chaîne de traitement.
 Emplacement cible : `project_scripts/preparation/gen_json_complet.py`
 
+### Scripts ETL
+
+`ETL_poc1.py`
+Ancien pipeline du POC 1, conservé comme trace ou référence technique.
+Emplacement : `project_scripts/ETL/ETL_poc1.py`
+
+`ETL_poc2.py`
+Script ETL de référence du POC 2. Il produit les JSON structurés dans `project_data/processed/`.
+Emplacement : `project_scripts/ETL/ETL_poc2.py`
+
 ### Scripts d’import
+
+`load_poc2_to_mongo.py`
+Charge les cinq JSON du POC 2 depuis `project_data/processed/` vers la base MongoDB `crm_poc2`, dans les collections `entites`, `contacts_crm`, `adresses`, `taxe_events` et `suivi_pedagogique`. Le script vide puis recharge uniquement ces cinq collections.
+Emplacement : `project_scripts/imports/load_poc2_to_mongo.py`
 
 `gen_mongo.py`
 Lit le fichier `contacts_mongo.json`, enrichit les documents avec des statuts, puis alimente la collection Mongo `prospects_bruts`.
@@ -157,7 +170,11 @@ Emplacement cible : `project_scripts/imports/import_mongo.py`
 Met à jour dans la base du CRM les statuts et la visibilité de contacts déjà présents, à partir des collections Mongo.
 Emplacement cible : `project_scripts/imports/deploy_to_crm.py`
 
+Les scripts `gen_mongo.py`, `split_and_import.py`, `import_mongo.py` et `deploy_to_crm.py` sont liés au POC 1 et à l’ancien flux. Ils ne doivent pas être repris tels quels pour la cible actuelle du POC 2.
+
 ### Scripts d’export
+
+Les scripts d’export ci-dessous appartiennent à l’ancien flux POC 1 et ne définissent pas les fonctionnalités actuelles du POC 2.
 
 `export_emailing.py`
 Extrait depuis MongoDB les contacts concernés par l’emailing et génère un fichier JSON d’export.
@@ -189,7 +206,7 @@ Emplacement conservé dans l’application : `creme_crm/creme/persons/fix_contac
 
 `update_view.py`
 Ce script modifiait la configuration de la vue Contact en ajoutant certains champs.
-Statut : supprimé
+Statut : supprimé.
 
 ## Données
 
@@ -201,7 +218,7 @@ Il est organisé en plusieurs sous-dossiers correspondant aux différentes étap
 
 Ce dossier contient les fichiers source bruts, tels qu’ils sont fournis au projet.
 
-On y place notamment :
+Il contient notamment :
 
 * les fichiers Excel source ;
 * les fichiers CSV source ;
@@ -213,30 +230,23 @@ Ce dossier contient les fichiers intermédiaires produits au cours du projet.
 
 Il regroupe les fichiers générés à des étapes de travail intermédiaires, avant obtention d’un format final ou stabilisé.
 
-Exemples actuels :
-
-* `contacts_emailing_oui.json`
-* `contacts_taxe_oui.json`
+Les fichiers de ce dossier correspondent à des étapes de travail intermédiaires et ne constituent pas les données POC 2 stabilisées.
 
 ### `project_data/processed/`
 
-Ce dossier est réservé aux données transformées, consolidées ou stabilisées pour le travail interne du projet.
+Ce dossier contient les données POC 2 transformées et stabilisées, prêtes à être chargées dans la zone de staging MongoDB :
 
-Il permet de distinguer :
-
-* les fichiers intermédiaires encore provisoires ;
-* les fichiers considérés comme plus aboutis dans la chaîne de traitement.
-
-Ce dossier pourra être alimenté selon l’évolution des besoins du POC 2.
+* `poc2_entites.json`
+* `poc2_contacts_crm.json`
+* `poc2_adresses.json`
+* `poc2_taxe_events.json`
+* `poc2_suivi_pedagogique.json`
 
 ### `project_data/exports/`
 
-Ce dossier contient les fichiers produits par la chaîne de traitement du projet et destinés à être réutilisés, transmis ou exploités en sortie.
+Ce dossier est réservé aux exports générés par les traitements du projet lorsqu’un fichier doit être produit pour consultation, transmission ou réutilisation.
 
-Exemples actuels :
-
-* `contacts.csv`
-* `contacts_mongo.json`
+Les sorties stabilisées du POC 2 actuel sont documentées dans `project_data/processed/`.
 
 ### Logique d’ensemble
 
@@ -244,8 +254,8 @@ L’organisation de `project_data/` suit la progression habituelle du projet :
 
 1. dépôt des fichiers source dans `raw/` ;
 2. production de fichiers intermédiaires dans `intermediate/` ;
-3. consolidation éventuelle de données stabilisées dans `processed/` ;
-4. production de fichiers de sortie dans `exports/`.
+3. consolidation de données stabilisées dans `processed/` ;
+4. production éventuelle de fichiers de sortie dans `exports/`.
 
 Cette séparation permet de mieux suivre le cycle de vie des données et d’éviter de mélanger fichiers bruts, fichiers de travail et fichiers de sortie.
 
@@ -285,54 +295,36 @@ Deux fichiers principaux sont prévus :
 
 Ces fichiers sont générés localement par le script de relance et ne sont pas destinés à être versionnés dans Git.
 
-## Tests
-
-Le projet s’appuie sur deux niveaux de tests pour l’application `persons` :
-
-* les tests embarqués par le socle applicatif CremeCRM ;
-* les tests spécifiques au POC 2.
-
-Les tests spécifiques au projet sont placés dans :
-
-* `creme_crm/creme/persons/tests/poc2/`
-
-Cette organisation permet :
-
-* de conserver les tests natifs de l’application ;
-* d’ajouter des tests propres au projet sans modifier la structure d’origine ;
-* d’isoler les fixtures et les scénarios spécifiques au POC 2.
-
-Les fichiers de tests actuellement ajoutés dans ce sous-dossier couvrent notamment :
-
-* la normalisation et la validation des contacts ;
-* la détection des doublons ;
-* les filtres métier liés au mailing et à la taxe ;
-* certaines vues spécifiques, comme les routes protégées, les vues de liste, l’AJAX de suppression et l’envoi d’email de masse.
-
-La configuration de `pytest` est centralisée dans le fichier `pytest.ini` à la racine du dépôt.
-
 ## Exécution locale
 
 Le projet s’appuie sur deux éléments techniques :
 
 * l’environnement Django / CremeCRM, qui correspond au CRM lui-même ;
-* une base MongoDB locale, utilisée dans une partie de la chaîne de traitement des données.
+* une base MongoDB locale, utilisée comme zone de staging intermédiaire pour stabiliser les données POC 2 avant leur intégration dans CremeCRM, et non comme modèle applicatif final.
 
 Selon les scripts exécutés, il peut donc être nécessaire de travailler à la fois avec Django et avec MongoDB.
 
 ### MongoDB local
 
-Plusieurs scripts du projet utilisent une base MongoDB locale pour stocker ou relire des données intermédiaires avant leur intégration dans le CRM.
+Docker Compose est le mode principal de lancement de MongoDB pour le projet CRM.
 
-Dans le cadre du projet, cette base est utilisée sur le port `27018`.
+Dans l’environnement Docker Compose actuel du projet, MongoDB est configuré sur le port `27018`.
 
 Commande de démarrage :
 
 ```bash
-mongod --dbpath ~/mongodb-data-crm --port 27018 --bind_ip 127.0.0.1
+docker compose up -d mongodb
 ```
 
-Le terminal dans lequel cette commande est lancée doit rester ouvert pendant toute l’exécution des scripts qui utilisent MongoDB.
+Chargement des données POC 2 :
+
+```bash
+MONGODB_URI="mongodb://localhost:27018/" python project_scripts/imports/load_poc2_to_mongo.py
+```
+
+Le script `load_poc2_to_mongo.py` utilise par défaut le port standard MongoDB `27017`.
+
+La variable d’environnement `MONGODB_URI` permet d’adapter la connexion selon l’environnement local, notamment au port `27018` configuré par Docker Compose dans ce projet.
 
 ### Django local
 
@@ -357,11 +349,18 @@ Ces paramètres permettent de travailler sur un environnement local de développ
 
 ### MongoDB Compass
 
-`MongoDB Compass` peut être utilisé pour visualiser la base MongoDB locale, vérifier les collections et contrôler certains imports.
+`MongoDB Compass` peut être utilisé comme outil de confort pour visualiser la base MongoDB locale, vérifier les collections et contrôler certains imports. Il ne remplace pas le service MongoDB lancé par Docker Compose.
 
-Il faut cependant distinguer :
+Connexions possibles :
 
-* `mongod`, qui correspond au serveur MongoDB à lancer ;
-* `MongoDB Compass`, qui est un outil graphique de consultation.
+* avec le Docker Compose actuel du projet :
 
-Compass peut donc servir à explorer la base, mais ne remplace pas le lancement du serveur MongoDB.
+  ```text
+  mongodb://localhost:27018/
+  ```
+
+* si MongoDB est lancé sur le port standard :
+
+  ```text
+  mongodb://localhost:27017/
+  ```
