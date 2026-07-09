@@ -517,8 +517,6 @@ class Populator(BasePopulator):
         create_mitem(entry_id=menu.OrganisationsEntry.id, order=10, parent=directory_entry)
         create_mitem(entry_id=menu.ContactsEntry.id,      order=20, parent=directory_entry)
         create_mitem(entry_id=menu.CustomersEntry.id,     order=30, parent=directory_entry)
-        create_mitem(entry_id=menu.MassEmailingEntry.id,  order=40, parent=directory_entry)
-        create_mitem(entry_id=menu.TaxeEntry.id,          order=50, parent=directory_entry)
 
         creations_entry = MenuConfigItem.objects.filter(
             entry_id=ContainerEntry.id, entry_data={'label': _('+ Creation')},
