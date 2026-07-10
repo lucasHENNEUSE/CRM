@@ -84,21 +84,25 @@
                 <div style="margin-bottom: 10px;">
                     <input type="text" id="taskSearchInput" placeholder="Rechercher une tâche..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 0.9em;">
                 </div>
-                <h4 class="tasks-list-title"> Tâches du jour</h4>
-                <!-- Jauge de progression -->
-                <div class="task-progress-container" id="taskProgressContainer" style="display: none;">
-                    <div class="task-progress-bar" id="taskProgressBar"></div>
-                </div>
-                <div class="task-progress-text" id="taskProgressText" style="display: none; text-align: right; font-size: 0.8em; color: #666; margin-bottom: 10px;">0% complété</div>
-                <div class="tasks-list" id="tasksList">
-                    <!-- Les tâches viendront s'ajouter ici -->
-                    <div class="task-empty-state">Aucune tâche pour le moment.</div>
+                <div class="tasks-sub-container">
+                    <h4 class="tasks-list-title">Tâches du jour</h4>
+                    <!-- Jauge de progression -->
+                    <div class="task-progress-container" id="taskProgressContainer" style="display: none;">
+                        <div class="task-progress-bar" id="taskProgressBar"></div>
+                    </div>
+                    <div class="task-progress-text" id="taskProgressText" style="display: none; text-align: right; font-size: 0.8em; color: #666; margin-bottom: 10px;">0% complété</div>
+                    <div class="tasks-list" id="tasksList">
+                        <!-- Les tâches viendront s'ajouter ici -->
+                        <div class="task-empty-state">Aucune tâche pour le moment.</div>
+                    </div>
                 </div>
 
-                <h4 class="tasks-list-title" style="margin-top: 20px;">Échéances à venir</h4>
-                <div class="tasks-list" id="deadlinesList">
-                    <!-- Les échéances viendront s'ajouter ici -->
-                    <div class="task-empty-state">Aucune échéance à venir.</div>
+                <div class="tasks-sub-container">
+                    <h4 class="tasks-list-title">Échéances à venir</h4>
+                    <div class="tasks-list" id="deadlinesList">
+                        <!-- Les échéances viendront s'ajouter ici -->
+                        <div class="task-empty-state">Aucune échéance à venir.</div>
+                    </div>
                 </div>
             </div>
 
@@ -112,7 +116,6 @@
                         <option value="contacts">Derniers Contacts</option>
                         <option value="feed">Fil d'actualité</option>
                         <option value="notes">Bloc-notes</option>
-                        <option value="alerts">Alertes et Relances</option>
                     </select>
                 </div>
                 <div class="custom-widget-content" id="customWidgetContent1">
@@ -130,7 +133,6 @@
                         <option value="contacts">Derniers Contacts</option>
                         <option value="feed">Fil d'actualité</option>
                         <option value="notes">Bloc-notes</option>
-                        <option value="alerts">Alertes et Relances</option>
                     </select>
                 </div>
                 <div class="custom-widget-content" id="customWidgetContent2">
@@ -672,14 +674,14 @@
                                 
                                 const viewBtn = document.createElement('a');
                                 viewBtn.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', actId);
-                                viewBtn.innerHTML = "🔍";
+                                viewBtn.innerText = "Détails";
                                 viewBtn.title = "Détails / Supprimer";
                                 viewBtn.style.textDecoration = "none";
                                 
                                 const editBtn = document.createElement('a');
                                 editBtn.href = `{% url 'activities__edit_activity' 999999 %}`.replace('999999', actId);
-                                editBtn.innerHTML = "✏️";
-                                editBtn.title = "Modifier";
+                                editBtn.innerText = "Modifier";
+                                editBtn.title = "Modifier l'activité";
                                 editBtn.style.textDecoration = "none";
                                 
                                 actionsDiv.appendChild(viewBtn);
@@ -778,14 +780,15 @@
                     const dayActivities = backendActivities.filter(a => a.start.startsWith(dateStr));
                     
                     dayActivities.forEach(act => {
+                        if (act.type_name.includes("action") || act.type_name.includes("task")) return; // On ignore les tâches pour ne pas les afficher dans l'agenda
+
                         const eventItem = document.createElement("div");
                         eventItem.classList.add("event-item");
                         
                         let cat = "evenements";
                         if (act.type_name.includes("rendez-vous") || act.type_name.includes("meeting")) cat = "rendezvous";
                         else if (act.type_name.includes("échéance") || act.type_name.includes("echeance")) cat = "echeances";
-                        else if (act.type_name.includes("action") || act.type_name.includes("task")) cat = "actions";
-                        
+
                         eventItem.setAttribute("data-category", cat);
                         eventItem.setAttribute("data-id", act.id); // On enregistre l'ID caché dans l'élément HTML
                         if (act.contact_id) {
@@ -1307,11 +1310,11 @@
                 taskModal.style.display = 'none';
             });
             
-            saveTaskBtn.addEventListener('click', () => { 
+            saveTaskBtn.addEventListener('click', () => {
                 const taskText = taskInputText.value.trim();
                 const taskDate = taskInputDate.value;
                 const taskPriority = document.getElementById('taskInputPriority').value;
-                const taskDueDate = document.getElementById('taskInputDueDate').value;
+                const taskDueDate = document.getElementById('taskInputDueDate').value; // NOSONAR
                 const taskDueTime = document.getElementById('taskInputDueTime').value;
 
                 if (!taskText) {
@@ -1324,35 +1327,55 @@
                     return;
                 }
 
-                const localTaskId = 'local_' + Date.now();
-                const localTask = {
-                    id: localTaskId,
-                    title: taskText,
-                    start: taskDate,
-                    time: "",
-                    type_name: "action", // Pour la couleur "Orange" (Actions prévues)
-                    contact_id: null,
-                    is_local: true,
-                    due_date: taskDueDate || null,
-                    due_time: taskDueTime || null,
-                    priority: taskPriority,
-                    created_at: new Date().getTime(),
-                };
-                backendActivities.push(localTask); // On intègre à la base commune pour l'affichage visuel
-                
-                localStorage.removeItem('creme_task_draft');
-                let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
-                savedLocalActivities.push(localTask);
-                localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
+                const editingTaskId = taskModal.getAttribute('data-editing-id');
+                if (editingTaskId) {
+                    // --- Mode Édition ---
+                    const taskToEdit = backendActivities.find(a => String(a.id) === editingTaskId);
+                    if (taskToEdit) {
+                        taskToEdit.title = taskText;
+                        taskToEdit.start = taskDate;
+                        taskToEdit.priority = taskPriority;
+                        taskToEdit.due_date = taskDueDate || null;
+                        taskToEdit.due_time = taskDueTime || null;
+
+                        if (taskToEdit.is_local) {
+                            let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
+                            const localActIndex = savedLocalActivities.findIndex(a => a.id === editingTaskId);
+                            if (localActIndex > -1) {
+                                savedLocalActivities[localActIndex] = taskToEdit;
+                                localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
+                            }
+                        }
+                        // Pour les tâches du CRM, la modification est locale et sera perdue au rechargement.
+                        // Une future API de sauvegarde serait nécessaire ici.
+                    }
+                } else {
+                    // --- Mode Création ---
+                    const localTaskId = 'local_' + Date.now();
+                    const localTask = {
+                        id: localTaskId,
+                        title: taskText,
+                        start: taskDate,
+                        time: "",
+                        type_name: "action",
+                        contact_id: null,
+                        is_local: true,
+                        due_date: taskDueDate || null,
+                        due_time: taskDueTime || null,
+                        priority: taskPriority,
+                        created_at: new Date().getTime(),
+                    };
+                    backendActivities.push(localTask);
+                    
+                    localStorage.removeItem('creme_task_draft');
+                    let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
+                    savedLocalActivities.push(localTask);
+                    localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
+                }
 
                 render();
-
-                // Si c'est pour aujourd'hui, on l'affiche sur le panneau de droite
-                const todayStr = new Date().toISOString().split('T')[0];
-                if (taskDate === todayStr) {
-                    renderDeadlinesList();
-                    renderTasksList();
-                }
+                renderTasksList();
+                renderDeadlinesList();
 
                 taskModal.style.display = 'none';
             });
@@ -1442,36 +1465,7 @@
                     actionsDiv.style.marginLeft = "10px";
                     
                     if (task.is_local) {
-                        const editBtn = document.createElement("span");
-                        editBtn.innerHTML = "Modifier";
-                        editBtn.style.cursor = "pointer";
-                        editBtn.style.padding = "2px 6px";
-                        editBtn.style.border = "1px solid #aed6f1";
-                        editBtn.style.borderRadius = "4px";
-                        editBtn.style.fontSize = "0.8em";
-                        editBtn.style.backgroundColor = "#eaf4fb";
-                        editBtn.style.color = "#2980b9";
-                        editBtn.title = "Modifier la tâche locale";
-                        editBtn.addEventListener("click", () => {
-                            const newText = prompt("Modifier la tâche :", task.title);
-                            if (newText !== null && newText.trim() !== "") {
-                                label.innerText = timeStr + newText;
-                                const act = backendActivities.find(a => a.id === task.id);
-                                if (act) {
-                                    act.title = newText;
-                                    
-                                    let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
-                                    const localAct = savedLocalActivities.find(a => a.id === task.id);
-                                    if (localAct) {
-                                        localAct.title = newText;
-                                        localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
-                                    }
-                                    
-                                    render();
-                                    renderDeadlinesList();
-                                }
-                            }
-                        });
+                        // Le bouton "Modifier" pour les tâches locales est géré plus bas avec celui des tâches CRM
                         
                         const deleteBtn = document.createElement("span");
                         deleteBtn.innerHTML = "Supprimer";
@@ -1499,23 +1493,39 @@
                             }
                         });
                         
-                        actionsDiv.appendChild(editBtn);
                         actionsDiv.appendChild(deleteBtn);
-                    } else {
-                        const editBtn = document.createElement('a');
-                        editBtn.href = `{% url 'activities__edit_activity' 999999 %}`.replace('999999', task.id);
-                        editBtn.innerHTML = "Modifier";
-                        editBtn.title = "Modifier dans le CRM";
-                        editBtn.style.padding = "2px 6px";
-                        editBtn.style.border = "1px solid #aed6f1";
-                        editBtn.style.borderRadius = "4px";
-                        editBtn.style.fontSize = "0.8em";
-                        editBtn.style.backgroundColor = "#eaf4fb";
-                        editBtn.style.color = "#2980b9";
-                        editBtn.style.textDecoration = "none";
-                        
-                        actionsDiv.appendChild(editBtn);
                     }
+
+                    // Bouton Modifier (commun aux tâches locales et CRM)
+                    const editBtn = document.createElement("span");
+                    editBtn.innerHTML = "Modifier";
+                    editBtn.style.cursor = "pointer";
+                    editBtn.style.padding = "2px 6px";
+                    editBtn.style.border = "1px solid #aed6f1";
+                    editBtn.style.borderRadius = "4px";
+                    editBtn.style.fontSize = "0.8em";
+                    editBtn.style.backgroundColor = "#eaf4fb";
+                    editBtn.style.color = "#2980b9";
+                    editBtn.title = "Modifier la tâche";
+                    editBtn.addEventListener("click", () => {
+                        // Pré-remplir la modale avec les données de la tâche
+                        taskModal.querySelector('h3').innerText = "Modifier la tâche";
+                        taskInputText.value = task.title;
+                        taskInputDate.value = task.start.split('T')[0];
+                        document.getElementById('taskInputPriority').value = task.priority || 'moyenne';
+                        document.getElementById('taskInputDueDate').value = task.due_date || '';
+                        document.getElementById('taskInputDueTime').value = task.due_time || '';
+                        saveTaskBtn.innerText = "Enregistrer";
+
+                        // Stocker l'ID de la tâche en cours d'édition
+                        taskModal.setAttribute('data-editing-id', task.id);
+
+                        // Afficher la modale
+                        taskModal.style.display = 'flex';
+                        taskInputText.focus();
+                    });
+
+                    actionsDiv.prepend(editBtn); // On l'ajoute au début des actions
                     
                     taskDiv.appendChild(leftDiv);
                     taskDiv.appendChild(actionsDiv);
@@ -2501,6 +2511,14 @@
             flex-direction: column;
             gap: 5px;
         }
+        .tasks-sub-container {
+            background-color: #f9fbfc;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            flex-grow: 1;
+        }
 
         .tasks-list-title {
             text-align: left;
@@ -2520,6 +2538,10 @@
             border-left: 3px solid #5D6D7E; 
             font-size: 0.9em;
             transition: background-color 0.2s;
+        }
+        .tasks-list {
+            max-height: 150px; /* Hauteur maximale pour la liste */
+            overflow-y: auto; /* Ajoute la barre de défilement */
         }
         .task-item:hover {
             background-color: #fff8e1; 
@@ -3038,10 +3060,20 @@
         body.dark-mode .task-item:hover {
             background-color: #3a3a3a;
         }
+        body.dark-mode .tasks-sub-container {
+            background-color: #2a2a2a;
+            border-color: #444;
+        }
         body.dark-mode .activity-section {
             background-color: #2a2a2a;
             border-color: #444;
         }
+        .widget-separator {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
         body.dark-mode .activity-header h4 {
             color: #e0e0e0;
         }
@@ -3100,6 +3132,9 @@
         }
         body.dark-mode .week-day-col:hover {
             background-color: #2a2a2a;
+        }
+        body.dark-mode .widget-separator {
+            border-top-color: #333;
         }
         
         /* --- Ajustement des couleurs codées en dur pour le Mode Sombre --- */
