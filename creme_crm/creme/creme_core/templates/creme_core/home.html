@@ -31,23 +31,36 @@
                         <span class="icon"></span>
                     </span>
                 </label>
+                <!-- Centre de notifications -->
+                <div id="notificationBell" class="notification-bell-container">
+                    <span id="notificationBellIcon" title="Afficher les notifications">🔔</span>
+                    <span id="notificationCountBadge" class="widget-badge" style="display: none;">0</span>
+                    <div id="notificationPanel" class="notification-panel" style="display: none;">
+                        <div class="notification-panel-header">Notifications</div>
+                        <div id="notificationList" class="notification-list-content"></div>
+                        <div id="notificationFooter" class="notification-panel-footer"><button id="clearNotificationsBtn">Effacer les notifications</button></div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <div class="home-grid">
             <!-- Widget Calendrier en temps réel (à gauche) -->
             <div class="calendar-widget draggable-widget" id="calendarWidget" draggable="true">
-                <div class="calendar-header">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span class="drag-handle" title="Déplacer la fenêtre">⠿</span>
-                        <button id="prevBtn">&lt;</button>
-                        <button id="nextBtn">&gt;</button>
+                <div class="calendar-header" style="flex-direction: column; align-items: stretch; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="drag-handle" title="Déplacer la fenêtre" style="flex: 1; text-align: left;">⠿</span>
+                        <h3 style="margin: 0; text-align: center; font-size: 1.2em; flex: 2;">Gestion d'événements</h3>
+                        <button id="todayBtn" class="today-date-box" title="Revenir à la date du jour" style="flex: 1; justify-content: flex-end;"></button>
                     </div>
-                    <div class="view-switcher">
-                        <button id="monthViewBtn" class="active">Mois</button>
-                        <button id="weekViewBtn">Semaine</button>
-                        <button id="dayViewBtn">Jour</button>
-                        <button id="todayBtn" class="today-date-box" title="Revenir à la date du jour"></button>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px;">
+                        <button id="prevBtn" title="Précédent" style="padding: 5px 10px;">&lt;</button>
+                        <div class="view-switcher">
+                            <button id="monthViewBtn" class="active">Mois</button>
+                            <button id="weekViewBtn">Semaine</button>
+                            <button id="dayViewBtn">Jour</button>
+                        </div>
+                        <button id="nextBtn" title="Suivant" style="padding: 5px 10px;">&gt;</button>
                     </div>
                 </div>
                 <div class="calendar-days" id="calendarDays"></div>
@@ -80,6 +93,12 @@
                 <div class="tasks-list" id="tasksList">
                     <!-- Les tâches viendront s'ajouter ici -->
                     <div class="task-empty-state">Aucune tâche pour le moment.</div>
+                </div>
+
+                <h4 class="tasks-list-title" style="margin-top: 20px;">Échéances à venir</h4>
+                <div class="tasks-list" id="deadlinesList">
+                    <!-- Les échéances viendront s'ajouter ici -->
+                    <div class="task-empty-state">Aucune échéance à venir.</div>
                 </div>
             </div>
 
@@ -135,22 +154,6 @@
                                 <button class="addDayActivityBtn" data-category="rendezvous" title="Ajouter un rendez-vous">+</button>
                             </div>
                             <div class="modal-event-list" id="list-rendezvous"></div>
-                        </div>
-                        <!-- Échéances -->
-                        <div class="activity-section">
-                            <div class="activity-header">
-                                <h4>Échéances</h4>
-                                <button class="addDayActivityBtn" data-category="echeances" title="Ajouter une échéance">+</button>
-                            </div>
-                            <div class="modal-event-list" id="list-echeances"></div>
-                        </div>
-                        <!-- Actions prévues -->
-                        <div class="activity-section">
-                            <div class="activity-header">
-                                <h4>Actions prévues</h4>
-                                <button class="addDayActivityBtn" data-category="actions" title="Ajouter une action">+</button>
-                            </div>
-                            <div class="modal-event-list" id="list-actions"></div>
                         </div>
                         <!-- Événements -->
                         <div class="activity-section">
@@ -213,6 +216,16 @@
                     </select>
                 </div>
 
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <label for="taskInputDueDate" style="font-weight: bold; display: block; margin-bottom: 5px;">Échéance (date) :</label>
+                        <input type="date" id="taskInputDueDate" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="taskInputDueTime" style="font-weight: bold; display: block; margin-bottom: 5px;">Échéance (heure) :</label>
+                        <input type="time" id="taskInputDueTime" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">
+                    </div>
+                </div>
                 <div class="modal-actions">
                     <button id="cancelTaskBtn" class="btn-cancel" title="Annuler">Annuler</button>
                     <button id="saveTaskBtn" class="btn-save" title="Ajouter">Ajouter</button>
@@ -251,6 +264,101 @@
     <!-- Script pour faire fonctionner le calendrier dynamiquement -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Centre de notifications ---
+            const notificationBellIcon = document.getElementById('notificationBellIcon');
+            const notificationCountBadge = document.getElementById('notificationCountBadge');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const notificationList = document.getElementById('notificationList');
+            const clearNotificationBtn = document.getElementById('clearNotificationsBtn');
+
+            function renderNotificationList() {
+                const today = new Date().toISOString().split('T')[0];
+                const completedTaskIds = getCompletedTasks();
+
+                const urgentActivities = backendActivities.filter(a => {
+                    const actDate = a.start.split('T')[0];
+                    const isTask = a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance');
+                    return isTask && actDate <= today && !completedTaskIds.includes(String(a.id));
+                }).sort((a, b) => a.start.localeCompare(b.start));
+
+                if (urgentActivities.length === 0) {
+                    notificationList.innerHTML = '<div class="notification-empty-state">Aucune tâche en retard ou pour aujourd\'hui.</div>';
+                    notificationCountBadge.style.display = 'none';
+                    notificationBellIcon.classList.remove('ringing');
+                    return;
+                }
+
+                notificationCountBadge.innerText = urgentActivities.length;
+                notificationCountBadge.style.display = 'block';
+                notificationBellIcon.classList.add('ringing');
+                notificationList.innerHTML = '';
+
+                urgentActivities.forEach(act => {
+                    const actDate = act.start.split('T')[0];
+                    const isOverdue = actDate < today;
+                    
+                    const bgColor = isOverdue ? '#fdedec' : '#fdf2e9';
+                    const borderColor = isOverdue ? '#c0392b' : '#f39c12';
+                    const titleColor = isOverdue ? '#c0392b' : '#d35400';
+                    const titleText = isOverdue ? `⚠️ En retard (${actDate.split('-').reverse().join('/')})` : "🔔 À faire aujourd'hui";
+                    
+                    const notifItem = document.createElement('div');
+                    notifItem.className = 'notification-alert-item';
+                    notifItem.style.cssText = `display:flex; justify-content:space-between; align-items:center; background:${bgColor}; border-left:4px solid ${borderColor}; padding:8px 10px; border-radius:4px; font-size:0.9em; margin-bottom:8px;`;
+
+                    const textContainer = document.createElement('div');
+                    textContainer.style.flexGrow = '1';
+
+                    const titleDiv = document.createElement('div');
+                    titleDiv.style.fontWeight = 'bold';
+                    titleDiv.style.color = titleColor;
+                    titleDiv.innerText = titleText;
+
+                    const descDiv = document.createElement('div');
+                    descDiv.style.color = '#333';
+                    descDiv.style.marginTop = '2px';
+                    descDiv.innerText = act.title;
+
+                    textContainer.appendChild(titleDiv);
+                    textContainer.appendChild(descDiv);
+
+                    const completeBtn = document.createElement('button');
+                    completeBtn.innerHTML = 'Réalisé';
+                    completeBtn.style.cssText = `background:#27ae60; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:0.8em; margin-left:10px;`;
+
+                    completeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleTaskCompletion(String(act.id), true);
+                        notifItem.style.transition = 'opacity 0.3s, transform 0.3s';
+                        notifItem.style.opacity = '0';
+                        notifItem.style.transform = 'translateX(20px)';
+                        setTimeout(() => {
+                            render();
+                            renderTasksList();
+                            renderDeadlinesList();
+                            renderNotificationList();
+                        }, 300);
+                        showToast('Tâche marquée comme accomplie !', 'success');
+                    });
+
+                    notifItem.appendChild(textContainer);
+                    notifItem.appendChild(completeBtn);
+                    notificationList.appendChild(notifItem);
+                });
+            }
+
+            notificationBellIcon.addEventListener('click', function(event) {
+                event.stopPropagation();
+                notificationPanel.style.display = notificationPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', function(event) {
+                if (notificationPanel.style.display === 'block' && !notificationPanel.contains(event.target) && !notificationBellIcon.contains(event.target)) {
+                    notificationPanel.style.display = 'none';
+                }
+            });
+
+
             // --- Gestion des tâches accomplies ---
             const COMPLETED_TASKS_KEY = 'creme_completed_tasks';
 
@@ -279,6 +387,7 @@
                     delete tasks[taskId];
                 }
                 localStorage.setItem(COMPLETED_TASKS_KEY, JSON.stringify(tasks));
+                renderNotificationList();
             }
 
             // --- Système de Notifications (Toasts) ---
@@ -441,6 +550,7 @@
             const taskInputText = document.getElementById('taskInputText');
             const taskDraftStatus = document.getElementById('taskDraftStatus');
             const taskInputDate = document.getElementById('taskInputDate');
+            const taskInputDueDate = document.getElementById('taskInputDueDate');
             const cancelTaskBtn = document.getElementById('cancelTaskBtn');
             const saveTaskBtn = document.getElementById('saveTaskBtn');
 
@@ -822,11 +932,8 @@
                     const dayActivities = backendActivities.filter(a => a.start.startsWith(dateStr));
                     const tempEventsDiv = document.createElement('div');
                     dayActivities.forEach(act => {
-                        const eventItem = document.createElement("div");
-                        let cat = "evenements";
-                        if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
-                        else if (act.type_name.includes("échéance")) cat = "echeances";
-                        else if (act.type_name.includes("action")) cat = "actions";
+                const eventItem = document.createElement("div");                
+                const cat = (act.type_name.includes("rendez-vous")) ? "rendezvous" : "evenements";
                         eventItem.setAttribute("data-category", cat);
                         eventItem.setAttribute("data-id", act.id);
                         if (act.contact_id) eventItem.setAttribute("data-contact-id", act.contact_id);
@@ -928,10 +1035,7 @@
                     const eventItem = document.createElement('div');
                     eventItem.className = 'week-event-item';
                     
-                    let cat = "evenements";
-                    if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
-                    else if (act.type_name.includes("échéance")) cat = "echeances";
-                    else if (act.type_name.includes("action")) cat = "actions";
+                    const cat = (act.type_name.includes("rendez-vous")) ? "rendezvous" : "evenements";
                     
                     eventItem.setAttribute("data-category", cat);
                     eventItem.setAttribute("data-id", act.id);
@@ -956,10 +1060,7 @@
                     const tempEventsDiv = document.createElement('div');
                     dayActs.forEach(act => {
                         const eventItem = document.createElement("div");
-                        let cat = "evenements";
-                        if (act.type_name.includes("rendez-vous")) cat = "rendezvous";
-                        else if (act.type_name.includes("échéance")) cat = "echeances";
-                        else if (act.type_name.includes("action")) cat = "actions";
+                        const cat = (act.type_name.includes("rendez-vous")) ? "rendezvous" : "evenements";
                         eventItem.setAttribute("data-category", cat);
                         eventItem.setAttribute("data-id", act.id);
                         if (act.contact_id) eventItem.setAttribute("data-contact-id", act.contact_id);
@@ -1021,20 +1122,7 @@
             addDayActivityBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     currentCategory = e.currentTarget.getAttribute('data-category');
-                    
-                    if (currentCategory === 'echeances' || currentCategory === 'actions') {
-                        // Ouvre la création directement dans la fenêtre (modale)
-                        const typeLabel = currentCategory === 'echeances' ? 'échéance' : 'action';
-                        modalTitle.innerText = `Nouvelle ${typeLabel} pour le ` + currentDayTitle.split('du ')[1];
-                        modalListView.style.display = 'none';
-                        modalCreateView.style.display = 'block';
-                        
-                        eventInput.value = localStorage.getItem('creme_event_draft') || "";
-                        eventTime.value = "";
-                        eventAddress.value = "";
-                        locationOptions.style.display = 'none';
-                        eventTime.focus();
-                    } else if (currentCategory === 'rendezvous') {
+                    if (currentCategory === 'rendezvous') {
                         window.location.href = `{% url 'activities__create_activity' 'meeting' %}?start=${selectedDateStr}`;
                     } else {
                         // --- Pour Événements ---
@@ -1223,9 +1311,10 @@
                 const taskText = taskInputText.value.trim();
                 const taskDate = taskInputDate.value;
                 const taskPriority = document.getElementById('taskInputPriority').value;
+                const taskDueDate = document.getElementById('taskInputDueDate').value;
+                const taskDueTime = document.getElementById('taskInputDueTime').value;
 
                 if (!taskText) {
-                    showToast("Veuillez saisir une description.", "error");
                     taskInputText.focus();
                     return;
                 }
@@ -1244,6 +1333,8 @@
                     type_name: "action", // Pour la couleur "Orange" (Actions prévues)
                     contact_id: null,
                     is_local: true,
+                    due_date: taskDueDate || null,
+                    due_time: taskDueTime || null,
                     priority: taskPriority,
                     created_at: new Date().getTime(),
                 };
@@ -1259,6 +1350,7 @@
                 // Si c'est pour aujourd'hui, on l'affiche sur le panneau de droite
                 const todayStr = new Date().toISOString().split('T')[0];
                 if (taskDate === todayStr) {
+                    renderDeadlinesList();
                     renderTasksList();
                 }
 
@@ -1267,6 +1359,7 @@
             
             // --- Affichage automatique des tâches du CRM pour aujourd'hui ---
             function renderTasksList() {
+                const today = new Date();
                 const todayDateStr = new Date().toISOString().split('T')[0];
                 const completedTaskIds = getCompletedTasks();
 
@@ -1280,7 +1373,7 @@
                 if (todayTasks.length > 0) {
                 todayTasks.forEach(task => {
                     const taskDiv = document.createElement("div");
-                    taskDiv.classList.add("task-item");
+                    taskDiv.classList.add("task-item"); 
                     taskDiv.style.justifyContent = "space-between";
                                         // Couleurs des bordures selon la priorité
                     if (task.priority === 'haute') taskDiv.style.borderLeftColor = '#f44336';      // Rouge
@@ -1350,8 +1443,14 @@
                     
                     if (task.is_local) {
                         const editBtn = document.createElement("span");
-                        editBtn.innerHTML = "✏️";
+                        editBtn.innerHTML = "Modifier";
                         editBtn.style.cursor = "pointer";
+                        editBtn.style.padding = "2px 6px";
+                        editBtn.style.border = "1px solid #aed6f1";
+                        editBtn.style.borderRadius = "4px";
+                        editBtn.style.fontSize = "0.8em";
+                        editBtn.style.backgroundColor = "#eaf4fb";
+                        editBtn.style.color = "#2980b9";
                         editBtn.title = "Modifier la tâche locale";
                         editBtn.addEventListener("click", () => {
                             const newText = prompt("Modifier la tâche :", task.title);
@@ -1369,12 +1468,19 @@
                                     }
                                     
                                     render();
+                                    renderDeadlinesList();
                                 }
                             }
                         });
                         
                         const deleteBtn = document.createElement("span");
-                        deleteBtn.innerHTML = "🗑️";
+                        deleteBtn.innerHTML = "Supprimer";
+                        deleteBtn.style.color = "#c0392b";
+                        deleteBtn.style.padding = "2px 6px";
+                        deleteBtn.style.border = "1px solid #fadbd8";
+                        deleteBtn.style.borderRadius = "4px";
+                        deleteBtn.style.fontSize = "0.8em";
+                        deleteBtn.style.backgroundColor = "#fdedec";
                         deleteBtn.style.cursor = "pointer";
                         deleteBtn.title = "Supprimer";
                         deleteBtn.addEventListener("click", () => {
@@ -1388,6 +1494,7 @@
                                 localStorage.setItem('creme_local_activities', JSON.stringify(savedLocalActivities));
                                 
                                 render();
+                                renderDeadlinesList();
                                 updateTaskProgress();
                             }
                         });
@@ -1397,8 +1504,14 @@
                     } else {
                         const editBtn = document.createElement('a');
                         editBtn.href = `{% url 'activities__edit_activity' 999999 %}`.replace('999999', task.id);
-                        editBtn.innerHTML = "✏️";
+                        editBtn.innerHTML = "Modifier";
                         editBtn.title = "Modifier dans le CRM";
+                        editBtn.style.padding = "2px 6px";
+                        editBtn.style.border = "1px solid #aed6f1";
+                        editBtn.style.borderRadius = "4px";
+                        editBtn.style.fontSize = "0.8em";
+                        editBtn.style.backgroundColor = "#eaf4fb";
+                        editBtn.style.color = "#2980b9";
                         editBtn.style.textDecoration = "none";
                         
                         actionsDiv.appendChild(editBtn);
@@ -1408,11 +1521,149 @@
                     taskDiv.appendChild(actionsDiv);
                     tasksList.appendChild(taskDiv);
                 });
+                } else {
+                    tasksList.innerHTML = '<div class="task-empty-state">Aucune tâche pour aujourd\'hui.</div>';
                 }
                 updateTaskProgress();
                 applyTaskFilter(); // On applique le filtre après avoir regénéré la liste
             }
             renderTasksList(); // Appel pour afficher les tâches au chargement de la page
+
+            function renderDeadlinesList() {
+                const deadlinesList = document.getElementById('deadlinesList');
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Pour comparer uniquement les dates
+
+                const upcomingDeadlines = backendActivities.filter(a => {
+                    if (!a.due_date) return false;
+                    const dueDate = new Date(a.due_date);
+                    return dueDate >= today && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance'));
+                }).sort((a, b) => a.due_date.localeCompare(b.due_date));
+
+                deadlinesList.innerHTML = "";
+
+                if (upcomingDeadlines.length > 0) {
+                    upcomingDeadlines.forEach(task => {
+                        const taskDiv = document.createElement("div");
+                        taskDiv.classList.add("task-item");
+                        taskDiv.style.justifyContent = "space-between";
+
+                        if (task.priority === 'haute') taskDiv.style.borderLeftColor = '#f44336';
+                        else if (task.priority === 'basse') taskDiv.style.borderLeftColor = '#4caf50';
+                        else taskDiv.style.borderLeftColor = '#ff9800';
+
+                        const leftDiv = document.createElement("div");
+                        leftDiv.style.display = "flex";
+                        leftDiv.style.alignItems = "center";
+                        leftDiv.style.overflow = "hidden";
+
+                        const dueDate = new Date(task.due_date);
+                        const diffTime = dueDate - today;
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                        let dateInfo = `<span style="font-weight:bold; color:#2980b9;"> (J-${diffDays})</span>`;
+                        const formattedDueDate = task.due_date.split('-').reverse().join('/');
+                        if (diffDays === 0) {
+                            dateInfo = `<span style="font-weight:bold; color:#e67e22;"> (Aujourd'hui)</span>`;
+                        } else if (diffDays === 1) {
+                            dateInfo = `<span style="font-weight:bold; color:#d35400;"> (Demain)</span>`;
+                        }
+
+                        const label = document.createElement("label");
+                        label.style.cursor = "pointer";
+                        label.style.overflow = "hidden";
+                        label.style.textOverflow = "ellipsis";
+                        label.style.whiteSpace = "nowrap";
+                        label.innerHTML = `${task.title} - <span style="font-style: italic; color: #666;">${formattedDueDate}</span>${dateInfo}`;
+
+                        leftDiv.appendChild(label);
+
+                        const actionsDiv = document.createElement("div");
+                        actionsDiv.style.display = "flex";
+                        actionsDiv.style.gap = "8px";
+                        actionsDiv.style.marginLeft = "10px";
+
+                        if (task.is_local) {
+                            const deleteBtn = document.createElement("span");
+                            deleteBtn.innerHTML = "Supprimer";
+                            deleteBtn.style.color = "#c0392b";
+                            deleteBtn.style.padding = "2px 6px";
+                            deleteBtn.style.border = "1px solid #fadbd8";
+                            deleteBtn.style.borderRadius = "4px";
+                            deleteBtn.style.fontSize = "0.8em";
+                            deleteBtn.style.backgroundColor = "#fdedec";
+                            deleteBtn.style.cursor = "pointer";
+                            deleteBtn.title = "Supprimer";
+                            deleteBtn.addEventListener("click", () => {
+                                if (confirm("Supprimer cette tâche ?")) {
+                                    backendActivities = backendActivities.filter(a => a.id !== task.id);
+                                    let saved = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
+                                    saved = saved.filter(a => a.id !== task.id);
+                                    localStorage.setItem('creme_local_activities', JSON.stringify(saved));
+                                    render();
+                                    renderTasksList();
+                                    renderDeadlinesList();
+                                }
+                            });
+
+                            const completeBtn = document.createElement("span");
+                            completeBtn.innerHTML = "Réaliser";
+                            completeBtn.style.color = "#229954";
+                            completeBtn.style.padding = "2px 6px";
+                            completeBtn.style.border = "1px solid #abebc6";
+                            completeBtn.style.borderRadius = "4px";
+                            completeBtn.style.fontSize = "0.8em";
+                            completeBtn.style.backgroundColor = "#e9f7ef";
+                            completeBtn.style.cursor = "pointer";
+                            completeBtn.title = "Marquer comme réalisé";
+                            completeBtn.addEventListener("click", () => {
+                                toggleTaskCompletion(String(task.id), true);
+                                showToast("Tâche marquée comme accomplie !", "success");
+                                render();
+                                renderTasksList();
+                                renderDeadlinesList();
+                            });
+
+                            actionsDiv.appendChild(deleteBtn);
+                            actionsDiv.appendChild(completeBtn);
+
+                        } else {
+                            const viewBtn = document.createElement('a');
+                            viewBtn.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', task.id);
+                            viewBtn.innerHTML = "🔍";
+                            viewBtn.title = "Voir dans le CRM";
+                            viewBtn.style.textDecoration = "none";
+                            actionsDiv.appendChild(viewBtn);
+
+                            const completeBtn = document.createElement("span");
+                            completeBtn.innerHTML = "Réaliser";
+                            completeBtn.style.color = "#229954";
+                            completeBtn.style.padding = "2px 6px";
+                            completeBtn.style.border = "1px solid #abebc6";
+                            completeBtn.style.borderRadius = "4px";
+                            completeBtn.style.fontSize = "0.8em";
+                            completeBtn.style.backgroundColor = "#e9f7ef";
+                            completeBtn.style.cursor = "pointer";
+                            completeBtn.title = "Marquer comme réalisé";
+                            completeBtn.addEventListener("click", () => {
+                                toggleTaskCompletion(String(task.id), true);
+                                showToast("Tâche marquée comme accomplie !", "success");
+                                render();
+                                renderTasksList();
+                                renderDeadlinesList();
+                            });
+                            actionsDiv.appendChild(completeBtn);
+                        }
+
+                        taskDiv.appendChild(leftDiv);
+                        taskDiv.appendChild(actionsDiv);
+                        deadlinesList.appendChild(taskDiv);
+                    });
+                } else {
+                    deadlinesList.innerHTML = '<div class="task-empty-state">Aucune échéance à venir.</div>';
+                }
+            }
+            renderDeadlinesList();
 
             // --- Fonction pour afficher la fausse "page" (Modale) d'une activité locale ---
             window.showLocalActivityDetails = function(actId) {
@@ -1616,6 +1867,7 @@
 
                 render();
                 renderTasksList();
+                renderDeadlinesList();
                 refreshAlertWidgets();
                 showToast("Tâche supprimée.", "success");
             };
@@ -1629,6 +1881,7 @@
 
                 render();
                 renderTasksList();
+                renderDeadlinesList();
                 refreshAlertWidgets();
                 showToast("Tâche marquée comme accomplie !", "success");
             };
@@ -1948,6 +2201,7 @@
                 else if (currentView === 'week') renderWeekView();
                 else if (currentView === 'day') renderDayView();
             }
+            renderNotificationList(); // Appel initial pour la cloche
 
             todayBtn.addEventListener('click', () => {
                 currentDate = new Date();
@@ -1967,28 +2221,22 @@
                 else if (currentView === 'day') currentDate.setDate(currentDate.getDate() + 1);
                 render();
             });
+            renderTasksList();
+            renderDeadlinesList();
             render(); // Appel initial
 
             // --- Rappel des tâches non accomplies au démarrage ---
             setTimeout(() => {
                 const todayStr = new Date().toISOString().split('T')[0];
+                const completedTaskIds = getCompletedTasks();
 
-                // 1. Tâches en retard (date < aujourd'hui)
                 const overdueTasksCount = backendActivities.filter(a => {
                     const actDate = a.start.split('T')[0];
-                    return actDate < todayStr && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance'));
+                    const isTask = a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance');
+                    return isTask && actDate < todayStr && !completedTaskIds.includes(String(a.id));
                 }).length;
 
-                if (overdueTasksCount > 0) {
-                    showToast(`Attention : Vous avez ${overdueTasksCount} tâche(s) en retard !`, 'error');
-                }
-
-                // 2. Tâches du jour non accomplies
-                const remainingTodayCount = tasksList.querySelectorAll('.task-item input[type="checkbox"]:not(:checked)').length;
-                
-                if (remainingTodayCount > 0) {
-                    showToast(`Rappel : Vous avez ${remainingTodayCount} tâche(s) non accomplie(s) pour aujourd'hui !`, 'error');
-                } else if (overdueTasksCount === 0) { // On affiche le succès seulement s'il n'y a pas de retard
+                if (overdueTasksCount === 0 && notificationCountBadge.style.display === 'none') {
                     showToast(`Vous êtes à jour dans vos tâches pour aujourd'hui !`, 'success');
                 }
             }, 1000); // Léger délai de 1 seconde pour l'animation
@@ -1997,7 +2245,7 @@
 
     <style>
         .home-custom-container {
-            background-color: #c3defc; /* Fond légèrement bleuté très doux */
+            background-color: #f4f6f8; /* Fond gris très clair et neutre */
             min-height: 80vh;
             padding: 40px 20px;
             text-align: center; /* Centre le logo et le contenu de la page */
@@ -2020,7 +2268,7 @@
             flex: 2;
         }
         .top-bar-center h2 {
-            color: #1976d2; /* Un bleu élégant pour le message de bienvenue */
+            color: #2c3e50; /* Un bleu marine/gris foncé, plus sobre */
             font-size: 2em;
             margin: 0;
         }
@@ -2028,12 +2276,12 @@
             flex: 1;
             display: flex;
             justify-content: flex-end;
-            align-items: center;
+            align-items: center; 
             gap: 10px;
         }
         .theme-label {
             font-weight: bold;
-            color: #1976d2;
+            color: #34495e; /* Un gris-bleu foncé */
             font-size: 1.1em;
         }
 
@@ -2058,7 +2306,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-            border-top: 4px solid #2196f3; /* Liseré bleu */
+            border-top: 4px solid #3498db; /* Un bleu plus doux et professionnel */
             color: #333333;
         }
         .calendar-header {
@@ -2134,7 +2382,7 @@
             background-color: #e3f2fd;
         }
         .calendar-day.today .day-number {
-            background-color: #2196f3;
+            background-color: #3498db;
             color: white;
         }
         .day-events {
@@ -2150,10 +2398,10 @@
             width: 12px;
             height: 12px;
             background-color: #4caf50; /* Vert style validé/event */
-            border-radius: 3px;
+            border-radius: 50%;
         }
-        .event-item[data-category="rendezvous"] { background-color: #2196f3; }
-        .event-item[data-category="echeances"] { background-color: #f44336; }
+        .event-item[data-category="rendezvous"] { background-color: #3498db; } /* Bleu */
+        .event-item[data-category="echeances"] { background-color: #e74c3c; } /* Rouge doux */
         .event-item[data-category="actions"] { background-color: #ff9800; }
         .event-item[data-category="evenements"] { background-color: #4caf50; }
 
@@ -2163,7 +2411,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-            border-top: 4px solid #ff9800;
+            border-top: 4px solid #5D6D7E; /* Gris-bleu */
             color: #333;
             display: flex;
             flex-direction: column;
@@ -2179,13 +2427,13 @@
             font-size: 1.2em;
         }
         .tasks-header button {
-            background-color: #2196f3;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
             padding: 5px 15px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 500;
         }
         .tasks-header button:hover {
             background-color: #1976d2;
@@ -2200,7 +2448,7 @@
         }
         .task-progress-bar {
             height: 100%;
-            background-color: #2196f3;
+            background-color: #3498db;
             width: 0%;
             transition: width 0.3s ease, background-color 0.3s ease;
         }
@@ -2232,7 +2480,7 @@
             color: #444;
         }
         .activity-header button {
-            background-color: #2196f3;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 4px;
@@ -2269,7 +2517,7 @@
             padding: 6px 10px;
             border-radius: 4px;
             border: 1px solid #f0f0f0;
-            border-left: 3px solid #ff9800; 
+            border-left: 3px solid #5D6D7E; 
             font-size: 0.9em;
             transition: background-color 0.2s;
         }
@@ -2287,6 +2535,62 @@
             margin-top: 20px;
         }
 
+        /* --- Styles pour le Centre de Notifications (Cloche) --- */
+        .notification-bell-container {
+            position: relative;
+            margin-left: 15px;
+        }
+        #notificationBellIcon {
+            font-size: 1.8em;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s;
+        }
+        #notificationBellIcon:hover {
+            transform: scale(1.1);
+        }
+        #notificationBellIcon.ringing {
+            animation: ring 1.5s ease-in-out infinite;
+        }
+        @keyframes ring {
+            0%, 100% { transform: rotate(0); }
+            10%, 30%, 50% { transform: rotate(-15deg); }
+            20%, 40% { transform: rotate(15deg); }
+        }
+        .notification-panel {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            width: 380px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+        }
+        .notification-panel-header {
+            padding: 12px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .notification-list-content {
+            padding: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notification-empty-state {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        .notification-panel-footer {
+            padding: 10px;
+            text-align: right;
+            border-top: 1px solid #e0e0e0;
+        }
+
         /* --- Style de la Modale (Popup) --- */
         .modal-overlay {
             position: fixed;
@@ -2302,8 +2606,8 @@
             border-radius: 8px;
             width: 400px;
             max-width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-top: 4px solid #2196f3;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 4px solid #3498db;
             display: flex;
             flex-direction: column;
             text-align: left;
@@ -2353,8 +2657,8 @@
         }
         .btn-cancel { background-color: #f0f0f0; color: #333; }
         .btn-cancel:hover { background-color: #e0e0e0; }
-        .btn-save { background-color: #2196f3; color: white; }
-        .btn-save:hover { background-color: #1976d2; }
+        .btn-save { background-color: #3498db; color: white; }
+        .btn-save:hover { background-color: #2980b9; }
         
         /* --- Nouveaux styles pour la liste d'événements dans la modale --- */
         .modal-event-list {
@@ -2371,8 +2675,8 @@
             font-size: 0.95em;
             color: #333;
         }
-        .modal-event-item[data-category="rendezvous"] { border-left-color: #2196f3; }
-        .modal-event-item[data-category="echeances"] { border-left-color: #f44336; }
+        .modal-event-item[data-category="rendezvous"] { border-left-color: #3498db; }
+        .modal-event-item[data-category="echeances"] { border-left-color: #e74c3c; }
         .modal-event-item[data-category="actions"] { border-left-color: #ff9800; }
         .modal-event-item[data-category="evenements"] { border-left-color: #4caf50; }
 
@@ -2394,10 +2698,10 @@
             min-height: 250px;
         }
         #customWidget1 {
-            border-top: 4px solid #4caf50; /* Liseré vert */
+            border-top: 4px solid #27ae60; /* Un vert plus franc */
         }
         #customWidget2 {
-            border-top: 4px solid #9c27b0; /* Liseré violet */
+            border-top: 4px solid #8e44ad; /* Un violet plus doux */
         }
         .custom-widget-header {
             margin-bottom: 15px;
@@ -2416,8 +2720,8 @@
             cursor: pointer;
             outline: none;
         }
-        .widget-selector:hover {
-            border-color: #2196f3;
+        .widget-selector:hover, .widget-selector:focus {
+            border-color: #3498db;
         }
         .custom-widget-content {
             flex-grow: 1;
@@ -2498,11 +2802,8 @@
         .view-switcher {
             display: flex;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            overflow: hidden;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            border-radius: 5px; 
+            overflow: hidden; 
         }
         .view-switcher button {
             background-color: #f0f0f0;
@@ -2513,10 +2814,10 @@
             border-left: 1px solid #ccc;
         }
         .view-switcher button:first-child {
-            border-left: none;
+            border-left: none; 
         }
         .view-switcher button.active {
-            background-color: #2196f3;
+            background-color: #3498db;
             color: white;
         }
         .view-switcher button:not(.active):hover {
@@ -2524,7 +2825,7 @@
         }
         .view-switcher button.today-date-box {
             background-color: #e3f2fd;
-            color: #1976d2;
+            color: #2980b9;
             font-weight: bold;
             border-left: 2px solid #bbdefb;
         }
@@ -2535,7 +2836,7 @@
             position: relative; /* Pour le positionnement absolu du sélecteur */
         }
         .calendar-days .day-number.today {
-            background-color: #2196f3;
+            background-color: #3498db;
             color: white;
             border-radius: 50%;
             display: inline-block;
@@ -2593,8 +2894,8 @@
             border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             cursor: pointer;
         }
-        .week-event-item[data-category="rendezvous"] { background-color: #2196f3; }
-        .week-event-item[data-category="echeances"] { background-color: #f44336; }
+        .week-event-item[data-category="rendezvous"] { background-color: #3498db; }
+        .week-event-item[data-category="echeances"] { background-color: #e74c3c; }
         .week-event-item[data-category="actions"] { background-color: #ff9800; }
         .week-event-item[data-category="evenements"] { background-color: #4caf50; }
 
@@ -2609,10 +2910,10 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            border-left: 4px solid #2196f3;
+            border-left: 4px solid #3498db;
             animation: slideInToast 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
         }
-        .toast.error { border-left-color: #f44336; }
+        .toast.error { border-left-color: #e74c3c; }
         .toast.success { border-left-color: #4caf50; }
         .toast.fade-out { animation: fadeOutToast 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
         
@@ -2629,7 +2930,7 @@
         .theme-switch input { display: none; }
         .theme-switch .slider {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #2196f3; transition: .4s; border-radius: 34px;
+            background-color: #3498db; transition: .4s; border-radius: 34px;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 7px; box-sizing: border-box;
         }
@@ -2652,7 +2953,7 @@
         }
         body.dark-mode .top-bar-center h2,
         body.dark-mode .theme-label {
-            color: #90caf9;
+            color: #a9cce3;
         }
         body.dark-mode .calendar-widget,
         body.dark-mode .tasks-widget,
@@ -2661,10 +2962,10 @@
             color: #e0e0e0;
             box-shadow: 0 6px 16px rgba(255,255,255,0.05);
         }
-        body.dark-mode .calendar-widget { border-top-color: #1565c0; }
-        body.dark-mode .tasks-widget { border-top-color: #e65100; }
-        body.dark-mode #customWidget1 { border-top-color: #2e7d32; }
-        body.dark-mode #customWidget2 { border-top-color: #6a1b9a; }
+        body.dark-mode .calendar-widget { border-top-color: #5dade2; }
+        body.dark-mode .tasks-widget { border-top-color: #707b7c; }
+        body.dark-mode #customWidget1 { border-top-color: #58d68d; }
+        body.dark-mode #customWidget2 { border-top-color: #af7ac5; }
         
         body.dark-mode .calendar-header button,
         body.dark-mode .view-switcher button,
@@ -2679,20 +2980,35 @@
             background-color: #444;
         }
         body.dark-mode .view-switcher button.active {
-            background-color: #616d7a;
+            background-color: #5dade2;
             color: white;
         }
         body.dark-mode .view-switcher button.today-date-box {
-            background-color: #1565c0;
+            background-color: #2c3e50;
             color: #e3f2fd;
-            border-left-color: #0d47a1;
+            border-left-color: #1f2c38;
         }
         body.dark-mode .view-switcher button.today-date-box:hover {
-            background-color: #0d47a1;
+            background-color: #1f2c38;
         }
         body.dark-mode .tasks-header button {
             background-color: #5c646d;
         }
+        body.dark-mode .notification-panel {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+        body.dark-mode .notification-panel-header,
+        body.dark-mode .notification-panel-footer {
+            border-color: #444;
+        }
+        body.dark-mode .notification-alert-item[style*="background:#fdedec"] { background: #4a1c1c !important; }
+        body.dark-mode .notification-alert-item[style*="background:#fdf2e9"] { background: #4a2e10 !important; }
+        body.dark-mode .notification-alert-item div[style*="color:#333"] { color: #e0e0e0 !important; }
+        body.dark-mode .notification-empty-state { color: #888; }
+        body.dark-mode #clearNotificationsBtn { background-color: #333; color: #e0e0e0; }
+
         body.dark-mode .calendar-dates {
             background-color: #333;
             border-color: #333;
@@ -2708,10 +3024,10 @@
             background-color: #2a2a2a;
         }
         body.dark-mode .calendar-day.today {
-            background-color: #737a85;
+            background-color: #2c3e50;
         }
         body.dark-mode .calendar-day.today .day-number {
-            background-color: #687783;
+            background-color: #5dade2;
             color: #000;
         }
         body.dark-mode .task-item {
@@ -2737,7 +3053,7 @@
             color: #e0e0e0;
         }
         body.dark-mode .modal-content h3 {
-            color: #5b6874;
+            color: #a9cce3;
         }
         body.dark-mode .modal-address-input,
         body.dark-mode .modal-time-input,
@@ -2807,8 +3123,8 @@
             color: #e0e0e0 !important;
         }
         body.dark-mode span[style*="background: #e3f2fd"] {
-            background: #616569 !important;
-            color: #bbdefb !important;
+            background: #2c3e50 !important;
+            color: #a9cce3 !important;
         }
     </style>
 {% endblock %}
