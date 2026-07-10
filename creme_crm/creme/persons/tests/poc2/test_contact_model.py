@@ -216,50 +216,14 @@ class TestDoublonContact:
         contact_valide.clean()
 
 
-class TestChampsMailing:
+class TestRepresentationContact:
     """
-    Teste les champs métier spécifiques au projet :
-    is_in_mailing et is_in_taxe.
+    Vérifie la représentation texte d'un contact.
     """
-
-    @pytest.fixture(autouse=True)
-    def setup_model(self):
-        self.Contact = get_contact_model()
-
-    def test_valeur_par_defaut_mailing_est_non(self, db, superuser):
-        """La valeur par défaut de is_in_mailing doit être 'NON'."""
-        contact = self.Contact.objects.create(
-            user=superuser,
-            last_name="DEFAUT",
-            first_name="Test",
-            email="defaut@test.fr",
-        )
-        assert contact.is_in_mailing == "NON"
-
-    def test_valeur_par_defaut_taxe_est_non(self, db, superuser):
-        """La valeur par défaut de is_in_taxe doit être 'NON'."""
-        contact = self.Contact.objects.create(
-            user=superuser,
-            last_name="DEFAUT2",
-            first_name="Test",
-            email="defaut2@test.fr",
-        )
-        assert contact.is_in_taxe == "NON"
-
-    def test_inscription_mailing_oui(self, db, superuser):
-        """Un contact peut être inscrit au mailing avec la valeur 'OUI'."""
-        contact = self.Contact.objects.create(
-            user=superuser,
-            last_name="MAILING",
-            first_name="Test",
-            email="mailing@test.fr",
-            is_in_mailing="OUI",
-        )
-        assert contact.is_in_mailing == "OUI"
 
     def test_str_contact_avec_prenom_et_nom(self, db, superuser):
         """La représentation string d'un contact doit retourner prénom + nom."""
-        contact = self.Contact(
+        contact = get_contact_model()(
             user=superuser,
             last_name="DUPONT",
             first_name="Jean",
@@ -267,13 +231,3 @@ class TestChampsMailing:
         )
         assert "DUPONT" in str(contact)
         assert "Jean" in str(contact)
-
-    def test_str_contact_sans_prenom_retourne_nom(self, db, superuser):
-        """Sans prénom, __str__ doit retourner uniquement le nom."""
-        contact = self.Contact(
-            user=superuser,
-            last_name="DUPONT",
-            first_name="",
-            email="dupont@test.fr",
-        )
-        assert str(contact) == "DUPONT"

@@ -40,11 +40,6 @@ from .base import PersonWithAddressesMixin
 
 logger = logging.getLogger(__name__)
 
-CHOIX_OUI_NON = (
-    ('OUI', _('Oui')),
-    ('NON', _('Non')),
-)
-
 class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     civility = models.ForeignKey(
         other_models.Civility,
@@ -70,20 +65,6 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     ).set_tags(optional=True)
 
     
-    is_in_mailing = models.CharField(
-        _("Inscrire à l'E-mailing ?"),
-        max_length=3,
-        choices=CHOIX_OUI_NON,
-        default='NON',
-    ).set_tags(optional=True)
-
-    is_in_taxe = models.CharField(
-        _("Inscrire à la Taxe ?"),
-        max_length=3,
-        choices=CHOIX_OUI_NON,
-        default='NON',
-    ).set_tags(optional=True)
-
 # nouveau champs pour la gestion d'entité (ex: entreprise, association, etc.)
 
     address_line1 = models.CharField(_('Adresse (Ligne 1)'), max_length=255, blank=True).set_tags(optional=True)
@@ -91,7 +72,6 @@ class AbstractContact(CremeEntity, PersonWithAddressesMixin):
     address_zipcode = models.CharField(_('Code Postal'), max_length=20, blank=True).set_tags(optional=True)
 
     education_nb_stagiaires = models.IntegerField(_('Nombre de stagiaire'), blank=True, null=True).set_tags(optional=True)
-    education_montant_taxe = models.CharField(_('Montant Taxe'), max_length=20, blank=True).set_tags(optional=True)
 
     coordonnees_raw = models.TextField(_('Coordonnées (Raw)'), blank=True).set_tags(optional=True)
     consent_data = models.TextField(_('Données Consentement'), blank=True).set_tags(optional=True)
