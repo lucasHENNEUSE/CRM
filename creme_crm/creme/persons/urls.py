@@ -24,29 +24,10 @@ from creme.creme_core.conf.urls import Swappable, swap_manager
 from .views import address, contact, organisation
 
 urlpatterns = [
-    # Routes spécifiques EN PREMIER (avant les génériques)
-    re_path(
-        r'^contact/email-mass-send[/]?$',
-        contact.email_mass_send,
-        name='persons__email_mass_send',
-    ),
-
-    re_path(
-        r'^contact/delete-ajax[/]?$',
-        contact.delete_contact_ajax,
-        name='persons__delete_contact_ajax',
-    ),
-
     re_path(
         r'^contact/as_user/(?P<contact_id>\d+)[/]?$',
         contact.TransformationIntoUser.as_view(),
         name='persons__transform_contact_into_user',
-    ),
-
-    re_path(
-        r'^contact/taxe[/]?$', 
-        contact.taxe_view,
-        name='persons__taxe',
     ),
 
     re_path(

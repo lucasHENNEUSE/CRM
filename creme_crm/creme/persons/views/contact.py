@@ -17,17 +17,12 @@
 ################################################################################
 
 from django import forms
-from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMessage
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
-import json
 
 from creme import persons
 from creme.creme_core import auth
@@ -269,115 +264,3 @@ class TransformationIntoUser(generic.EntityEdition):
         del kwargs['instance']
 
         return kwargs
-
-
-@login_required
-def email_mass_send(request):
-    # 1. On récupère les IDs exclus spécifiques à l'emailing
-    raw_removed_ids = request.session.get('removed_ids_emailing', [])
-    removed_ids = []
-    for cid in raw_removed_ids:
-        try:
-            removed_ids.append(int(cid))
-        except (ValueError, TypeError):
-            continue
-    
-    # 2. Filtrage (Statut OUI + Non exclu) et Tri alphabétique
-    contacts = Contact.objects.filter(is_in_mailing='OUI') \
-                              .exclude(email='') \
-                              .exclude(id__in=removed_ids) \
-                              .order_by('last_name', 'first_name')
-
-    if request.method == 'POST':
-        selected_emails = request.POST.getlist('selected_contacts')
-        manual_email = request.POST.get('manual_email')
-        subject = request.POST.get('subject')
-        message_body = request.POST.get('message')
-        attachment = request.FILES.get('attachment')
-
-        if manual_email:
-            selected_emails.append(manual_email)
-
-        if selected_emails:
-            try:
-                email = EmailMessage(
-                    subject=subject,
-                    body=message_body,
-                    from_email=None,
-                    bcc=selected_emails,
-                )
-
-                if attachment:
-                    email.attach(attachment.name, attachment.read(), attachment.content_type)
-
-                email.send()
-                
-                # On vide la liste d'exclusion emailing après envoi
-                request.session['removed_ids_emailing'] = []
-                request.session.modified = True
-                request.session.save()
-                
-                messages.success(request, _('Le message a été envoyé avec succès à %d contacts.') % len(selected_emails))
-                return HttpResponseRedirect(request.path)
-            except Exception as e:
-                messages.error(request, _('Erreur lors de l\'envoi : %s') % str(e))
-        else:
-            messages.warning(request, _('Veuillez sélectionner au moins un destinataire.'))
-
-    return render(request, 'persons/email_mass_send.html', {
-        'contacts': contacts,
-    })
-
-
-@login_required
-def delete_contact_ajax(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            emails = data.get('emails', [])
-            if not emails:
-                emails = [data.get('email')] if data.get('email') else []
-
-            # ON RÉCUPÈRE LE CONTEXTE (emailing ou taxe)
-            context = data.get('context', 'emailing')
-            session_key = f'removed_ids_{context}'
-
-            contact_ids = list(Contact.objects.filter(email__in=emails).values_list('id', flat=True))
-            
-            if contact_ids:
-                current_removed = request.session.get(session_key, [])
-                removed_set = {int(cid) for cid in current_removed}
-                
-                for c_id in contact_ids:
-                    removed_set.add(int(c_id))
-                
-                request.session[session_key] = list(removed_set)
-                request.session.modified = True
-                request.session.save()
-                
-            return JsonResponse({'status': 'ok'})
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-    return JsonResponse({'status': 'invalid method'}, status=405)
-
-
-@login_required
-def taxe_view(request):
-    # 1. On récupère les IDs exclus spécifiques à la taxe
-    raw_removed_ids = request.session.get('removed_ids_taxe', [])
-    removed_ids = []
-    for cid in raw_removed_ids:
-        try:
-            removed_ids.append(int(cid))
-        except (ValueError, TypeError):
-            continue
-
-    # 2. Filtrage (Statut OUI + Non exclu) et Tri alphabétique
-    contacts = Contact.objects.filter(is_in_taxe='OUI') \
-                              .exclude(email='') \
-                              .exclude(id__in=removed_ids) \
-                              .order_by('last_name', 'first_name')
-
-    return render(request, 'persons/taxe.html', {
-        'contacts': contacts,
-    })

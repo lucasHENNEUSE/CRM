@@ -75,14 +75,3 @@ class ContactCreationEntry(menu.CreationEntry):
 class OrganisationCreationEntry(menu.CreationEntry):
     id = 'persons-create_organisation'
     model = Organisation
-
-
-class MassEmailingEntry(menu.FixedURLEntry):
-    id = 'persons-mass-emailing'
-    label = _('E-mailing')
-    url_name = 'persons__email_mass_send'
-
-class TaxeEntry(menu.FixedURLEntry):
-    id = 'persons-taxe'
-    label = _('Taxe')
-    url_name = 'persons__taxe'
