@@ -128,73 +128,38 @@ Les tests spécifiques alignés avec la cible actuelle du POC 2 seront ajoutés 
 
 Les scripts ont été reclassés selon leur fonction dans la chaîne de traitement des données.
 
-### Scripts de préparation
-
-`repare_csv.py`
-Transforme un fichier Excel source en fichier CSV nettoyé, avec suppression de doublons.
-Emplacement cible : `project_scripts/preparation/repare_csv.py`
-
-`gen_json_complet.py`
-Transforme le fichier CSV préparé en JSON structuré, destiné à alimenter la suite de la chaîne de traitement.
-Emplacement cible : `project_scripts/preparation/gen_json_complet.py`
-
-### Scripts ETL
-
-`ETL_poc1.py`
-Ancien pipeline du POC 1, conservé comme trace ou référence technique.
-Emplacement : `project_scripts/ETL/ETL_poc1.py`
+### Scripts actifs du POC 2
 
 `ETL_poc2.py`
-Script ETL de référence du POC 2. Il produit les JSON structurés dans `project_data/processed/`.
+Script ETL de référence du POC 2. Il lit les données sources, structure les informations métier et produit les JSON dans `project_data/processed/`.
+
 Emplacement : `project_scripts/ETL/ETL_poc2.py`
 
-### Scripts d’import
-
 `load_poc2_to_mongo.py`
-Charge les cinq JSON du POC 2 depuis `project_data/processed/` vers la base MongoDB `crm_poc2`, dans les collections `entites`, `contacts_crm`, `adresses`, `taxe_events` et `suivi_pedagogique`. Le script vide puis recharge uniquement ces cinq collections.
+Charge les cinq JSON du POC 2 vers la base MongoDB `crm_poc2`, dans les collections `entites`, `contacts_crm`, `adresses`, `taxe_events` et `suivi_pedagogique`.
+
 Emplacement : `project_scripts/imports/load_poc2_to_mongo.py`
 
-`gen_mongo.py`
-Lit le fichier `contacts_mongo.json`, enrichit les documents avec des statuts, puis alimente la collection Mongo `prospects_bruts`.
-Emplacement cible : `project_scripts/imports/gen_mongo.py`
-
-`split_and_import.py`
-Lit les données structurées et répartit les contacts dans les collections Mongo `prospects_taxe` et `prospects_emailing`.
-Emplacement cible : `project_scripts/imports/split_and_import.py`
-
-`import_mongo.py`
-Lit les documents présents dans MongoDB puis crée ou met à jour les contacts et adresses dans le CRM via Django.
-Emplacement cible : `project_scripts/imports/import_mongo.py`
-
-`deploy_to_crm.py`
-Met à jour dans la base du CRM les statuts et la visibilité de contacts déjà présents, à partir des collections Mongo.
-Emplacement cible : `project_scripts/imports/deploy_to_crm.py`
-
-Les scripts `gen_mongo.py`, `split_and_import.py`, `import_mongo.py` et `deploy_to_crm.py` sont liés au POC 1 et à l’ancien flux. Ils ne doivent pas être repris tels quels pour la cible actuelle du POC 2.
-
-### Scripts d’export
-
-Les scripts d’export ci-dessous appartiennent à l’ancien flux POC 1 et ne définissent pas les fonctionnalités actuelles du POC 2.
-
-`export_emailing.py`
-Extrait depuis MongoDB les contacts concernés par l’emailing et génère un fichier JSON d’export.
-Emplacement cible : `project_scripts/exports/export_emailing.py`
-
-`export_taxe.py`
-Extrait depuis MongoDB les contacts concernés par la taxe et génère un fichier JSON d’export.
-Emplacement cible : `project_scripts/exports/export_taxe.py`
-
-### Script de nettoyage
-
-`cleanup_contacts.py`
-Analyse les contacts présents dans la base du CRM, détecte les doublons d’emails et supprime les fiches en double.
-Emplacement cible : `project_scripts/cleaning/cleanup_contacts.py`
-
-### Script de simulation / relance
-
 `main.py`
-Orchestre plusieurs étapes techniques de relance de l’environnement : nettoyage du cache, dépendances, migrations, population, génération des médias, lancement du serveur et génération des logs locaux.
-Emplacement cible : `project_scripts/simulation/main.py`
+Lance uniquement l'interface locale CremeCRM POC2.
+Il ne lance pas les migrations, `creme_populate`, l'import MongoDB ou une réparation automatique de la base.
+
+Emplacement : `project_scripts/simulation/main.py`
+
+### Scripts POC 1 supprimés
+
+Les anciens scripts liés au POC 1 et à l'ancien flux Taxe / E-mailing ont été supprimés du projet actif.
+
+Ils concernaient notamment :
+- l'ancien ETL POC1 ;
+- la génération de `contacts_mongo.json` ;
+- l'ancienne base MongoDB `poc_aggregation` ;
+- les collections `prospects_bruts`, `prospects_taxe` et `prospects_emailing` ;
+- l'ancien import direct vers CremeCRM ;
+- les exports Taxe / E-mailing ;
+- les nettoyages directs en SQLite.
+
+Ces éléments ne doivent pas être repris tels quels pour la cible actuelle du POC 2.
 
 ### Script conservé côté applicatif Django
 
