@@ -6,10 +6,13 @@ from pymongo import MongoClient
 
 
 # Utiliser une variable d'environnement pour adapter facilement la connexion MongoDB.
-# Par défaut, le script utilise le port standard MongoDB 27017.
-# Exemple si MongoDB tourne sur 27018 :
+# MongoDB utilise habituellement le port standard 27017.
+# Ce port étant occupé dans l'environnement local du projet,
+# la configuration de référence du POC2 utilise le port 27018.
+# Un autre environnement peut revenir à 27017 en surchargeant MONGODB_URI.
+# Exemple :
 # MONGODB_URI="mongodb://localhost:27018/" python project_scripts/imports/load_poc2_to_mongo.py
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27018/")
 
 # Utiliser une base MongoDB dédiée au POC2 pour éviter tout mélange avec le POC1.
 DATABASE_NAME = "crm_poc2"

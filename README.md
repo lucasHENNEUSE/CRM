@@ -287,9 +287,9 @@ Chargement des données POC 2 :
 MONGODB_URI="mongodb://localhost:27018/" python project_scripts/imports/load_poc2_to_mongo.py
 ```
 
-Le script `load_poc2_to_mongo.py` utilise par défaut le port standard MongoDB `27017`.
+MongoDB utilise habituellement le port standard `27017`. Ce port étant occupé dans l’environnement local du projet, la configuration du POC2 utilise le port `27018`, avec la base MongoDB `crm_poc2`.
 
-La variable d’environnement `MONGODB_URI` permet d’adapter la connexion selon l’environnement local, notamment au port `27018` configuré par Docker Compose dans ce projet.
+Si le port `27017` est disponible dans un autre environnement, il est possible de revenir au port standard en adaptant la variable d’environnement `MONGODB_URI`, sans modifier la logique du projet.
 
 ### Django local
 
