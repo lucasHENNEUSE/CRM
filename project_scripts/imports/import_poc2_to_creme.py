@@ -11,6 +11,8 @@ Objectif :
 
 import argparse
 import json
+import os
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -57,11 +59,65 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Limiter le dry-run aux N premières entités pour tester un échantillon.",
     )
+    parser.add_argument(
+        "--check-django",
+        action="store_true",
+        help="Vérifier l'accès à Django/CremeCRM sans écrire en base.",
+    )
     return parser.parse_args()
+
+
+def setup_django() -> None:
+    creme_root = PROJECT_ROOT / "creme_crm"
+    sys.path.insert(0, str(creme_root))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "creme.dev_settings")
+
+    import django
+    django.setup()
+
+
+def check_django_access() -> None:
+    setup_django()
+
+    from django.contrib.auth import get_user_model
+    from creme.creme_core.models import RelationType
+    from creme.persons.models import Address, Contact, Organisation
+    from creme.persons import constants
+
+    User = get_user_model()
+
+    print("=== Vérification Django / CremeCRM ===")
+
+    admin_user = User.objects.filter(username="admin").first()
+    if admin_user is None:
+        print("Utilisateur admin : introuvable")
+    else:
+        print(
+            "Utilisateur admin : OK "
+            f"(id={admin_user.id}, active={admin_user.is_active}, "
+            f"staff={admin_user.is_staff}, superuser={admin_user.is_superuser})"
+        )
+
+    print(f"Modèle Organisation : OK ({Organisation._meta.label})")
+    print(f"Modèle Contact      : OK ({Contact._meta.label})")
+    print(f"Modèle Address      : OK ({Address._meta.label})")
+
+    relation_ids = [
+        constants.REL_SUB_MANAGES,
+        constants.REL_SUB_EMPLOYED_BY,
+    ]
+
+    for relation_id in relation_ids:
+        exists = RelationType.objects.filter(id=relation_id).exists()
+        print(f"RelationType {relation_id} : {'OK' if exists else 'introuvable'}")
 
 
 def main() -> None:
     args = parse_args()
+
+    if args.check_django:
+        check_django_access()
+        print()
 
     entites = load_json(FILES["entites"])
     contacts = load_json(FILES["contacts"])
