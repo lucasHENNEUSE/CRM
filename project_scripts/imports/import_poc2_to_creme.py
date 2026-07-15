@@ -9,6 +9,7 @@ Objectif :
 - préparer l'import réel Organisations / Contacts / Adresses / Relations.
 """
 
+import argparse
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -46,12 +47,55 @@ def has_address_line(row: dict) -> bool:
     )
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Prépare l'import POC2 vers CremeCRM en mode dry-run."
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Limiter le dry-run aux N premières entités pour tester un échantillon.",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
+
     entites = load_json(FILES["entites"])
     contacts = load_json(FILES["contacts"])
     adresses = load_json(FILES["adresses"])
     taxe_events = load_json(FILES["taxe_events"])
     suivi_pedagogique = load_json(FILES["suivi_pedagogique"])
+
+    if args.limit is not None:
+        selected_codes = {
+            row["code_entite"]
+            for row in entites[:args.limit]
+            if row.get("code_entite")
+        }
+
+        entites = [
+            row for row in entites
+            if row.get("code_entite") in selected_codes
+        ]
+        contacts = [
+            row for row in contacts
+            if row.get("code_entite") in selected_codes
+        ]
+        adresses = [
+            row for row in adresses
+            if row.get("code_entite") in selected_codes
+        ]
+        taxe_events = [
+            row for row in taxe_events
+            if row.get("code_entite") in selected_codes
+        ]
+        suivi_pedagogique = [
+            row for row in suivi_pedagogique
+            if row.get("code_entite") in selected_codes
+        ]
 
     entites_by_code = {
         row["code_entite"]: row
@@ -61,6 +105,8 @@ def main() -> None:
 
     print("=== DRY-RUN IMPORT POC2 VERS CREMECRM ===")
     print("Aucune écriture en base ne sera effectuée.")
+    if args.limit is not None:
+        print(f"Échantillon limité aux {args.limit} premières entités sources.")
     print()
 
     print("=== Volumes sources ===")
