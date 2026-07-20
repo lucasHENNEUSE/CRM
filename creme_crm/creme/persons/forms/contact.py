@@ -184,5 +184,5 @@ class ContactForm(BaseContactCustomForm):
             'civility', 'last_name', 'first_name',
             'entity_code', 'entity_label', 'entity_type_code', 'is_entity_subject',
             'skype', 'phone', 'mobile', 'fax', 'email', 'url_site',
-            'position', 'full_position', 'sector', 'languages', 'birthday', 'image',
+            'position', 'full_position', 'languages', 'birthday', 'image',
         )

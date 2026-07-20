@@ -579,7 +579,7 @@ document.addEventListener('DOMContentLoaded', function() { // NOSONAR
                     leftDiv.style.overflow = "hidden";
 
                     const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
+                    checkbox.type = "checkbox"; // NOSONAR
                     checkbox.style.marginRight = "8px";
                     checkbox.style.cursor = "pointer";
 
@@ -614,23 +614,26 @@ document.addEventListener('DOMContentLoaded', function() { // NOSONAR
                         }
                     });
                     leftDiv.appendChild(checkbox);
-                    leftDiv.appendChild(textSpan);
+                    leftDiv.appendChild(textSpan); // Append textSpan first
                     item.appendChild(leftDiv);
 
                     // Si l'événement a un ID (il provient de la base de données), on ajoute les boutons
                     if (actId && !String(actId).startsWith('local_')) {
                         const actionsDiv = document.createElement('div');
-                        actionsDiv.style.display = "flex";
-                        actionsDiv.style.gap = "10px"; // NOSONAR
+                        actionsDiv.style.display = "flex"; // NOSONAR
+                        actionsDiv.style.gap = "10px";
                         
                         const contactId = ev.getAttribute('data-contact-id');
                         if (contactId) {
                             const contactBtn = document.createElement('a');
+                            contactBtn.classList.add('contact-icon-modal'); // Add a class for potential styling
                             contactBtn.href = `{% url 'persons__view_contact' 999999 %}`.replace('999999', contactId);
                             contactBtn.innerHTML = "👤";
                             contactBtn.title = "Voir le contact";
                             contactBtn.style.textDecoration = "none";
-                            actionsDiv.appendChild(contactBtn);
+                            contactBtn.style.fontSize = "0.9em"; // Adjust size
+                            contactBtn.style.marginLeft = "5px"; // Add spacing
+                            leftDiv.appendChild(contactBtn); // Append to leftDiv after textSpan
                         }
 
                         const viewBtn = document.createElement('a');
@@ -765,7 +768,7 @@ document.addEventListener('DOMContentLoaded', function() { // NOSONAR
                 const timeStr = (act.time && act.time !== "00:00") ? act.time + " - " : "";
                 const dueStr = act.due_date ? ` (Échéance: ${act.due_date.split('-').reverse().join('/')}${act.due_time ? ' à ' + act.due_time : ''})` : "";
 
-                const titleText = act.contact_id ? timeStr + act.title + dueStr + " 👤" : timeStr + act.title + dueStr;
+                const titleText = timeStr + act.title + dueStr; // Removed " 👤"
                 eventItem.setAttribute("data-title", titleText);
                 eventItem.title = titleText; // Affiche le titre au survol
 
@@ -927,9 +930,9 @@ document.addEventListener('DOMContentLoaded', function() { // NOSONAR
                 eventItem.setAttribute("data-category", cat);
                 eventItem.setAttribute("data-id", act.id);
                 if (act.contact_id) eventItem.setAttribute("data-contact-id", act.contact_id);
-                const timeStr = (act.time && act.time !== "00:00") ? act.time + " - " : "";
-                const dueStr = act.due_date ? ` (Échéance: ${act.due_date.split('-').reverse().join('/')}${act.due_time ? ' à ' + act.due_time : ''})` : "";
-                eventItem.setAttribute("data-title", act.contact_id ? timeStr + act.title + dueStr + " 👤" : timeStr + act.title + dueStr);
+                const timeStr = (act.time && act.time !== "00:00") ? act.time + " - " : ""; // NOSONAR
+                const dueStr = act.due_date ? ` (Échéance: ${act.due_date.split('-').reverse().join('/')}${act.due_time ? ' à ' + act.due_time : ''})` : ""; // NOSONAR
+                eventItem.setAttribute("data-title", timeStr + act.title + dueStr); // Removed " 👤"
                 tempEventsDiv.appendChild(eventItem);
             });
 

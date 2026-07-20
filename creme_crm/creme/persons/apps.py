@@ -209,10 +209,10 @@ class PersonsConfig(CremeAppConfig):
 
         menu_registry.register(
             menu.ContactsEntry,
-            menu.OrganisationsEntry,
-            menu.CustomersEntry,
+            # menu.OrganisationsEntry,
+            # menu.CustomersEntry,
             menu.MassEmailingEntry,
-            menu.TaxeEntry,
+            # menu.TaxeEntry,
 
             menu.ContactCreationEntry,
             menu.OrganisationCreationEntry,

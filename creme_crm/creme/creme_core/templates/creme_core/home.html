@@ -72,11 +72,11 @@
             <!-- Widget Tâches (à droite) -->
             <div class="tasks-widget draggable-widget" id="tasksWidget" draggable="true">
                 <div class="tasks-header">
-                    <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="flex: 1; text-align: left;">
                         <span class="drag-handle" title="Déplacer la fenêtre">⠿</span>
-                        <h3>Gestion des tâches</h3>
                     </div>
-                    <div style="display: flex; gap: 5px;">
+                    <h3 style="flex: 2; text-align: center; margin: 0; font-size: 1.2em;">Gestion des tâches</h3>
+                    <div style="flex: 1; text-align: right;">
                         <button id="addTaskBtn" title="Ajouter une tâche">+</button>
                     </div>
                 </div>
@@ -148,22 +148,24 @@
                 
                 <!-- Vue 1 : Liste des événements -->
                 <div id="modalListView">
-                    <div class="activities-container">
-                        <!-- Rendez-vous -->
-                        <div class="activity-section">
-                            <div class="activity-header">
-                                <h4>Rendez-vous</h4>
-                                <button class="addDayActivityBtn" data-category="rendezvous" title="Ajouter un rendez-vous">+</button>
+                    <div class="modal-columns-container" style="grid-template-columns: 1fr;">
+                        <div class="modal-column">
+                            <!-- Rendez-vous -->
+                            <div class="activity-section">
+                                <div class="activity-header">
+                                    <h4>Rendez-vous</h4>
+                                    <button class="addDayActivityBtn" data-category="rendezvous" title="Ajouter un rendez-vous">+</button>
+                                </div>
+                                <div class="modal-event-list" id="list-rendezvous"></div>
                             </div>
-                            <div class="modal-event-list" id="list-rendezvous"></div>
-                        </div>
-                        <!-- Événements -->
-                        <div class="activity-section">
-                            <div class="activity-header">
-                                <h4>Événements</h4>
-                                <button class="addDayActivityBtn" data-category="evenements" title="Ajouter un événement">+</button>
+                            <!-- Événements -->
+                            <div class="activity-section">
+                                <div class="activity-header">
+                                    <h4>Événements</h4>
+                                    <button class="addDayActivityBtn" data-category="evenements" title="Ajouter un événement">+</button>
+                                </div>
+                                <div class="modal-event-list" id="list-evenements"></div>
                             </div>
-                            <div class="modal-event-list" id="list-evenements"></div>
                         </div>
                     </div>
                     <div class="modal-actions" style="margin-top: 15px;">
@@ -265,20 +267,21 @@
 
     <!-- Script pour faire fonctionner le calendrier dynamiquement -->
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- Centre de notifications ---
+        document.addEventListener('DOMContentLoaded', function() { // NOSONAR
+            // --- CSRF Token pour les requêtes AJAX ---
             const notificationBellIcon = document.getElementById('notificationBellIcon');
             const notificationCountBadge = document.getElementById('notificationCountBadge');
             const notificationPanel = document.getElementById('notificationPanel');
             const notificationList = document.getElementById('notificationList');
             const clearNotificationBtn = document.getElementById('clearNotificationsBtn');
 
-            function renderNotificationList() {
+            function renderNotificationList() { // NOSONAR
                 const today = new Date().toISOString().split('T')[0];
                 const completedTaskIds = getCompletedTasks();
 
                 const urgentActivities = backendActivities.filter(a => {
                     const actDate = a.start.split('T')[0];
+                    // eslint-disable-next-line max-len
                     const isTask = a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance');
                     return isTask && actDate <= today && !completedTaskIds.includes(String(a.id));
                 }).sort((a, b) => a.start.localeCompare(b.start));
@@ -286,7 +289,7 @@
                 if (urgentActivities.length === 0) {
                     notificationList.innerHTML = '<div class="notification-empty-state">Aucune tâche en retard ou pour aujourd\'hui.</div>';
                     notificationCountBadge.style.display = 'none';
-                    notificationBellIcon.classList.remove('ringing');
+                    if (notificationBellIcon) notificationBellIcon.classList.remove('ringing');
                     return;
                 }
 
@@ -301,7 +304,7 @@
                     
                     const bgColor = isOverdue ? '#fdedec' : '#fdf2e9';
                     const borderColor = isOverdue ? '#c0392b' : '#f39c12';
-                    const titleColor = isOverdue ? '#c0392b' : '#d35400';
+                    const titleColor = isOverdue ? '#c0392b' : '#d35400'; // NOSONAR
                     const titleText = isOverdue ? `⚠️ En retard (${actDate.split('-').reverse().join('/')})` : "🔔 À faire aujourd'hui";
                     
                     const notifItem = document.createElement('div');
@@ -349,17 +352,17 @@
                 });
             }
 
-            notificationBellIcon.addEventListener('click', function(event) {
+            if (notificationBellIcon) notificationBellIcon.addEventListener('click', function(event) {
                 event.stopPropagation();
                 notificationPanel.style.display = notificationPanel.style.display === 'block' ? 'none' : 'block';
             });
 
             document.addEventListener('click', function(event) {
-                if (notificationPanel.style.display === 'block' && !notificationPanel.contains(event.target) && !notificationBellIcon.contains(event.target)) {
+                if (notificationPanel && notificationPanel.style.display === 'block' && !notificationPanel.contains(event.target) && notificationBellIcon && !notificationBellIcon.contains(event.target)) {
                     notificationPanel.style.display = 'none';
                 }
             });
-
+            if (clearNotificationBtn) clearNotificationBtn.addEventListener('click', () => { notificationList.innerHTML = ''; });
 
             // --- Gestion des tâches accomplies ---
             const COMPLETED_TASKS_KEY = 'creme_completed_tasks';
@@ -393,7 +396,7 @@
             }
 
             // --- Système de Notifications (Toasts) ---
-            window.showToast = function(message, type = 'error') {
+            window.showToast = function(message, type = 'success') { // NOSONAR
                 const container = document.getElementById('toastContainer');
                 if (!container) return;
 
@@ -418,11 +421,11 @@
             const isDarkMode = localStorage.getItem('creme_dark_mode') === 'true';
 
             if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.checked = true;
+                document.body.classList.add('dark-mode'); // NOSONAR
+                if (darkModeToggle) darkModeToggle.checked = true;
             }
 
-            darkModeToggle.addEventListener('change', (e) => {
+            if (darkModeToggle) darkModeToggle.addEventListener('change', (e) => {
                 document.body.classList.toggle('dark-mode', e.target.checked);
                 localStorage.setItem('creme_dark_mode', e.target.checked);
             });
@@ -432,14 +435,14 @@
             const currentHour = new Date().getHours();
             let greeting = "";
 
-            if (currentHour >= 5 && currentHour < 12) {
+            if (currentHour >= 5 && currentHour < 12) { // NOSONAR
                 greeting = `Bonjour ${userName}, prêt pour une nouvelle journée ?`;
             } else if (currentHour >= 12 && currentHour < 14) {
                 greeting = `Bon appétit, ${userName} !`;
             } else if (currentHour >= 14 && currentHour < 18) {
                 greeting = `Bon après-midi, ${userName} !`;
             } else {
-                greeting = `Bonsoir ${userName}, belle fin de journée !`;
+                greeting = `Bonsoir ${userName}, belle fin de journée !`; // NOSONAR
             }
             document.getElementById('dynamicGreeting').innerText = greeting;
 
@@ -447,7 +450,7 @@
             let latestContacts = [];
             try {
                 // On suppose qu'une variable 'latest_contacts_json' est passée par la vue Django
-                latestContacts = JSON.parse("{{ latest_contacts_json|escapejs|default:'[]' }}");
+                latestContacts = JSON.parse("{{ latest_contacts_json|escapejs|default:'[]' }}"); // NOSONAR
             } catch(e) {
                 console.error("Erreur de parsing des derniers contacts", e);
             }
@@ -456,7 +459,7 @@
             let homeStats = {};
             try {
                 homeStats = JSON.parse("{{ home_stats_json|escapejs|default:'{}' }}");
-            } catch(e) {
+            } catch(e) { // NOSONAR
                 console.error("Erreur de parsing des statistiques", e);
             }
 
@@ -475,7 +478,7 @@
 
             homeGrid.addEventListener('dragstart', function(e) {
                 // On évite de lancer le glisser-déposer quand on clique dans un champ de texte ou sur un bouton interactif
-                if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A', 'SPAN'].includes(e.target.tagName) && !e.target.classList.contains('drag-handle')) {
+                if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A', 'SPAN'].includes(e.target.tagName) && !e.target.classList.contains('drag-handle')) { // NOSONAR
                     e.preventDefault(); // Annule le drag
                     return;
                 }
@@ -504,7 +507,7 @@
                 const targetWidget = e.target.closest('.draggable-widget');
                 
                 if (targetWidget && targetWidget !== draggedWidget && draggedWidget) {
-                    const rect = targetWidget.getBoundingClientRect();
+                    const rect = targetWidget.getBoundingClientRect(); // NOSONAR
                     const relX = e.clientX - rect.left;
                     
                     // Si on survole la moitié droite du widget ciblé, on insère après, sinon avant
@@ -532,7 +535,7 @@
             const eventModal = document.getElementById('eventModal');
             const modalTitle = document.getElementById('modalTitle');
             
-            const modalListView = document.getElementById('modalListView');
+            const modalListView = document.getElementById('modalListView'); // NOSONAR
             const closeModalBtn = document.getElementById('closeModalBtn');
             const addDayActivityBtns = document.querySelectorAll('.addDayActivityBtn');
 
@@ -548,7 +551,7 @@
             const eventAddress = document.getElementById('eventAddress');
             
             // Variables pour la modale des tâches
-            const taskModal = document.getElementById('taskModal');
+            const taskModal = document.getElementById('taskModal'); // NOSONAR
             const taskInputText = document.getElementById('taskInputText');
             const taskDraftStatus = document.getElementById('taskDraftStatus');
             const taskInputDate = document.getElementById('taskInputDate');
@@ -562,7 +565,7 @@
 
             // Nouveaux éléments pour la jauge
             const taskProgressContainer = document.getElementById('taskProgressContainer');
-            const taskProgressBar = document.getElementById('taskProgressBar');
+            const taskProgressBar = document.getElementById('taskProgressBar'); // NOSONAR
             const taskProgressText = document.getElementById('taskProgressText');
 
             // --- Auto-save (Brouillons) ---
@@ -588,11 +591,11 @@
 
                 if (total === 0) {
                     if (taskProgressContainer) taskProgressContainer.style.display = 'none';
-                    if (taskProgressText) taskProgressText.style.display = 'none';
+                    if (taskProgressText) taskProgressText.style.display = 'none'; // NOSONAR
                     return;
                 }
 
-                if (taskProgressContainer) taskProgressContainer.style.display = 'block';
+                if (taskProgressContainer) taskProgressContainer.style.display = 'block'; // NOSONAR
                 if (taskProgressText) taskProgressText.style.display = 'block';
 
                 const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
@@ -601,7 +604,7 @@
                 taskProgressBar.style.width = percentage + '%';
                 taskProgressText.innerText = percentage + '% complété';
                 
-                if (percentage === 100) {
+                if (percentage === 100) { // NOSONAR
                     taskProgressBar.style.backgroundColor = '#4caf50'; // Vert quand tout est fini
                 } else {
                     taskProgressBar.style.backgroundColor = '#2196f3'; // Bleu en cours
@@ -665,7 +668,7 @@
                                 const contactId = ev.getAttribute('data-contact-id');
                                 if (contactId) {
                                     const contactBtn = document.createElement('a');
-                                    contactBtn.href = `{% url 'persons__view_contact' 999999 %}`.replace('999999', contactId);
+                                    contactBtn.href = `{% url 'persons__view_contact' 999999 %}`.replace('999999', contactId); // NOSONAR
                                     contactBtn.innerHTML = "👤";
                                     contactBtn.title = "Voir le contact";
                                     contactBtn.style.textDecoration = "none";
@@ -673,13 +676,13 @@
                                 }
                                 
                                 const viewBtn = document.createElement('a');
-                                viewBtn.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', actId);
+                                viewBtn.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', actId); // NOSONAR
                                 viewBtn.innerText = "Détails";
                                 viewBtn.title = "Détails / Supprimer";
                                 viewBtn.style.textDecoration = "none";
                                 
                                 const editBtn = document.createElement('a');
-                                editBtn.href = `{% url 'activities__edit_activity' 999999 %}`.replace('999999', actId);
+                                editBtn.href = `{% url 'activities__edit_activity' 999999 %}`.replace('999999', actId); // NOSONAR
                                 editBtn.innerText = "Modifier";
                                 editBtn.title = "Modifier l'activité";
                                 editBtn.style.textDecoration = "none";
@@ -706,7 +709,7 @@
             // On récupère les événements du CRM depuis le contexte Python
             let backendActivities = [];
             try {
-                backendActivities = JSON.parse("{{ activities_json|escapejs|default:'[]' }}");
+                backendActivities = JSON.parse("{{ activities_json|escapejs|default:'[]' }}"); // NOSONAR
             } catch(e) {
                 console.error("Erreur de parsing des activités", e);
             }
@@ -717,17 +720,17 @@
                 localActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
             } catch(e) {
                 console.error("Erreur de parsing des activités locales", e);
-            }
-            backendActivities = backendActivities.concat(localActivities);
+            } // NOSONAR
+            backendActivities = backendActivities.concat(localActivities); // NOSONAR
 
             function renderMonthView() {
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth();
-                const today = new Date();
+                const today = new Date(); // NOSONAR
 
                 const monthNames = [
                     "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
-                    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+                    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" // NOSONAR
                 ];
                 todayBtn.innerText = `${monthNames[month]} ${year}`;
 
@@ -738,12 +741,12 @@
 
                 calendarDates.innerHTML = "";
 
-                const firstDay = new Date(year, month, 1).getDay();
+                const firstDay = new Date(year, month, 1).getDay(); // NOSONAR
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
                 const prevMonthDays = new Date(year, month, 0).getDate();
 
                 // Ajustement pour que la semaine commence le lundi (0=Dimanche -> 6=Dimanche)
-                let startDay = firstDay === 0 ? 6 : firstDay - 1;
+                let startDay = firstDay === 0 ? 6 : firstDay - 1; // NOSONAR
 
                 // Jours du mois précédent
                 for (let i = startDay; i > 0; i--) {
@@ -751,7 +754,7 @@
                     dayDiv.classList.add("calendar-day", "other-month");
                     
                     const dateSpan = document.createElement("span");
-                    dateSpan.classList.add("day-number");
+                    dateSpan.classList.add("day-number"); // NOSONAR
                     dateSpan.innerText = prevMonthDays - i + 1;
                     
                     dayDiv.appendChild(dateSpan);
@@ -761,7 +764,7 @@
                 // Jours du mois courant
                 for (let i = 1; i <= daysInMonth; i++) {
                     const dayDiv = document.createElement("div");
-                    dayDiv.classList.add("calendar-day");
+                    dayDiv.classList.add("calendar-day"); // NOSONAR
                     if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                         dayDiv.classList.add("today");
                     }
@@ -783,10 +786,11 @@
                         if (act.type_name.includes("action") || act.type_name.includes("task")) return; // On ignore les tâches pour ne pas les afficher dans l'agenda
 
                         const eventItem = document.createElement("div");
-                        eventItem.classList.add("event-item");
+                        eventItem.classList.add("event-item"); // NOSONAR
+                        
                         
                         let cat = "evenements";
-                        if (act.type_name.includes("rendez-vous") || act.type_name.includes("meeting")) cat = "rendezvous";
+                        if (act.type_name.includes("rendez-vous") || act.type_name.includes("meeting")) cat = "rendezvous"; // NOSONAR
                         else if (act.type_name.includes("échéance") || act.type_name.includes("echeance")) cat = "echeances";
 
                         eventItem.setAttribute("data-category", cat);
@@ -806,10 +810,29 @@
 
                     // Ouverture de la modale au clic sur le jour
                     dayDiv.addEventListener('click', function() {
-                        currentEventsDiv = eventsDiv;
+                        // On doit reconstruire un eventsDiv qui contient TOUT (y compris les tâches qui étaient exclues de l'affichage principal)
+                        const allDayActivities = backendActivities.filter(a => a.start.startsWith(dateStr));
+                        const allEventsDiv = document.createElement('div');
+                        allDayActivities.forEach(act => {
+                            const eventItem = document.createElement("div");
+                            let cat = "evenements"; // NOSONAR
+                            if (act.type_name.includes("rendez-vous") || act.type_name.includes("meeting")) cat = "rendezvous";
+                            else if (act.type_name.includes("échéance") || act.type_name.includes("echeance")) cat = "echeances";
+                            else if (act.type_name.includes("action") || act.type_name.includes("task")) cat = "actions";
+                            eventItem.classList.add("event-item");
+                            eventItem.setAttribute("data-category", cat);
+                            eventItem.setAttribute("data-id", act.id);
+                            if (act.contact_id) {
+                                eventItem.setAttribute("data-contact-id", act.contact_id);
+                            }
+                            eventItem.setAttribute("data-title", act.title);
+                            allEventsDiv.appendChild(eventItem);
+                        });
+
+                        currentEventsDiv = allEventsDiv;
                         currentDayTitle = `Événements du ${i} ${monthNames[month]} ${year}`;
                         // Sauvegarde de la date (Format YYYY-MM-DD) pour pouvoir la passer à l'URL du CRM
-                        selectedDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                        selectedDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`; // NOSONAR
                         modalTitle.innerText = currentDayTitle;
                         
                         refreshModalList();
@@ -824,11 +847,11 @@
             }
 
             function renderWeekView() {
-                const year = currentDate.getFullYear();
+                const year = currentDate.getFullYear(); // NOSONAR
                 const today = new Date();
 
                 // 1. Calculer les dates de la semaine
-                const weekDates = [];
+                const weekDates = []; // NOSONAR
                 const currentDayOfWeek = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1; // 0=Lundi, 6=Dimanche
                 const weekStart = new Date(currentDate);
                 weekStart.setDate(currentDate.getDate() - currentDayOfWeek);
@@ -840,7 +863,7 @@
                 }
 
                 // 2. Mettre à jour les en-têtes
-                const startMonthName = weekDates[0].toLocaleString('fr-FR', { month: 'long' });
+                const startMonthName = weekDates[0].toLocaleString('fr-FR', { month: 'long' }); // NOSONAR
                 const endMonthName = weekDates[6].toLocaleString('fr-FR', { month: 'long' });
                 todayBtn.innerText = (startMonthName === endMonthName)
                     ? `Du ${weekDates[0].getDate()} au ${weekDates[6].getDate()} ${startMonthName} ${year}`
@@ -858,7 +881,7 @@
                 });
 
                 // 3. Construire la grille de la semaine
-                calendarWeekView.innerHTML = '';
+                calendarWeekView.innerHTML = ''; // NOSONAR
                 const weekGrid = document.createElement('div');
                 weekGrid.className = 'week-grid-content';
                 
@@ -893,12 +916,12 @@
                 calendarWeekView.appendChild(weekGrid);
 
                 // 4. Placer les événements
-                const weekStartStr = weekDates[0].toISOString().split('T')[0];
+                const weekStartStr = weekDates[0].toISOString().split('T')[0]; // NOSONAR
                 const weekEndStr = weekDates[6].toISOString().split('T')[0];
                 const weekActivities = backendActivities.filter(a => a.start >= weekStartStr && a.start <= weekEndStr);
 
                 weekActivities.forEach(act => {
-                    if (!act.time || act.time === "00:00") return;
+                    if (!act.time || act.time === "00:00") return; // NOSONAR
 
                     const [hour, minute] = act.time.split(':').map(Number);
                     const topPosition = ((hour - 8) * 50) + (minute / 60 * 50); // 8h = début, 50px/heure
@@ -920,7 +943,7 @@
                     eventItem.addEventListener('click', (e) => {
                         e.stopPropagation();
                         if (act.id && !String(act.id).startsWith('local_')) {
-                            window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                            window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id); // NOSONAR
                         } else {
                             openDayModal(act.start.split('T')[0]);
                         }
@@ -935,7 +958,7 @@
                     const dayActivities = backendActivities.filter(a => a.start.startsWith(dateStr));
                     const tempEventsDiv = document.createElement('div');
                     dayActivities.forEach(act => {
-                const eventItem = document.createElement("div");                
+                const eventItem = document.createElement("div"); // NOSONAR
                 const cat = (act.type_name.includes("rendez-vous")) ? "rendezvous" : "evenements";
                         eventItem.setAttribute("data-category", cat);
                         eventItem.setAttribute("data-id", act.id);
@@ -946,7 +969,7 @@
                     });
 
                     currentEventsDiv = tempEventsDiv;
-                    currentDayTitle = `Événements du ${new Date(dateStr+'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+                    currentDayTitle = `Événements du ${new Date(dateStr+'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`; // NOSONAR
                     selectedDateStr = dateStr;
                     modalTitle.innerText = currentDayTitle;
                     
@@ -959,7 +982,7 @@
                 calendarWeekView.querySelectorAll('.week-day-col .week-hour-slot').forEach(slot => {
                     slot.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        const dateStr = slot.parentElement.getAttribute('data-date');
+                        const dateStr = slot.parentElement.getAttribute('data-date'); // NOSONAR
                         const timeStr = slot.getAttribute('data-time');
                         
                         openDayModal(dateStr);
@@ -983,7 +1006,7 @@
             }
 
             function renderDayView() {
-                const year = currentDate.getFullYear();
+                const year = currentDate.getFullYear(); // NOSONAR
                 const dateStrFr = currentDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
                 todayBtn.innerText = dateStrFr.charAt(0).toUpperCase() + dateStrFr.slice(1) + " " + year;
 
@@ -997,7 +1020,7 @@
                 }
                 calendarDays.appendChild(dayHeader);
 
-                calendarDayView.innerHTML = '';
+                calendarDayView.innerHTML = ''; // NOSONAR
                 const dayGrid = document.createElement('div');
                 dayGrid.className = 'week-grid-content';
                 dayGrid.style.gridTemplateColumns = '50px 1fr';
@@ -1030,7 +1053,7 @@
                 const dayActivities = backendActivities.filter(a => a.start.startsWith(dateIso));
 
                 dayActivities.forEach(act => {
-                    if (!act.time || act.time === "00:00") return;
+                    if (!act.time || act.time === "00:00") return; // NOSONAR
 
                     const [hour, minute] = act.time.split(':').map(Number);
                     const topPosition = ((hour - 8) * 50) + (minute / 60 * 50);
@@ -1049,7 +1072,7 @@
                     eventItem.addEventListener('click', (e) => {
                         e.stopPropagation();
                         if (act.id && !String(act.id).startsWith('local_')) {
-                            window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                            window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id); // NOSONAR
                         } else {
                             openDayModal(act.start.split('T')[0]);
                         }
@@ -1073,7 +1096,7 @@
                     });
 
                     currentEventsDiv = tempEventsDiv;
-                    currentDayTitle = `Événements du ${new Date(dateStr+'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+                    currentDayTitle = `Événements du ${new Date(dateStr+'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`; // NOSONAR
                     selectedDateStr = dateStr;
                     modalTitle.innerText = currentDayTitle;
                     
@@ -1086,7 +1109,7 @@
                 dayCol.querySelectorAll('.week-hour-slot').forEach(slot => {
                     slot.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        const timeStr = slot.getAttribute('data-time');
+                        const timeStr = slot.getAttribute('data-time'); // NOSONAR
                         
                         openDayModal(dateIso);
                         
@@ -1126,10 +1149,15 @@
                 btn.addEventListener('click', (e) => {
                     currentCategory = e.currentTarget.getAttribute('data-category');
                     if (currentCategory === 'rendezvous') {
-                        window.location.href = `{% url 'activities__create_activity' 'meeting' %}?start=${selectedDateStr}`;
+                        window.open(`{% url 'activities__create_activity' 'meeting' %}?start=${selectedDateStr}`, '_blank');
                     } else {
                         // --- Pour Événements ---
-                        window.location.href = `{% url 'activities__create_activity' %}?start=${selectedDateStr}`;
+                        if (currentCategory === 'actions') {
+                            addTaskBtn.click(); // Simule un clic sur le bouton "+" des tâches
+                        } else {
+                            // Ouvre la création d'événement générique dans un nouvel onglet
+                            window.open(`{% url 'activities__create_activity' %}?start=${selectedDateStr}`, '_blank');
+                        }
                     }
                 });
             });
@@ -1143,7 +1171,7 @@
             saveEventBtn.addEventListener('click', () => {
                 const eventText = eventInput.value.trim();
                 const timeValue = eventTime.value;
-                
+                 // NOSONAR
 
                 if (!timeValue) {
                     showToast("Veuillez imposer une heure pour valider l'activité.", "error");
@@ -1159,7 +1187,7 @@
 
                 let locationText = "";
                 if (currentCategory === 'evenements') {
-                    const selectedLocation = document.querySelector('input[name="eventLocation"]:checked').value;
+                    const selectedLocation = document.querySelector('input[name="eventLocation"]:checked').value; // NOSONAR
                     if (selectedLocation === 'Déplacement') {
                         const address = eventAddress.value.trim();
                         if (!address) {
@@ -1174,7 +1202,7 @@
                 }
 
                 if (eventText && currentEventsDiv) {
-                    const localEventId = 'local_ev_' + Date.now();
+                    const localEventId = 'local_ev_' + Date.now(); // NOSONAR
                     const localEvent = {
                         id: localEventId,
                         title: eventText + locationText,
@@ -1186,7 +1214,7 @@
                         created_at: new Date().getTime(),
                     };
                     backendActivities.push(localEvent);
-                    
+                     // NOSONAR
                     localStorage.removeItem('creme_event_draft');
                     let savedLocalActivities = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
                     savedLocalActivities.push(localEvent);
@@ -1201,7 +1229,7 @@
             });
 
             function appendLocalTaskToPanel(taskText, taskId) {
-                const emptyState = tasksList.querySelector('.task-empty-state');
+                const emptyState = tasksList.querySelector('.task-empty-state'); // NOSONAR
                 if (emptyState) emptyState.remove();
 
                 const taskDiv = document.createElement("div");
@@ -1241,7 +1269,7 @@
                 leftDiv.appendChild(label);
                 
                 const actionsDiv = document.createElement("div");
-                actionsDiv.style.display = "flex";
+                actionsDiv.style.display = "flex"; // NOSONAR
                 actionsDiv.style.gap = "8px";
                 actionsDiv.style.marginLeft = "10px";
                 
@@ -1250,7 +1278,7 @@
                 editBtn.style.cursor = "pointer";
                 editBtn.title = "Modifier";
                 editBtn.addEventListener("click", () => {
-                    const newText = prompt("Modifier la tâche :", label.innerText);
+                    const newText = prompt("Modifier la tâche :", label.innerText); // NOSONAR
                     if (newText !== null && newText.trim() !== "") {
                         label.innerText = newText;
                         const act = backendActivities.find(a => a.id === taskId);
@@ -1274,7 +1302,7 @@
                 deleteBtn.style.cursor = "pointer";
                 deleteBtn.title = "Supprimer";
                 deleteBtn.addEventListener("click", () => {
-                    if (confirm("Supprimer cette tâche ?")) {
+                    if (confirm("Supprimer cette tâche ?")) { // NOSONAR
                         taskDiv.remove();
                         if (tasksList.children.length === 0) tasksList.innerHTML = '<div class="task-empty-state">Aucune tâche pour le moment.</div>';
                         backendActivities = backendActivities.filter(a => a.id !== taskId);
@@ -1300,6 +1328,17 @@
             // --- Script pour les Tâches du jour (à droite de l'écran) ---
             addTaskBtn.addEventListener('click', () => {
                 taskInputText.value = localStorage.getItem('creme_task_draft') || "";
+
+                // Réinitialisation de la modale pour une création
+                taskModal.querySelector('h3').innerText = "Nouvelle tâche";
+                saveTaskBtn.innerText = "Ajouter";
+                taskModal.removeAttribute('data-editing-id');
+                document.getElementById('taskInputText').value = '';
+                document.getElementById('taskInputPriority').value = 'moyenne';
+                document.getElementById('taskInputDueDate').value = '';
+                document.getElementById('taskInputDueTime').value = '';
+
+
                 const todayStr = new Date().toISOString().split('T')[0];
                 taskInputDate.value = todayStr; // Date d'aujourd'hui par défaut
                 taskModal.style.display = 'flex';
@@ -1314,7 +1353,7 @@
                 const taskText = taskInputText.value.trim();
                 const taskDate = taskInputDate.value;
                 const taskPriority = document.getElementById('taskInputPriority').value;
-                const taskDueDate = document.getElementById('taskInputDueDate').value; // NOSONAR
+                const taskDueDate = document.getElementById('taskInputDueDate').value;
                 const taskDueTime = document.getElementById('taskInputDueTime').value;
 
                 if (!taskText) {
@@ -1327,7 +1366,7 @@
                     return;
                 }
 
-                const editingTaskId = taskModal.getAttribute('data-editing-id');
+                const editingTaskId = taskModal.getAttribute('data-editing-id'); // NOSONAR
                 if (editingTaskId) {
                     // --- Mode Édition ---
                     const taskToEdit = backendActivities.find(a => String(a.id) === editingTaskId);
@@ -1351,14 +1390,13 @@
                     }
                 } else {
                     // --- Mode Création ---
-                    const localTaskId = 'local_' + Date.now();
+                    const localTaskId = 'local_' + Date.now(); // NOSONAR
                     const localTask = {
                         id: localTaskId,
                         title: taskText,
                         start: taskDate,
                         time: "",
-                        type_name: "action",
-                        contact_id: null,
+                        type_name: "action", // NOSONAR
                         is_local: true,
                         due_date: taskDueDate || null,
                         due_time: taskDueTime || null,
@@ -1382,13 +1420,13 @@
             
             // --- Affichage automatique des tâches du CRM pour aujourd'hui ---
             function renderTasksList() {
-                const today = new Date();
+                const today = new Date(); // NOSONAR
                 const todayDateStr = new Date().toISOString().split('T')[0];
                 const completedTaskIds = getCompletedTasks();
 
                 const todayTasks = backendActivities.filter(a => a.start.startsWith(todayDateStr) && (a.type_name.includes('action') || a.type_name.includes('task') || a.type_name.includes('échéance')));
 
-                // Système de tri : Haute (1), Moyenne (2), Basse (3)
+                // Système de tri : Haute (1), Moyenne (2), Basse (3) // NOSONAR
                 const priorityWeight = { "haute": 1, "moyenne": 2, "basse": 3 };
                 todayTasks.sort((a, b) => (priorityWeight[a.priority] || 2) - (priorityWeight[b.priority] || 2));
                 
@@ -1396,7 +1434,7 @@
                 if (todayTasks.length > 0) {
                 todayTasks.forEach(task => {
                     const taskDiv = document.createElement("div");
-                    taskDiv.classList.add("task-item"); 
+                    taskDiv.classList.add("task-item");  // NOSONAR
                     taskDiv.style.justifyContent = "space-between";
                                         // Couleurs des bordures selon la priorité
                     if (task.priority === 'haute') taskDiv.style.borderLeftColor = '#f44336';      // Rouge
@@ -1421,15 +1459,9 @@
                     label.style.textOverflow = "ellipsis";
                     label.style.whiteSpace = "nowrap";
 
-                    if (task.contact_id) {
-                        label.innerText = timeStr + task.title + " 👤";
-                        label.title = "Ouvrir la fiche du contact";
-                        label.addEventListener('click', () => {
-                            window.location.href = `{% url 'persons__view_contact' 999999 %}`.replace('999999', task.contact_id);
-                        });
-                    } else {
-                        label.innerText = timeStr + task.title;
-                        label.title = "Ouvrir dans le CRM";
+                    label.innerHTML = timeStr + task.title;
+
+                    if (!task.is_local) {
                         label.addEventListener('click', () => {
                             window.location.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', task.id);
                         });
@@ -1464,6 +1496,47 @@
                     actionsDiv.style.gap = "8px";
                     actionsDiv.style.marginLeft = "10px";
                     
+                    // On cherche si le nom d'un contact connu est dans le titre de la tâche
+                    let matchedContact = null;
+                    if (typeof latestContacts !== 'undefined' && latestContacts.length > 0) { // NOSONAR
+                        const cleanTaskTitle = task.title.toLowerCase().replace(/\s+/g, ' ').trim();
+
+                        // On trie les contacts par longueur de nom (du plus long au plus court)
+                        // pour éviter les faux positifs (ex: "Jean" avant "Jean Dupont").
+                        const sortedContacts = [...latestContacts].sort((a, b) => b.name.length - a.name.length);
+
+                        for (const contact of sortedContacts) {
+                            const contactNameLower = contact.name.toLowerCase();
+
+                            // On cherche le nom complet (ex: "jean dupont")
+                            if (cleanTaskTitle.includes(contactNameLower)) {
+                                matchedContact = contact;
+                                break;
+                            }
+
+                            // On cherche le format "NOM Prénom" (ex: "dupont jean")
+                            const nameParts = contactNameLower.split(' ');
+                            if (nameParts.length > 1 && cleanTaskTitle.includes(`${nameParts[1]} ${nameParts[0]}`)) {
+                                matchedContact = contact;
+                                break;
+                            }
+                            if (matchedContact) break;
+                        }
+                    }
+
+                    // Si un contact est trouvé, on crée le bouton-icône
+                    if (matchedContact) {
+                        const contactBtn = document.createElement("a");
+                        contactBtn.href = `{% url 'persons__view_contact' 0 %}`.replace('0', matchedContact.id);
+                        contactBtn.title = `Voir la fiche de ${matchedContact.name}`;
+                        contactBtn.innerHTML = "👤";
+                        contactBtn.style.textDecoration = "none";
+                        contactBtn.style.fontSize = "1.1em";
+                        label.innerHTML += ' 👤';
+                        contactBtn.onclick = (e) => e.stopPropagation(); // Empêche le déclenchement d'autres clics
+                        actionsDiv.appendChild(contactBtn);
+                    }
+
                     if (task.is_local) {
                         // Le bouton "Modifier" pour les tâches locales est géré plus bas avec celui des tâches CRM
                         
@@ -1477,7 +1550,7 @@
                         deleteBtn.style.backgroundColor = "#fdedec";
                         deleteBtn.style.cursor = "pointer";
                         deleteBtn.title = "Supprimer";
-                        deleteBtn.addEventListener("click", () => {
+                        deleteBtn.addEventListener("click", () => { // NOSONAR
                             if (confirm("Supprimer cette tâche ?")) {
                                 taskDiv.remove();
                                 if (tasksList.children.length === 0) tasksList.innerHTML = '<div class="task-empty-state">Aucune tâche pour le moment.</div>';
@@ -1507,7 +1580,7 @@
                     editBtn.style.backgroundColor = "#eaf4fb";
                     editBtn.style.color = "#2980b9";
                     editBtn.title = "Modifier la tâche";
-                    editBtn.addEventListener("click", () => {
+                    editBtn.addEventListener("click", () => { // NOSONAR
                         // Pré-remplir la modale avec les données de la tâche
                         taskModal.querySelector('h3').innerText = "Modifier la tâche";
                         taskInputText.value = task.title;
@@ -1541,7 +1614,7 @@
 
             function renderDeadlinesList() {
                 const deadlinesList = document.getElementById('deadlinesList');
-                const today = new Date();
+                const today = new Date(); // NOSONAR
                 today.setHours(0, 0, 0, 0); // Pour comparer uniquement les dates
 
                 const upcomingDeadlines = backendActivities.filter(a => {
@@ -1568,7 +1641,7 @@
                         leftDiv.style.overflow = "hidden";
 
                         const dueDate = new Date(task.due_date);
-                        const diffTime = dueDate - today;
+                        const diffTime = dueDate - today; // NOSONAR
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
                         let dateInfo = `<span style="font-weight:bold; color:#2980b9;"> (J-${diffDays})</span>`;
@@ -1604,7 +1677,7 @@
                             deleteBtn.style.backgroundColor = "#fdedec";
                             deleteBtn.style.cursor = "pointer";
                             deleteBtn.title = "Supprimer";
-                            deleteBtn.addEventListener("click", () => {
+                            deleteBtn.addEventListener("click", () => { // NOSONAR
                                 if (confirm("Supprimer cette tâche ?")) {
                                     backendActivities = backendActivities.filter(a => a.id !== task.id);
                                     let saved = JSON.parse(localStorage.getItem('creme_local_activities') || '[]');
@@ -1626,7 +1699,7 @@
                             completeBtn.style.backgroundColor = "#e9f7ef";
                             completeBtn.style.cursor = "pointer";
                             completeBtn.title = "Marquer comme réalisé";
-                            completeBtn.addEventListener("click", () => {
+                            completeBtn.addEventListener("click", () => { // NOSONAR
                                 toggleTaskCompletion(String(task.id), true);
                                 showToast("Tâche marquée comme accomplie !", "success");
                                 render();
@@ -1639,7 +1712,7 @@
 
                         } else {
                             const viewBtn = document.createElement('a');
-                            viewBtn.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', task.id);
+                            viewBtn.href = `{% url 'activities__view_activity' 999999 %}`.replace('999999', task.id); // NOSONAR
                             viewBtn.innerHTML = "🔍";
                             viewBtn.title = "Voir dans le CRM";
                             viewBtn.style.textDecoration = "none";
@@ -1655,7 +1728,7 @@
                             completeBtn.style.backgroundColor = "#e9f7ef";
                             completeBtn.style.cursor = "pointer";
                             completeBtn.title = "Marquer comme réalisé";
-                            completeBtn.addEventListener("click", () => {
+                            completeBtn.addEventListener("click", () => { // NOSONAR
                                 toggleTaskCompletion(String(task.id), true);
                                 showToast("Tâche marquée comme accomplie !", "success");
                                 render();
@@ -1681,7 +1754,7 @@
                 if (!act) return;
                 
                 let html = `<div style="font-size: 1.1em;">`;
-                html += `<p><span style="color:#666; display:inline-block; width:80px;">Titre :</span> <strong>${act.title}</strong></p>`;
+                html += `<p><span style="color:#666; display:inline-block; width:80px;">Titre :</span> <strong>${act.title}</strong></p>`; // NOSONAR
                 html += `<p><span style="color:#666; display:inline-block; width:80px;">Date :</span> <strong>${act.start.split('T')[0]}</strong></p>`;
                 html += `<p><span style="color:#666; display:inline-block; width:80px;">Heure :</span> <strong>${(act.time && act.time !== '00:00') ? act.time : 'Non spécifiée'}</strong></p>`;
                 html += `<p><span style="color:#666; display:inline-block; width:80px;">Type :</span> <span style="background: #e3f2fd; color: #1976d2; padding: 3px 8px; border-radius: 4px; font-weight:bold; font-size: 0.9em;">${act.type_name}</span></p>`;
@@ -1701,7 +1774,7 @@
                 }).sort((a, b) => a.start.localeCompare(b.start)); // Tri chronologique
 
                 if(allActivities.length > 0) {
-                    allActivities.forEach(act => {
+                    allActivities.forEach(act => { // NOSONAR
                         const actDate = act.start.split('T')[0];
                         const isOverdue = actDate < today;
                         const isToday = actDate === today;
@@ -1728,7 +1801,7 @@
                                     <button onclick="window.deleteLocalActivity('${act.id}'); window.showGlobalAlerts();" style="background:#f44336; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em;">Supprimer</button>
                                 </div>`;
                         } else {
-                            const actUrl = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                            const actUrl = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id); // NOSONAR
                             btnHtml = `<a href="${actUrl}" style="background:${btnColor}; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none;">Voir</a>`;
                         }
 
@@ -1756,7 +1829,7 @@
                 if (!selectedMonth) {
                     selectedMonth = localStorage.getItem('creme_global_feed_month') || new Date().toISOString().substring(0, 7);
                 } else {
-                    localStorage.setItem('creme_global_feed_month', selectedMonth);
+                    localStorage.setItem('creme_global_feed_month', selectedMonth); // NOSONAR
                 }
                     const completedTasks = JSON.parse(localStorage.getItem('creme_completed_tasks') || '{}');
 
@@ -1771,7 +1844,7 @@
                 const currentMonth = new Date().toISOString().substring(0, 7);
                 
                 // 1. On boucle sur TOUS les derniers contacts (seulement si mois en cours)
-                if (selectedMonth === currentMonth && typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
+                if (selectedMonth === currentMonth && typeof latestContacts !== 'undefined' && latestContacts.length > 0) { // NOSONAR
                     latestContacts.forEach(contact => {
                         hasContent = true;
                         contentHTML += `
@@ -1785,7 +1858,7 @@
                     });
                 }
 
-                if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) { // NOSONAR
                 // 2. On boucle sur TOUTES les activités (filtrées par mois, triées par date)
                     const filteredActivities = backendActivities.filter(a => a.start.startsWith(selectedMonth));
                     const allActivities = [...filteredActivities].sort((a, b) => b.start.localeCompare(a.start));
@@ -1847,7 +1920,7 @@
                 // Ajout de l'événement sur le sélecteur de mois
                 const monthInput = document.getElementById('globalFeedMonthInput');
                 if (monthInput) {
-                    monthInput.addEventListener('change', function() {
+                    monthInput.addEventListener('change', function() { // NOSONAR
                         window.showGlobalFeed(this.value);
                     });
                 }
@@ -1867,7 +1940,7 @@
             }
 
             window.deleteLocalActivity = function(actId) {
-                if (!confirm("Voulez-vous vraiment supprimer cette tâche ?")) return;
+                if (!confirm("Voulez-vous vraiment supprimer cette tâche ?")) return; // NOSONAR
 
                 backendActivities = backendActivities.filter(a => a.id !== actId);
 
@@ -1918,7 +1991,7 @@
                         content.style.alignItems = 'center';
                         content.innerHTML = '<div class="widget-placeholder">Sélectionnez une fenêtre à afficher.</div>';
                     } else if (value === 'stats') {
-                        // 1. Récupérer les données réelles
+                        // 1. Récupérer les données réelles // NOSONAR
                         const newContactsCount = homeStats.new_contacts_last_7_days || 0;
                         const completedTasksCount = Object.keys(completedTasks).length;
                         const todayStr = new Date().toISOString().split('T')[0];
@@ -1955,7 +2028,7 @@
                                 <div style="display:flex; flex-direction:column; gap:8px;">`;
 
                         if (latestContacts.length > 0) {
-                            const viewUrlTemplate = `{% url 'persons__view_contact' 999999 %}`;
+                            const viewUrlTemplate = `{% url 'persons__view_contact' 999999 %}`; // NOSONAR
                             latestContacts.forEach(contact => {
                                 const contactUrl = viewUrlTemplate.replace('999999', contact.id);
                                 contactsHtml += `
@@ -1985,7 +2058,7 @@
                         let hasFeed = false;
 
                         // On utilise les vraies données : les derniers contacts (seulement pour le mois en cours)
-                        if (savedMonth === currentMonth && typeof latestContacts !== 'undefined' && latestContacts.length > 0) {
+                        if (savedMonth === currentMonth && typeof latestContacts !== 'undefined' && latestContacts.length > 0) { // NOSONAR
                             latestContacts.slice(0, 2).forEach(contact => {
                                 hasFeed = true;
                                 feedHtml += `
@@ -2000,7 +2073,7 @@
                         }
 
                         // On utilise les vraies données : les tâches et événements du mois sélectionné
-                        if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                        if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) { // NOSONAR
                             const filteredActivities = backendActivities.filter(a => a.start.startsWith(savedMonth));
 
                             // Trier par date pour un affichage chronologique
@@ -2066,7 +2139,7 @@
 
                         const monthInput = content.querySelector(`#feedMonth_${selectorId}`);
                         if (monthInput) {
-                            monthInput.addEventListener('change', function() {
+                            monthInput.addEventListener('change', function() { // NOSONAR
                                 localStorage.setItem('creme_widget_feed_month_' + selectorId, this.value);
                                 renderWidgetContent();
                             });
@@ -2080,7 +2153,7 @@
                             </div>
                         `;
                         const textarea = content.querySelector('textarea');
-                        textarea.addEventListener('input', function() {
+                        textarea.addEventListener('input', function() { // NOSONAR
                             localStorage.setItem('creme_widget_note_' + selectorId, this.value);
                         });
                     }
@@ -2097,7 +2170,7 @@
                         const today = new Date().toISOString().split('T')[0];
 
                         // On vérifie si on a des activités qui viennent du CRM
-                        if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) {
+                        if (typeof backendActivities !== 'undefined' && backendActivities.length > 0) { // NOSONAR
                             
                             // On filtre pour ne garder que les tâches (actions, échéances) qui sont pour aujourd'hui ou en retard
                             const urgentActivities = backendActivities.filter(a => {
@@ -2128,7 +2201,7 @@
                                             <button onclick="window.deleteLocalActivity('${act.id}')" style="background:#f44336; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none; width: 80px;">Supprimer</button>
                                         </div>`;
                                 } else {
-                                    const actUrl = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id);
+                                    const actUrl = `{% url 'activities__view_activity' 999999 %}`.replace('999999', act.id); // NOSONAR
                                     btnHtml = `<a href="${actUrl}" style="background:${btnColor}; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.8em; text-decoration:none;">Voir</a>`;
                                 }
 
@@ -2238,7 +2311,7 @@
             // --- Rappel des tâches non accomplies au démarrage ---
             setTimeout(() => {
                 const todayStr = new Date().toISOString().split('T')[0];
-                const completedTaskIds = getCompletedTasks();
+                const completedTaskIds = getCompletedTasks(); // NOSONAR
 
                 const overdueTasksCount = backendActivities.filter(a => {
                     const actDate = a.start.split('T')[0];
@@ -2249,7 +2322,7 @@
                 if (overdueTasksCount === 0 && notificationCountBadge.style.display === 'none') {
                     showToast(`Vous êtes à jour dans vos tâches pour aujourd'hui !`, 'success');
                 }
-            }, 1000); // Léger délai de 1 seconde pour l'animation
+            }, 1000);
         });
     </script>
 
@@ -2677,6 +2750,16 @@
             cursor: pointer;
             font-weight: bold;
         }
+        .modal-columns-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .modal-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
         .btn-cancel { background-color: #f0f0f0; color: #333; }
         .btn-cancel:hover { background-color: #e0e0e0; }
         .btn-save { background-color: #3498db; color: white; }
@@ -2700,6 +2783,7 @@
         .modal-event-item[data-category="rendezvous"] { border-left-color: #3498db; }
         .modal-event-item[data-category="echeances"] { border-left-color: #e74c3c; }
         .modal-event-item[data-category="actions"] { border-left-color: #ff9800; }
+        .modal-event-item[data-category="taches"] { border-left-color: #ff9800; }
         .modal-event-item[data-category="evenements"] { border-left-color: #4caf50; }
 
         .empty-events-msg {

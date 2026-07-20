@@ -365,3 +365,67 @@ Il faut cependant distinguer :
 * `MongoDB Compass`, qui est un outil graphique de consultation.
 
 Compass peut donc servir à explorer la base, mais ne remplace pas le lancement du serveur MongoDB.
+
+
+# Personnalisation et Allègement de l'Interface (CRM)
+
+Afin d'adapter Crème CRM à nos besoins réels et de proposer une interface simple et épurée aux utilisateurs, plusieurs onglets et fonctionnalités ont été masqués de la barre de navigation principale.
+
+ℹ Note importante pour les futurs développeurs / administrateurs :
+Aucune fonctionnalité n'a été supprimée définitivement du code. Les modules et sous-menus ont simplement été mis en commentaire (avec un symbole #) dans les fichiers de configuration. Ils peuvent donc être réactivés à tout moment en quelques secondes en cas de besoin !
+
+1. Vue d'ensemble de la navigation actuelle
+Après nettoyage, la barre de menu supérieure a été simplifiée pour ne conserver que l'essentiel :
+
+ANNUAIRE : Centré uniquement sur la gestion des Contacts, de l'E-mailing et de la Taxe (les vues Sociétés, Prospects et l'import de fiches VCF ont été masqués).
+
+ACTIVITÉS : Centré uniquement sur la liste générale des activités et les Rendez-vous (les vues Calendrier et Appels téléphoniques ont été masquées).
+
+ONGLETS MASQUÉS : Les onglets Commercial, Gestion (Produits/Services), Outils (Projets, Tickets, Documents, Jobs...), Marketing (Campagnes e-mails) et Analyse (Rapports et Graphes) ont été retirés de l'affichage global pour alléger l'écran.
+
+2. Où trouver les modifications dans le code ?
+Les changements ont été réalisés à deux niveaux stratégiques afin que la nouvelle structure s'applique automatiquement à tous les comptes (actuels et futurs).
+
+A. Les modules entiers (Interrupteur principal)
+Les grands modules non utilisés ont été désactivés dans le fichier de configuration principal :
+ local_settings.py (ou settings.py) -> dans la liste INSTALLED_CREME_APPS :
+
+# 'creme.products' (Masque l'onglet Gestion)
+
+# 'creme.emails' (Masque l'onglet Marketing)
+
+# 'creme.reports' et # 'creme.graphs' (Masquent l'onglet Analyse)
+
+# 'creme.vcfs' (Masque l'import VCF dans l'Annuaire)
+
+# 'creme.projects', # 'creme.tickets', # 'creme.crudity' (Nettoient l'onglet Outils)
+
+Note : Les modules commerciaux (opportunités, facturation, etc.) ont également été commentés dans cette liste.
+
+B. Le nettoyage fin (Sous-menus spécifiques)
+Pour les onglets que l'on a souhaité conserver mais alléger, les lignes correspondantes ont été commentées dans les fichiers de menu de chaque application :
+
+ creme/activities/menu.py : Mise en commentaire du Calendrier et des Appels téléphoniques.
+
+ creme/persons/menu.py : Mise en commentaire des Sociétés et de la vue Clients/Prospects/Suspects.
+
+ creme/documents/menu.py & creme/creme_core/menu.py : Mise en commentaire de Documents, Classeurs et Jobs pour faire disparaître l'onglet Outils.
+
+3.  Comment réactiver une option masquée ? (Guide rapide)
+Si une évolution du projet nécessite de réafficher un onglet ou un sous-menu (par exemple, remettre le Calendrier ou le module Gestion) :
+
+Dans le code : Ouvrez le fichier concerné (settings.py ou le menu.py du module) et retirez simplement le symbole # devant la ligne souhaitée.
+
+Redémarrez le serveur : (Obligatoire uniquement si vous avez modifié le fichier settings.py).
+
+Synchronisez l'interface CRM :
+
+Connectez-vous au CRM en tant qu'administrateur.
+
+Cliquez sur l'icône d'engrenage en haut à droite (Configuration générale).
+
+Allez dans la rubrique Menu principal.
+
+Cliquez sur le bouton "Réinitialiser" (ou "Restaurer le menu par défaut").
+
+Le CRM va alors relire le code, détecter la fonctionnalité réactivée et la faire réapparaître pour l'ensemble des utilisateurs !

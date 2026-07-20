@@ -310,7 +310,7 @@ INSTALLED_DJANGO_APPS = [
     'creme.creme_core.apps.ContentTypesConfig',
     'django.contrib.auth',
     'django.contrib.sessions',
-    'django_extensions',  # <--- Ajoute cette ligne ici
+    'django_extensions',  
     'formtools',
     'creme.creme_core.apps.MediaGeneratorConfig',
 ]
@@ -358,7 +358,7 @@ INSTALLED_CREME_APPS = [
     # Manages the Graphs entities ; they are used to generated images to
     # visualize all the entities which are linked to given entities.
     # BEWARE: needs the app "sketch".
-    'creme.graphs',
+    # 'creme.graphs',
 
     # Manages the Reports entities:
     #   - they can generate CSV/XLS files containing information about entities,
@@ -367,22 +367,22 @@ INSTALLED_CREME_APPS = [
     #     (e.g. number of related Invoices per month in the current year) as
     #     histograms/pie-charts...
     # BEWARE: needs the app "sketch".
-    'creme.reports',
+    # 'creme.reports',
 
     # Manages Products & Services entities, to represent what an Organisation
     # sells.
-    'creme.products',
+    # 'creme.products',
 
     # Manages RecurrentGenerator entities, which can generate recurrently some
     # types of entities.
     # Compatible with these apps:
     #   - billing (models Invoice/Quote/SalesOrder/CreditNote)
     #   - tickets
-    'creme.recurrents',
+    # 'creme.recurrents',
 
     # Manages Invoices, Quotes, SalesOrders & CreditNotes entities.
     # BEWARE: needs the app "products".
-    'creme.billing',
+    # 'creme.billing',
 
     # Manages Opportunities entities, which represent business opportunities
     # (typically an Organisation trying to sell Products/Services to another
@@ -390,30 +390,30 @@ INSTALLED_CREME_APPS = [
     # BEWARE: needs the app "products".
     # There are extra features if the app "billing" is installed, like new
     # blocks with related Quotes or Invoices.
-    'creme.opportunities',
+    # 'creme.opportunities',
 
     # Manages several types of entities related to salesmen :
     #   - Act (commercial actions), which are used to define some goals to reach
     #     (e.g. a minimum number of people met on a show).
     #   - Strategy to study market segments, assets & charms.
     # BEWARE: needs the apps "activities" & "opportunities".
-    'creme.commercial',
+    # 'creme.commercial',
 
     # Manages the Events entities, which represents shows/conferences/... where
     # people are invited.
     # BEWARE: needs the app "opportunities".
-    'creme.events',
+    # 'creme.events',
 
     # CReates/Removes/UpDates entities from data contained in emails/files...
     # Actions can be stored ina sand-box before being really applied.
     # NB1: currently only creation is implemented.
     # NB2: currently accepted actions are defined below in the section
     #      'crudity' (if the future they will be defined from a GUI).
-    'creme.crudity',
+    # 'creme.crudity',
 
     # Manages EntityEmails, MailingLists & EmailCampaign entities.
     # If the app "crudity" is installed, emails can be synchronised with Creme.
-    'creme.emails',
+    # 'creme.emails',
 
     # 'creme.sms',  # Work In Progress
 
@@ -421,12 +421,12 @@ INSTALLED_CREME_APPS = [
     # can depend on other tasks (their parents), & be associated to Activities.
     # It's a lightweight project manager, don't expect things like GANTT chart.
     # BEWARE: needs the app "activities".
-    'creme.projects',
+    # 'creme.projects',
 
     # Manages Tickets entities, which notably have a status (open, closed...)
     # & a priority (low, high...). They are often used to manage issues
     # encountered by customers.
-    'creme.tickets',
+    # 'creme.tickets',
 
     # <Computer Telephony Integration> features.
     # BEWARE: needs the app "activities".
@@ -436,7 +436,7 @@ INSTALLED_CREME_APPS = [
     #   - Export a Contact as a VCF file
     #   - Import a Contact (& eventually the related Organisation) from a VCF
     #     file.
-    'creme.vcfs',
+    # 'creme.vcfs',
 
     # Manages PollForms, PollReplies & PollCampaigns entities, to create
     # internal polls.

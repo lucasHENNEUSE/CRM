@@ -193,14 +193,14 @@ class ActivitiesConfig(CremeAppConfig):
         from . import menu
 
         menu_registry.register(
-            menu.CalendarEntry,
+            # menu.CalendarEntry,
 
             menu.ActivitiesEntry,
-            menu.PhoneCallsEntry,
+            # menu.PhoneCallsEntry,
             menu.MeetingsEntry,
 
             menu.ActivityCreationEntry,
-            menu.PhoneCallCreationEntry,
+            # menu.PhoneCallCreationEntry,
             menu.MeetingCreationEntry,
         )
 
