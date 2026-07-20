@@ -367,11 +367,11 @@ Il faut cependant distinguer :
 Compass peut donc servir à explorer la base, mais ne remplace pas le lancement du serveur MongoDB.
 
 
-# Personnalisation et Allègement de l'Interface (CRM)
+## Personnalisation et Allègement de l'Interface (CRM)
 
 Afin d'adapter Crème CRM à nos besoins réels et de proposer une interface simple et épurée aux utilisateurs, plusieurs onglets et fonctionnalités ont été masqués de la barre de navigation principale.
 
-ℹ Note importante pour les futurs développeurs / administrateurs :
+Note importante pour les futurs développeurs / administrateurs :
 Aucune fonctionnalité n'a été supprimée définitivement du code. Les modules et sous-menus ont simplement été mis en commentaire (avec un symbole #) dans les fichiers de configuration. Ils peuvent donc être réactivés à tout moment en quelques secondes en cas de besoin !
 
 1. Vue d'ensemble de la navigation actuelle
@@ -390,15 +390,15 @@ A. Les modules entiers (Interrupteur principal)
 Les grands modules non utilisés ont été désactivés dans le fichier de configuration principal :
  local_settings.py (ou settings.py) -> dans la liste INSTALLED_CREME_APPS :
 
-# 'creme.products' (Masque l'onglet Gestion)
+### 'creme.products' (Masque l'onglet Gestion)
 
-# 'creme.emails' (Masque l'onglet Marketing)
+### 'creme.emails' (Masque l'onglet Marketing)
 
-# 'creme.reports' et # 'creme.graphs' (Masquent l'onglet Analyse)
+### 'creme.reports' et # 'creme.graphs' (Masquent l'onglet Analyse)
 
-# 'creme.vcfs' (Masque l'import VCF dans l'Annuaire)
+### 'creme.vcfs' (Masque l'import VCF dans l'Annuaire)
 
-# 'creme.projects', # 'creme.tickets', # 'creme.crudity' (Nettoient l'onglet Outils)
+### 'creme.projects', # 'creme.tickets', # 'creme.crudity' (Nettoient l'onglet Outils)
 
 Note : Les modules commerciaux (opportunités, facturation, etc.) ont également été commentés dans cette liste.
 
