@@ -231,6 +231,14 @@ def main():
     )
     data_log.info("Fin de la remise en état POC 2")
 
+    data_log.info("--- Nettoyage des doublons dans le CRM ---")
+    run_cmd(
+        [sys.executable, PROJECT_SCRIPTS_ROOT / "cleaning" / "cleanup_contacts.py"],
+        data_log,
+        cwd=PROJECT_ROOT,
+    )
+    data_log.info("Fin du nettoyage des doublons")
+
     data_log.info("--- Import des données MongoDB vers le CRM ---")
     run_cmd(
         [sys.executable, PROJECT_SCRIPTS_ROOT / "imports" / "import_mongo.py"],
