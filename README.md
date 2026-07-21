@@ -390,15 +390,15 @@ A. Les modules entiers (Interrupteur principal)
 Les grands modules non utilisés ont été désactivés dans le fichier de configuration principal :
  local_settings.py (ou settings.py) -> dans la liste INSTALLED_CREME_APPS :
 
-### 'creme.products' (Masque l'onglet Gestion)
+#### 'creme.products' (Masque l'onglet Gestion)
 
-### 'creme.emails' (Masque l'onglet Marketing)
+#### 'creme.emails' (Masque l'onglet Marketing)
 
-### 'creme.reports' et # 'creme.graphs' (Masquent l'onglet Analyse)
+#### 'creme.reports' et # 'creme.graphs' (Masquent l'onglet Analyse)
 
-### 'creme.vcfs' (Masque l'import VCF dans l'Annuaire)
+#### 'creme.vcfs' (Masque l'import VCF dans l'Annuaire)
 
-### 'creme.projects', # 'creme.tickets', # 'creme.crudity' (Nettoient l'onglet Outils)
+#### 'creme.projects', # 'creme.tickets', # 'creme.crudity' (Nettoient l'onglet Outils)
 
 Note : Les modules commerciaux (opportunités, facturation, etc.) ont également été commentés dans cette liste.
 
