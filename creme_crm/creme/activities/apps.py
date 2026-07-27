@@ -189,18 +189,21 @@ class ActivitiesConfig(CremeAppConfig):
 
         import_form_registry.register(self.Activity, mass_import.get_massimport_form_builder)
 
+    # ==========================================================================
+    # MODIFICATION : ENREGISTREMENT DES MENUS
+    # ==========================================================================
     def register_menu_entries(self, menu_registry):
         from . import menu
 
         menu_registry.register(
-            # menu.CalendarEntry,
-
+            menu.ActivitiesContainerEntry,  # <-- AJOUT : Enregistre le conteneur renommé "Actions"
+            # menu.CalendarEntry,           # <-- COMMENTÉ : Masque le Calendrier
             menu.ActivitiesEntry,
-            # menu.PhoneCallsEntry,
+            # menu.PhoneCallsEntry,         # <-- COMMENTÉ : Masque les Appels téléphoniques
             menu.MeetingsEntry,
 
             menu.ActivityCreationEntry,
-            # menu.PhoneCallCreationEntry,
+            # menu.PhoneCallCreationEntry,  # <-- COMMENTÉ : Masque la création rapide d'appels
             menu.MeetingCreationEntry,
         )
 
@@ -210,15 +213,20 @@ class ActivitiesConfig(CremeAppConfig):
         from creme.creme_core.auth import build_creation_perm
 
         creation_perm = build_creation_perm(self.Activity)
-        creation_menu_registry.get_or_create_group(
+        group = creation_menu_registry.get_or_create_group(
             'activities-main', _('Activities'), priority=5,
-        ).add_link(
-            'activities-create_phonecall',
-            label=_('Phone call'),
-            url=reverse('activities__create_activity', args=('phonecall',)),
-            perm=creation_perm,
-            priority=5,
-        ).add_link(
+        )
+        
+        # --- COMMENTÉ : Masque l'option "Appel téléphonique" de la modale + CRÉATION ---
+        # group.add_link(
+        #     'activities-create_phonecall',
+        #     label=_('Phone call'),
+        #     url=reverse('activities__create_activity', args=('phonecall',)),
+        #     perm=creation_perm,
+        #     priority=5,
+        # )
+
+        group.add_link(
             'activities-create_meeting',
             label=_('Meeting'),
             url=reverse('activities__create_activity', args=('meeting',)),

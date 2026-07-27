@@ -1,30 +1,198 @@
 {% extends 'authent/base.html' %}
-{% load i18n %}
+{% load i18n media %}
+
+{# On surcharge le bloc 'extrastyle' du template parent pour injecter notre propre CSS #}
 
 {% block style %}
-    {{block.super}}
+    {{ block.super }}
+    <style>
+        div.lost-password {
+            text-align: center;
+            margin-top: 15px;
+        }
 
-    div.lost-password {
-        text-align: center;
-    }
+        div.lost-password a {
+            color: #555555;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.2s;
+        }
 
-    div.lost-password a {
-        color: #2d2d2d;
-        text-decoration: none;
-    }
+        div.lost-password a:hover {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
 
-    div.lost-password a:hover {
-        color: #086dd2;
-        text-decoration: underline;
-    }
+        /* --- NOUVEAU THÈME INSPIRÉ DE HOME.HTML --- */
+        body {
+            background-color: #f4f6f8; /* Fond gris clair de la page d'accueil */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        /* Conteneur principal qui centre le formulaire */
+        #content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+
+        /* Style du panneau de connexion (comme un widget) */
+        #content {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #0d6efd; /* Bordure bleue plus vive */
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        /* Style pour le logo au-dessus du formulaire */
+        .login-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 25px;
+        }
+
+        /* Amélioration des champs du formulaire */
+        form p {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444444;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        form input[type="text"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #dce1e6;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="password"]:focus {
+            border-color: #0d6efd;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+        }
+
+        /* --- STYLE DU BOUTON DE CONNEXION (MODIFIÉ POUR HAUTE VISIBILITÉ) --- */
+        /* On cible input et button, avec !important pour écraser les dégradés par défaut de Crème */
+        form input[type="submit"],
+        form button[type="submit"],
+        .submit-widget input,
+        .submit-widget button {
+            width: 100% !important;
+            padding: 14px !important;
+            background: #0d6efd !important; /* Remplace tout background-color ou background-image */
+            background-image: none !important; /* Supprime le dégradé gris/blanc par défaut */
+            color: #ffffff !important;
+            border: none !important;
+            border-radius: 6px !important;
+            font-size: 1.1em !important;
+            font-weight: bold !important;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3) !important; /* Ombre bleue pour le relief */
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s !important;
+            margin-top: 10px;
+        }
+
+        /* Effet au survol du bouton */
+        form input[type="submit"]:hover,
+        form button[type="submit"]:hover,
+        .submit-widget input:hover,
+        .submit-widget button:hover {
+            background: #0b5ed7 !important; /* Bleu un peu plus foncé au clic/survol */
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Effet au clic (active) */
+        form input[type="submit"]:active,
+        form button[type="submit"]:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3) !important;
+        }
+
+        /* --- NOUVEAU : Section pour les actions supplémentaires (création de compte) --- */
+        .extra-actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .extra-actions p {
+            margin-bottom: 15px;
+            color: #6c757d;
+        }
+
+        .extra-actions .button-secondary {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: #ffffff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .extra-actions .button-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        .extra-actions .button-secondary:active {
+            transform: translateY(0);
+        }
+    </style>
+{% endblock %}
+
+{% block form_header %}
+    {#
+      MODIFICATION : Remplacez 'my_app/logo.png' par le chemin réel de votre logo.
+      Par exemple, si votre logo est dans 'my_app/media/my_app/images/logo.png', utilisez 'my_app/images/logo.png'.
+    #}
+    <img src="{% media_url 'creme_core/creme.png' %}" alt="Logo Creme" class="home-logo">
+    <h2 style="text-align: center; color: #2c3e50; margin-bottom: 25px; font-weight: 700;">Bienvenue sur votre CRM</h2>
 {% endblock %}
 
 {% block form_submit %}
-    {{block.super}}
+    {{ block.super }}
 
     {% if world_settings.password_reset_enabled %}
     <div class="lost-password">
-        <a href="{% url 'creme_core__reset_password' %}">{% translate 'You lost your password?' %}</a>
+        <a href="{% url 'creme_core__reset_password' %}">{% translate 'Mot de passe oublié ?' %}</a>
     </div>
     {% endif %}
+
+    {# --- NOUVEAU : Bouton pour la création de compte --- #}
+    <div class="extra-actions">
+        <p>{% translate "Vous n'avez pas de compte ?" %}</p>
+        {#
+          Ce bouton est prêt. Le lien href="#" est temporaire.
+          Il faudra le remplacer par un lien valide plus tard.
+        #}
+        <a href="#" class="button-secondary">{% translate "Créer un nouveau compte" %}</a>
+    </div>
 {% endblock %}
+
+{# J'ai supprimé le bloc extra_js qui n'est plus nécessaire avec cette approche. #}

@@ -1,40 +1,497 @@
-{% extends 'creme_core/base.html' %}
-{% load i18n creme_widgets %}
+{% extends BASE_HTML %}
+{% load i18n creme_widgets creme_bricks media %}
 
-{% block title %}{% trans "Campagne E-mailing" %}{% endblock %}
+{% block page_title %}Campagne E-mailing IA - Crème CRM{% endblock %}
+
+{% block content_extra_class %}content-ai-campaign{% endblock %}
 
 {% block content %}
-<div class="ui-layout-center" style="padding: 20px; font-size: 14px;">
-    <div class="creme-entity-header">
-        <h1 class="creme-entity-title" style="font-size: 28px;">
-            <i class="fa fa-envelope"></i> {% trans "E-mailing" %}
-        </h1>
+<style>
+    /* Styles spécifiques à la campagne IA intégrés au layout de Crème CRM */
+    .ai-campaign-container { font-family: Arial, sans-serif; margin: 0; padding: 15px; color: #333; }
+    .header-title { font-size: 24px; margin-bottom: 20px; color: #2c3e50; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+    
+    /* Layout principal */
+    .layout { display: flex; gap: 20px; }
+    .column-left { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .column-right { flex: 1; display: flex; flex-direction: column; }
+    
+    .panel { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; border: 1px solid #ced4da; }
+    .panel-target { background: #f0f7ff; border: 1px solid #cce5ff; }
+    .panel-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #007bff; display: flex; align-items: center; gap: 8px; }
+    .panel-title-step { background: #007bff; color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+    
+    /* Formulaires */
+    .form-group { margin-bottom: 15px; }
+    .form-group:last-child { margin-bottom: 0; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #495057; }
+    input[type="text"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-family: inherit; background: #fff; }
+    textarea { resize: vertical; min-height: 100px; }
+    select:focus, textarea:focus, input:focus { border-color: #80bdff; outline: 0; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); }
+    
+    /* Boutons personnalisés */
+    .btn-ai-action { padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.2s; text-align: center; display: inline-block; box-sizing: border-box; }
+    .btn-ai { background: #6f42c1; color: white; width: 100%; margin-top: 15px; box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2); }
+    .btn-ai:hover { background: #59339d; transform: translateY(-1px); }
+    .btn-send { background: #28a745; color: white; width: 100%; margin-top: 20px; }
+    .btn-send:hover { background: #218838; }
+    .btn-send:disabled { background: #ced4da; cursor: not-allowed; transform: none; }
+    .btn-contacts { background: #007bff; color: white; width: 100%; margin-top: 10px; }
+    .btn-contacts:hover { background: #0056b3; }
+    .btn-close { background: #6c757d; color: white; padding: 8px 15px; }
+    .btn-close:hover { background: #5a6268; }
+
+    /* FENÊTRE MODALE (POPUP CONTACTS) */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 99999; display: none; align-items: center; justify-content: center; }
+    .modal-box { background: #fff; width: 650px; max-width: 95%; max-height: 85vh; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; text-align: left; }
+    .modal-header { padding: 15px 20px; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; }
+    .modal-title { font-weight: bold; font-size: 16px; color: #007bff; }
+    .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+    .modal-footer { padding: 15px 20px; border-top: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; }
+    
+    /* Barre de recherche dans la modale */
+    .search-container { margin-bottom: 15px; display: flex; gap: 10px; }
+    #contact-search-input { flex: 1; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 13px; }
+    .btn-search-reset { background: #e9ecef; color: #495057; border: 1px solid #ced4da; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; }
+    .btn-search-reset:hover { background: #dde0e3; }
+
+    /* Liste des contacts dans la modale */
+    #contacts-container { font-size: 13px; }
+    .contact-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #f1f3f5; }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-item label { font-weight: normal; margin: 0; cursor: pointer; color: #333; flex: 1; }
+    .btn-link { background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit; font-size: 13px; }
+    .btn-link-secondary { color: #6c757d; }
+    .btn-link-secondary:hover { color: #343a40; }
+    
+    /* Cartes de modèles */
+    .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+    .template-card { position: relative; cursor: pointer; }
+    .template-card input[type="radio"] { position: absolute; opacity: 0; }
+    .card-content { border: 2px solid #ced4da; border-radius: 6px; padding: 10px; background: #ffffff; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; height: 100%; box-sizing: border-box; }
+    .template-card:hover .card-content { border-color: #80bdff; background: #f8fafd; }
+    .template-card input[type="radio"]:checked + .card-content { border-color: #007bff; background: #f0f7ff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); }
+    
+    /* Wireframes */
+    .wireframe { width: 100%; height: 80px; background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 8px; padding: 6px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+    .wf-banner { width: 100%; height: 20px; background: #007bff; border-radius: 2px; }
+    .wf-title { width: 60%; height: 6px; background: #6c757d; border-radius: 2px; margin: 3px 0; }
+    .wf-line { width: 90%; height: 4px; background: #adb5bd; border-radius: 2px; margin: 2px 0; }
+    .wf-btn { width: 40%; height: 10px; background: #28a745; border-radius: 2px; margin: 4px auto 0 auto; }
+    .wf-photo { width: 100%; height: 30px; background: #6f42c1; border-radius: 2px; margin: 4px 0; }
+    .card-label { font-size: 12px; font-weight: bold; text-align: center; color: #333; margin-top: auto; }
+    .card-desc { font-size: 10px; color: #6c757d; text-align: center; margin-top: 2px; }
+
+    /* Loader et Résultat */
+    #loader { display: none; text-align: center; margin: 40px 0; color: #6f42c1; font-weight: bold; }
+    .spinner { border: 4px solid rgba(0,0,0,0.1); width: 30px; height: 30px; border-radius: 50%; border-left-color: #6f42c1; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    #result-area { display: none; flex-direction: column; flex: 1; }
+    #html-preview-container { border: 1px solid #ced4da; padding: 15px; background: #ffffff; overflow-y: auto; max-height: 550px; border-radius: 4px; }
+</style>
+
+<div class="ai-campaign-container">
+    <h1 class="header-title">Campagne E-mailing Assistée par IA</h1>
+
+    <div class="layout">
+        
+        <!-- COLONNE GAUCHE : CIBLE ET BRIEF -->
+        <div class="column-left">
+            
+            <form id="ai-form" style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <!-- BLOC 1 : CIBLE & DESTINATAIRES -->
+                <div class="panel panel-target">
+                    <div class="panel-title">
+                        <span class="panel-title-step">1</span> Cible & Destinataires
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Segment ciblé :</label>
+                        <select id="target-role">
+                            <option value="drh">Directeurs des Ressources Humaines (DRH)</option>
+                            <option value="alumni">Anciens élèves (Alumni)</option>
+                            <option value="partenaires">Entreprises partenaires</option>
+                            <option value="etudiants">Étudiants</option>
+                        </select>
+                    </div>
+
+                    <!-- Bouton pour ouvrir la petite fenêtre modale -->
+                    <div class="form-group">
+                        <button type="button" id="btn-open-modal" class="btn-ai-action btn-contacts">
+                            Gérer la liste des destinataires (<span id="main-contacts-count">0</span> sélectionnés)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BLOC 2 : BRIEF & RÉDACTION -->
+                <div class="panel">
+                    <div class="panel-title">
+                        <span class="panel-title-step">2</span> Brief & Rédaction
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Modèle visuel de la campagne :</label>
+                        <div class="template-grid">
+                            <label class="template-card">
+                                <input type="radio" name="template-type" value="invitation" checked>
+                                <div class="card-content">
+                                    <div class="wireframe">
+                                        <div class="wf-banner"></div>
+                                        <div class="wf-title"></div>
+                                        <div class="wf-line"></div>
+                                        <div class="wf-btn"></div>
+                                    </div>
+                                    <span class="card-label">Invitation</span>
+                                    <span class="card-desc">Bannière haute & Bouton</span>
+                                </div>
+                            </label>
+
+                            <label class="template-card">
+                                <input type="radio" name="template-type" value="newsletter">
+                                <div class="card-content">
+                                    <div class="wireframe" style="background: #fff; border-color: #6f42c1;">
+                                        <div class="wf-title" style="background: #6f42c1; width: 80%;"></div>
+                                        <div class="wf-photo"></div>
+                                        <div class="wf-line"></div>
+                                    </div>
+                                    <span class="card-label">Newsletter</span>
+                                    <span class="card-desc">Image centrale & Édito</span>
+                                </div>
+                            </label>
+
+                            <label class="template-card">
+                                <input type="radio" name="template-type" value="communique">
+                                <div class="card-content">
+                                    <div class="wireframe" style="background: #fff;">
+                                        <div class="wf-title" style="width: 100%;"></div>
+                                        <div class="wf-line"></div>
+                                        <div class="wf-line"></div>
+                                        <div class="wf-photo" style="height: 15px; background: #6c757d;"></div>
+                                    </div>
+                                    <span class="card-label">Communiqué</span>
+                                    <span class="card-desc">Formel & Photo basse</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lien de l'image (URL de la bannière ou photo) :</label>
+                        <input type="text" id="image-url" placeholder="https://exemple.com/image.jpg ou laissez vide">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Objectif et consignes (Brief) :</label>
+                        <textarea id="brief-instructions" placeholder="Ex: Inviter les entreprises partenaires au forum de l'alternance du 12 octobre. Demander une confirmation de présence..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ton souhaité :</label>
+                        <select id="brief-tone">
+                            <option value="professionnel_chaleureux">Professionnel mais chaleureux</option>
+                            <option value="tres_formel">Très formel et institutionnel</option>
+                            <option value="direct_dynamique">Direct et dynamique</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Niveau de langue :</label>
+                        <select id="brief-level">
+                            <option value="vouvoiement">Vouvoiement (Classique)</option>
+                            <option value="tutoiement">Tutoiement (Proximité)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-ai-action btn-ai">Générer l'e-mail avec l'IA</button>
+                </div>
+
+            </form>
+            
+        </div>
+
+        <!-- COLONNE DROITE : CO-CRÉATION ET VALIDATION -->
+        <div class="column-right">
+            <div class="panel" style="flex: 1;">
+                <div class="panel-title">
+                    <span class="panel-title-step">3</span> Co-création & Validation
+                </div>
+                
+                <div id="empty-state" style="text-align: center; color: #6c757d; margin: auto 0; padding: 40px 20px;">
+                    Remplissez les étapes 1 et 2 à gauche puis cliquez sur "Générer" pour lancer l'IA.
+                </div>
+
+                <div id="loader">
+                    <div class="spinner"></div>
+                    L'IA rédige votre message en local... Cela peut prendre quelques secondes.
+                </div>
+
+                <div id="result-area">
+                    <div class="form-group">
+                        <label>Objet du message :</label>
+                        <input type="text" id="final-subject">
+                    </div>
+
+                    <div class="form-group" style="flex: 1; display: flex; flex-direction: column;">
+                        <label>Aperçu visuel du message (Rendu HTML pour Brevo) :</label>
+                        <div id="html-preview-container"></div>
+                    </div>
+
+                    <button id="btn-validate-send" class="btn-ai-action btn-send" disabled>VALIDER ET ENVOYER VIA BREVO</button>
+                </div>
+            </div>
+        </div>
+        
     </div>
 
-    <form method="post" enctype="multipart/form-data" style="max-width: 900px; margin: 0 auto;">
-        {% csrf_token %}
-        <div style="background: #fff; padding: 25px; border: 1px solid #d1d1d1; border-radius: 4px; height: 820px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-            
-            <div style="margin-bottom: 20px;">
-                <label style="font-size: 16px;"><strong>1. {% trans "Objet du message :" %}</strong></label>
-                <input type="text" name="subject" required style="width: 100%; padding: 8px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px;">
+    <!-- LA FENÊTRE MODALE (CACHÉE PAR DÉFAUT) -->
+    <div id="contacts-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span class="modal-title">Sélection des destinataires MongoDB</span>
+                <button type="button" class="btn-ai-action btn-close btn-close-modal">Fermer</button>
             </div>
+            <div class="modal-body">
+                <!-- NOUVEAU : Barre de recherche textuelle -->
+                <div class="search-container">
+                    <input type="text" id="contact-search-input" placeholder="Rechercher par nom, entreprise ou adresse e-mail...">
+                    <button type="button" id="btn-search-reset" class="btn-search-reset" title="Effacer la recherche">Effacer</button>
+                </div>
 
-            <div style="background: #fdfdfd; border: 2px dashed #007bff; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
-                <label style="font-size: 15px; color: #007bff;"><strong>2. <i class="fa fa-paperclip"></i> {% trans "Joindre un fichier (PDF, Image...)" %}</strong></label><br>
-                <input type="file" name="attachment" style="margin-top: 15px; font-size: 16px;">
+                <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <span id="modal-contacts-count" style="font-weight: bold; color: #007bff;">0 sélectionné(s)</span>
+                    <div>
+                        <button type="button" id="btn-check-all" class="btn-link" style="margin-right: 15px;">Tout cocher</button>
+                        <button type="button" id="btn-uncheck-all" class="btn-link btn-link-secondary">Tout décocher</button>
+                    </div>
+                </div>
+                <div id="contacts-container">
+                    <span style="color: #6c757d;">Chargement des contacts...</span>
+                </div>
             </div>
-            
-            <div style="flex-grow: 1; display: flex; flex-direction: column; margin-bottom: 20px;">
-                <label style="font-size: 16px;"><strong>3. {% trans "Votre message :" %}</strong></label>
-                <phone_widget style="display:none;"></phone_widget>
-                <textarea name="message" required style="width: 100%; flex-grow: 1; margin-top: 8px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: sans-serif; resize: none; font-size: 16px; line-height: 1.5;"></textarea>
+            <div class="modal-footer">
+                <span style="font-size: 12px; color: #6c757d;">Cochez les adresses qui recevront la campagne.</span>
+                <button type="button" class="btn-ai-action btn-contacts btn-close-modal" style="width: auto; margin-top: 0;">Valider la sélection</button>
             </div>
-
-            <button type="submit" style="background: #28a745; color: white; border: none; padding: 20px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; text-transform: uppercase; letter-spacing: 2px;">
-                <i class="fa fa-share-alt"></i> {% trans "PARTAGER L'E-MAILING" %}
-            </button>
         </div>
-    </form>
+    </div>
 </div>
+
+<script>
+    // --- LOGIQUE JAVASCRIPT INTÉGRÉE ---
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById('ai-form');
+        const emptyState = document.getElementById('empty-state');
+        const loader = document.getElementById('loader');
+        const resultArea = document.getElementById('result-area');
+        
+        const finalSubject = document.getElementById('final-subject');
+        const htmlPreviewContainer = document.getElementById('html-preview-container');
+        const btnValidateSend = document.getElementById('btn-validate-send');
+
+        const targetRoleSelect = document.getElementById('target-role');
+        const contactsContainer = document.getElementById('contacts-container');
+        const mainContactsCount = document.getElementById('main-contacts-count');
+        const modalContactsCount = document.getElementById('modal-contacts-count');
+        
+        const btnCheckAll = document.getElementById('btn-check-all');
+        const btnUncheckAll = document.getElementById('btn-uncheck-all');
+
+        // Éléments de la barre de recherche
+        const searchInput = document.getElementById('contact-search-input');
+        const btnSearchReset = document.getElementById('btn-search-reset');
+        let searchTimeout = null;
+
+        // Gestion de la fenêtre modale
+        const modal = document.getElementById('contacts-modal');
+        const btnOpenModal = document.getElementById('btn-open-modal');
+        const btnsCloseModal = document.querySelectorAll('.btn-close-modal');
+
+        if(btnOpenModal) {
+            btnOpenModal.addEventListener('click', () => { 
+                modal.style.display = 'flex'; 
+                if(searchInput) searchInput.focus();
+            });
+        }
+        btnsCloseModal.forEach(btn => {
+            btn.addEventListener('click', () => { modal.style.display = 'none'; });
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) { modal.style.display = 'none'; }
+        });
+
+        // 1. Fonction pour charger les contacts depuis MongoDB via l'API Django (avec recherche)
+        function loadContactsFromMongoDB(role, search = '') {
+            if(!contactsContainer) return;
+            contactsContainer.innerHTML = '<span style="color: #6c757d;">Recherche dans la base de données...</span>';
+            
+            const url = `/api/contacts/?role=${encodeURIComponent(role)}&search=${encodeURIComponent(search)}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success' && data.contacts.length > 0) {
+                        contactsContainer.innerHTML = '';
+                        
+                        data.contacts.forEach(contact => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'contact-item';
+                            
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.className = 'contact-checkbox';
+                            checkbox.value = contact.email;
+                            checkbox.checked = false; // Décochés par défaut à l'ouverture
+                            checkbox.addEventListener('change', updateSelectedCount);
+                            
+                            const label = document.createElement('label');
+                            label.innerText = `${contact.first_name} ${contact.last_name} (${contact.company}) - ${contact.email}`;
+                            
+                            itemDiv.appendChild(checkbox);
+                            itemDiv.appendChild(label);
+                            contactsContainer.appendChild(itemDiv);
+                        });
+                    } else {
+                        contactsContainer.innerHTML = '<span style="color: #dc3545;">Aucun contact trouvé pour cette recherche.</span>';
+                    }
+                    updateSelectedCount();
+                })
+                .catch(err => {
+                    contactsContainer.innerHTML = '<span style="color: #dc3545;">Erreur de connexion avec le serveur.</span>';
+                    console.error("Erreur de chargement des contacts:", err);
+                });
+        }
+
+        // 2. Événement de frappe dans la barre de recherche (avec délai de 300ms)
+        if(searchInput) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const searchTerm = this.value.trim();
+                
+                searchTimeout = setTimeout(() => {
+                    const currentRole = targetRoleSelect ? targetRoleSelect.value : '';
+                    loadContactsFromMongoDB(currentRole, searchTerm);
+                }, 300);
+            });
+        }
+
+        // Bouton pour effacer le texte et réinitialiser la recherche
+        if(btnSearchReset) {
+            btnSearchReset.addEventListener('click', function() {
+                if(searchInput && searchInput.value !== '') {
+                    searchInput.value = '';
+                    const currentRole = targetRoleSelect ? targetRoleSelect.value : '';
+                    loadContactsFromMongoDB(currentRole, '');
+                }
+            });
+        }
+
+        // 3. Mettre à jour le compteur de contacts cochés
+        function updateSelectedCount() {
+            const checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
+            const count = checkedBoxes.length;
+            
+            if(mainContactsCount) mainContactsCount.innerText = count;
+            if(modalContactsCount) modalContactsCount.innerText = `${count} sélectionné(s)`;
+            
+            if (count === 0) {
+                if(btnValidateSend) btnValidateSend.disabled = true;
+            } else if (resultArea && resultArea.style.display === 'flex') {
+                if(btnValidateSend) btnValidateSend.disabled = false;
+            }
+        }
+
+        // 4. Action : TOUT COCHER
+        if(btnCheckAll) {
+            btnCheckAll.addEventListener('click', function() {
+                document.querySelectorAll('.contact-checkbox').forEach(cb => {
+                    cb.checked = true;
+                });
+                updateSelectedCount();
+            });
+        }
+
+        // 5. Action : TOUT DÉCOCHER
+        if(btnUncheckAll) {
+            btnUncheckAll.addEventListener('click', function() {
+                document.querySelectorAll('.contact-checkbox').forEach(cb => {
+                    cb.checked = false;
+                });
+                updateSelectedCount();
+            });
+        }
+
+        // 6. Écouteur de changement sur le menu déroulant du rôle
+        if(targetRoleSelect) {
+            targetRoleSelect.addEventListener('change', function() {
+                const currentSearch = searchInput ? searchInput.value.trim() : '';
+                loadContactsFromMongoDB(this.value, currentSearch);
+            });
+            // Chargement initial au démarrage de la page
+            loadContactsFromMongoDB(targetRoleSelect.value, '');
+        }
+
+        // 7. Écouteur d'événement pour la génération IA
+        if(form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+
+                emptyState.style.display = 'none';
+                resultArea.style.display = 'none';
+                loader.style.display = 'block';
+
+                const selectedTemplate = document.querySelector('input[name="template-type"]:checked').value;
+
+                const dataToSend = {
+                    target_role: targetRoleSelect.value,
+                    template_type: selectedTemplate,
+                    image_url: document.getElementById('image-url').value,
+                    instructions: document.getElementById('brief-instructions').value,
+                    tone: document.getElementById('brief-tone').value,
+                    language_level: document.getElementById('brief-level').value
+                };
+
+                fetch('/api/generate_email/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToSend)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loader.style.display = 'none';
+                    resultArea.style.display = 'flex';
+
+                    if(data.status === 'success') {
+                        finalSubject.value = data.subject;
+                        htmlPreviewContainer.innerHTML = data.html_preview;
+                        updateSelectedCount();
+                    } else {
+                        alert("Erreur côté serveur : " + data.error);
+                    }
+                })
+                .catch(error => {
+                    loader.style.display = 'none';
+                    alert("Impossible de joindre le serveur Python.");
+                    console.error("Erreur Fetch :", error);
+                });
+            });
+        }
+
+        // 8. Validation finale : Récupération des adresses cochées pour Brevo
+        if(btnValidateSend) {
+            btnValidateSend.addEventListener('click', function() {
+                const selectedEmails = Array.from(document.querySelectorAll('.contact-checkbox:checked')).map(cb => cb.value);
+                
+                if (selectedEmails.length === 0) {
+                    alert("Veuillez sélectionner au moins un destinataire dans la liste.");
+                    return;
+                }
+                
+                alert(`La campagne validée va être transmise à l'API Brevo pour l'envoi à ${selectedEmails.length} destinataire(s) :\n\n` + selectedEmails.join("\n"));
+            });
+        }
+    });
+</script>
 {% endblock %}

@@ -145,17 +145,19 @@ class DocumentsConfig(CremeAppConfig):
         from . import menu
 
         menu_registry.register(
-            menu.DocumentsEntry, menu.DocumentCreationEntry,
-            menu.FoldersEntry,   menu.FolderCreationEntry,
+            # menu.DocumentsEntry, 
+            menu.DocumentCreationEntry,
+            # menu.FoldersEntry,   
+            menu.FolderCreationEntry,
         )
 
     def register_creation_menu(self, creation_menu_registry):
         creation_menu_registry.get_or_create_group(
             'tools', _('Tools'), priority=100
-        ).add_link(
-            'documents-create_document', self.Document, priority=10,
-        ).add_link(
-            'documents-create_folder',   self.Folder,   priority=20,
+        #).add_link(
+            # 'documents-create_document', self.Document, priority=10,
+        # ).add_link(
+            # 'documents-create_folder',   self.Folder,   priority=20,
         )
 
     def register_merge_forms(self, merge_form_registry):

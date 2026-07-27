@@ -1,3 +1,5 @@
+import sys
+import os
 import logging
 from pathlib import Path
 
@@ -12,6 +14,14 @@ from django.views.static import serve
 from creme.creme_core.apps import creme_app_configs
 from creme.creme_core.views.exceptions import permission_denied
 from creme.creme_core.views.static import serve_immutable
+
+# 1. D'ABORD : On ajoute le dossier racine au chemin de recherche Python
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+# 2. ENSUITE : Maintenant que Python connaît le chemin, on peut importer ton script !
+from project_scripts.email import generate_ai_email, get_contacts
 
 logger = logging.getLogger(__name__)
 handler403 = permission_denied
@@ -51,6 +61,16 @@ urlpatterns = [
         render,
         {'template_name': 'about/about.html'},
         name='creme_about',
+    ),
+    re_path(
+        r'^api/generate_email[/]?$',
+        generate_ai_email,
+        name='generate_ai_email',
+    ),
+    re_path(
+        r'^api/contacts[/]?$',
+        get_contacts,
+        name='get_contacts',
     ),
 
     # TODO: remove this line when the Rich Text Editor is generated like other static media

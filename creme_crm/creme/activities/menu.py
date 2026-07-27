@@ -78,3 +78,12 @@ class MeetingCreationEntry(_ActivitiesURLEntry):
     @property
     def url(self):
         return reverse('activities__create_activity', args=('meeting',))
+
+
+class ActivitiesContainerEntry(menu.ContainerEntry):
+    """
+    Cette classe contrôle l'onglet principal dans la barre supérieure.
+    On lui donne le label 'Actions' pour renommer le menu tout au sommet.
+    """
+    id = 'activities-container'
+    label = _('Actions')  
