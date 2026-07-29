@@ -16,8 +16,8 @@ client_ai = OpenAI(
 
 # 2. Configuration de l'API Brevo (Remplace par ta propre clé API Brevo)
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
-SENDER_EMAIL = "lucas.henneuse22@gmail.com"  # Doit être l'email vérifié sur ton compte Brevo
-SENDER_NAME = "ISEN Brest"
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_NAME = os.getenv("SENDER_NAME")
 
 # 3. Connexion à la base de données MongoDB locale (port 27018)
 client_db = MongoClient('mongodb://localhost:27018/')
