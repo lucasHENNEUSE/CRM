@@ -7,11 +7,9 @@
 
 {% block content %}
 <style>
-    /* Styles spécifiques à la campagne IA intégrés au layout de Crème CRM */
     .ai-campaign-container { font-family: Arial, sans-serif; margin: 0; padding: 15px; color: #333; }
     .header-title { font-size: 24px; margin-bottom: 20px; color: #2c3e50; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
     
-    /* Layout principal */
     .layout { display: flex; gap: 20px; }
     .column-left { flex: 1; display: flex; flex-direction: column; gap: 20px; }
     .column-right { flex: 1; display: flex; flex-direction: column; }
@@ -21,19 +19,27 @@
     .panel-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #007bff; display: flex; align-items: center; gap: 8px; }
     .panel-title-step { background: #007bff; color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
     
-    /* Formulaires */
     .form-group { margin-bottom: 15px; }
     .form-group:last-child { margin-bottom: 0; }
     label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #495057; }
-    input[type="text"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-family: inherit; background: #fff; }
+    input[type="text"], input[type="file"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-family: inherit; background: #fff; }
     textarea { resize: vertical; min-height: 100px; }
     select:focus, textarea:focus, input:focus { border-color: #80bdff; outline: 0; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); }
     
-    /* Boutons personnalisés */
+    #html-preview-container { border: 1px solid #ced4da; padding: 15px; background: #ffffff; overflow-y: auto; max-height: 400px; border-radius: 4px; min-height: 200px; }
+    #html-preview-container:focus { border-color: #80bdff; outline: 0; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); }
+
+    /* Style des pièces jointes façon Gmail */
+    .gmail-attachment-chip { background-color: #e8f0fe; border: 1px solid #d2e3fc; color: #1967d2; padding: 8px 12px; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 500; margin-bottom: 6px; box-sizing: border-box; }
+    .gmail-attachment-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .gmail-attachment-size { color: #5f6368; font-weight: normal; margin-left: 6px; }
+    .gmail-attachment-delete { background: none; border: none; color: #5f6368; cursor: pointer; font-size: 16px; font-weight: bold; padding: 0 4px; line-height: 1; }
+    .gmail-attachment-delete:hover { color: #d93025; }
+    
     .btn-ai-action { padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.2s; text-align: center; display: inline-block; box-sizing: border-box; }
     .btn-ai { background: #6f42c1; color: white; width: 100%; margin-top: 15px; box-shadow: 0 2px 4px rgba(111, 66, 193, 0.2); }
     .btn-ai:hover { background: #59339d; transform: translateY(-1px); }
-    .btn-send { background: #28a745; color: white; width: 100%; margin-top: 20px; }
+    .btn-send { background: #28a745; color: white; width: 100%; margin-top: 15px; }
     .btn-send:hover { background: #218838; }
     .btn-send:disabled { background: #ced4da; cursor: not-allowed; transform: none; }
     .btn-contacts { background: #007bff; color: white; width: 100%; margin-top: 10px; }
@@ -41,7 +47,6 @@
     .btn-close { background: #6c757d; color: white; padding: 8px 15px; }
     .btn-close:hover { background: #5a6268; }
 
-    /* FENÊTRE MODALE (POPUP CONTACTS) */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 99999; display: none; align-items: center; justify-content: center; }
     .modal-box { background: #fff; width: 650px; max-width: 95%; max-height: 85vh; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; text-align: left; }
     .modal-header { padding: 15px 20px; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; }
@@ -49,13 +54,11 @@
     .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
     .modal-footer { padding: 15px 20px; border-top: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; }
     
-    /* Barre de recherche dans la modale */
     .search-container { margin-bottom: 15px; display: flex; gap: 10px; }
     #contact-search-input { flex: 1; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 13px; }
     .btn-search-reset { background: #e9ecef; color: #495057; border: 1px solid #ced4da; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; }
     .btn-search-reset:hover { background: #dde0e3; }
 
-    /* Liste des contacts dans la modale */
     #contacts-container { font-size: 13px; }
     .contact-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #f1f3f5; }
     .contact-item:last-child { border-bottom: none; }
@@ -64,30 +67,25 @@
     .btn-link-secondary { color: #6c757d; }
     .btn-link-secondary:hover { color: #343a40; }
     
-    /* Cartes de modèles */
-    .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+    /* Grille de 4 colonnes pour les 4 modèles visuels */
+    .template-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
     .template-card { position: relative; cursor: pointer; }
     .template-card input[type="radio"] { position: absolute; opacity: 0; }
-    .card-content { border: 2px solid #ced4da; border-radius: 6px; padding: 10px; background: #ffffff; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; height: 100%; box-sizing: border-box; }
+    .card-content { border: 2px solid #ced4da; border-radius: 6px; padding: 8px; background: #ffffff; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; height: 100%; box-sizing: border-box; }
     .template-card:hover .card-content { border-color: #80bdff; background: #f8fafd; }
     .template-card input[type="radio"]:checked + .card-content { border-color: #007bff; background: #f0f7ff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); }
     
-    /* Wireframes */
-    .wireframe { width: 100%; height: 80px; background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 8px; padding: 6px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
-    .wf-banner { width: 100%; height: 20px; background: #007bff; border-radius: 2px; }
-    .wf-title { width: 60%; height: 6px; background: #6c757d; border-radius: 2px; margin: 3px 0; }
-    .wf-line { width: 90%; height: 4px; background: #adb5bd; border-radius: 2px; margin: 2px 0; }
-    .wf-btn { width: 40%; height: 10px; background: #28a745; border-radius: 2px; margin: 4px auto 0 auto; }
-    .wf-photo { width: 100%; height: 30px; background: #6f42c1; border-radius: 2px; margin: 4px 0; }
-    .card-label { font-size: 12px; font-weight: bold; text-align: center; color: #333; margin-top: auto; }
-    .card-desc { font-size: 10px; color: #6c757d; text-align: center; margin-top: 2px; }
+    .wireframe { width: 100%; height: 80px; background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 6px; padding: 5px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+    .wf-title { width: 60%; height: 5px; background: #6c757d; border-radius: 2px; margin: 2px 0; }
+    .wf-line { width: 90%; height: 3px; background: #adb5bd; border-radius: 2px; margin: 2px 0; }
+    .wf-btn { width: 40%; height: 8px; background: #28a745; border-radius: 2px; margin: 2px auto 0 auto; }
+    .card-label { font-size: 11px; font-weight: bold; text-align: center; color: #333; margin-top: auto; }
+    .card-desc { font-size: 9px; color: #6c757d; text-align: center; margin-top: 2px; }
 
-    /* Loader et Résultat */
     #loader { display: none; text-align: center; margin: 40px 0; color: #6f42c1; font-weight: bold; }
     .spinner { border: 4px solid rgba(0,0,0,0.1); width: 30px; height: 30px; border-radius: 50%; border-left-color: #6f42c1; animation: spin 1s linear infinite; margin: 0 auto 10px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     #result-area { display: none; flex-direction: column; flex: 1; }
-    #html-preview-container { border: 1px solid #ced4da; padding: 15px; background: #ffffff; overflow-y: auto; max-height: 550px; border-radius: 4px; }
 </style>
 
 <div class="ai-campaign-container">
@@ -116,7 +114,6 @@
                         </select>
                     </div>
 
-                    <!-- Bouton pour ouvrir la petite fenêtre modale -->
                     <div class="form-group">
                         <button type="button" id="btn-open-modal" class="btn-ai-action btn-contacts">
                             Gérer la liste des destinataires (<span id="main-contacts-count">0</span> sélectionnés)
@@ -133,33 +130,36 @@
                     <div class="form-group">
                         <label>Modèle visuel de la campagne :</label>
                         <div class="template-grid">
+                            <!-- 1. Invitation -->
                             <label class="template-card">
                                 <input type="radio" name="template-type" value="invitation" checked>
                                 <div class="card-content">
                                     <div class="wireframe">
-                                        <div class="wf-banner"></div>
+                                        <div style="width: 100%; height: 12px; background: #007bff; border-radius: 2px;"></div>
                                         <div class="wf-title"></div>
                                         <div class="wf-line"></div>
                                         <div class="wf-btn"></div>
                                     </div>
                                     <span class="card-label">Invitation</span>
-                                    <span class="card-desc">Bannière haute & Bouton</span>
+                                    <span class="card-desc">Bannière & Bouton</span>
                                 </div>
                             </label>
 
+                            <!-- 2. Newsletter -->
                             <label class="template-card">
                                 <input type="radio" name="template-type" value="newsletter">
                                 <div class="card-content">
                                     <div class="wireframe" style="background: #fff; border-color: #6f42c1;">
-                                        <div class="wf-title" style="background: #6f42c1; width: 80%;"></div>
-                                        <div class="wf-photo"></div>
+                                        <div class="wf-title" style="background: #6f42c1; width: 70%;"></div>
+                                        <div style="width: 100%; height: 20px; background: #6f42c1; border-radius: 2px; margin: 2px 0;"></div>
                                         <div class="wf-line"></div>
                                     </div>
                                     <span class="card-label">Newsletter</span>
-                                    <span class="card-desc">Image centrale & Édito</span>
+                                    <span class="card-desc">Image & Édito</span>
                                 </div>
                             </label>
 
+                            <!-- 3. Communiqué -->
                             <label class="template-card">
                                 <input type="radio" name="template-type" value="communique">
                                 <div class="card-content">
@@ -167,18 +167,38 @@
                                         <div class="wf-title" style="width: 100%;"></div>
                                         <div class="wf-line"></div>
                                         <div class="wf-line"></div>
-                                        <div class="wf-photo" style="height: 15px; background: #6c757d;"></div>
+                                        <div style="width: 100%; height: 12px; background: #6c757d; border-radius: 2px; margin: 2px 0;"></div>
                                     </div>
                                     <span class="card-label">Communiqué</span>
-                                    <span class="card-desc">Formel & Photo basse</span>
+                                    <span class="card-desc">Formel & Photo</span>
+                                </div>
+                            </label>
+
+                            <!-- 4. Classique (Neutre) -->
+                            <label class="template-card">
+                                <input type="radio" name="template-type" value="classique">
+                                <div class="card-content">
+                                    <div class="wireframe" style="background: #fff; border-color: #adb5bd;">
+                                        <div class="wf-title" style="width: 80%; background: #495057;"></div>
+                                        <div class="wf-line"></div>
+                                        <div class="wf-line"></div>
+                                        <div class="wf-line" style="width: 50%;"></div>
+                                    </div>
+                                    <span class="card-label">Classique</span>
+                                    <span class="card-desc">Neutre & Épuré</span>
                                 </div>
                             </label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Lien de l'image (URL de la bannière ou photo) :</label>
-                        <input type="text" id="image-url" placeholder="https://exemple.com/image.jpg ou laissez vide">
+                        <label>Bannière ou image optionnelle (depuis votre ordinateur) :</label>
+                        <input type="file" id="image-file-input" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pièces jointes optionnelles (fichiers locaux) :</label>
+                        <input type="file" id="email-attachments-input" multiple>
                     </div>
 
                     <div class="form-group">
@@ -228,16 +248,22 @@
 
                 <div id="result-area">
                     <div class="form-group">
-                        <label>Objet du message :</label>
+                        <label>Objet du message (Modifiable) :</label>
                         <input type="text" id="final-subject">
                     </div>
 
                     <div class="form-group" style="flex: 1; display: flex; flex-direction: column;">
-                        <label>Aperçu visuel du message (Rendu HTML pour Brevo) :</label>
-                        <div id="html-preview-container"></div>
+                        <label>Aperçu et modification du contenu HTML :</label>
+                        <div id="html-preview-container" contenteditable="true"></div>
                     </div>
 
-                    <button id="btn-validate-send" class="btn-ai-action btn-send" disabled>VALIDER ET ENVOYER VIA BREVO</button>
+                    <!-- Pastilles pièces jointes style Gmail -->
+                    <div id="gmail-attachments-section" style="display: none; margin-bottom: 15px;">
+                        <div style="font-size: 13px; font-weight: bold; color: #495057; margin-bottom: 5px;">Pièces jointes :</div>
+                        <div id="gmail-attachments-list"></div>
+                    </div>
+
+                    <button id="btn-validate-send" class="btn-ai-action btn-send" disabled>VALIDER ET ENVOYER</button>
                 </div>
             </div>
         </div>
@@ -252,7 +278,6 @@
                 <button type="button" class="btn-ai-action btn-close btn-close-modal">Fermer</button>
             </div>
             <div class="modal-body">
-                <!-- NOUVEAU : Barre de recherche textuelle -->
                 <div class="search-container">
                     <input type="text" id="contact-search-input" placeholder="Rechercher par nom, entreprise ou adresse e-mail...">
                     <button type="button" id="btn-search-reset" class="btn-search-reset" title="Effacer la recherche">Effacer</button>
@@ -278,7 +303,6 @@
 </div>
 
 <script>
-    // --- LOGIQUE JAVASCRIPT INTÉGRÉE ---
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById('ai-form');
         const emptyState = document.getElementById('empty-state');
@@ -297,15 +321,19 @@
         const btnCheckAll = document.getElementById('btn-check-all');
         const btnUncheckAll = document.getElementById('btn-uncheck-all');
 
-        // Éléments de la barre de recherche
         const searchInput = document.getElementById('contact-search-input');
         const btnSearchReset = document.getElementById('btn-search-reset');
         let searchTimeout = null;
 
-        // Gestion de la fenêtre modale
         const modal = document.getElementById('contacts-modal');
         const btnOpenModal = document.getElementById('btn-open-modal');
         const btnsCloseModal = document.querySelectorAll('.btn-close-modal');
+
+        const attachmentsInput = document.getElementById('email-attachments-input');
+        const gmailSection = document.getElementById('gmail-attachments-section');
+        const gmailList = document.getElementById('gmail-attachments-list');
+
+        let dataTransfer = new DataTransfer();
 
         if(btnOpenModal) {
             btnOpenModal.addEventListener('click', () => { 
@@ -320,7 +348,56 @@
             if (e.target === modal) { modal.style.display = 'none'; }
         });
 
-        // 1. Fonction pour charger les contacts depuis MongoDB via l'API Django (avec recherche)
+        if (attachmentsInput) {
+            attachmentsInput.addEventListener('change', function() {
+                for (let file of this.files) {
+                    dataTransfer.items.add(file);
+                }
+                attachmentsInput.files = dataTransfer.files;
+                renderGmailChips();
+            });
+        }
+
+        function renderGmailChips() {
+            if (!gmailList || !gmailSection) return;
+            gmailList.innerHTML = '';
+            
+            const files = dataTransfer.files;
+            if (files.length > 0) {
+                gmailSection.style.display = 'block';
+                Array.from(files).forEach((file, index) => {
+                    const chip = document.createElement('div');
+                    chip.className = 'gmail-attachment-chip';
+                    
+                    const infoSpan = document.createElement('span');
+                    infoSpan.className = 'gmail-attachment-name';
+                    infoSpan.innerHTML = `📎 ${file.name} <span class="gmail-attachment-size">(${(file.size / 1024).toFixed(1)} Ko)</span>`;
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.className = 'gmail-attachment-delete';
+                    deleteBtn.innerHTML = '&times;';
+                    deleteBtn.title = 'Supprimer cette pièce jointe';
+                    
+                    deleteBtn.addEventListener('click', function() {
+                        const newDT = new DataTransfer();
+                        Array.from(files).forEach((f, i) => {
+                            if (i !== index) newDT.items.add(f);
+                        });
+                        dataTransfer = newDT;
+                        attachmentsInput.files = dataTransfer.files;
+                        renderGmailChips();
+                    });
+
+                    chip.appendChild(infoSpan);
+                    chip.appendChild(deleteBtn);
+                    gmailList.appendChild(chip);
+                });
+            } else {
+                gmailSection.style.display = 'none';
+            }
+        }
+
         function loadContactsFromMongoDB(role, search = '') {
             if(!contactsContainer) return;
             contactsContainer.innerHTML = '<span style="color: #6c757d;">Recherche dans la base de données...</span>';
@@ -341,7 +418,7 @@
                             checkbox.type = 'checkbox';
                             checkbox.className = 'contact-checkbox';
                             checkbox.value = contact.email;
-                            checkbox.checked = false; // Décochés par défaut à l'ouverture
+                            checkbox.checked = false;
                             checkbox.addEventListener('change', updateSelectedCount);
                             
                             const label = document.createElement('label');
@@ -362,7 +439,6 @@
                 });
         }
 
-        // 2. Événement de frappe dans la barre de recherche (avec délai de 300ms)
         if(searchInput) {
             searchInput.addEventListener('input', function() {
                 clearTimeout(searchTimeout);
@@ -375,7 +451,6 @@
             });
         }
 
-        // Bouton pour effacer le texte et réinitialiser la recherche
         if(btnSearchReset) {
             btnSearchReset.addEventListener('click', function() {
                 if(searchInput && searchInput.value !== '') {
@@ -386,7 +461,6 @@
             });
         }
 
-        // 3. Mettre à jour le compteur de contacts cochés
         function updateSelectedCount() {
             const checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
             const count = checkedBoxes.length;
@@ -401,7 +475,6 @@
             }
         }
 
-        // 4. Action : TOUT COCHER
         if(btnCheckAll) {
             btnCheckAll.addEventListener('click', function() {
                 document.querySelectorAll('.contact-checkbox').forEach(cb => {
@@ -411,7 +484,6 @@
             });
         }
 
-        // 5. Action : TOUT DÉCOCHER
         if(btnUncheckAll) {
             btnUncheckAll.addEventListener('click', function() {
                 document.querySelectorAll('.contact-checkbox').forEach(cb => {
@@ -421,17 +493,39 @@
             });
         }
 
-        // 6. Écouteur de changement sur le menu déroulant du rôle
         if(targetRoleSelect) {
             targetRoleSelect.addEventListener('change', function() {
                 const currentSearch = searchInput ? searchInput.value.trim() : '';
                 loadContactsFromMongoDB(this.value, currentSearch);
             });
-            // Chargement initial au démarrage de la page
             loadContactsFromMongoDB(targetRoleSelect.value, '');
         }
 
-        // 7. Écouteur d'événement pour la génération IA
+        function getFilesAsBase64(files, callback) {
+            let attachments = [];
+            if (!files || files.length === 0) {
+                callback([]);
+                return;
+            }
+            
+            let completed = 0;
+            Array.from(files).forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    attachments.push({
+                        name: file.name,
+                        type: file.type,
+                        data: e.target.result
+                    });
+                    completed++;
+                    if (completed === files.length) {
+                        callback(attachments);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         if(form) {
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); 
@@ -441,45 +535,59 @@
                 loader.style.display = 'block';
 
                 const selectedTemplate = document.querySelector('input[name="template-type"]:checked').value;
+                const fileInput = document.getElementById('image-file-input');
 
-                const dataToSend = {
-                    target_role: targetRoleSelect.value,
-                    template_type: selectedTemplate,
-                    image_url: document.getElementById('image-url').value,
-                    instructions: document.getElementById('brief-instructions').value,
-                    tone: document.getElementById('brief-tone').value,
-                    language_level: document.getElementById('brief-level').value
-                };
+                function proceedWithGeneration(base64Image) {
+                    getFilesAsBase64(attachmentsInput.files, function(attachmentsList) {
+                        const dataToSend = {
+                            target_role: targetRoleSelect.value,
+                            template_type: selectedTemplate,
+                            image_url: base64Image || "",
+                            attachments: attachmentsList,
+                            instructions: document.getElementById('brief-instructions').value,
+                            tone: document.getElementById('brief-tone').value,
+                            language_level: document.getElementById('brief-level').value
+                        };
 
-                fetch('/api/generate_email/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToSend)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    loader.style.display = 'none';
-                    resultArea.style.display = 'flex';
+                        fetch('/api/generate_email/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(dataToSend)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            loader.style.display = 'none';
+                            resultArea.style.display = 'flex';
 
-                    if(data.status === 'success') {
-                        finalSubject.value = data.subject;
-                        htmlPreviewContainer.innerHTML = data.html_preview;
-                        updateSelectedCount();
-                    } else {
-                        alert("Erreur côté serveur : " + data.error);
-                    }
-                })
-                .catch(error => {
-                    loader.style.display = 'none';
-                    alert("Impossible de joindre le serveur Python.");
-                    console.error("Erreur Fetch :", error);
-                });
+                            if(data.status === 'success') {
+                                finalSubject.value = data.subject;
+                                htmlPreviewContainer.innerHTML = data.html_preview;
+                                updateSelectedCount();
+                                renderGmailChips();
+                            } else {
+                                alert("Erreur côté serveur : " + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            loader.style.display = 'none';
+                            alert("Impossible de joindre le serveur Python.");
+                            console.error("Erreur Fetch :", error);
+                        });
+                    });
+                }
+
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        proceedWithGeneration(e.target.result);
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    proceedWithGeneration("");
+                }
             });
         }
 
-        // 8. Validation finale : Récupération des adresses cochées pour Brevo
         if(btnValidateSend) {
             btnValidateSend.addEventListener('click', function() {
                 const selectedEmails = Array.from(document.querySelectorAll('.contact-checkbox:checked')).map(cb => cb.value);
@@ -488,8 +596,12 @@
                     alert("Veuillez sélectionner au moins un destinataire dans la liste.");
                     return;
                 }
+
+                const modifiedSubject = finalSubject.value;
+                const modifiedHtmlContent = htmlPreviewContainer.innerHTML;
+                const attachedCount = attachmentsInput.files ? attachmentsInput.files.length : 0;
                 
-                alert(`La campagne validée va être transmise à l'API Brevo pour l'envoi à ${selectedEmails.length} destinataire(s) :\n\n` + selectedEmails.join("\n"));
+                alert(`Campagne validée et prête pour l'envoi !\n\nObjet : ${modifiedSubject}\nDestinataires : ${selectedEmails.length} contact(s)\nPièces jointes : ${attachedCount} fichier(s) attaché(s)`);
             });
         }
     });

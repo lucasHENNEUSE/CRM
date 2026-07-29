@@ -584,7 +584,43 @@ document.addEventListener('DOMContentLoaded', function() { // NOSONAR
                     checkbox.style.cursor = "pointer";
 
                     const textSpan = document.createElement('label');
-                    textSpan.innerText = ev.getAttribute("data-title") || ev.innerText;
+                    // Find the actual activity object to get all details
+                    const activity = backendActivities.find(a => String(a.id) === String(actId));
+                    let displayContent = "";
+
+                    if (activity) {
+                        let timeInfo = "";
+                        if (activity.time && activity.time !== "00:00") {
+                            timeInfo += `<strong>${activity.time}</strong>`;
+                        }
+
+                        let titleAndLocation = activity.title;
+                        let dueDateInfo = "";
+
+                        // Check for due date/time for tasks/echeances
+                        if (activity.type_name.includes('action') || activity.type_name.includes('task') || activity.type_name.includes('échéance')) {
+                            if (activity.due_date) {
+                                dueDateInfo += ` (Échéance: ${activity.due_date.split('-').reverse().join('/')}`;
+                                if (activity.due_time) {
+                                    dueDateInfo += ` à ${activity.due_time}`;
+                                }
+                                dueDateInfo += `)`;
+                            }
+                        } else if (activity.is_local && activity.title.includes('📍')) {
+                            // For local events/rendezvous, extract location from title
+                            const titleParts = activity.title.split('📍');
+                            titleAndLocation = titleParts[0].trim();
+                            if (titleParts[1]) {
+                                titleAndLocation += `<br><span style="font-size:0.85em; color:#777;">📍 ${titleParts[1].trim()}</span>`;
+                            }
+                        }
+                        
+                        displayContent = `${timeInfo ? timeInfo + ' - ' : ''}${titleAndLocation}${dueDateInfo}`;
+                    } else {
+                        displayContent = ev.getAttribute("data-title") || ev.innerText;
+                    }
+                    
+                    textSpan.innerHTML = displayContent;
                     textSpan.style.cursor = "pointer";
 
                     // On vérifie si la tâche est déja accomplie pour pré-cocher la case

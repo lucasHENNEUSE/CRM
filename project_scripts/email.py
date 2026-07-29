@@ -1,5 +1,8 @@
 import json
+import os
+import re
 import datetime
+import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
@@ -11,7 +14,12 @@ client_ai = OpenAI(
     api_key='ollama'
 )
 
-# 2. Connexion à la base de données MongoDB locale (port 27018)
+# 2. Configuration de l'API Brevo (Remplace par ta propre clé API Brevo)
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+SENDER_EMAIL = "lucas.henneuse22@gmail.com"  # Doit être l'email vérifié sur ton compte Brevo
+SENDER_NAME = "ISEN Brest"
+
+# 3. Connexion à la base de données MongoDB locale (port 27018)
 client_db = MongoClient('mongodb://localhost:27018/')
 db = client_db['poc_aggregation']
 collection_drafts = db['CampaignDraft']
@@ -19,20 +27,13 @@ collection_contacts = db['prospects_bruts']
 
 @csrf_exempt
 def get_contacts(request):
-    """
-    Route API qui récupère les prospects en lisant dans les sous-groupes 
-    coordonnees, contact et entite de la base poc_aggregation, avec support
-    de la recherche textuelle insensibilisée à la casse.
-    """
     if request.method == 'GET':
         try:
             role_query = request.GET.get('role', '')
             search_query = request.GET.get('search', '').strip()
             
-            # 1. Filtre de base : les contacts autorisant l'emailing
             query = {"is_in_emailing": "OUI"}
             
-            # 2. Si un terme de recherche a été saisi par l'utilisateur
             if search_query:
                 regex_pattern = {"$regex": search_query, "$options": "i"}
                 query["$or"] = [
@@ -44,22 +45,17 @@ def get_contacts(request):
                     {"entite.code": regex_pattern}
                 ]
             
-            # Limitation à 100 documents pour garantir une fluidité d'affichage optimale
             contacts_cursor = collection_contacts.find(query).limit(100)
             
             contacts_list = []
             for doc in contacts_cursor:
-                # Extraction de l'email depuis le sous-groupe 'coordonnees'
                 coordonnees = doc.get("coordonnees") or {}
                 email = coordonnees.get("email") or coordonnees.get("raw") or ""
                 
                 if email:
-                    # Extraction du nom et prénom depuis le sous-groupe 'contact'
                     contact = doc.get("contact") or {}
                     first_name = str(contact.get("prenom", "")).strip()
                     last_name = str(contact.get("nom", "")).strip() or "Prospect"
-                    
-                    # Extraction de la société depuis le sous-groupe 'entite'
                     entite = doc.get("entite") or {}
                     company = str(entite.get("libelle") or entite.get("code") or "Organisation").strip()
                     
@@ -72,8 +68,6 @@ def get_contacts(request):
                         "role": "prospect"
                     })
             
-            # SÉCURITÉ : Si la recherche donne 0 résultat ou si aucun profil n'a le tag OUI,
-            # on tente une recherche de secours sans le filtre strict is_in_emailing
             if len(contacts_list) == 0:
                 fallback_query = {}
                 if search_query:
@@ -118,37 +112,13 @@ def generate_ai_email(request):
             target_role = data.get('target_role')
             template_type = data.get('template_type', 'invitation')
             image_url = data.get('image_url')
+            attachments = data.get('attachments', [])
             instructions = data.get('instructions')
             tone = data.get('tone')
             language_level = data.get('language_level')
 
-            if not image_url or image_url.strip() == "":
-                image_url = "https://via.placeholder.com/600x250/007bff/ffffff?text=ISEN+Brest+Engineering"
-
-            if template_type == 'invitation':
-                structure_demandee = """{
-                  "subject": "Objet persuasif et incitatif de l'email",
-                  "headline": "Grand titre principal sous la bannière",
-                  "body": "Texte d'invitation complet (2 ou 3 paragraphes séparés par des sauts de ligne \\n)",
-                  "cta_button": "Texte court pour le bouton d'action (ex: Confirmer ma présence)"
-                }"""
-            elif template_type == 'newsletter':
-                structure_demandee = """{
-                  "subject": "Objet informatif de la newsletter",
-                  "headline": "Titre de l'article ou de la synthèse",
-                  "body": "Corps complet du message séparé par des sauts de ligne \\n",
-                  "cta_button": "Texte du lien d'action (ex: Lire l'article complet)"
-                }"""
-            else:
-                structure_demandee = """{
-                  "subject": "Objet formel du communiqué",
-                  "headline": "Titre institutionnel de l'annonce",
-                  "body": "Texte détaillé et formel séparé par des sauts de ligne \\n",
-                  "cta_button": "Texte du bouton (ex: Consulter le document officiel)"
-                }"""
-
             system_prompt = f"""Tu es l'assistant IA de rédaction expert représentant l'ISEN (20 Rue Cuirassé Bretagne, 29200 Brest).
-Ta mission est de rédiger un e-mail professionnel et engageant en te basant STRICTEMENT sur les consignes données.
+Ta mission est de rédiger un e-mail professionnel, direct, poli et extrêmement efficace. Fais attention à ce que tu dis.
 
 PARAMÈTRES DE RÉDACTION :
 - Public ciblé : {target_role}
@@ -156,51 +126,82 @@ PARAMÈTRES DE RÉDACTION :
 - Niveau de langue : {language_level}
 
 RÈGLES IMPÉRATIVES :
-1. Tu dois répondre UNIQUEMENT par un objet JSON brut, valide et sans texte autour.
-2. N'invente aucune date ni aucun lieu non spécifié dans le brief.
-3. Signe obligatoirement par "L'équipe ISEN".
-4. Ne mets aucun symbole de type émoticône ou emoji dans le texte généré.
+1. N'invente aucune date ni aucun lieu non spécifié dans le brief.
+2. Signe obligatoirement par "L'équipe ISEN".
+3. Ne mets aucun symbole de type émoticône ou emoji dans le texte généré.
 
-Le JSON doit obligatoirement respecter ce schéma exact :
-{structure_demandee}"""
+Tu dois structurer ta réponse exactement avec ces balises textuelles :
+[SUJET]: Objet persuasif et incitatif de l'email
+[TITRE]: Grand titre principal sous la bannière
+[CORPS]: Texte complet du message clair et professionnel
+[BOUTON]: Texte court pour le bouton d'action"""
 
             response = client_ai.chat.completions.create(
-                model="mistral",
-                response_format={"type": "json_object"},
+                model="gemma:2b",
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": f"Voici ma demande de rédaction : {instructions}"}
                 ],
-                temperature=0.7
+                temperature=0.3,
+                max_tokens=350
             )
 
-            ai_result_json = json.loads(response.choices[0].message.content)
+            raw_content = response.choices[0].message.content
             
-            subject = ai_result_json.get("subject", "Objet non généré")
-            headline = ai_result_json.get("headline", "Titre non généré")
-            body = ai_result_json.get("body", "Texte non généré")
-            cta_button = ai_result_json.get("cta_button", "En savoir plus")
+            sub_match = re.search(r'\[SUJET\]:\s*(.*?)(?=\[TITRE\]|$)', raw_content, re.DOTALL)
+            head_match = re.search(r'\[TITRE\]:\s*(.*?)(?=\[CORPS\]|$)', raw_content, re.DOTALL)
+            body_match = re.search(r'\[CORPS\]:\s*(.*?)(?=\[BOUTON\]|$)', raw_content, re.DOTALL)
+            btn_match = re.search(r'\[BOUTON\]:\s*(.*?)$', raw_content, re.DOTALL)
+
+            subject = sub_match.group(1).strip() if sub_match else "Invitation - ISEN"
+            headline = head_match.group(1).strip() if head_match else "Réunion stratégique"
+            body = body_match.group(1).strip() if body_match else raw_content
+            cta_button = btn_match.group(1).strip() if btn_match else "Confirmer ma présence"
+            
+            ai_result_json = {
+                "subject": subject,
+                "headline": headline,
+                "body": body,
+                "cta_button": cta_button
+            }
+
+            banner_html = ""
+            if image_url and image_url.strip() != "":
+                banner_html = f"""
+                <div style="text-align: center;">
+                    <img src="{image_url}" alt="Bannière de la campagne" style="width: 100%; max-height: 250px; object-fit: cover; display: block;">
+                </div>
+                """
+
+            image_path = "http://127.0.0.1:8000/static_media/persons/isen.png"
+            signature_isen_image = f"""
+            <div style="margin-top: 30px; text-align: center; border-top: 1px solid #e0e0e0; padding-top: 15px;">
+                <img src="{image_path}" alt="ISEN" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
+                <p style="font-size: 11px; color: #6c757d; margin-top: 5px;">ISEN - 20 Rue Cuirassé Bretagne, 29200 Brest</p>
+            </div>
+            """
 
             if template_type == 'invitation':
                 html_email = f"""
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; background-color: #ffffff;">
-                    <div style="text-align: center;">
-                        <img src="{image_url}" alt="Bannière ISEN" style="width: 100%; max-height: 250px; object-fit: cover; display: block;">
-                    </div>
+                    {banner_html}
                     <div style="padding: 30px;">
                         <h2 style="color: #007bff; margin-top: 0; font-size: 22px;">{headline}</h2>
                         <div style="color: #333333; line-height: 1.6; white-space: pre-line; font-size: 15px;">{body}</div>
                         <div style="text-align: center; margin-top: 30px; margin-bottom: 10px;">
                             <a href="https://isen-nantes.fr" style="background-color: #007bff; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">{cta_button}</a>
                         </div>
-                    </div>
-                    <div style="background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #6c757d; border-top: 1px solid #e0e0e0;">
-                        ISEN - 20 Rue Cuirassé Bretagne, 29200 Brest<br>
-                        Ce message a été généré via Crème CRM.
+                        {signature_isen_image}
                     </div>
                 </div>
                 """
             elif template_type == 'newsletter':
+                newsletter_image_block = f"""
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="{image_url}" alt="Illustration" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px;">
+                </div>
+                """ if image_url and image_url.strip() != "" else ""
+
                 html_email = f"""
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ced4da; background-color: #f8f9fa; padding: 20px;">
                     <div style="background-color: #ffffff; padding: 20px; border-bottom: 3px solid #6f42c1; text-align: center;">
@@ -208,20 +209,22 @@ Le JSON doit obligatoirement respecter ce schéma exact :
                     </div>
                     <div style="background-color: #ffffff; padding: 30px; margin-top: 15px;">
                         <h2 style="color: #2c3e50; margin-top: 0; font-size: 20px; border-left: 4px solid #6f42c1; padding-left: 10px;">{headline}</h2>
-                        <div style="text-align: center; margin: 20px 0;">
-                            <img src="{image_url}" alt="Illustration" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px;">
-                        </div>
+                        {newsletter_image_block}
                         <div style="color: #495057; line-height: 1.6; white-space: pre-line; font-size: 14px;">{body}</div>
                         <div style="text-align: right; margin-top: 20px;">
                             <a href="https://isen-nantes.fr" style="color: #6f42c1; font-weight: bold; text-decoration: none;">{cta_button} &rarr;</a>
                         </div>
-                    </div>
-                    <div style="text-align: center; font-size: 11px; color: #888888; margin-top: 15px;">
-                        ISEN Brest - Tous droits réservés.
+                        {signature_isen_image}
                     </div>
                 </div>
                 """
-            else:
+            elif template_type == 'communique':
+                communique_image_block = f"""
+                <div style="margin: 30px 0; text-align: center;">
+                    <img src="{image_url}" alt="Document officiel" style="max-width: 80%; height: auto; border: 1px solid #cccccc; padding: 5px;">
+                </div>
+                """ if image_url and image_url.strip() != "" else ""
+
                 html_email = f"""
                 <div style="font-family: 'Times New Roman', Times, serif; max-width: 600px; margin: 0 auto; border: 1px solid #333333; background-color: #ffffff; padding: 40px;">
                     <div style="border-bottom: 1px solid #333333; padding-bottom: 15px; margin-bottom: 25px;">
@@ -229,13 +232,26 @@ Le JSON doit obligatoirement respecter ce schéma exact :
                     </div>
                     <h2 style="color: #111111; font-size: 22px; margin-top: 0; font-weight: normal;">{headline}</h2>
                     <div style="color: #222222; line-height: 1.8; white-space: pre-line; font-size: 16px; margin: 25px 0;">{body}</div>
-                    <div style="margin: 30px 0; text-align: center;">
-                        <img src="{image_url}" alt="Document officiel" style="max-width: 80%; height: auto; border: 1px solid #cccccc; padding: 5px;">
+                    {communique_image_block}
+                    {signature_isen_image}
+                </div>
+                """
+            else:  # Modèle classique (neutre)
+                classic_image_block = f"""
+                <div style="margin: 20px 0; text-align: center;">
+                    <img src="{image_url}" alt="Illustration" style="max-width: 100%; height: auto; border-radius: 4px;">
+                </div>
+                """ if image_url and image_url.strip() != "" else ""
+
+                html_email = f"""
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; background-color: #ffffff; padding: 30px;">
+                    <h2 style="color: #333333; margin-top: 0; font-size: 20px; font-weight: bold;">{headline}</h2>
+                    {classic_image_block}
+                    <div style="color: #444444; line-height: 1.6; white-space: pre-line; font-size: 14px; margin: 20px 0;">{body}</div>
+                    <div style="margin: 25px 0;">
+                        <a href="https://isen-nantes.fr" style="background-color: #495057; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block; font-size: 14px;">{cta_button}</a>
                     </div>
-                    <div style="margin-top: 40px; font-family: Arial, sans-serif; font-size: 14px; color: #333333;">
-                        <p style="margin: 0;"><strong>{cta_button}</strong></p>
-                        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666666;">20 Rue Cuirassé Bretagne, 29200 Brest</p>
-                    </div>
+                    {signature_isen_image}
                 </div>
                 """
 
@@ -244,6 +260,7 @@ Le JSON doit obligatoirement respecter ce schéma exact :
                 "status": "draft",
                 "template_type": template_type,
                 "visual_assets": {"image_url": image_url},
+                "attachments": attachments,
                 "targeting": {"target_role": target_role},
                 "brief": {
                     "instructions": instructions,
@@ -260,8 +277,56 @@ Le JSON doit obligatoirement respecter ce schéma exact :
                 'draft_id': str(inserted_draft.inserted_id),
                 'subject': subject,
                 'body': body,
-                'html_preview': html_email
+                'html_preview': html_email,
+                'attachments_count': len(attachments)
             })
+
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+@csrf_exempt
+def send_campaign_brevo(request):
+    """
+    Route API dédiée pour envoyer l'e-mail via l'API Brevo en mode démo.
+    """
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            recipients = data.get('recipients', []) # Liste d'emails sélectionnés
+            subject = data.get('subject', 'Campagne ISEN')
+            html_content = data.get('html_content', '')
+
+            if not recipients:
+                return JsonResponse({'status': 'error', 'error': "Aucun destinataire sélectionné."}, status=400)
+
+            # Formatage des destinataires pour l'API Brevo
+            to_list = [{"email": email} for email in recipients]
+
+            brevo_payload = {
+                "sender": {
+                    "name": SENDER_NAME,
+                    "email": SENDER_EMAIL
+                },
+                "to": to_list,
+                "subject": subject,
+                "htmlContent": html_content
+            }
+
+            headers = {
+                "accept": "application/json",
+                "api-key": BREVO_API_KEY,
+                "content-type": "application/json"
+            }
+
+            response = requests.post("https://api.brevo.com/v3/smtp/email", json=brevo_payload, headers=headers)
+
+            if response.status_code in [200, 201]:
+                return JsonResponse({'status': 'success', 'message': "Campagne envoyée avec succès via Brevo !"})
+            else:
+                return JsonResponse({'status': 'error', 'error': f"Erreur Brevo : {response.text}"}, status=400)
 
         except Exception as e:
             return JsonResponse({'status': 'error', 'error': str(e)}, status=500)

@@ -20,6 +20,9 @@ from functools import partial
 
 from django.apps import apps
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from pymongo import MongoClient
 
 from creme.creme_core.apps import CremeAppConfig
 
@@ -50,6 +53,75 @@ class PersonsConfig(CremeAppConfig):
             if apps.is_installed('creme.reports'):
                 # self.register_reports_graph_fetchers()
                 self.register_reports_chart_fetchers()
+
+            # --- ACTIVATION DU SIGNAL DE SYNCHRONISATION CRM -> MONGODB ---
+            self._connect_mongo_sync_signal()
+
+    def _connect_mongo_sync_signal(self):
+        """Connecte dynamiquement le signal post_save pour synchroniser MongoDB."""
+        ContactModel = self.Contact
+
+        @receiver(post_save, sender=ContactModel)
+        def sync_contact_to_mongo(sender, instance, created, **kwargs):
+            try:
+                # Connexion locale MongoDB (port 27018)
+                client = MongoClient("localhost", 27018)
+                db = client["poc_aggregation"]
+                collection = db["prospects_bruts"]
+
+                email = getattr(instance, 'email', '') or ""
+                if not email and hasattr(instance, 'get_email'):
+                    email = instance.get_email() or ""
+
+                first_name = getattr(instance, 'first_name', '') or ""
+                last_name = getattr(instance, 'last_name', '') or str(instance)
+                company = str(instance.enterprise) if getattr(instance, 'enterprise', None) else ""
+                
+                nb_stagiaires = getattr(instance, 'education_nb_stagiaires', None)
+                montant_taxe = getattr(instance, 'education_montant_taxe', "")
+                is_in_taxe = getattr(instance, 'is_in_taxe', "NON")
+                is_in_mailing = getattr(instance, 'is_in_mailing', "NON")
+
+                addr_line, zipcode, city = "", "", ""
+                if hasattr(instance, 'billing_address') and instance.billing_address:
+                    addr_line = instance.billing_address.address or ""
+                    zipcode = instance.billing_address.zipcode or ""
+                    city = instance.billing_address.city or ""
+
+                mongo_doc = {
+                    "status": "imported",
+                    "is_in_taxe": is_in_taxe,
+                    "is_in_emailing": is_in_mailing,
+                    "contact": {
+                        "nom": last_name,
+                        "prenom": first_name
+                    },
+                    "coordonnees": {
+                        "email": email,
+                        "raw": getattr(instance, 'coordonnees_raw', email)
+                    },
+                    "entite": {
+                        "libelle": company,
+                        "nb_stagiaires": nb_stagiaires,
+                        "montant_taxe": montant_taxe
+                    },
+                    "adresse": {
+                        "ligne1": addr_line,
+                        "code_postal": zipcode,
+                        "ville": city
+                    },
+                    "consent": getattr(instance, 'consent_data', "")
+                }
+
+                filter_query = {"coordonnees.email": email} if email else {"creme_id": instance.pk}
+
+                collection.update_one(
+                    filter_query,
+                    {"$set": mongo_doc},
+                    upsert=True
+                )
+            except Exception as e:
+                print(f"Erreur synchro MongoDB depuis le CRM : {e}")
 
     def register_entity_models(self, creme_registry):
         creme_registry.register_entity_models(self.Contact, self.Organisation)
@@ -143,7 +215,6 @@ class PersonsConfig(CremeAppConfig):
         from creme.creme_core.gui.view_tag import ViewTag
 
         def print_fk_user_html(*, value, user, html_fmt, **kwargs) -> str:
-            # TODO: test staff case
             contact = value.linked_contact
 
             if contact and user.has_perm_to_view(contact):
@@ -209,16 +280,11 @@ class PersonsConfig(CremeAppConfig):
 
         menu_registry.register(
             menu.ContactsEntry,
-            # menu.OrganisationsEntry,
-            # menu.CustomersEntry,
             menu.MassEmailingEntry,
-            # menu.TaxeEntry,
-
             menu.ContactCreationEntry,
             menu.OrganisationCreationEntry,
         )
 
-        # Hook CremeEntry
         children = core_menu.CremeEntry.child_classes
         children.insert(
             children.index(core_menu.CremeEntry.UserSeparatorEntry) + 1,
@@ -337,9 +403,6 @@ class PersonsConfig(CremeAppConfig):
             )
             relation = ModelChoiceField(
                 label=_('Position in the organisation'),
-                # NB: the QuerySet is built in __init__() because a loading artefact
-                #     makes ContentType values inconsistent in unit tests if the
-                #     Queryset is built here.
                 queryset=RelationType.objects.none(),
                 empty_label=None,
                 widget=DynamicSelect(attrs={'autocomplete': True}),
@@ -357,7 +420,6 @@ class PersonsConfig(CremeAppConfig):
                 fields = this.fields
 
                 get_ct = ContentType.objects.get_for_model
-                # TODO: what if there is no choice (e.g. all disabled)?
                 fields['relation'].queryset = RelationType.objects.filter(
                     subject_ctypes=get_ct(self.Contact),
                     symmetric_type__subject_ctypes=get_ct(self.Organisation),
@@ -373,7 +435,6 @@ class PersonsConfig(CremeAppConfig):
                 user = super().save(*args, **kwargs)
                 cdata = this.cleaned_data
 
-                # TODO: check properties constraints?
                 Relation.objects.create(
                     user=user, subject_entity=user.linked_contact,
                     type=cdata['relation'],
@@ -384,17 +445,8 @@ class PersonsConfig(CremeAppConfig):
 
         UserCreation.form_class = ContactUserCreationForm
 
-        # NB: to facilitate customisation by a child class
         return ContactUserCreationForm
 
-    # def register_reports_graph_fetchers(self):
-    #     from creme.reports.graph_fetcher_registry import graph_fetcher_registry
-    #
-    #     from . import reports
-    #
-    #     graph_fetcher_registry.register(
-    #         reports.OwnedGraphFetcher,
-    #     )
     def register_reports_chart_fetchers(self):
         from creme.reports.core.chart import fetcher
 
