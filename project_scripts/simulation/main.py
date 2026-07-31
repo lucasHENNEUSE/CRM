@@ -21,7 +21,7 @@ from pathlib import Path
 import os
 import subprocess
 import sys
-
+from dotenv import load_dotenv
 
 CURRENT_FILE = Path(__file__).resolve()
 PROJECT_ROOT = next(parent for parent in CURRENT_FILE.parents if (parent / "creme_crm").exists())
@@ -29,9 +29,18 @@ CREME_ROOT = PROJECT_ROOT / "creme_crm"
 CREME_APP_ROOT = CREME_ROOT / "creme"
 MANAGE_PY_PATH = CREME_APP_ROOT / "manage.py"
 
+# Charge le fichier .env depuis la racine du projet
+load_dotenv(PROJECT_ROOT / ".env")
+
 env = os.environ.copy()
 env["PYTHONPATH"] = str(CREME_ROOT)
 env["DJANGO_SETTINGS_MODULE"] = "creme.dev_settings"
+
+# Transmet explicitement les variables d'environnement Brevo au sous-processus Django
+for var in ["BREVO_API_KEY", "SENDER_EMAIL", "SENDER_NAME"]:
+    val = os.getenv(var)
+    if val:
+        env[var] = val
 
 print("Démarrage de CremeCRM POC2")
 print(f"Racine du projet : {PROJECT_ROOT}")

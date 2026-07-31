@@ -20,8 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-# 2. ENSUITE : Maintenant que Python connaît le chemin, on peut importer ton script !
-from project_scripts.email import generate_ai_email, get_contacts
+# 2. ENSUITE : Maintenant que Python connaît le chemin, on importe toutes tes fonctions !
+from project_scripts.email import generate_ai_email, get_contacts, send_campaign_brevo, get_campaign_history
 
 logger = logging.getLogger(__name__)
 handler403 = permission_denied
@@ -71,6 +71,16 @@ urlpatterns = [
         r'^api/contacts[/]?$',
         get_contacts,
         name='get_contacts',
+    ),
+    re_path(
+        r'^api/send_campaign_brevo[/]?$',
+        send_campaign_brevo,
+        name='send_campaign_brevo',
+    ),
+    re_path(
+        r'^api/campaigns/history[/]?$',
+        get_campaign_history,
+        name='get_campaign_history',
     ),
 
     # TODO: remove this line when the Rich Text Editor is generated like other static media
