@@ -2,6 +2,7 @@ import json
 import re
 import datetime
 import base64
+import logging
 import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -9,41 +10,40 @@ from pymongo import MongoClient
 from openai import OpenAI
 import os
 
-# 1. Configuration pour interroger OLLAMA SUR WSL
+logger = logging.getLogger(__name__)
+
 client_ai = OpenAI(
     base_url='http://127.0.0.1:11434/v1',
     api_key='ollama'
 )
 
-# 2. Configuration de l'API Brevo
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 SENDER_NAME = os.getenv("SENDER_NAME")
 
-# 3. Connexion à la base de données MongoDB locale (port 27018)
 client_db = MongoClient('mongodb://localhost:27018/')
 db = client_db['poc_aggregation']
 collection_drafts = db['CampaignDraft']
 collection_contacts = db['prospects_bruts']  
 
-# Fonction utilitaire pour charger isen.png et le convertir en Base64 pour le pied de page
 def get_default_isen_image_base64():
+    current_dir = os.path.dirname(__file__)
     possible_paths = [
-        os.path.join(os.path.dirname(__file__), '../creme_crm/static/persons/isen.png'),
-        os.path.join(os.path.dirname(__file__), 'creme_crm/static/persons/isen.png'),
+        os.path.join(current_dir, '../creme_crm/static/persons/isen.png'),
+        os.path.join(current_dir, 'creme_crm/static/persons/isen.png'),
         'creme_crm/static/persons/isen.png',
-        'static/persons/isen.png'
+        'static/persons/isen.png',
     ]
     
     for path in possible_paths:
-        if os.path.exists(path):
+        abs_path = os.path.abspath(path)
+        if os.path.exists(abs_path):
             try:
-                with open(path, "rb") as image_file:
+                with open(abs_path, "rb") as image_file:
                     encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
                     return f"data:image/png;base64,{encoded_string}"
             except Exception as e:
-                print("Erreur lecture isen.png:", e)
-                
+                print(f"Erreur lecture isen.png: {e}")
     return ""
 
 
@@ -138,7 +138,6 @@ def generate_ai_email(request):
             tone = data.get('tone', 'professionnel_chaleureux')
             language_level = data.get('language_level', 'vouvoiement')
 
-            # Gestion de la civilité dynamique
             salutation_prefix = "Bonjour,"
             if len(selected_recipients) == 1:
                 single_email = selected_recipients[0]
@@ -153,22 +152,25 @@ def generate_ai_email(request):
                     if full_name_str:
                         salutation_prefix = f"Bonjour {full_name_str},"
 
-            # Prompt système strict interdisant toute fausse signature textuelle
-            system_prompt = f"""Tu es un assistant de rédaction professionnel pour l'ISEN.
-Rédige un e-mail professionnel complet, rédigé avec soin, poli, engageant et bien développé (3 à 4 paragraphes).
+            system_prompt = f"""Tu rédiges un e-mail professionnel pour l'école d'ingénieurs ISEN Ouest.
+Rédige uniquement le corps de l'e-mail (3 à 4 paragraphes), poli et engageant.
 
 PARAMÈTRES DE STYLE :
-- Ton souhaité : {tone}
-- Niveau de langue : {language_level}
-- Formule de salutation obligatoire au tout début : "{salutation_prefix}"
+- Ton : {tone}
+- Langue : {language_level}
+- Commence directement le message par cette formule exacte : "{salutation_prefix}"
 
 INTERDICTIONS ABSOLUES :
-1. N'ajoute AUCUNE balise technique de type [SUJET], [TITRE], [CORPS] ou [BOUTON].
-2. N'ajoute AUCUNE signature textuelle en fin de message (pas de "Cordialement", pas de "L'équipe ISEN", pas de "[Votre nom]"). Le pied de page est géré automatiquement.
-3. Aucun emoji ni émoticône.
-4. ne signe par Assistant de rédaction mais seulement par l'équipe d'Isen Ouest.
-5. Rajoutes l'image isen.png en fin de mail à chaque fois, mais pas dans le corps du mail.
-6. Ne dis jamais Je suis un assistant de rédaction professionnel pour l'ISEN ou  autre qui fait référence à ça"""
+1. N'ajoute AUCUNE balise de type [SUJET], [TITRE], [CORPS] ou [BOUTON].
+2. N'écris JAMAIS "L'équipe d'Isen Ouest" au milieu ou au début du texte.
+3. N'ajoute AUCUNE signature en fin de texte (pas de "Cordialement", pas de "L'équipe d'Isen Ouest"). La signature finale est gérée automatiquement.
+4. Aucun emoji.
+5. Ne mentionne jamais que tu es un assistant ou une IA.
+6. signe toujours à la fin des mails L'équipe d'Isen Ouest (mais pas au milieu du texte, ni au début).
+7. Ne parle jamais en Anglais sauf si on te le demande sinon que en français
+8. Ne mentionne jamais que tu es un assistant ou une IA.
+9. Ne parle jamais de l'ISEN Ouest comme d'une école d'ingénieurs, mais plutôt comme d'une école d'ingénieurs généraliste.
+10.L'expéditeur n'est pas un éléve"""
 
             response = client_ai.chat.completions.create(
                 model="gemma:2b",
@@ -182,7 +184,6 @@ INTERDICTIONS ABSOLUES :
 
             raw_content = response.choices[0].message.content.strip()
             
-            # Nettoyage de sécurité
             cleaned_body = re.sub(r'\[(SUJET|TITRE|CORPS|BOUTON)\]:?', '', raw_content, flags=re.IGNORECASE).strip()
             cleaned_body = cleaned_body.replace('**', '')
 
@@ -210,10 +211,10 @@ INTERDICTIONS ABSOLUES :
                 </div>
                 """
 
-            # Pied de page épuré : "Isen Ouest" et l'image isen.png centrée
+            # Signature finale propre avec "L'équipe d'Isen Ouest" et l'image isen.png
             signature_isen_footer = f"""
             <div style="margin-top: 30px; text-align: center; border-top: 1px solid #e0e0e0; padding-top: 20px;">
-                <p style="font-size: 14px; font-weight: bold; color: #333333; margin-bottom: 10px;">Isen Ouest</p>
+                <p style="font-size: 14px; font-weight: bold; color: #333333; margin-bottom: 10px;">L'équipe d'Isen Ouest</p>
                 <img src="{isen_base64}" alt="Isen Ouest" style="max-width: 150px; height: auto; display: block; margin: 0 auto;">
             </div>
             """
@@ -287,11 +288,10 @@ INTERDICTIONS ABSOLUES :
                 "ai_generation": ai_result_json,
                 "final_html_rendered": html_email
             }
-            inserted_draft = collection_drafts.insert_one(draft_document)
+            collection_drafts.insert_one(draft_document)
 
             return JsonResponse({
                 'status': 'success',
-                'draft_id': str(inserted_draft.inserted_id),
                 'subject': subject,
                 'body': cleaned_body,
                 'headline': headline,
@@ -311,15 +311,10 @@ def get_campaign_history(request):
     if request.method == 'GET':
         try:
             campaigns_cursor = collection_drafts.find().sort("_id", -1).limit(20)
-            
             campaigns_list = []
             for doc in campaigns_cursor:
                 created_at_val = doc.get("created_at")
-                if isinstance(created_at_val, datetime.datetime):
-                    date_str = created_at_val.strftime("%d/%m/%Y %H:%M")
-                else:
-                    date_str = "Récemment"
-
+                date_str = created_at_val.strftime("%d/%m/%Y %H:%M") if isinstance(created_at_val, datetime.datetime) else "Récemment"
                 ai_gen = doc.get("ai_generation", {})
                 subject = ai_gen.get("subject") or doc.get("subject") or "Sans objet"
                 body_content = ai_gen.get("body") or doc.get("body_content") or ""
@@ -331,10 +326,8 @@ def get_campaign_history(request):
                     "created_at": date_str,
                     "body_content": body_content
                 })
-                
             return JsonResponse({'status': 'success', 'campaigns': campaigns_list})
         except Exception as e:
-            print("Erreur historique:", str(e))
             return JsonResponse({'status': 'error', 'error': str(e)}, status=500)
             
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
@@ -356,10 +349,7 @@ def send_campaign_brevo(request):
             to_list = [{"email": email} for email in recipients]
 
             brevo_payload = {
-                "sender": {
-                    "name": SENDER_NAME,
-                    "email": SENDER_EMAIL
-                },
+                "sender": {"name": SENDER_NAME, "email": SENDER_EMAIL},
                 "to": to_list,
                 "subject": subject,
                 "htmlContent": html_content
@@ -368,15 +358,8 @@ def send_campaign_brevo(request):
             if attachments:
                 brevo_attachments = []
                 for att in attachments:
-                    if "," in att['data']:
-                        base64_content = att['data'].split(",")[1]
-                    else:
-                        base64_content = att['data']
-                    
-                    brevo_attachments.append({
-                        "name": att['name'],
-                        "content": base64_content
-                    })
+                    base64_content = att['data'].split(",")[1] if "," in att['data'] else att['data']
+                    brevo_attachments.append({"name": att['name'], "content": base64_content})
                 brevo_payload["attachment"] = brevo_attachments
 
             headers = {
