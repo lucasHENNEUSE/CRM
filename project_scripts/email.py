@@ -193,6 +193,9 @@ INTERDICTIONS ABSOLUES :
 
             if not cleaned_body.lower().startswith('bonjour'):
                 cleaned_body = f"{salutation_prefix}\n\n{cleaned_body}"
+                
+            # MODIFICATION 1 : Conversion des sauts de ligne \n en balises HTML <br>
+            cleaned_body = cleaned_body.replace('\n', '<br>')
 
             ai_result_json = {
                 "subject": subject,
@@ -211,7 +214,6 @@ INTERDICTIONS ABSOLUES :
                 </div>
                 """
 
-            # Signature finale propre avec "L'équipe d'Isen Ouest" et l'image isen.png
             signature_isen_footer = f"""
             <div style="margin-top: 30px; text-align: center; border-top: 1px solid #e0e0e0; padding-top: 20px;">
                 <p style="font-size: 14px; font-weight: bold; color: #333333; margin-bottom: 10px;">L'équipe d'Isen Ouest</p>
@@ -219,12 +221,13 @@ INTERDICTIONS ABSOLUES :
             </div>
             """
 
+            # MODIFICATION 2 : Retrait de "white-space: pre-line;" dans les balises div contenant {cleaned_body}
             if template_type == 'invitation':
                 html_email = f"""
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; background-color: #ffffff; padding: 30px;">
                     <h2 style="color: #007bff; margin-top: 0; font-size: 22px;">{headline}</h2>
                     {custom_image_block}
-                    <div style="color: #333333; line-height: 1.6; font-size: 15px; white-space: pre-line;">{cleaned_body}</div>
+                    <div style="color: #333333; line-height: 1.6; font-size: 15px;">{cleaned_body}</div>
                     <div style="text-align: center; margin-top: 30px; margin-bottom: 10px;">
                         <a href="https://isen-nantes.fr" style="background-color: #007bff; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">{cta_button}</a>
                     </div>
@@ -240,7 +243,7 @@ INTERDICTIONS ABSOLUES :
                     <div style="background-color: #ffffff; padding: 30px; margin-top: 15px;">
                         <h2 style="color: #2c3e50; margin-top: 0; font-size: 20px; border-left: 4px solid #6f42c1; padding-left: 10px;">{headline}</h2>
                         {custom_image_block}
-                        <div style="color: #495057; line-height: 1.6; font-size: 14px; white-space: pre-line;">{cleaned_body}</div>
+                        <div style="color: #495057; line-height: 1.6; font-size: 14px;">{cleaned_body}</div>
                         <div style="text-align: right; margin-top: 20px;">
                             <a href="https://isen-nantes.fr" style="color: #6f42c1; font-weight: bold; text-decoration: none;">{cta_button} &rarr;</a>
                         </div>
@@ -255,7 +258,7 @@ INTERDICTIONS ABSOLUES :
                         <strong style="font-family: Arial, sans-serif; font-size: 16px; color: #333333;">COMMUNIQUÉ INSTITUTIONNEL - ISEN</strong>
                     </div>
                     <h2 style="color: #111111; font-size: 22px; margin-top: 0; font-weight: normal;">{headline}</h2>
-                    <div style="color: #222222; line-height: 1.8; font-size: 16px; margin: 25px 0; white-space: pre-line;">{cleaned_body}</div>
+                    <div style="color: #222222; line-height: 1.8; font-size: 16px; margin: 25px 0;">{cleaned_body}</div>
                     {custom_image_block}
                     {signature_isen_footer}
                 </div>
@@ -265,7 +268,7 @@ INTERDICTIONS ABSOLUES :
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; background-color: #ffffff; padding: 30px;">
                     <h2 style="color: #333333; margin-top: 0; font-size: 20px; font-weight: bold;">{headline}</h2>
                     {custom_image_block}
-                    <div style="color: #444444; line-height: 1.6; font-size: 14px; margin: 20px 0; white-space: pre-line;">{cleaned_body}</div>
+                    <div style="color: #444444; line-height: 1.6; font-size: 14px; margin: 20px 0;">{cleaned_body}</div>
                     <div style="margin: 25px 0;">
                         <a href="https://isen-nantes.fr" style="background-color: #495057; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block; font-size: 14px;">{cta_button}</a>
                     </div>
@@ -371,7 +374,7 @@ def send_campaign_brevo(request):
             response = requests.post("https://api.brevo.com/v3/smtp/email", json=brevo_payload, headers=headers)
 
             if response.status_code in [200, 201]:
-                return JsonResponse({'status': 'success', 'message': "Campagne envoyée avec succès via Brevo !"})
+                return JsonResponse({'status': 'success', 'message': "Campagne envoyée avec succès!"})
             else:
                 return JsonResponse({'status': 'error', 'error': f"Erreur Brevo : {response.text}"}, status=400)
 
