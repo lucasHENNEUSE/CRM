@@ -153,7 +153,8 @@ def generate_ai_email(request):
                         salutation_prefix = f"Bonjour {full_name_str},"
 
             system_prompt = f"""Tu rédiges un e-mail professionnel pour l'école d'ingénieurs ISEN Ouest.
-Rédige uniquement le corps de l'e-mail (3 à 4 paragraphes), poli et engageant.
+Rédige uniquement le corps de l'e-mail (3 à 4 paragraphes), poli et engageant, en te basant UNIQUEMENT sur l'objectif demandé par l'utilisateur.
+Tu dois développer le sujet fourni sans jamais t'en éloigner.
 
 PARAMÈTRES DE STYLE :
 - Ton : {tone}
@@ -164,7 +165,7 @@ INTERDICTIONS ABSOLUES :
 1. N'ajoute AUCUNE balise de type [SUJET], [TITRE], [CORPS] ou [BOUTON].
 2. N'écris JAMAIS "L'équipe d'Isen Ouest" au milieu ou au début du texte.
 3. N'ajoute AUCUNE signature en fin de texte (pas de "Cordialement", pas de "L'équipe d'Isen Ouest"). La signature finale est gérée automatiquement.
-4. Aucun emoji.
+4. Aucun emoji ni de cadratins.
 5. Ne mentionne jamais que tu es un assistant ou une IA.
 6. signe toujours à la fin des mails L'équipe d'Isen Ouest (mais pas au milieu du texte, ni au début).
 7. Ne parle jamais en Anglais sauf si on te le demande sinon que en français
@@ -194,8 +195,14 @@ INTERDICTIONS ABSOLUES :
             if not cleaned_body.lower().startswith('bonjour'):
                 cleaned_body = f"{salutation_prefix}\n\n{cleaned_body}"
                 
-            # MODIFICATION 1 : Conversion des sauts de ligne \n en balises HTML <br>
+           # 1. On réduit les sauts de ligne multiples générés par l'IA (3 ou plus) en 2 sauts maximum
+            cleaned_body = re.sub(r'\n{3,}', '\n\n', cleaned_body)
+            
+            # 2. Conversion en balises HTML
             cleaned_body = cleaned_body.replace('\n', '<br>')
+            
+            # 3. Sécurité supplémentaire pour l'éditeur HTML (Quill) : on supprime les suites de <br>
+            cleaned_body = re.sub(r'(<br>\s*){3,}', '<br><br>', cleaned_body)
 
             ai_result_json = {
                 "subject": subject,

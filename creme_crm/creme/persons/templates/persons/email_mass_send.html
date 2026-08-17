@@ -790,6 +790,7 @@
             const ctaButton = document.getElementById('raw-cta').value;
             const imageUrl = document.getElementById('raw-banner').value;
             const bodyContent = quill.root.innerHTML;
+            
 
             let bannerHtml = imageUrl ? `<div style="text-align: center;"><img src="${imageUrl}" alt="Bannière" style="width: 100%; max-height: 250px; object-fit: cover; display: block;"></div>` : "";
             let signatureHtml = `<div style="margin-top: 30px; text-align: center; border-top: 1px solid #e0e0e0; padding-top: 15px;"><h3 style="color: #007bff; margin: 0; font-size: 16px;">ISEN BREST</h3><p style="font-size: 11px; color: #6c757d; margin-top: 5px;">20 Rue Cuirassé Bretagne, 29200 Brest</p></div>`;
