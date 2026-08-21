@@ -17,6 +17,7 @@
 ################################################################################
 
 import json
+import traceback
 from contextlib import suppress
 from django.db.models import Q
 
@@ -33,7 +34,8 @@ class Home(BaseHome):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        with suppress(Exception):
+        
+        try:
             from creme.activities.models import ActivityType, Activity
             from creme.persons import get_contact_model
             
@@ -45,11 +47,25 @@ class Home(BaseHome):
             if meeting_type:
                 context['MEETING_TYPE_ID'] = meeting_type.id
                 
-            # On récupère les activités en base de données pour l'affichage
             activities = []
+
+            # On parcourt les dernières activités
             for act in Activity.objects.order_by('-id')[:500]:
                 if getattr(act, 'is_deleted', False):
                     continue
+                
+                # --- LE CŒUR DE LA SÉCURITÉ ---
+                # On utilise le moteur de sécurité NATIF de Crème CRM !
+                # Il va lire les Rôles que tu as configurés tout à l'heure dans l'interface
+                try:
+                    if not self.request.user.has_perm_to_view(act):
+                        continue
+                except AttributeError:
+                    # En cas de problème, solution de secours stricte :
+                    if not self.request.user.is_superuser and getattr(act, 'user_id', None) != self.request.user.id:
+                        continue
+                # ------------------------------
+
                 if getattr(act, 'start', None):
                     title = getattr(act, 'name', None) or getattr(act, 'title', None) or str(act)
                     title_lower = title.lower()
@@ -70,7 +86,17 @@ class Home(BaseHome):
                         'type_name': act.type.name.lower() if getattr(act, 'type', None) else 'evenements',
                         'contact_id': matched_contact_id,
                     })
+                    
             context['activities_json'] = json.dumps(activities)
+            
+        except Exception as e:
+            # S'il y a un bug inattendu, on l'affiche proprement dans la console
+            print("\n" + "="*60)
+            print("❌ ERREUR AGENDA PYTHON :", e)
+            traceback.print_exc()
+            print("="*60 + "\n")
+            context['activities_json'] = '[]'
+            
         return context
 
     def get_brick_ids(self):

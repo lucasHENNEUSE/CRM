@@ -268,6 +268,38 @@
     <!-- Script pour faire fonctionner le calendrier dynamiquement -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() { // NOSONAR
+
+           // --- ISOLATION DES DONNÉES LOCALES PAR UTILISATEUR ---
+            // On récupère l'ID avec une sécurité (0 par défaut)
+            const userPrefix = "user_{{ user.id|default:'0' }}_";
+            
+            const origSet = localStorage.setItem;
+            const origGet = localStorage.getItem;
+            const origRemove = localStorage.removeItem;
+
+            // On vérifie que la clé est bien du texte (typeof k === 'string') pour éviter les crashs
+            localStorage.setItem = function(key, value) {
+                let k = key;
+                if (k && typeof k === 'string' && k.includes('creme_')) {
+                    k = userPrefix + k;
+                }
+                return origSet.call(localStorage, k, value);
+            };
+            localStorage.getItem = function(key) {
+                let k = key;
+                if (k && typeof k === 'string' && k.includes('creme_')) {
+                    k = userPrefix + k;
+                }
+                return origGet.call(localStorage, k);
+            };
+            localStorage.removeItem = function(key) {
+                let k = key;
+                if (k && typeof k === 'string' && k.includes('creme_')) {
+                    k = userPrefix + k;
+                }
+                return origRemove.call(localStorage, k);
+            };
+            // -----------------------------------------------------
             // --- CSRF Token pour les requêtes AJAX ---
             const notificationBellIcon = document.getElementById('notificationBellIcon');
             const notificationCountBadge = document.getElementById('notificationCountBadge');

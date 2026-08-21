@@ -136,7 +136,16 @@ def generate_ai_email(request):
             attachments = data.get('attachments', [])
             instructions = data.get('instructions')
             tone = data.get('tone', 'professionnel_chaleureux')
-            language_level = data.get('language_level', 'vouvoiement')
+            
+
+            # IDENTITÉ DE L'UTILISATEUR CONNECTÉ
+            user_full_name = "L'équipe d'Isen Ouest" # Valeur par défaut de secours
+            if hasattr(request, 'user') and request.user.is_authenticated:
+                # On combine le prénom et le nom du profil Crème CRM
+                user_full_name = f"{request.user.first_name} {request.user.last_name}".strip()
+                if not user_full_name:
+                    user_full_name = request.user.username
+            
 
             salutation_prefix = "Bonjour,"
             if len(selected_recipients) == 1:
@@ -158,7 +167,6 @@ Tu dois développer le sujet fourni sans jamais t'en éloigner.
 
 PARAMÈTRES DE STYLE :
 - Ton : {tone}
-- Langue : {language_level}
 - Commence directement le message par cette formule exacte : "{salutation_prefix}"
 
 INTERDICTIONS ABSOLUES :
@@ -167,7 +175,7 @@ INTERDICTIONS ABSOLUES :
 3. N'ajoute AUCUNE signature en fin de texte (pas de "Cordialement", pas de "L'équipe d'Isen Ouest"). La signature finale est gérée automatiquement.
 4. Aucun emoji ni de cadratins.
 5. Ne mentionne jamais que tu es un assistant ou une IA.
-6. signe toujours à la fin des mails L'équipe d'Isen Ouest (mais pas au milieu du texte, ni au début).
+6. NE SIGNE JAMAIS le mail. N'écris aucune formule de politesse, ni "Cordialement", ni "L'équipe d'Isen Ouest" à la fin.
 7. Ne parle jamais en Anglais sauf si on te le demande sinon que en français
 8. Ne mentionne jamais que tu es un assistant ou une IA.
 9. Ne parle jamais de l'ISEN Ouest comme d'une école d'ingénieurs, mais plutôt comme d'une école d'ingénieurs généraliste.
@@ -293,7 +301,6 @@ INTERDICTIONS ABSOLUES :
                 "brief": {
                     "instructions": instructions,
                     "tone": tone,
-                    "language_level": language_level
                 },
                 "ai_generation": ai_result_json,
                 "final_html_rendered": html_email

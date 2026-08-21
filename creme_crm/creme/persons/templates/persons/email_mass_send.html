@@ -236,14 +236,6 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Niveau de langue :</label>
-                        <select id="brief-level">
-                            <option value="vouvoiement">Vouvoiement (Classique)</option>
-                            <option value="tutoiement">Tutoiement (Proximité)</option>
-                        </select>
-                    </div>
-
                     <button type="submit" class="btn-ai-action btn-ai">Générer l'e-mail avec l'IA</button>
                 </div>
 
@@ -735,7 +727,7 @@
                             attachments: attachmentsList,
                             instructions: document.getElementById('brief-instructions').value,
                             tone: document.getElementById('brief-tone').value,
-                            language_level: document.getElementById('brief-level').value
+                            
                         };
 
                         fetch('/api/generate_email/', {
@@ -784,16 +776,39 @@
             });
         }
 
-        function buildFullHtmlEmail() {
+      function buildFullHtmlEmail() {
             const templateType = document.getElementById('raw-template').value;
             const headline = document.getElementById('raw-headline').value;
             const ctaButton = document.getElementById('raw-cta').value;
             const imageUrl = document.getElementById('raw-banner').value;
-            const bodyContent = quill.root.innerHTML;
+            
+            // --- NETTOYAGE DU CODE POUR GMAIL / OUTLOOK ---
+            let bodyContent = quill.root.innerHTML;
+            
+            // 1. Supprime les sauts de ligne invisibles créés par l'éditeur
+            bodyContent = bodyContent.replace(/<p><br><\/p>/gi, "");
+            bodyContent = bodyContent.replace(/<p>\s*<\/p>/gi, "");
+            
+            // 2. Force une petite marge stricte (10px) sur chaque paragraphe
+            bodyContent = bodyContent.replace(/<p>/gi, '<p style="margin: 0 0 10px 0; padding: 0;">');
             
 
             let bannerHtml = imageUrl ? `<div style="text-align: center;"><img src="${imageUrl}" alt="Bannière" style="width: 100%; max-height: 250px; object-fit: cover; display: block;"></div>` : "";
-            let signatureHtml = `<div style="margin-top: 30px; text-align: center; border-top: 1px solid #e0e0e0; padding-top: 15px;"><h3 style="color: #007bff; margin: 0; font-size: 16px;">ISEN BREST</h3><p style="font-size: 11px; color: #6c757d; margin-top: 5px;">20 Rue Cuirassé Bretagne, 29200 Brest</p></div>`;
+          // --- SIGNATURE DYNAMIQUE DJANGO ---
+            let userFullName = "{{ request.user.first_name }} {{ request.user.last_name }}".trim();
+            if (!userFullName) {
+                userFullName = "{{ request.user.username }}";
+            }
+            if (!userFullName) {
+                userFullName = "L'équipe ISEN";
+            }
+
+            let signatureHtml = `<div style="margin-top: 30px; text-align: center; border-top: 1px solid #e0e0e0; padding-top: 15px;">
+                <h3 style="color: #007bff; margin: 0; font-size: 16px;">${userFullName}</h3>
+                <p style="font-size: 12px; color: #6c757d; margin-top: 5px; font-weight: bold;">ISEN Ouest</p>
+                <p style="font-size: 11px; color: #6c757d; margin-top: 2px;">20 Rue Cuirassé Bretagne, 29200 Brest</p>
+            </div>`;
+            // ----------------------------------
 
             const textStyle = "color: #333333; line-height: 1.6; font-size: 15px; font-family: Arial, sans-serif;";
 
