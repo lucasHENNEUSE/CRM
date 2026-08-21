@@ -42,29 +42,33 @@ class Home(BaseHome):
             Contact = get_contact_model()
             contacts = list(Contact.objects.filter(is_deleted=False))
 
-            # On cherche le type d'activité qui correspond à un Rendez-vous
             meeting_type = ActivityType.objects.filter(name__icontains='Rendez-vous').first()
             if meeting_type:
                 context['MEETING_TYPE_ID'] = meeting_type.id
                 
             activities = []
 
-            # On parcourt les dernières activités
             for act in Activity.objects.order_by('-id')[:500]:
                 if getattr(act, 'is_deleted', False):
                     continue
                 
-                # --- LE CŒUR DE LA SÉCURITÉ ---
-                # On utilise le moteur de sécurité NATIF de Crème CRM !
-                # Il va lire les Rôles que tu as configurés tout à l'heure dans l'interface
-                try:
-                    if not self.request.user.has_perm_to_view(act):
+                # --- LE CŒUR DE LA SÉCURITÉ FINALE ---
+                my_id = self.request.user.id
+                act_user_id = getattr(act, 'user_id', None)
+
+                if not self.request.user.is_superuser:
+                    # 1. POUR LUCAS : La méthode native qui marche à 100%
+                    try:
+                        if not self.request.user.has_perm_to_view(act):
+                            continue
+                    except Exception:
+                        pass
+                else:
+                    # 2. POUR L'ADMIN : Il ne voit que lui-même (ID 2) et le Système (ID 1)
+                    # Tout le reste (comme Lucas avec l'ID 3) est bloqué direct !
+                    if act_user_id not in (my_id, 1, None):
                         continue
-                except AttributeError:
-                    # En cas de problème, solution de secours stricte :
-                    if not self.request.user.is_superuser and getattr(act, 'user_id', None) != self.request.user.id:
-                        continue
-                # ------------------------------
+                # --------------------------------------
 
                 if getattr(act, 'start', None):
                     title = getattr(act, 'name', None) or getattr(act, 'title', None) or str(act)
@@ -90,7 +94,6 @@ class Home(BaseHome):
             context['activities_json'] = json.dumps(activities)
             
         except Exception as e:
-            # S'il y a un bug inattendu, on l'affiche proprement dans la console
             print("\n" + "="*60)
             print("❌ ERREUR AGENDA PYTHON :", e)
             traceback.print_exc()
