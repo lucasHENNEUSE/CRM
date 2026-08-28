@@ -12,13 +12,17 @@ Objectif :
 import argparse
 import json
 import os
+import shutil
 import sys
+from datetime import datetime
 from collections import Counter, defaultdict
 from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PROCESSED_ROOT = PROJECT_ROOT / "project_data" / "processed"
+SQLITE_DB_PATH = PROJECT_ROOT / "creme_crm" / "db.sqlite3"
+SQLITE_BACKUP_ROOT = PROJECT_ROOT.parent / "CRM_backups" / "sqlite"
 
 FILES = {
     "entites": "poc2_entites.json",
@@ -64,7 +68,36 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Vérifier l'accès à Django/CremeCRM sans écrire en base.",
     )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Déclencher l'import réel en base. En P3-02, doit être utilisé avec --limit.",
+    )
     return parser.parse_args()
+
+
+def validate_execution_mode(args: argparse.Namespace) -> None:
+    if args.execute and args.limit is None:
+        print(
+            "Erreur : --execute doit être utilisé avec --limit pendant P3-02.",
+            file=sys.stderr,
+        )
+        print(
+            "Exemple : python project_scripts/imports/import_poc2_to_creme.py --limit 10 --execute",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+
+def backup_sqlite_database() -> Path:
+    if not SQLITE_DB_PATH.exists():
+        raise FileNotFoundError(f"Base SQLite introuvable : {SQLITE_DB_PATH}")
+
+    SQLITE_BACKUP_ROOT.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_path = SQLITE_BACKUP_ROOT / f"db_before_poc2_import_sample_{timestamp}.sqlite3"
+    shutil.copy2(SQLITE_DB_PATH, backup_path)
+    return backup_path
 
 
 def setup_django() -> None:
@@ -114,6 +147,7 @@ def check_django_access() -> None:
 
 def main() -> None:
     args = parse_args()
+    validate_execution_mode(args)
 
     if args.check_django:
         check_django_access()
@@ -159,8 +193,22 @@ def main() -> None:
         if row.get("code_entite")
     }
 
-    print("=== DRY-RUN IMPORT POC2 VERS CREMECRM ===")
-    print("Aucune écriture en base ne sera effectuée.")
+    backup_path = None
+    if args.execute:
+        try:
+            backup_path = backup_sqlite_database()
+        except (FileNotFoundError, OSError) as error:
+            print(f"Erreur sauvegarde SQLite : {error}", file=sys.stderr)
+            sys.exit(1)
+
+    print("=== IMPORT POC2 VERS CREMECRM ===")
+    if args.execute:
+        print("Mode d'exécution : IMPORT RÉEL SUR ÉCHANTILLON")
+        print(f"Sauvegarde SQLite créée : {backup_path}")
+        print("Aucune création réelle n'est encore implémentée à cette étape.")
+    else:
+        print("Mode d'exécution : DRY-RUN / SIMULATION")
+        print("Aucune écriture en base ne sera effectuée.")
     if args.limit is not None:
         print(f"Échantillon limité aux {args.limit} premières entités sources.")
     print()
@@ -299,8 +347,11 @@ def main() -> None:
             print(f"  - {row}")
 
     print()
-    print("=== Conclusion dry-run ===")
-    print("Mapping POC2 simulé sans écriture en base.")
+    print("=== Conclusion ===")
+    if args.execute:
+        print("Mode --execute sécurisé préparé, sans création réelle à cette étape.")
+    else:
+        print("Mapping POC2 simulé sans écriture en base.")
 
 
 if __name__ == "__main__":
