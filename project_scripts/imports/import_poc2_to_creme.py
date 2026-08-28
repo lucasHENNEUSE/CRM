@@ -100,6 +100,56 @@ def backup_sqlite_database() -> Path:
     return backup_path
 
 
+def build_organisation_extra_data(entite: dict) -> dict:
+    return {
+        "poc2": {
+            "code_entite": entite.get("code_entite"),
+            "type_entite": entite.get("type_entite"),
+            "assujetti_entite_bool": entite.get("assujetti_entite_bool"),
+        }
+    }
+
+
+def import_organisations(entites: list[dict]) -> Counter:
+    setup_django()
+
+    from django.contrib.auth import get_user_model
+    from creme.persons.models import Organisation
+
+    User = get_user_model()
+    admin_user = User.objects.filter(username="admin").first()
+    if admin_user is None:
+        raise RuntimeError("Utilisateur admin introuvable.")
+
+    report = Counter()
+
+    for entite in entites:
+        code_entite = entite.get("code_entite")
+        if not code_entite:
+            report["ignored_without_code"] += 1
+            continue
+
+        existing = Organisation.objects.filter(
+            extra_data__poc2__code_entite=code_entite
+        ).first()
+
+        if existing is not None:
+            report["existing"] += 1
+            continue
+
+        name = entite.get("libelle_entite") or code_entite
+
+        Organisation.objects.create(
+            user=admin_user,
+            name=name,
+            is_managed=False,
+            extra_data=build_organisation_extra_data(entite),
+        )
+        report["created"] += 1
+
+    return report
+
+
 def setup_django() -> None:
     creme_root = PROJECT_ROOT / "creme_crm"
     sys.path.insert(0, str(creme_root))
@@ -205,7 +255,7 @@ def main() -> None:
     if args.execute:
         print("Mode d'exécution : IMPORT RÉEL SUR ÉCHANTILLON")
         print(f"Sauvegarde SQLite créée : {backup_path}")
-        print("Aucune création réelle n'est encore implémentée à cette étape.")
+        print("Création réelle des Organisations activée pour l’échantillon.")
     else:
         print("Mode d'exécution : DRY-RUN / SIMULATION")
         print("Aucune écriture en base ne sera effectuée.")
@@ -263,6 +313,19 @@ def main() -> None:
             relations_employed_by += 1
         else:
             relations_role_inconnu += 1
+
+    if args.execute:
+        try:
+            organisations_report = import_organisations(entites)
+        except RuntimeError as error:
+            print(f"Erreur import Organisations : {error}", file=sys.stderr)
+            sys.exit(1)
+
+        print("=== Organisations importées ===")
+        print(f"Organisations créées             : {organisations_report['created']}")
+        print(f"Organisations déjà existantes    : {organisations_report['existing']}")
+        print(f"Organisations ignorées sans code : {organisations_report['ignored_without_code']}")
+        print()
 
     print("=== Contacts simulés ===")
     print(f"Contacts créables depuis contacts_crm : {len(contacts)}")
@@ -349,7 +412,7 @@ def main() -> None:
     print()
     print("=== Conclusion ===")
     if args.execute:
-        print("Mode --execute sécurisé préparé, sans création réelle à cette étape.")
+        print("Import réel des Organisations effectué sur l’échantillon.")
     else:
         print("Mapping POC2 simulé sans écriture en base.")
 
